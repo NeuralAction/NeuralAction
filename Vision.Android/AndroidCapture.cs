@@ -101,10 +101,13 @@ namespace Vision.Android
             if (e.Buffer != null)
             {
                 Profiler.Start("CaptureCvt");
+                Profiler.Start("CaptureCvt.Put");
                 Mat mat = new Mat((int)Math.Round(height * 1.5), width, CvType.Cv8uc1);
 
                 mat.Put(0, 0, e.Buffer);
+                Profiler.End("CaptureCvt.Put");
 
+                Profiler.Start("CaptureCvt.CvtColor");
                 switch (captureType)
                 {
                     case Graphics.ImageFormatType.Nv16:
@@ -127,9 +130,13 @@ namespace Vision.Android
                     default:
                         throw new NotImplementedException("Unknown Camera Format");
                 }
+                Profiler.End("CaptureCvt.CvtColor");
 
+                Profiler.Start("CaptureCvt.Tp");
                 OpenCV.Core.Core.Transpose(mat, mat);
+                Profiler.End("CaptureCvt.Tp");
 
+                Profiler.Start("CaptureCvt.Flip");
                 if (cameraIndex == 1)
                 {
                     OpenCV.Core.Core.Flip(mat, mat, (int)FlipMode.XY);
@@ -138,6 +145,8 @@ namespace Vision.Android
                 {
                     OpenCV.Core.Core.Flip(mat, mat, (int)FlipMode.Y);
                 }
+                Profiler.End("CaptureCvt.Flip");
+
                 Profiler.End("CaptureCvt");
 
                 lock (capturedBufferLocker)

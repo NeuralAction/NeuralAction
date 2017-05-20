@@ -50,7 +50,7 @@ namespace AndroidTests
             Core.Init(new AndroidCore(this, this, img));
 
             detect = new EyesDetector(new EyesDetectorXmlLoader());
-            detect.Interpolation = Interpolation.NearestNeighbor;
+            detect.Interpolation = Interpolation.Cubic;
             detect.MaxSize = 240;
             detect.MaxFaceSize = 90;
             detect.FaceMaxFactor = 0.9;
