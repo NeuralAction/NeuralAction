@@ -60,19 +60,19 @@ namespace Vision.Android
             return File.Exists(path.AbosolutePath);
         }
 
-        protected override DirectoryNode InternalNewDirectory(string path)
+        protected override DirectoryNode InternalCreateDirectory(DirectoryNode path)
         {
-            Directory.CreateDirectory(PathCombine(AbsoluteRoot, path));
-            return new DirectoryNode(path);
+            Directory.CreateDirectory(path.AbosolutePath);
+            return path;
         }
 
-        protected override FileNode InternalNewFile(string path)
+        protected override FileNode InternalCreateFile(FileNode path)
         {
-            using (File.Create(PathCombine(AbsoluteRoot, path)))
+            using (File.Create(path.AbosolutePath))
             {
 
             }
-            return new FileNode(path);
+            return path;
         }
     }
 }

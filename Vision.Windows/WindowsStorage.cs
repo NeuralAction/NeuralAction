@@ -53,18 +53,23 @@ namespace Vision.Windows
             return Directory.Exists(path.AbosolutePath);
         }
 
-        protected override DirectoryNode InternalNewDirectory(string path)
+        protected override DirectoryNode InternalCreateDirectory(DirectoryNode node)
         {
-            Directory.CreateDirectory(PathCombine(absolutePath, path));
-            return new DirectoryNode(path);
+            Directory.CreateDirectory(node.AbosolutePath);
+            return node;
         }
 
-        protected override FileNode InternalNewFile(string path)
+        protected override FileNode InternalCreateFile(FileNode node)
         {
-            using(File.Create(PathCombine(absolutePath, path)))
+            using(File.Create(node.AbosolutePath))
             {
             }
-            return new FileNode(path);
+            return node;
+        }
+
+        protected override string InternalPathCombine(params string[] pathes)
+        {
+            return base.InternalPathCombine(pathes).TrimStart('/').Replace("/", "");
         }
     }
 }

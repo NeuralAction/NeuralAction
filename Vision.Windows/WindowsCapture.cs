@@ -1,8 +1,10 @@
 ﻿using OpenCvSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Vision.Windows
@@ -10,6 +12,9 @@ namespace Vision.Windows
     public class WindowsCapture : Capture
     {
         public VideoCapture InnerCapture;
+
+        public override event EventHandler<FrameArgs> FrameReady;
+
         public override object Object
         {
             get { return InnerCapture; }
@@ -21,12 +26,21 @@ namespace Vision.Windows
             set { InnerCapture.Set(CaptureProperty.Fps, value); }
         }
 
-        public WindowsCapture(int index)
+        private Thread captureThread;
+        private Stopwatch sw;
+
+        private WindowsCapture()
+        {
+            sw = new Stopwatch();
+            sw.Start();
+        }
+
+        public WindowsCapture(int index) : this()
         {
             InnerCapture = new VideoCapture(index);
         }
 
-        public WindowsCapture(string filepath)
+        public WindowsCapture(string filepath) : this()
         {
             InnerCapture = new VideoCapture(filepath);
         }
@@ -41,10 +55,18 @@ namespace Vision.Windows
 
         public override void Dispose()
         {
+            Stop();
+
             if(InnerCapture != null)
             {
                 InnerCapture.Dispose();
                 InnerCapture = null;
+            }
+
+            if(sw != null)
+            {
+                sw.Stop();
+                sw = null;
             }
         }
 
@@ -74,6 +96,56 @@ namespace Vision.Windows
                 return false;
 
             return InnerCapture.IsOpened();
+        }
+
+        protected override void OnStart()
+        {
+            Stop();
+            captureThread = new Thread(new ThreadStart(CaptureProc));
+            captureThread.IsBackground = true;
+            captureThread.Start();
+        }
+
+        protected override void OnStop()
+        {
+            if (captureThread != null)
+            {
+                captureThread.Abort();
+                captureThread = null;
+            }
+        }
+
+        public override void Join()
+        {
+            captureThread.Join();
+        }
+
+        private void CaptureProc()
+        {
+            double fps = Math.Max(1, FPS);
+            long lastMs = sw.ElapsedMilliseconds;
+            char lastkey = (char)0;
+            while (true)
+            {
+                Mat frame = new Mat();
+                
+                if (InnerCapture.Read(frame))
+                {
+                    FrameReady?.Invoke(this, new FrameArgs(new WindowsMat(frame), lastkey));
+
+                    int sleep = (int)Math.Round(Math.Max(1, Math.Min(1000, (1000 / fps) - sw.ElapsedMilliseconds + lastMs)));
+                    lastMs = sw.ElapsedMilliseconds;
+                    if (sleep != 1)
+                        lastkey = Core.Cv.WaitKey(sleep);
+                }
+                else
+                {
+                    frame.Dispose();
+                    frame = null;
+
+                    lastkey = Core.Cv.WaitKey(1);
+                }
+            }
         }
     }
 }

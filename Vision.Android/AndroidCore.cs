@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Util;
+using System.Threading;
 
 namespace Vision.Android
 {
@@ -32,6 +33,11 @@ namespace Vision.Android
             InitLogger(new Logger.WriteMethodDelegate((s) => Log.Info("Vision.Android", s)));
             InitCv(new AndroidCv(Context, MainActivity, img));
             InitStorage(new AndroidStorage());
+        }
+
+        protected override void InternalSleep(int duration)
+        {
+            Thread.Sleep(duration);
         }
     }
 }

@@ -31,11 +31,7 @@ namespace Vision
 
             lock (DataLocker)
             {
-                if (!Data.ContainsKey(name))
-                {
-                    Data.Add(name, new ProfilerData(name));
-                }
-
+                SignKey(name);
                 Data[name].Start(Stopwatch.ElapsedMilliseconds);
                 Report();
             }
@@ -48,8 +44,52 @@ namespace Vision
 
             lock (DataLocker)
             {
+                SignKey(name);
                 Data[name].End(Stopwatch.ElapsedMilliseconds);
                 Report();
+            }
+        }
+
+        public static void Capture(string name, double value)
+        {
+            if (!IsDebug)
+                return;
+
+            lock (DataLocker)
+            {
+                SignKey(name);
+                Data[name].Capture(value);
+                Report();
+            }
+        }
+
+        public static void Count(string name)
+        {
+            if (!IsDebug)
+                return;
+
+            lock(DataLocker)
+            {
+                SignKey(name);
+                Data[name].Count();
+                Report();
+            }
+        }
+
+        public static double Get(string name)
+        {
+            lock (DataLocker)
+            {
+                SignKey(name);
+                return Data[name].Average;
+            }
+        }
+
+        private static void SignKey(string key)
+        {
+            if (!Data.ContainsKey(key))
+            {
+                Data.Add(key, new ProfilerData(key));
             }
         }
 
@@ -58,11 +98,12 @@ namespace Vision
         {
             if(Stopwatch.ElapsedMilliseconds - lastMs > ReportWait)
             {
+                sb.AppendLine("Profiler Report ==");
                 foreach (ProfilerData d in Data.Values)
                 {
-                    sb.AppendLine(d.ToString());
-
+                    d.Push();
                     d.Clear();
+                    sb.AppendLine(d.ToString());
                 }
 
                 Logger.Log(sb.ToString());
@@ -78,17 +119,9 @@ namespace Vision
     public class ProfilerData
     {
         public string Name;
-        public double Average
-        {
-            get
-            {
-                if(CaptureCount != 0)
-                    return (double)CaptureDuration / CaptureCount;
-                return 0;
-            }
-        }
+        public double Average { get; private set; }
         public int CaptureCount = 0;
-        public long CaptureDuration = 0;
+        public double CaptureSum = 0;
 
         long startMs = 0;
         bool isStarted = false;
@@ -115,16 +148,36 @@ namespace Vision
         {
             if (isStarted)
             {
-                CaptureDuration += nowMs - startMs;
+                CaptureSum += nowMs - startMs;
                 CaptureCount++;
                 isStarted = false;
             }
         }
 
+        public void Capture(double value)
+        {
+            CaptureSum += value;
+            CaptureCount++;
+        }
+        
+        public void Count()
+        {
+            CaptureSum++;
+            CaptureCount = 1;
+        }
+
+        public void Push()
+        {
+            if (CaptureCount != 0)
+                Average = CaptureSum / CaptureCount;
+            else
+                Average = 0;
+        }
+
         public void Clear()
         {
             CaptureCount = 0;
-            CaptureDuration = 0;
+            CaptureSum = 0;
         }
 
         public override string ToString()

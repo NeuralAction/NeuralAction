@@ -89,9 +89,7 @@ namespace WindowsTests
         {
             if(DialogResult.OK == ofd.ShowDialog())
             {
-                FaceDetection detect = new FaceDetection(ofd.FileName, 
-                    Path.Combine(Environment.CurrentDirectory, "lbpcascade_frontalface_improved.xml"), 
-                    Path.Combine(Environment.CurrentDirectory, "haarcascade_eye_tree_eyeglasses.xml"));
+                FaceDetection detect = new FaceDetection(ofd.FileName, new EyesDetectorXmlLoader());
                 detect.Run();
             }
         }

@@ -29,131 +29,25 @@ namespace Vision.Android
         }
 
         private double fps;
-        public override double FPS { get { return fps; } }
+        public override double FPS => fps;
 
         private Hardware.Camera Camera;
         private int cameraIndex;
+        private bool cameraOn = false;
+        private Graphics.ImageFormatType cameraType;
         private int width;
         private int height;
         private Graphics.SurfaceTexture Texture;
-        private Graphics.ImageFormatType captureType;
-        private Mat capturedBuffer;
         private object capturedBufferLocker = new object();
+        private Mat capturedBuffer;
+        private long frameCount = 0;
+        private long lastFrame = -1;
+
+        public override event EventHandler<FrameArgs> FrameReady;
 
         public AndroidCapture(int index)
         {
             cameraIndex = index;
-            try
-            {
-                Camera = Hardware.Camera.Open(index);
-
-                Texture = new Graphics.SurfaceTexture(0);
-
-                CameraPreviewCallback callback = new CameraPreviewCallback();
-                callback.PreviewUpdated += Callback_PreviewUpdated;
-
-                Hardware.Camera.Parameters parameter = Camera.GetParameters();
-                List<Hardware.Camera.Size> supportSize = parameter.SupportedPreviewSizes.ToList();
-                foreach (Hardware.Camera.Size size in supportSize)
-                {
-                    Logger.Log(this, string.Format("Camera Support Size: W{0},H{1}", size.Width, size.Height));
-
-                    if (size.Width == 1920 && size.Height == 1080)
-                    {
-                        parameter.SetPreviewSize(size.Width, size.Height);
-                        Logger.Log(this, string.Format("SET Camera Size: W{0},H{1}", size.Width, size.Height));
-                        //break;
-                    }
-                }
-                width = parameter.PreviewSize.Width;
-                height = parameter.PreviewSize.Height;
-                fps = parameter.PreviewFrameRate;
-                captureType = parameter.PreviewFormat;
-
-                string[] supportedFocusMode = parameter.SupportedFocusModes.ToArray();
-                if (supportedFocusMode.Contains(Hardware.Camera.Parameters.FocusModeContinuousPicture))
-                {
-                    parameter.FocusMode = Hardware.Camera.Parameters.FocusModeContinuousPicture;
-                }
-                else if (supportedFocusMode.Contains(Hardware.Camera.Parameters.FocusModeContinuousVideo))
-                {
-                    parameter.FocusMode = Hardware.Camera.Parameters.FocusModeContinuousVideo;
-                }
-
-                Logger.Log(this, string.Format("Camera is creating W{0} H{1} FPS{2}", width, height, fps));
-                Camera.SetParameters(parameter);
-                Camera.SetPreviewTexture(Texture);
-                Camera.SetPreviewCallback(callback);
-                Camera.StartPreview();
-            }
-            catch(Exception ex)
-            {
-                Logger.Error(this, "Camera Init Failed.\n" + ex.ToString());
-
-                Dispose();
-
-                throw new ArgumentException("Camera Exception", ex);
-            }
-        }
-        
-        private void Callback_PreviewUpdated(object sender, PreviewUpdatedEventArgs e)
-        {
-            if (e.Buffer != null)
-            {
-                Profiler.Start("CaptureCvt");
-                Profiler.Start("CaptureCvt.Put");
-                Mat mat = new Mat((int)Math.Round(height * 1.5), width, CvType.Cv8uc1);
-
-                mat.Put(0, 0, e.Buffer);
-                Profiler.End("CaptureCvt.Put");
-
-                Profiler.Start("CaptureCvt.CvtColor");
-                switch (captureType)
-                {
-                    case Graphics.ImageFormatType.Nv16:
-                        OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.YuvToRgba_NV12);
-                        break;
-                    case Graphics.ImageFormatType.Nv21:
-                        OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.YuvToRgba_NV21);
-                        break;
-                    case Graphics.ImageFormatType.Rgb565:
-                        OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.Bgr565ToRgba);
-                        break;
-                    case Graphics.ImageFormatType.Yuv420888:
-                        OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.Bgr565ToRgba);
-                        break;
-                    case Graphics.ImageFormatType.Unknown:
-                    case Graphics.ImageFormatType.Yuy2:
-                    case Graphics.ImageFormatType.Yv12:
-                    case Graphics.ImageFormatType.Raw10:
-                    case Graphics.ImageFormatType.RawSensor:
-                    default:
-                        throw new NotImplementedException("Unknown Camera Format");
-                }
-                Profiler.End("CaptureCvt.CvtColor");
-
-                Profiler.Start("CaptureCvt.Tp");
-                OpenCV.Core.Core.Transpose(mat, mat);
-                Profiler.End("CaptureCvt.Tp");
-
-                Profiler.Start("CaptureCvt.Flip");
-                if (cameraIndex == 1)
-                {
-                    OpenCV.Core.Core.Flip(mat, mat, (int)FlipMode.XY);
-                }
-                else
-                {
-                    OpenCV.Core.Core.Flip(mat, mat, (int)FlipMode.Y);
-                }
-                Profiler.End("CaptureCvt.Flip");
-
-                Profiler.End("CaptureCvt");
-
-                lock (capturedBufferLocker)
-                {
-                    capturedBuffer = mat;
-                }
-            }
         }
 
         public AndroidCapture(string filepath)
@@ -161,40 +55,25 @@ namespace Vision.Android
             throw new NotImplementedException();
         }
 
+        #region CatpureInterface
+
         public override bool CanQuery()
         {
-            if(Camera != null && capturedBuffer != null)
+            if (Camera != null)
             {
                 return true;
             }
             return false;
         }
 
-        public override void Dispose()
-        {
-            if (Camera != null)
-            {
-                Camera.StopPreview();
-                Camera.SetPreviewCallback(null);
-                Camera.SetPreviewTexture(null);
-                Camera.Release();
-                Camera.Dispose();
-                Camera = null;
-            }
-            
-            if(Texture != null)
-            {
-                Texture.Release();
-                Texture.Dispose();
-                Texture = null;
-            }
-        }
-
         public override VMat QueryFrame()
         {
+            if (!cameraOn)
+                Start();
+
             lock (capturedBufferLocker)
             {
-                if(capturedBuffer != null)
+                if (capturedBuffer != null)
                 {
                     VMat ret = new AndroidMat(capturedBuffer);
 
@@ -213,6 +92,174 @@ namespace Vision.Android
                 return true;
             }
             return false;
+        }
+
+        #endregion CaptureInterface
+
+        #region CaptureProc
+
+        protected override void OnStart()
+        {
+            try
+            {
+                if(Camera == null)
+                    Camera = Hardware.Camera.Open(cameraIndex);
+
+                if(Texture == null)
+                    Texture = new Graphics.SurfaceTexture(0);
+
+                CameraPreviewCallback callback = new CameraPreviewCallback();
+                callback.PreviewUpdated += Callback_PreviewUpdated;
+
+                Hardware.Camera.Parameters parameter = Camera.GetParameters();
+                List<Hardware.Camera.Size> supportSize = parameter.SupportedPreviewSizes.ToList();
+                foreach (Hardware.Camera.Size size in supportSize)
+                {
+                    Logger.Log(this, string.Format("Camera Support Size: W{0},H{1}", size.Width, size.Height));
+
+                    if (size.Width == 1920 && size.Height == 1080)
+                    {
+                        parameter.SetPreviewSize(size.Width, size.Height);
+                        Logger.Log(this, string.Format("SET Camera Size: W{0},H{1}", size.Width, size.Height));
+                    }
+                }
+                width = parameter.PreviewSize.Width;
+                height = parameter.PreviewSize.Height;
+                fps = parameter.PreviewFrameRate;
+                cameraType = parameter.PreviewFormat;
+
+                string[] supportedFocusMode = parameter.SupportedFocusModes.ToArray();
+                if (supportedFocusMode.Contains(Hardware.Camera.Parameters.FocusModeContinuousVideo))
+                {
+                    parameter.FocusMode = Hardware.Camera.Parameters.FocusModeContinuousVideo;
+                }
+                else if (supportedFocusMode.Contains(Hardware.Camera.Parameters.FocusModeContinuousPicture))
+                {
+                    parameter.FocusMode = Hardware.Camera.Parameters.FocusModeContinuousPicture;
+                }
+
+                Logger.Log(this, string.Format("Camera is creating W{0} H{1} FPS{2}", width, height, fps));
+                Camera.SetParameters(parameter);
+
+                Camera.SetPreviewCallback(callback);
+                Camera.SetPreviewTexture(Texture);
+                Camera.StartPreview();
+
+                cameraOn = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(this, "Camera Init Failed.\n" + ex.ToString());
+
+                Dispose();
+
+                throw new ArgumentException("Camera Exception", ex);
+            }
+        }
+
+        protected override void OnStop()
+        {
+            if (Camera != null)
+            {
+                Camera.StopPreview();
+                Camera.SetPreviewCallback(null);
+                Camera.SetPreviewTexture(null);
+            }
+
+            cameraOn = false;
+        }
+
+        private void Callback_PreviewUpdated(object sender, PreviewUpdatedEventArgs e)
+        {
+            Profiler.End("Captured");
+            Profiler.Start("Captured");
+
+            if (FrameReady == null)
+                return;
+
+            frameCount++;
+            if (e.Buffer != null && LimitedTaskScheduler.QueuedTaskCount < LimitedTaskScheduler.MaxTaskCount)
+                LimitedTaskScheduler.Factory.StartNew(() => CaptureCvtProc(e.Buffer, frameCount, LimitedTaskScheduler.QueuedTaskCount));
+
+            Profiler.Capture("TaskCount", LimitedTaskScheduler.QueuedTaskCount);
+        }
+
+        private void CaptureCvtProc(byte[] Buffer, long frameIndex, int threadindex)
+        {
+            Profiler.Start("CaptureCvt" + threadindex);
+            Profiler.Start("CaptureCvt.Put" + threadindex);
+            Mat mat = new Mat((int)Math.Round(height * 1.5), width, CvType.Cv8uc1);
+            mat.Put(0, 0, Buffer);
+            Profiler.End("CaptureCvt.Put" + threadindex);
+
+            Profiler.Start("CaptureCvt.CvtColor" + threadindex);
+            switch (cameraType)
+            {
+                case Graphics.ImageFormatType.Nv16:
+                    OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.YuvToRgba_NV12);
+                    break;
+                case Graphics.ImageFormatType.Nv21:
+                    OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.YuvToRgba_NV21);
+                    break;
+                case Graphics.ImageFormatType.Rgb565:
+                    OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.Bgr565ToRgba);
+                    break;
+                case Graphics.ImageFormatType.Yuv420888:
+                    OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.YUV420pToRgba);
+                    break;
+                default:
+                    throw new NotImplementedException("Unknown Camera Format");
+            }
+            Profiler.End("CaptureCvt.CvtColor" + threadindex);
+
+            Profiler.Start("CaptureCvt.Tp" + threadindex);
+            mat = mat.T();
+            Profiler.End("CaptureCvt.Tp" + threadindex);
+
+            Profiler.Start("CaptureCvt.Flip" + threadindex);
+            if (cameraIndex == 1)
+                OpenCV.Core.Core.Flip(mat, mat, (int)FlipMode.XY);
+            else
+                OpenCV.Core.Core.Flip(mat, mat, (int)FlipMode.Y);
+            Profiler.End("CaptureCvt.Flip" + threadindex);
+
+            Profiler.End("CaptureCvt" + threadindex);
+
+            lock (capturedBufferLocker)
+            {
+                if (lastFrame > frameIndex)
+                {
+                    if (mat != null)
+                        mat.Dispose();
+                    mat = null;
+
+                    return;
+                }
+
+                lastFrame = frameIndex;
+                capturedBuffer = mat;
+                FrameReady?.Invoke(this, new FrameArgs(new AndroidMat(capturedBuffer)));
+            }
+        }
+
+        #endregion CaptureProc
+
+        public override void Dispose()
+        {
+            if (Camera != null)
+            {
+                Stop();
+                Camera.Release();
+                Camera.Dispose();
+                Camera = null;
+            }
+
+            if (Texture != null)
+            {
+                Texture.Release();
+                Texture.Dispose();
+                Texture = null;
+            }
         }
     }
 }

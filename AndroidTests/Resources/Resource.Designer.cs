@@ -26,12 +26,26 @@ namespace AndroidTests
 		
 		public static void UpdateIdValues()
 		{
+			global::Vision.Android.Resource.Attribute.camera_id = global::AndroidTests.Resource.Attribute.camera_id;
+			global::Vision.Android.Resource.Attribute.show_fps = global::AndroidTests.Resource.Attribute.show_fps;
+			global::Vision.Android.Resource.Id.any = global::AndroidTests.Resource.Id.any;
+			global::Vision.Android.Resource.Id.back = global::AndroidTests.Resource.Id.back;
+			global::Vision.Android.Resource.Id.front = global::AndroidTests.Resource.Id.front;
 			global::Vision.Android.Resource.String.ApplicationName = global::AndroidTests.Resource.String.ApplicationName;
 			global::Vision.Android.Resource.String.Hello = global::AndroidTests.Resource.String.Hello;
+			global::Vision.Android.Resource.Styleable.CameraBridgeViewBase = global::AndroidTests.Resource.Styleable.CameraBridgeViewBase;
+			global::Vision.Android.Resource.Styleable.CameraBridgeViewBase_camera_id = global::AndroidTests.Resource.Styleable.CameraBridgeViewBase_camera_id;
+			global::Vision.Android.Resource.Styleable.CameraBridgeViewBase_show_fps = global::AndroidTests.Resource.Styleable.CameraBridgeViewBase_show_fps;
 		}
 		
 		public partial class Attribute
 		{
+			
+			// aapt resource value: 0x7f010001
+			public const int camera_id = 2130771969;
+			
+			// aapt resource value: 0x7f010000
+			public const int show_fps = 2130771968;
 			
 			static Attribute()
 			{
@@ -62,11 +76,20 @@ namespace AndroidTests
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050003
+			public const int MyButton = 2131034115;
+			
 			// aapt resource value: 0x7f050000
-			public const int MyButton = 2131034112;
+			public const int any = 2131034112;
 			
 			// aapt resource value: 0x7f050001
-			public const int imageView1 = 2131034113;
+			public const int back = 2131034113;
+			
+			// aapt resource value: 0x7f050002
+			public const int front = 2131034114;
+			
+			// aapt resource value: 0x7f050004
+			public const int imageView1 = 2131034116;
 			
 			static Id()
 			{
@@ -109,6 +132,29 @@ namespace AndroidTests
 			}
 			
 			private String()
+			{
+			}
+		}
+		
+		public partial class Styleable
+		{
+			
+			public static int[] CameraBridgeViewBase = new int[] {
+					2130771968,
+					2130771969};
+			
+			// aapt resource value: 1
+			public const int CameraBridgeViewBase_camera_id = 1;
+			
+			// aapt resource value: 0
+			public const int CameraBridgeViewBase_show_fps = 0;
+			
+			static Styleable()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Styleable()
 			{
 			}
 		}

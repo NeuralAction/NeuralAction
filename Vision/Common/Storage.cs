@@ -63,17 +63,25 @@ namespace Vision
         }
         protected abstract Stream InternalGetFileStream(FileNode node);
 
-        public static FileNode NewFile(string path)
+        public static FileNode CreateFile(string path)
         {
-            return Current.InternalNewFile(path);
+            return Current.InternalCreateFile(new FileNode(path));
         }
-        protected abstract FileNode InternalNewFile(string path);
+        public static FileNode CreateFile(FileNode node)
+        {
+            return Current.InternalCreateFile(node);
+        }
+        protected abstract FileNode InternalCreateFile(FileNode path);
 
         public static DirectoryNode NewDirectory(string path)
         {
-            return Current.InternalNewDirectory(path);
+            return Current.InternalCreateDirectory(new DirectoryNode(path));
         }
-        protected abstract DirectoryNode InternalNewDirectory(string path);
+        public static DirectoryNode CreateDirectory(DirectoryNode node)
+        {
+            return Current.InternalCreateDirectory(node);
+        }
+        protected abstract DirectoryNode InternalCreateDirectory(DirectoryNode path);
 
         public static string PathCombine(params string[] pathes)
         {
@@ -122,6 +130,8 @@ namespace Vision
 
                 using (Stream stream = assembly.GetManifestResourceStream(resource.Resource))
                 {
+                    if (!node.IsExist)
+                        node.Create();
                     Copy(stream, node);
                 }
             }
@@ -175,6 +185,11 @@ namespace Vision
             return Storage.GetFileStream(this);
         }
 
+        public void Create()
+        {
+            Storage.CreateFile(this);
+        }
+
         public void Delete()
         {
             Storage.Delete(this);
@@ -216,7 +231,7 @@ namespace Vision
                 return null;
             }
 
-            return Storage.NewFile(newpath);
+            return Storage.CreateFile(newpath);
         }
 
         public DirectoryNode NewDirectory(string directoryName)

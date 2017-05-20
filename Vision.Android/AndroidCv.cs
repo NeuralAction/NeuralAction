@@ -98,6 +98,7 @@ namespace Vision.Android
             if(imageView != null)
             {
                 Bitmap bit = Bitmap.CreateBitmap((int)img.Width, (int)img.Height, Bitmap.Config.Argb8888);
+
                 Utils.MatToBitmap((Mat)img.Object, bit);
 
                 activity.RunOnUiThread(() =>
@@ -109,7 +110,7 @@ namespace Vision.Android
 
         public override char WaitKey(int duration)
         {
-            Java.Lang.Thread.Sleep(duration);
+            System.Threading.Thread.Sleep(duration);
 
             return (char)0;
         }

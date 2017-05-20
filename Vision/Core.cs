@@ -20,7 +20,13 @@ namespace Vision
             core.Initialize();
         }
 
+        public static void Sleep(int duration)
+        {
+            Current.InternalSleep(duration);
+        }
+
         public abstract void Initialize();
+        protected abstract void InternalSleep(int duration);
 
         protected void InitLogger(Logger.WriteMethodDelegate WriteMethod)
         {

@@ -10,25 +10,38 @@ using Vision;
 
 namespace Vision.Tests
 {
-    public class FaceDetection
+    public class FaceDetection : IDisposable
     {
         string FilePath;
         int index = -1;
         EyesDetector detector;
+        Capture capture;
 
         private FaceDetection(string faceXml, string eyeXml)
         {
-            detector = new EyesDetector(faceXml, eyeXml);
+            Logger.Log(this, "Press E to Exit");
+
+            detector = new EyesDetector(faceXml, eyeXml)
+            {
+                Interpolation = Interpolation.NearestNeighbor,
+                MaxSize = 250,
+                MaxFaceSize = 85,
+                FaceMaxFactor = 0.9,
+            };
         }
 
         public FaceDetection(string filePath, string faceXml, string eyeXml) : this(faceXml, eyeXml)
         {
             FilePath = filePath;
+            capture = Capture.New(FilePath);
+            capture.FrameReady += Capture_FrameReady;
         }
 
         public FaceDetection(int index, string faceXml, string eyeXml) : this(faceXml, eyeXml)
         {
             this.index = index;
+            capture = Capture.New(index);
+            capture.FrameReady += Capture_FrameReady;
         }
 
         public FaceDetection(int index, EyesDetectorXmlLoader loader) : this(index, loader.FaceXmlPath, loader.EyeXmlPath)
@@ -41,81 +54,83 @@ namespace Vision.Tests
 
         }
 
+        public void Start()
+        {
+            capture.Start();
+        }
+
+        public void Stop()
+        {
+            capture.Stop();
+        }
+
         public void Run()
         {
-            Logger.Log(this, "Press E to Exit");
-            Logger.Log(this, "Press D to Toggle Draw");
-            Logger.Log(this, "Press C to Capture");
+            capture.Start();
+            capture.Join();
+        }
 
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
+        double yoffset = 0;
+        int frameMax = 0;
+        int frameOk = 0;
+        private void Capture_FrameReady(object sender, FrameArgs e)
+        {
+            VMat mat = e.VMat;
 
-            Capture capture;
-            if (FilePath != null)
+            if (mat != null && !mat.IsEmpty)
             {
-                capture = Capture.New(FilePath);
-            }
-            else
-            {
-                capture = Capture.New(index);
-            }
+                Profiler.Count("FaceFPS");
 
-            double lastms = 0;
-            double fps = capture.FPS;
-            bool on = true;
-            bool draw = true;
-            bool save = false;
-            while (on)
-            {
-                lastms = sw.ElapsedMilliseconds;
+                Profiler.Start("DetectionALL");
+                FaceRect[] rect = detector.Detect(mat);
+                Profiler.End("DetectionALL");
 
-                if (capture.CanQuery())
-                {
-                    using (VMat frame = capture.QueryFrame())
-                    {
-                        if (frame != null && !frame.IsEmpty)
-                        {
-                            FaceRect[] rect = detector.Detect(frame, draw);
+                Profiler.Start("Draw");
+                foreach (FaceRect f in rect)
+                    f.Draw(mat, 3, true);
+                if (frameMax > 50)
+                    frameMax = frameOk = 0;
+                if (rect.Length > 0 && rect[0].Children.Count > 0)
+                    frameOk++;
+                frameMax++;
+                yoffset += 0.02;
+                yoffset %= 1;
+                mat.DrawText(50, 400 + 250 * Math.Pow(Math.Sin(2 * Math.PI * yoffset), 3), "HELLO WORLD");
+                mat.DrawText(50, 50, "FPS: " + Profiler.Get("FaceFPS") + " Detect: " + Profiler.Get("DetectionALL").ToString("0.00") + "ms", Scalar.Green);
+                mat.DrawText(50, 85, "Frame: " + frameOk + "/" + frameMax + " (" + ((double)frameOk / frameMax * 100).ToString("0.00") + "%)", Scalar.Green);
+                Profiler.End("Draw");
 
-                            if (save)
-                            {
-                                save = false;
+                Profiler.Start("imshow");
+                Core.Cv.ImgShow("camera", mat);
+                Profiler.End("imshow");
 
-                                for (int i = 0; i < rect.Length; i++)
-                                {
-                                    Core.Cv.ImgWrite("face"+i.ToString()+".jpg", rect[i].ROI(frame));
-
-                                    for (int j = 0; j < rect[i].Children.Count; j++)
-                                    {
-                                        Core.Cv.ImgWrite("eye" + j.ToString() + ".jpg", rect[i].Children[j].ROI(frame));
-                                    }
-                                }
-                            }
-
-                            Core.Cv.ImgShow("Vision Tests - FaceDetection", frame);
-                        }
-                    }
-                }
-
-                int wait = (int)Math.Round(Math.Max(1, Math.Min(1000, (1000/Math.Max(1, fps)) - sw.ElapsedMilliseconds + lastms)));
-                char c = Core.Cv.WaitKey(wait);
-                switch (c)
-                {
-                    case 'e':
-                        on = false;
-                        break;
-                    case 'd':
-                        draw = !draw;
-                        break;
-                    case 'c':
-                        save = true;
-                        break;
-                }
+                Profiler.End("CapMain");
             }
 
-            sw.Stop();
+            switch (e.LastKey)
+            {
+                case 'e':
+                    Core.Cv.CloseAllWindows();
+                    capture.Stop();
+                    break;
+                default:
+                    break;
+            }
+        }
 
-            Core.Cv.CloseAllWindows();
+        public void Dispose()
+        {
+            if(capture != null)
+            {
+                capture.Dispose();
+                capture = null;
+            }
+
+            if(detector != null)
+            {
+                detector.Dispose();
+                detector = null;
+            }
         }
     }
 }
