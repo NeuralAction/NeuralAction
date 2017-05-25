@@ -73,6 +73,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Tests\FaceDetection.cs" />
+    <Compile Include="Tests\SimpleCapture.cs" />
     <Compile Include="Tests\SimpleVideoPlayer.cs" />
     <Compile Include="Core.cs" />
   </ItemGroup>

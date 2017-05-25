@@ -20,8 +20,9 @@ namespace WindowsTests
             Core.ProjectInfromation,
             Core.VersionInfromation,
             "",
-            "FACE \t Face detection example",
-            "VIDEO \t Video playing example",
+            "FACE \t Face detection test",
+            "VIDEO \t Video playing test",
+            "CAM \t Camera streaming test",
             "INFO \t Build Information of CV",
             "CLR \t Clear console",
             "EXIT \t Exit program"
@@ -60,6 +61,9 @@ namespace WindowsTests
                     case "face":
                         FaceDetection();
                         break;
+                    case "cam":
+                        SimpleCapture();
+                        break;
                     case "help":
                         foreach (string line in HelpMessages)
                         {
@@ -85,11 +89,56 @@ namespace WindowsTests
             }
         }
 
+        public void SimpleCapture()
+        {
+            SimpleCapture cap = new SimpleCapture();
+            cap.Run();
+        }
+
         public void FaceDetection()
         {
-            if(DialogResult.OK == ofd.ShowDialog())
+            FaceDetection detect = null;
+
+            Console.Write("Index [Press enter to detect from file] >>> ");
+            string cmd = Console.ReadLine();
+            if (!string.IsNullOrEmpty(cmd))
             {
-                FaceDetection detect = new FaceDetection(ofd.FileName, new EyesDetectorXmlLoader());
+                try
+                {
+                    int ind = Convert.ToInt32(cmd);
+                    detect = new FaceDetection(ind, new EyesDetectorXmlLoader());
+                }
+                catch
+                {
+                    Logger.Log("Enter Correct Index");
+                }
+            }
+            else
+            {
+                if (DialogResult.OK == ofd.ShowDialog())
+                {
+                    detect = new FaceDetection(ofd.FileName, new EyesDetectorXmlLoader());
+                }
+            }
+
+            if (detect != null)
+            {
+                detect.Detected += (obj, arg) =>
+                {
+                    if (arg.Results != null && arg.Results.Length > 0)
+                    {
+                        string print = arg.Results.Length + " faces detected.";
+                        double sum = 0;
+                        double count = 0;
+                        foreach (var item in arg.Results[0].Children)
+                        {
+                            count++;
+                            sum += item.Width;
+                        }
+                        print += " eyes size mean: " + (sum / count).ToString("0.00");
+                        Logger.Log(print);
+                    }
+                };
                 detect.Run();
             }
         }

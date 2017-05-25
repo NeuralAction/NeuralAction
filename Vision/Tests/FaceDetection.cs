@@ -12,6 +12,22 @@ namespace Vision.Tests
 {
     public class FaceDetection : IDisposable
     {
+        public class FaceDetectedArgs : EventArgs
+        {
+            public VMat Frame { get; set; }
+            public FaceRect[] Results { get; set; }
+
+            public FaceDetectedArgs(VMat frame, FaceRect[] result)
+            {
+                Frame = frame;
+                Results = result;
+            }
+        }
+
+        public bool DrawOn { get; set; } = true;
+
+        public event EventHandler<FaceDetectedArgs> Detected;
+
         string FilePath;
         int index = -1;
         EyesDetector detector;
@@ -85,24 +101,18 @@ namespace Vision.Tests
                 FaceRect[] rect = detector.Detect(mat);
                 Profiler.End("DetectionALL");
 
-                Profiler.Start("Draw");
-                foreach (FaceRect f in rect)
-                    f.Draw(mat, 3, true);
-                if (frameMax > 50)
-                    frameMax = frameOk = 0;
-                if (rect.Length > 0 && rect[0].Children.Count > 0)
-                    frameOk++;
-                frameMax++;
-                yoffset += 0.02;
-                yoffset %= 1;
-                mat.DrawText(50, 400 + 250 * Math.Pow(Math.Sin(2 * Math.PI * yoffset), 3), "HELLO WORLD");
-                mat.DrawText(50, 50, "FPS: " + Profiler.Get("FaceFPS") + " Detect: " + Profiler.Get("DetectionALL").ToString("0.00") + "ms", Scalar.Green);
-                mat.DrawText(50, 85, "Frame: " + frameOk + "/" + frameMax + " (" + ((double)frameOk / frameMax * 100).ToString("0.00") + "%)", Scalar.Green);
-                Profiler.End("Draw");
+                Detected?.Invoke(this, new FaceDetectedArgs(mat, rect));
 
-                Profiler.Start("imshow");
-                Core.Cv.ImgShow("camera", mat);
-                Profiler.End("imshow");
+                if (DrawOn)
+                {
+                    Profiler.Start("Draw");
+                    Draw(mat, rect);
+                    Profiler.End("Draw");
+
+                    Profiler.Start("imshow");
+                    Core.Cv.ImgShow("camera", mat);
+                    Profiler.End("imshow");
+                }
 
                 Profiler.End("CapMain");
             }
@@ -116,6 +126,23 @@ namespace Vision.Tests
                 default:
                     break;
             }
+        }
+
+        public void Draw(VMat mat, FaceRect[] rect)
+        {
+            foreach (FaceRect f in rect)
+                f.Draw(mat, 3, true);
+
+            if (frameMax > 300)
+                frameMax = frameOk = 0;
+            if (rect.Length > 0 && rect[0].Children.Count > 0)
+                frameOk++;
+            frameMax++;
+            yoffset += 0.02;
+            yoffset %= 1;
+            mat.DrawText(50, 400 + 250 * Math.Pow(Math.Sin(2 * Math.PI * yoffset), 3), "HELLO WORLD");
+            mat.DrawText(50, 50, "FPS: " + Profiler.Get("FaceFPS") + " Detect: " + Profiler.Get("DetectionALL").ToString("0.00") + "ms", Scalar.Green);
+            mat.DrawText(50, 85, "Frame: " + frameOk + "/" + frameMax + " (" + ((double)frameOk / frameMax * 100).ToString("0.00") + "%)", Scalar.Green);
         }
 
         public void Dispose()

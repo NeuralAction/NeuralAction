@@ -22,12 +22,22 @@ namespace Vision.Windows
         }
         public override double FPS
         {
-            get { return InnerCapture.Get(CaptureProperty.Fps); }
+            get
+            {
+                double fps = InnerCapture.Get(CaptureProperty.Fps);
+                if(fps == 0)
+                {
+                    return 24;
+                }
+                return fps;
+            }
             set { InnerCapture.Set(CaptureProperty.Fps, value); }
         }
 
         private Thread captureThread;
         private Stopwatch sw;
+        private bool flip = false;
+        private Vision.FlipMode flipMode;
 
         private WindowsCapture()
         {
@@ -38,6 +48,17 @@ namespace Vision.Windows
         public WindowsCapture(int index) : this()
         {
             InnerCapture = new VideoCapture(index);
+
+            //InnerCapture.Set(CaptureProperty.FrameWidth, 1280);
+            //InnerCapture.Set(CaptureProperty.FrameHeight, 720);
+
+            double w = InnerCapture.Get(CaptureProperty.FrameWidth);
+            double h = InnerCapture.Get(CaptureProperty.FrameHeight);
+
+            Logger.Log("Capture Size: {" + w + ", " + h + "}");
+
+            flip = true;
+            flipMode = FlipMode.Y;
         }
 
         public WindowsCapture(string filepath) : this()
@@ -78,7 +99,7 @@ namespace Vision.Windows
             }
 
             Mat frame = new Mat();
-            if (InnerCapture.Read(frame))
+            if (CaptureRead(frame))
             {
                 return new WindowsMat(frame);
             }
@@ -88,6 +109,16 @@ namespace Vision.Windows
                     frame.Dispose();
                 return null;
             }
+        }
+
+        private bool CaptureRead(Mat mat)
+        {
+            bool result = InnerCapture.Read(mat);
+
+            if (mat != null && !mat.Empty() && result && flip)
+                Cv2.Flip(mat, mat, (OpenCvSharp.FlipMode)flipMode);
+
+            return result;
         }
 
         protected override bool Opened()
@@ -127,23 +158,22 @@ namespace Vision.Windows
             char lastkey = (char)0;
             while (true)
             {
-                Mat frame = new Mat();
-                
-                if (InnerCapture.Read(frame))
+                using (Mat frame = new Mat())
                 {
-                    FrameReady?.Invoke(this, new FrameArgs(new WindowsMat(frame), lastkey));
+                    if (CaptureRead(frame))
+                    {
+                        FrameReady?.Invoke(this, new FrameArgs(new WindowsMat(frame), lastkey));
 
-                    int sleep = (int)Math.Round(Math.Max(1, Math.Min(1000, (1000 / fps) - sw.ElapsedMilliseconds + lastMs)));
-                    lastMs = sw.ElapsedMilliseconds;
-                    if (sleep != 1)
+                        int sleep = (int)Math.Round(Math.Max(1, Math.Min(1000, (1000 / fps) - sw.ElapsedMilliseconds + lastMs)));
+                        lastMs = sw.ElapsedMilliseconds;
                         lastkey = Core.Cv.WaitKey(sleep);
-                }
-                else
-                {
-                    frame.Dispose();
-                    frame = null;
+                    }
+                    else
+                    {
+                        frame.Dispose();
 
-                    lastkey = Core.Cv.WaitKey(1);
+                        lastkey = Core.Cv.WaitKey(1);
+                    }
                 }
             }
         }
