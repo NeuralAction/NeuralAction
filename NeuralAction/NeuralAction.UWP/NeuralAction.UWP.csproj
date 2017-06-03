@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{E3931C53-AE08-4A6E-A8EB-7FA72620F829}</ProjectGuid>
+    <ProjectGuid>{97F3C755-399E-4350-874F-8DB65AD9129B}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NeuralAction.UWP</RootNamespace>
@@ -153,7 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NeuralAction\NeuralAction.csproj">
-      <Project>{e8488ff5-cc3b-4f26-8c59-047a602c404c}</Project>
+      <Project>{94ab80bf-bd3c-499a-8567-524c8d47907d}</Project>
       <Name>NeuralAction</Name>
     </ProjectReference>
   </ItemGroup>

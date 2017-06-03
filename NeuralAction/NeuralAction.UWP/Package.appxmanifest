@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="58c95ff3-5f37-4741-b125-4b271e6c7047"
-    Publisher="CN=KID"
+    Name="37537a12-2bff-420a-b682-a7960e2bffc3"
+    Publisher="CN=AinL"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="58c95ff3-5f37-4741-b125-4b271e6c7047" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="37537a12-2bff-420a-b682-a7960e2bffc3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>NeuralAction.UWP</DisplayName>
-    <PublisherDisplayName>KID</PublisherDisplayName>
+    <PublisherDisplayName>AinL</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
