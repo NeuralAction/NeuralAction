@@ -33,6 +33,8 @@ namespace Vision.Android
             InitLogger(new Logger.WriteMethodDelegate((s) => Log.Info("Vision.Android", s)));
             InitCv(new AndroidCv(Context, MainActivity, img));
             InitStorage(new AndroidStorage());
+
+            TensorFlowSharp.Android.NativeBinding.Init();
         }
 
         protected override void InternalSleep(int duration)

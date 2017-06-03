@@ -137,6 +137,7 @@ namespace Vision.Android
                 {
                     parameter.FocusMode = Hardware.Camera.Parameters.FocusModeContinuousPicture;
                 }
+                //parameter.PreviewFormat = Graphics.ImageFormatType.
 
                 Logger.Log(this, string.Format("Camera is creating W{0} H{1} FPS{2}", width, height, fps));
                 Camera.SetParameters(parameter);
@@ -187,24 +188,27 @@ namespace Vision.Android
         private void CaptureCvtProc(byte[] Buffer, long frameIndex, int threadindex)
         {
             Profiler.Start("CaptureCvt" + threadindex);
-            Profiler.Start("CaptureCvt.Put" + threadindex);
-            Mat mat = new Mat((int)Math.Round(height * 1.5), width, CvType.Cv8uc1);
-            mat.Put(0, 0, Buffer);
-            Profiler.End("CaptureCvt.Put" + threadindex);
+            Mat mat = null;
 
             Profiler.Start("CaptureCvt.CvtColor" + threadindex);
             switch (cameraType)
             {
                 case Graphics.ImageFormatType.Nv16:
+                    mat = new Mat((int)Math.Round(height * 1.5), width, CvType.Cv8uc1);
+                    mat.Put(0, 0, Buffer);
                     OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.YuvToRgba_NV12);
                     break;
                 case Graphics.ImageFormatType.Nv21:
+                    mat = new Mat((int)Math.Round(height * 1.5), width, CvType.Cv8uc1);
+                    mat.Put(0, 0, Buffer);
                     OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.YuvToRgba_NV21);
                     break;
                 case Graphics.ImageFormatType.Rgb565:
                     OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.Bgr565ToRgba);
                     break;
                 case Graphics.ImageFormatType.Yuv420888:
+                    mat = new Mat((int)Math.Round(height * 1.5), width, CvType.Cv8uc1);
+                    mat.Put(0, 0, Buffer);
                     OpenCV.ImgProc.Imgproc.CvtColor(mat, mat, (int)ColorConversion.YUV420pToRgba);
                     break;
                 default:

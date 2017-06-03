@@ -49,13 +49,16 @@ namespace Vision.Windows
         {
             InnerCapture = new VideoCapture(index);
 
-            //InnerCapture.Set(CaptureProperty.FrameWidth, 1280);
-            //InnerCapture.Set(CaptureProperty.FrameHeight, 720);
+            InnerCapture.Set(CaptureProperty.FourCC, (double)FourCC.MJPG);
+            InnerCapture.Set(CaptureProperty.Fps, 30);
+
+            InnerCapture.Set(CaptureProperty.FrameWidth, 1280);
+            InnerCapture.Set(CaptureProperty.FrameHeight, 720);
 
             double w = InnerCapture.Get(CaptureProperty.FrameWidth);
             double h = InnerCapture.Get(CaptureProperty.FrameHeight);
 
-            Logger.Log("Capture Size: {" + w + ", " + h + "}");
+            Logger.Log($"Capture Size: (w:{w},h:{h})  CaptureFormat:{InnerCapture.Get(CaptureProperty.FourCC)}");
 
             flip = true;
             flipMode = FlipMode.Y;
@@ -158,22 +161,20 @@ namespace Vision.Windows
             char lastkey = (char)0;
             while (true)
             {
-                using (Mat frame = new Mat())
+                Mat frame = new Mat();
+                if (CaptureRead(frame))
                 {
-                    if (CaptureRead(frame))
-                    {
-                        FrameReady?.Invoke(this, new FrameArgs(new WindowsMat(frame), lastkey));
+                    FrameReady?.Invoke(this, new FrameArgs(new WindowsMat(frame), lastkey));
 
-                        int sleep = (int)Math.Round(Math.Max(1, Math.Min(1000, (1000 / fps) - sw.ElapsedMilliseconds + lastMs)));
-                        lastMs = sw.ElapsedMilliseconds;
-                        lastkey = Core.Cv.WaitKey(sleep);
-                    }
-                    else
-                    {
-                        frame.Dispose();
+                    int sleep = (int)Math.Round(Math.Max(1, Math.Min(1000, (1000 / fps) - sw.ElapsedMilliseconds + lastMs)));
+                    lastMs = sw.ElapsedMilliseconds;
+                    lastkey = Core.Cv.WaitKey(sleep);
+                }
+                else
+                {
+                    frame.Dispose();
 
-                        lastkey = Core.Cv.WaitKey(1);
-                    }
+                    lastkey = Core.Cv.WaitKey(1);
                 }
             }
         }

@@ -73,5 +73,10 @@ namespace Vision.Android
         {
             InnerMat.CopyTo((Mat)dist.Object, (Mat)mask.Object);
         }
+
+        public override VMat Clone()
+        {
+            return new AndroidMat(InnerMat.Clone());
+        }
     }
 }

@@ -100,7 +100,7 @@ namespace Vision.Windows
 
         protected override void InternalImgWrite(string name, VMat img)
         {
-            Cv2.ImWrite(name, (Mat)img.Object);
+            Cv2.ImWrite(name, (Mat)img.Object, new ImageEncodingParam(ImwriteFlags.JpegQuality, 80));
         }
 
         public override void DrawText(VMat img, string text, Point org, FontFace fontFace, double fontScale, Scalar color, int thickness = 1, LineType lineType = LineType.Link8, bool bottomLeftOrigin = false)

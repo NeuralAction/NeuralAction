@@ -74,5 +74,10 @@ namespace Vision.Android
             }
             return path;
         }
+
+        protected override char[] GetInvalidPathChars()
+        {
+            return Path.GetInvalidFileNameChars();
+        }
     }
 }

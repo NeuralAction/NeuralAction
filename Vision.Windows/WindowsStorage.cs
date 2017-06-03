@@ -69,7 +69,15 @@ namespace Vision.Windows
 
         protected override string InternalPathCombine(params string[] pathes)
         {
-            return base.InternalPathCombine(pathes).TrimStart('/').Replace("/", "");
+            return base.InternalPathCombine(pathes).TrimStart('/').Replace("/", "\\");
+        }
+
+        protected override char[] GetInvalidPathChars()
+        {
+            List<char> c = new List<char>();
+            c.AddRange(Path.GetInvalidPathChars());
+            c.Add(Path.VolumeSeparatorChar);
+            return c.ToArray();
         }
     }
 }

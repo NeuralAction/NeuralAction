@@ -148,6 +148,7 @@ namespace Vision
 
         public abstract void CopyTo(VMat dist);
         public abstract void CopyTo(VMat dist, VMat mask);
+        public abstract VMat Clone();
         public abstract void Dispose();
     }
 }

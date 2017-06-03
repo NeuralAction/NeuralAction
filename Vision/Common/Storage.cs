@@ -15,6 +15,7 @@ namespace Vision
 
         public static DirectoryNode Root => new DirectoryNode("/");
         public static string AbsoluteRoot => Current.GetAbsoluteRoot();
+        public static char[] InvalidPathChars => Current.GetInvalidPathChars();
 
         public static void Init(Storage storage)
         {
@@ -82,6 +83,43 @@ namespace Vision
             return Current.InternalCreateDirectory(node);
         }
         protected abstract DirectoryNode InternalCreateDirectory(DirectoryNode path);
+
+        protected abstract char[] GetInvalidPathChars();
+
+        public static bool CheckPathChars(StorageNode node)
+        {
+            return CheckPathChars(node.Path);
+        }
+
+        public static bool CheckPathChars(string path)
+        {
+            char[] invalid = InvalidPathChars;
+            foreach (char c in path)
+            {
+                if (invalid.Contains(c))
+                    return false;
+            }
+            return true;
+        }
+        
+        public static void FixPathChars(StorageNode node)
+        {
+            node.Path = FixPathChars(node.Path);
+        }
+
+        public static string FixPathChars(string path)
+        {
+            char[] invalid = InvalidPathChars;
+            StringBuilder builder = new StringBuilder();
+            foreach(char s in path)
+            {
+                if (invalid.Contains(s))
+                    builder.Append('-');
+                else
+                    builder.Append(s);
+            }
+            return builder.ToString();
+        }
 
         public static string PathCombine(params string[] pathes)
         {
@@ -210,6 +248,11 @@ namespace Vision
         public DirectoryNode(string path)
         {
             Path = path;
+        }
+
+        public void Create()
+        {
+            Storage.CreateDirectory(this);
         }
 
         public FileNode GetFile(string name)

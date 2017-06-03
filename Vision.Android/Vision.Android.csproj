@@ -117,6 +117,14 @@
       <Project>{3675b5a0-535b-4cfb-b523-ed60837278b9}</Project>
       <Name>OpenCV.Binding</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TensorFlowSharp\TensorFlowSharp.Android\TensorFlowSharp.Android.csproj">
+      <Project>{8d36690c-0079-4a33-915d-68d98b9a7117}</Project>
+      <Name>TensorFlowSharp.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TensorFlowSharp\TensorFlowSharp\TensorFlowSharp.csproj">
+      <Project>{a6e9a29f-e57f-42aa-824c-9581b2783e5f}</Project>
+      <Name>TensorFlowSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Vision\Vision.csproj">
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>Vision</Name>

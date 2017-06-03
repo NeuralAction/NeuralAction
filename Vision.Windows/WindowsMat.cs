@@ -69,5 +69,10 @@ namespace Vision.Windows
         {
             InnerMat.CopyTo((Mat)dist.Object, (Mat)mask.Object);
         }
+
+        public override VMat Clone()
+        {
+            return new WindowsMat(InnerMat.Clone());
+        }
     }
 }

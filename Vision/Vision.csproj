@@ -46,10 +46,12 @@
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\ManifestResource.cs" />
     <Compile Include="Common\Profiler.cs" />
+    <Compile Include="Common\Random.cs" />
     <Compile Include="Common\Rotation.cs" />
     <Compile Include="Common\Storage.cs" />
     <Compile Include="Cv\Capture.cs" />
     <Compile Include="Cv\CascadeClassifier.cs" />
+    <Compile Include="Detection\EyeGazeModelRecorder.cs" />
     <Compile Include="Detection\EyesDetectorXmlLoader.cs" />
     <Compile Include="Cv\ColorConversion.cs" />
     <Compile Include="Cv\Cv.cs" />
