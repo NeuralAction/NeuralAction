@@ -46,6 +46,7 @@
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\ManifestResource.cs" />
     <Compile Include="Common\Profiler.cs" />
+    <Compile Include="Common\Rotation.cs" />
     <Compile Include="Common\Storage.cs" />
     <Compile Include="Cv\Capture.cs" />
     <Compile Include="Cv\CascadeClassifier.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Cv\Interpolation.cs" />
     <Compile Include="Detection\EyeRect.cs" />
     <Compile Include="Detection\EyesDetector.cs" />
+    <Compile Include="Detection\EyesGazeTracker.cs" />
     <Compile Include="Detection\FaceRect.cs" />
     <Compile Include="Cv\HaarDetectionType.cs" />
     <Compile Include="Cv\LineType.cs" />
