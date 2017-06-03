@@ -13,7 +13,7 @@
             <TextBox Text="Windows" Margin="0,5" Height="24" VerticalContentAlignment="Center" x:Name="Tb_Session"/>
             <Button Content="Start" x:Name="Bt_Start" Click="Bt_Start_Click"/>
         </StackPanel>
-        <Button x:Name="Bt_Stop" Opacity="0.5" Content="Stop" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="30" Visibility="Hidden" Click="Bt_Stop_Click"/>
+        <Button x:Name="Bt_Stop" Opacity="0.5" Content="Stop" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160" Height="60" Visibility="Hidden" Click="Bt_Stop_Click"/>
         <Canvas x:Name="canvas">
             <Grid x:Name="pointer" Canvas.Top="50" Canvas.Left="50">
                 <Ellipse Width="20" Height="20" Fill="Red" Margin="-1000000" x:Name="ellipse"/>
