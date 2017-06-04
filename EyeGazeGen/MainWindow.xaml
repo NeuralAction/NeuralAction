@@ -5,15 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EyeGazeGen"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" KeyDown="Window_PreviewKeyDown">
     <Grid>
         <TextBlock Text="Vision EyeGaze DataSet Generator" HorizontalAlignment="Center" Margin="10" Opacity="0.66"/>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150" x:Name="Panel_StartMenu">
-            <TextBlock Text="Session Name"/>
-            <TextBox Text="Windows" Margin="0,5" Height="24" VerticalContentAlignment="Center" x:Name="Tb_Session"/>
-            <Button Content="Start" x:Name="Bt_Start" Click="Bt_Start_Click"/>
+        <Rectangle Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Fill="Black" Opacity="0.75"/>
+        <Rectangle Width="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Fill="Black" Opacity="0.75"/>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="170" x:Name="Panel_StartMenu" Background="#99FFFFFF">
+            <TextBlock Text="Session Name" Margin="10,5"/>
+            <TextBox Text="Windows" Margin="10,0" Height="24" VerticalContentAlignment="Center" x:Name="Tb_Session"/>
+            <Button Content="Start" Margin="10,5" x:Name="Bt_Start" Click="Bt_Start_Click"/>
+            <TextBlock Margin="10,5,10,2" Text="Space Key: Pause" Opacity="0.66"/>
+            <TextBlock Margin="10,0,10,5" Text="ESC Key: Stop" Opacity="0.66"/>
         </StackPanel>
-        <Button x:Name="Bt_Stop" Opacity="0.5" Content="Stop" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160" Height="60" Visibility="Hidden" Click="Bt_Stop_Click"/>
+        <StackPanel x:Name="panel_rec" HorizontalAlignment="Center" VerticalAlignment="Center" Width="240" Visibility="Hidden" IsEnabled="False">
+            <Button x:Name="Bt_Stop" Opacity="0.4" Content="Stop" FontSize="20" Height="80" Background="#18000000" Visibility="Visible" Click="Bt_Stop_Click"/>
+            <Button x:Name="Bt_Pause" Opacity="0.4" Content="Pause" Height="80" FontSize="20" Background="#18000000" Visibility="Visible" Click="Bt_Pause_Click"/>
+        </StackPanel>
+        <Canvas x:Name="cv_points">
+            <Canvas.CacheMode>
+                <BitmapCache/>
+            </Canvas.CacheMode>
+        </Canvas>
         <Canvas x:Name="canvas">
             <Grid x:Name="pointer" Canvas.Top="50" Canvas.Left="50">
                 <Ellipse Width="20" Height="20" Fill="Red" Margin="-1000000" x:Name="ellipse"/>

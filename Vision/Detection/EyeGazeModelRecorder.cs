@@ -27,10 +27,14 @@ namespace Vision
     {
         public event EventHandler<EyeGazePointArg> SetPoint;
         public event EventHandler<VMat> FrameReady;
+        public event EventHandler<Point> Captured; 
+
         public bool IsRecording { get; set; } = false;
+        public bool IsPaused { get; set; } = false;
         public DirectoryNode Parent { get; set; }
         public Size ScreenSize { get; set; }
         public string SessionName { get; set; }
+        public int CaptureCount => captureCount;
 
         private Task recThread;
         private Capture capture;
@@ -83,6 +87,12 @@ namespace Vision
             {
                 while (!tk.IsCancellationRequested)
                 {
+                    if (IsPaused)
+                    {
+                        Core.Sleep(1);
+                        continue;
+                    }
+
                     Random rnd = new Random();
                     Point pt = new Point(rnd.NextDouble(0, ScreenSize.Width), rnd.NextDouble(0, ScreenSize.Height));
 
@@ -108,16 +118,24 @@ namespace Vision
 
                     lock (matLocker)
                     {
-                        if (mat != null)
+                        if (mat != null && !mat.IsEmpty)
                         {
-                            FileNode node = Parent.GetFile($"{captureCount},{Math.Round(pt.X)},{Math.Round(pt.Y)}.jpg");
-                            Core.Cv.ImgWrite(node, mat);
-                            captureCount++;
-                            Logger.Log($"ImageCaptured. [{pt.ToString()}]");
+                            if (!IsPaused)
+                            {
+                                FileNode node = Parent.GetFile($"{captureCount},{Math.Round(pt.X)},{Math.Round(pt.Y)}.jpg");
+                                Core.Cv.ImgWrite(node, mat);
+                                captureCount++;
+                                if (captureCount > 1 && captureCount % 20 == 0)
+                                {
+                                    rnd = new Random();
+                                }
+                                Captured?.Invoke(this, pt);
+                                Logger.Log($"ImageCaptured. [{pt.ToString()}]");
+                            }
                         }
                         else
                         {
-                            throw new Exception("mat is null");
+                            Logger.Error(this, "frame is nulled or empty");
                         }
                     }
 

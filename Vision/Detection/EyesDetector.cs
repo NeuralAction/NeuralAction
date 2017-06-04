@@ -34,6 +34,9 @@ namespace Vision
         
         public FaceRect[] Detect(VMat frame, bool debug = false)
         {
+            if (frame.IsEmpty)
+                return null;
+
             using (VMat frame_gray = VMat.New())
             {
                 Profiler.Start("DetectionPre");

@@ -8,7 +8,7 @@ namespace Vision
 {
     public class Random
     {
-        private System.Random rnd = new System.Random((int)(DateTime.UtcNow.TimeOfDay.TotalMilliseconds* 10));
+        private System.Random rnd = new System.Random((int)(DateTime.UtcNow.TimeOfDay.TotalMilliseconds));
 
         public Random()
         {
@@ -17,7 +17,7 @@ namespace Vision
 
         public double NextDouble(double min, double max)
         {
-            return (double)rnd.Next((int)(min * 1000), (int)(max * 1000)) / 1000;
+            return (double)rnd.Next((int)(min * 1500), (int)(max * 1500)) / 1500;
         }
     }
 }
