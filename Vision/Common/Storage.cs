@@ -64,6 +64,18 @@ namespace Vision
         }
         protected abstract Stream InternalGetFileStream(FileNode node);
 
+        public static DirectoryNode[] GetDirectories(DirectoryNode node)
+        {
+            return Current.InternalGetDirectories(node);
+        }
+        protected abstract DirectoryNode[] InternalGetDirectories(DirectoryNode node);
+
+        public static FileNode[] GetFiles(DirectoryNode node)
+        {
+            return Current.InternalGetFiles(node);
+        }
+        protected abstract FileNode[] InternalGetFiles(DirectoryNode node);
+
         public static FileNode CreateFile(string path)
         {
             return Current.InternalCreateFile(new FileNode(path));
@@ -189,6 +201,8 @@ namespace Vision
             }
         }
 
+        public virtual string Name { get => System.IO.Path.GetFileName(Path); }
+
         public abstract bool IsFile { get; }
         public abstract bool IsDirectory { get; }
         public abstract bool IsExist { get; }
@@ -232,6 +246,23 @@ namespace Vision
         {
             Storage.Delete(this);
         }
+
+        public string[] ReadLines()
+        {
+            List<string> lines = new List<string>();
+            using (Stream filestream = Open())
+            {
+                using(StreamReader reader = new StreamReader(filestream))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        string line = reader.ReadLine();
+                        lines.Add(line);
+                    }
+                }
+            }
+            return lines.ToArray();
+        }
     }
 
     public class DirectoryNode : StorageNode
@@ -263,6 +294,16 @@ namespace Vision
         public DirectoryNode GetDirectory(string name)
         {
             return new DirectoryNode(Storage.PathCombine(Path, name));
+        }
+
+        public FileNode[] GetFiles()
+        {
+            return Storage.GetFiles(this);
+        }
+
+        public DirectoryNode[] GetDirectories()
+        {
+            return Storage.GetDirectories(this);
         }
 
         public FileNode NewFile(string filename)

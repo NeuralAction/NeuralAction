@@ -26,6 +26,8 @@ namespace AndroidTests
 		
 		public static void UpdateIdValues()
 		{
+			global::Vision.Android.Resource.String.ApplicationName = global::AndroidTests.Resource.String.ApplicationName;
+			global::Vision.Android.Resource.String.Hello = global::AndroidTests.Resource.String.Hello;
 		}
 		
 		public partial class Attribute

@@ -36,6 +36,8 @@ namespace EyeGazeGen
 
             detector = new EyesDetector(new EyesDetectorXmlLoader());
 
+            UpdateLib();
+
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
@@ -43,6 +45,8 @@ namespace EyeGazeGen
         {
             Profiler.Count("wpfFPS");
         }
+
+        #region modeling
 
         private void Bt_Start_Click(object sender, RoutedEventArgs e)
         {
@@ -185,6 +189,8 @@ namespace EyeGazeGen
             panel_rec.Visibility = Visibility.Hidden;
             panel_rec.IsEnabled = false;
 
+            UpdateLib();
+
             if (recorder != null)
             {
                 recorder.Stop();
@@ -228,5 +234,43 @@ namespace EyeGazeGen
                     break;
             }
         }
+
+        #endregion modeling
+
+        #region Lib
+
+        List<string> LibItemSource;
+
+        private void Lst_Library_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            int selInd = Lst_Library.SelectedIndex;
+            if (selInd > -1)
+            {
+                string path = LibItemSource[selInd];
+
+                EyeGazeModel model = new EyeGazeModel(new DirectoryNode(path));
+
+                ModelViewer viewer = new ModelViewer(this, model);
+                viewer.Show();
+            }
+        }
+
+        private void UpdateLib()
+        {
+            List<string> libs = new List<string>();
+            DirectoryNode[] files = Storage.Root.GetDirectories();
+            foreach(DirectoryNode node in files)
+            {
+                if (EyeGazeModel.IsModel(node))
+                {
+                    libs.Add(node.Path);
+                }
+            }
+            LibItemSource = libs;
+            Lst_Library.ItemsSource = LibItemSource;
+            Lst_Library.Items.Refresh();
+        }
+
+        #endregion Lib
     }
 }

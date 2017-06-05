@@ -79,5 +79,39 @@ namespace Vision.Android
         {
             return Path.GetInvalidFileNameChars();
         }
+
+        protected override DirectoryNode[] InternalGetDirectories(DirectoryNode node)
+        {
+            if (node.IsExist)
+            {
+                DirectoryInfo di = new DirectoryInfo(node.AbosolutePath);
+                DirectoryInfo[] dis = di.GetDirectories();
+                if (dis.Length == 0)
+                    return null;
+
+                List<DirectoryNode> nodes = new List<DirectoryNode>();
+                foreach (DirectoryInfo dir in dis)
+                    nodes.Add(node.GetDirectory(dir.Name));
+                return nodes.ToArray();
+            }
+            return null;
+        }
+
+        protected override FileNode[] InternalGetFiles(DirectoryNode node)
+        {
+            if (node.IsExist)
+            {
+                DirectoryInfo di = new DirectoryInfo(node.AbosolutePath);
+                FileInfo[] dis = di.GetFiles();
+                if (dis.Length == 0)
+                    return null;
+
+                List<FileNode> nodes = new List<FileNode>();
+                foreach (FileInfo dir in dis)
+                    nodes.Add(node.GetFile(dir.Name));
+                return nodes.ToArray();
+            }
+            return null;
+        }
     }
 }
