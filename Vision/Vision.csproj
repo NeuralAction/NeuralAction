@@ -51,6 +51,7 @@
     <Compile Include="Common\Storage.cs" />
     <Compile Include="Cv\Capture.cs" />
     <Compile Include="Cv\CascadeClassifier.cs" />
+    <Compile Include="Cv\MatType.cs" />
     <Compile Include="Detection\EyeGazeModel.cs" />
     <Compile Include="Detection\EyeGazeModelRecorder.cs" />
     <Compile Include="Detection\EyesDetectorXmlLoader.cs" />

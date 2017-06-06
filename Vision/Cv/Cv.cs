@@ -34,6 +34,8 @@ namespace Vision
         }
 
         internal protected abstract VMat CreateMat();
+        internal protected abstract VMat CreateMat(Size size);
+        internal protected abstract VMat CreateMat(Size size, MatType type);
         internal protected abstract VMat CreateMat(VMat mat, Rect rect);
 
         internal protected abstract CascadeClassifier CreateCascadeClassifier(string filePath);

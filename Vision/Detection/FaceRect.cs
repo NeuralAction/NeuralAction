@@ -11,6 +11,30 @@ namespace Vision
     public class FaceRect : Rect
     {
         public List<EyeRect> Children { get; set; } = new List<EyeRect>();
+        public EyeRect LeftEye
+        {
+            get
+            {
+                foreach(EyeRect r in Children)
+                {
+                    if (r.Center.X < _width * 0.5 && r.Center.Y < _height * 0.45)
+                        return r;
+                }
+                return null;
+            }
+        }
+        public EyeRect RightEye
+        {
+            get
+            {
+                foreach (EyeRect r in Children)
+                {
+                    if (r.Center.X > _width * 0.5 && r.Center.Y < _height * 0.45)
+                        return r;
+                }
+                return null;
+            }
+        }
 
         public FaceRect(Rect rect) : base(rect.Rectangle)
         {

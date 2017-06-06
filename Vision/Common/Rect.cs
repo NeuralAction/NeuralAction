@@ -61,6 +61,30 @@ namespace Vision
             }
         }
 
+        public Point Point
+        {
+            get
+            {
+                return new Point(_x, _y);
+            }
+        }
+
+        public Size Size
+        {
+            get
+            {
+                return new Size(_width, _height);
+            }
+        }
+
+        public Point Center
+        {
+            get
+            {
+                return new Point(_x + _width * 0.5, _y + _height * 0.5);
+            }
+        }
+
         public Rectangle Rectangle
         {
             get { return GetRectangle(); }

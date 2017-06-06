@@ -18,6 +18,16 @@ namespace Vision.Windows
             return VMatToBitmapSource(x);
         }
 
+        public static OpenCvSharp.Size ToCvSize(this Size s)
+        {
+            return new OpenCvSharp.Size(s.Width, s.Height);
+        }
+
+        public static OpenCvSharp.Rect ToCvRect(this Rect r)
+        {
+            return new OpenCvSharp.Rect((int)r.Width, (int)r.Height, (int)r.Width, (int)r.Height);
+        }
+
         public static System.Drawing.Bitmap VMatToBitmap(VMat mat)
         {
             return OpenCvSharp.Extensions.BitmapConverter.ToBitmap((OpenCvSharp.Mat)mat.Object);

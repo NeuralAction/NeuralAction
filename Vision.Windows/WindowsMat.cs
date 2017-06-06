@@ -28,6 +28,16 @@ namespace Vision.Windows
             InnerMat = mat;
         }
 
+        public WindowsMat(Size size)
+        {
+            InnerMat = new Mat(size.ToCvSize(), OpenCvSharp.MatType.CV_8UC3);
+        }
+
+        public WindowsMat(Size size, MatType type)
+        {
+            InnerMat = new Mat(size.ToCvSize(), new OpenCvSharp.MatType(type.Value));
+        }
+
         public WindowsMat(VMat mat, Rect Rect)
         {
             InnerMat = new Mat((Mat)mat.Object, new OpenCvSharp.Rect((int)Rect.X, (int)Rect.Y, (int)Rect.Width, (int)Rect.Height));

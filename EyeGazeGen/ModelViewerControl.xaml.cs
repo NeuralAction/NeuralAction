@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Vision;
+using Vision.Windows;
 
 namespace EyeGazeGen
 {
@@ -26,6 +27,7 @@ namespace EyeGazeGen
         public EyeGazeModel Model { get => model; set => model = value; }
         private double zoom = 1;
         public double Zoom { get => zoom; set => zoom = value; }
+        private EyesDetector Detector = new EyesDetector(new EyesDetectorXmlLoader());
 
         public ModelViewerControl()
         {
@@ -111,10 +113,29 @@ namespace EyeGazeGen
                 img.CacheOption = BitmapCacheOption.OnDemand;
                 img.CreateOptions = BitmapCreateOptions.DelayCreation;
                 img.EndInit();
-                ImageBrush brush = new ImageBrush(img);
-                brush.Stretch = Stretch.Uniform;
-                brush.Freeze();
-                canvas.Background = brush;
+                Img_Background.Source = img;
+                using (VMat mat = Core.Cv.ImgRead(element.File))
+                {
+                    FaceRect[] rect = Detector.Detect(mat);
+                    if (rect.Length > 0 && rect[0].Children.Count > 0)
+                    {
+                        EyeRect eye = rect[0].LeftEye;
+                        if (eye != null)
+                        {
+                            double size = Math.Max(rect[0].Width, rect[0].Height) * 0.45;
+                            using (VMat roi = VMat.New(mat, new Vision.Rect(eye.Parent.X + eye.Center.X - size * 0.5, eye.Parent.Y + eye.Center.Y - size * 0.5, size, size)))
+                            {
+                                roi.Resize(new Vision.Size(220, 220));
+                                BitmapSource eyeImg = roi.ToBitmapSource();
+                                Img_Eyes.Source = eyeImg;
+                            }
+                        }
+                        else
+                        {
+                            Img_Eyes.Source = null;
+                        }
+                    }
+                }
                 Tb_Info.Text = $"Index:{element.Index} Point:{element.Point}";
             };
             el.MouseLeave += (obj, arg) =>

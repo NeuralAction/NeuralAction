@@ -100,6 +100,7 @@
     <Compile Include="AndroidMat.cs" />
     <Compile Include="AndroidStorage.cs" />
     <Compile Include="CameraPreviewCallback.cs" />
+    <Compile Include="Converter.cs" />
     <Compile Include="LimitedTaskScheduler.cs" />
     <Compile Include="LoaderCallback.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

@@ -7,6 +7,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Background="Black" SizeChanged="UserControl_SizeChanged">
     <Grid>
+        <Image x:Name="Img_Background" Stretch="Uniform"/>
+        <Grid Width="220" Height="220" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
+            <TextBlock Text="Eye Is Not Found" Foreground="White" UseLayoutRounding="True" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
+                <TextBlock.CacheMode>
+                    <BitmapCache SnapsToDevicePixels="True"/>
+                </TextBlock.CacheMode>
+                <TextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="0"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <Image x:Name="Img_Eyes" Stretch="None"/>
+        </Grid>
         <Canvas x:Name="canvas">
             <Canvas.CacheMode>
                 <BitmapCache/>

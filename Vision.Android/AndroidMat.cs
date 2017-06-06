@@ -30,6 +30,16 @@ namespace Vision.Android
         {
             InnerMat = mat;
         }
+        
+        public AndroidMat(Size size)
+        {
+            InnerMat = new Mat(size.ToCvSize(), MatType.CV_8UC3.Value);
+        }
+
+        public AndroidMat(Size size, MatType type)
+        {
+            InnerMat = new Mat(size.ToCvSize(), type.Value);
+        }
 
         public AndroidMat(VMat mat)
         {

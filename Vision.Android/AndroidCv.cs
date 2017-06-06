@@ -135,6 +135,16 @@ namespace Vision.Android
             return new AndroidMat();
         }
 
+        protected override VMat CreateMat(Size size)
+        {
+            return new AndroidMat(size);
+        }
+
+        protected override VMat CreateMat(Size size, MatType type)
+        {
+            return new AndroidMat(size, type);
+        }
+
         protected override VMat CreateMat(VMat mat, Rect rect)
         {
             return new AndroidMat(mat, rect);

@@ -88,6 +88,16 @@ namespace Vision.Windows
             return new WindowsMat();
         }
 
+        protected override VMat CreateMat(Size size)
+        {
+            return new WindowsMat(size);
+        }
+
+        protected override VMat CreateMat(Size size, MatType type)
+        {
+            return new WindowsMat(size, type);
+        }
+
         protected override VMat CreateMat(VMat mat, Rect rect)
         {
             return new WindowsMat(mat, rect);
