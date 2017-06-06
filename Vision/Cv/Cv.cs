@@ -66,18 +66,18 @@ namespace Vision
             return InternalImgRead(path);
         }
 
-        public void ImgWrite(FileNode node, VMat img)
+        public void ImgWrite(FileNode node, VMat img, int quality = 80)
         {
-            ImgWrite(node.AbosolutePath, img);
+            ImgWrite(node.AbosolutePath, img, quality);
         }
-        public void ImgWrite(string path, VMat img)
+        public void ImgWrite(string path, VMat img, int quality = 80)
         {
             Logger.Log(this, "Image Write : " + path);
 
-            InternalImgWrite(path, img);
+            InternalImgWrite(path, img, quality);
         }
         protected abstract VMat InternalImgRead(string path);
-        protected abstract void InternalImgWrite(string name, VMat img);
+        protected abstract void InternalImgWrite(string name, VMat img, int quality);
 
         public abstract void CloseWindow(string name);
         public abstract void CloseAllWindows();

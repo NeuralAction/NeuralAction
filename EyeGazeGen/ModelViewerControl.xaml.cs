@@ -110,7 +110,7 @@ namespace EyeGazeGen
                 BitmapImage img = new BitmapImage();
                 img.BeginInit();
                 img.UriSource = new Uri(filepath);
-                img.CacheOption = BitmapCacheOption.OnDemand;
+                img.CacheOption = BitmapCacheOption.OnLoad;
                 img.CreateOptions = BitmapCreateOptions.DelayCreation;
                 img.EndInit();
                 Img_Background.Source = img;
@@ -122,8 +122,7 @@ namespace EyeGazeGen
                         EyeRect eye = rect[0].LeftEye;
                         if (eye != null)
                         {
-                            double size = Math.Max(rect[0].Width, rect[0].Height) * 0.45;
-                            using (VMat roi = VMat.New(mat, new Vision.Rect(eye.Parent.X + eye.Center.X - size * 0.5, eye.Parent.Y + eye.Center.Y - size * 0.5, size, size)))
+                            using(VMat roi = eye.RoiCropByPercent(mat, 0.45))
                             {
                                 roi.Resize(new Vision.Size(220, 220));
                                 BitmapSource eyeImg = roi.ToBitmapSource();
@@ -132,8 +131,14 @@ namespace EyeGazeGen
                         }
                         else
                         {
+                            Logger.Error("no eyes found");
                             Img_Eyes.Source = null;
                         }
+                    }
+                    else
+                    {
+                        Logger.Error("no eyes found");
+                        Img_Eyes.Source = null;
                     }
                 }
                 Tb_Info.Text = $"Index:{element.Index} Point:{element.Point}";

@@ -136,7 +136,7 @@ namespace EyeGazeGen
                 {
                     Background = new ImageBrush(frame.ToBitmapSource())
                     {
-                        Stretch = Stretch.Uniform
+                        Stretch = System.Windows.Media.Stretch.Uniform
                     };
                     Background.Freeze();
                 });

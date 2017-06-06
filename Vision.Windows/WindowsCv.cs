@@ -108,7 +108,7 @@ namespace Vision.Windows
             return new WindowsMat(Cv2.ImRead(path));
         }
 
-        protected override void InternalImgWrite(string name, VMat img)
+        protected override void InternalImgWrite(string name, VMat img, int quality)
         {
             Cv2.ImWrite(name, (Mat)img.Object, new ImageEncodingParam(ImwriteFlags.JpegQuality, 80));
         }

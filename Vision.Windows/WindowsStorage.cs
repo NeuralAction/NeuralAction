@@ -34,6 +34,11 @@ namespace Vision.Windows
             }
         }
 
+        protected override void InternalMove(FileNode source, FileNode dist)
+        {
+            File.Move(source.AbosolutePath, dist.AbosolutePath);
+        }
+
         protected override void InternalDelete(FileNode path)
         {
             File.Delete(path.AbosolutePath);
@@ -41,6 +46,7 @@ namespace Vision.Windows
 
         protected override Stream InternalGetFileStream(FileNode node)
         {
+
             return File.Open(node.AbosolutePath, FileMode.Open);
         }
 

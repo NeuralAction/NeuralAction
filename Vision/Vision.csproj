@@ -43,6 +43,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Common\LayoutHelper.cs" />
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\ManifestResource.cs" />
     <Compile Include="Common\Profiler.cs" />

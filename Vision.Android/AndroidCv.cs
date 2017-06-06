@@ -155,9 +155,11 @@ namespace Vision.Android
             return new AndroidMat(OpenCV.ImgCodecs.Imgcodecs.Imread(path));
         }
 
-        protected override void InternalImgWrite(string name, VMat img)
+        protected override void InternalImgWrite(string name, VMat img, int quality)
         {
-            OpenCV.ImgCodecs.Imgcodecs.Imwrite(name, (Mat)img.Object);
+            MatOfInt mat = new MatOfInt();
+            mat.Put(0, 0, new int[] { OpenCV.ImgCodecs.Imgcodecs.ImwriteJpegQuality, quality });
+            OpenCV.ImgCodecs.Imgcodecs.Imwrite(name, (Mat)img.Object, mat);
         }
 
         public override void CloseWindow(string name)

@@ -41,6 +41,12 @@ namespace Vision
         }
         protected abstract void InternalCopy(Stream source, FileNode dist);
 
+        public static void Move(FileNode source, FileNode dist)
+        {
+            Current.InternalMove(source, dist);
+        }
+        protected abstract void InternalMove(FileNode source, FileNode dist);
+
         public static void Delete(string path)
         {
             Current.InternalDelete(new FileNode(path));
@@ -114,9 +120,10 @@ namespace Vision
             return true;
         }
         
-        public static void FixPathChars(StorageNode node)
+        public static StorageNode FixPathChars(StorageNode node)
         {
             node.Path = FixPathChars(node.Path);
+            return node;
         }
 
         public static string FixPathChars(string path)
@@ -247,6 +254,11 @@ namespace Vision
             Storage.Delete(this);
         }
 
+        public void Move(FileNode dist)
+        {
+            Storage.Move(this, dist);
+        }
+
         public string[] ReadLines()
         {
             List<string> lines = new List<string>();
@@ -262,6 +274,36 @@ namespace Vision
                 }
             }
             return lines.ToArray();
+        }
+
+        public void WriteLines(string[] lines)
+        {
+            using(Stream stream = Open())
+            {
+                using(StreamWriter writer = new StreamWriter(stream))
+                {
+                    foreach(string l in lines)
+                    {
+                        writer.WriteLine(l);
+                    }
+                }
+            }
+        }
+
+        public void WriteText(StringBuilder builder)
+        {
+            WriteText(builder.ToString());
+        }
+
+        public void WriteText(string text)
+        {
+            using(Stream stream = Open())
+            {
+                using(StreamWriter write = new StreamWriter(stream))
+                {
+                    write.Write(text);
+                }
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,10 +15,13 @@ namespace Vision
         }
 
         public DirectoryNode Directory { get; set; }
+        public FileNode ModelTxt { get { return Directory.GetFile("model.txt"); } }
 
         public string SessionName { get; set; }
         public string TimeStamp { get; set; }
+        public string SubmoduleDesc { get; set; }
         public Size ScreenSize { get; set; }
+
         public List<EyeGazeModelElement> Elements { get; set; } = new List<EyeGazeModelElement>();
 
         public EyeGazeModel()
@@ -54,16 +58,7 @@ namespace Vision
             SessionName = builder.ToString().Trim();
 
             FileNode modelTXT = Directory.GetFile("model.txt");
-            string[] lines = modelTXT.ReadLines();
-            foreach(string line in lines)
-            {
-                if (line.StartsWith("scr:"))
-                {
-                    string[] spl = line.Split(':');
-                    string[] screenSizes = spl[1].Split(',');
-                    ScreenSize = new Size(Convert.ToDouble(screenSizes[0]), Convert.ToDouble(screenSizes[1]));
-                }
-            }
+            ReadModelTxt(modelTXT);
 
             //read model
             Elements.Clear();
@@ -75,10 +70,44 @@ namespace Vision
                     Elements.Add(ele);
             }
         }
+
+        public void ReadModelTxt(FileNode file)
+        {
+            string[] lines = file.ReadLines();
+            foreach (string line in lines)
+            {
+                if (line.StartsWith("scr:"))
+                {
+                    string[] spl = line.Split(':');
+                    string[] screenSizes = spl[1].Split(',');
+                    ScreenSize = new Size(Convert.ToDouble(screenSizes[0]), Convert.ToDouble(screenSizes[1]));
+                }
+                else if (line.StartsWith("sub:"))
+                {
+                    string[] spl = line.Split(':');
+                    SubmoduleDesc = spl[1];
+                }
+            }
+        }
+
+        public void WriteModelText(Stream stream)
+        {
+            using (StreamWriter writer = new StreamWriter(stream))
+            {
+                writer.WriteLine($"scr:{ScreenSize.Width},{ScreenSize.Height}");
+                if (SubmoduleDesc != null)
+                    writer.WriteLine($"sub:{SubmoduleDesc}");
+            }
+        }
     }
 
     public class EyeGazeModelElement
     {
+        public static string GetFileName(EyeGazeModelElement ele)
+        {
+            return $"{ele.Index},{ele.Point.X},{ele.Point.Y}.jpg";
+        }
+
         public bool Loaded { get; set; } = false;
         public int Index { get; set; }
         public Point Point { get; set; }
@@ -90,8 +119,8 @@ namespace Vision
             string name = File.Name;
             if (name.EndsWith(".jpg"))
             {
-                string[] spl = name.Split('.');
-                string[] args = spl[0].Split(',');
+                name = name.Replace(".jpg", "");
+                string[] args = name.Split(',');
                 Index = Convert.ToInt32(args[0]);
                 Point = new Point(Convert.ToDouble(args[1]), Convert.ToDouble(args[2]));
                 Loaded = true;

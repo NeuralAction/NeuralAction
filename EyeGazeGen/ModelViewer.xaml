@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EyeGazeGen"
         mc:Ignorable="d"
-        Title="ModelViewer" Height="300" Width="300">
+        Title="ModelViewer" MinWidth="420" MinHeight="320" Height="432" Width="729">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="120"/>
+        </Grid.ColumnDefinitions>
         <local:ModelViewerControl x:Name="viewControl"/>
+        <Grid Grid.Column="1">
+            <StackPanel>
+                <Button Content="Create Eyes Model" Height="30" x:Name="Bt_Create_EyesModel" Click="Bt_Create_EyesModel_Click"/>
+                <StackPanel Margin="0,5">
+                    <TextBox x:Name="Tb_NewSize" Height="24" Text="0,0" VerticalContentAlignment="Center"/>
+                    <Button Content="ChangeSize" x:Name="Bt_ChangeSize" Click="Bt_ChangeSize_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
