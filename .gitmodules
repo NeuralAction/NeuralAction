@@ -1,3 +1,0 @@
-[submodule "TensorFlowSharp"]
-	path = TensorFlowSharp
-	url = https://github.com/gmlwns2000/TensorFlowSharp.git
