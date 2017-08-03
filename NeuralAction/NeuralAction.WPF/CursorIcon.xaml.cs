@@ -60,11 +60,10 @@ namespace NeuralAction.WPF
         {
 
           
-            rar.Content = "X: " + GetCursorPosition().X + " | Y: " + GetCursorPosition().Y;
-            this.Left = (int) (GetCursorPosition().X / scale - 32);
+            this.Left = (int) (GetCursorPosition().X / scale - 25);
 
 
-            this.Top = (int) (GetCursorPosition().Y / scale - 36);
+            this.Top = (int) (GetCursorPosition().Y / scale - 25);
 
         }
 

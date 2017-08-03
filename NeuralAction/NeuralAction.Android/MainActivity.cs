@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 
+
 namespace NeuralAction.Droid
 {
     [Activity(Label = "NeuralAction", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -18,8 +19,11 @@ namespace NeuralAction.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
+            ButtonCircle.FormsPlugin.Droid.ButtonCircleRenderer.Init();
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+
+
             LoadApplication(new App());
         }
     }
