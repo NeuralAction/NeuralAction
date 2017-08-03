@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeuralAction.WPF"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
         mc:Ignorable="d"
-        Title="MainWindow" Width="65" Height="72" Background="{x:Null}" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="Manual" Loaded="Window_Loaded" Topmost="True">
+        Title="MainWindow" Width="65" Height="72" Background="{x:Null}" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="Manual" Loaded="Window_Loaded" Topmost="True" Cursor="None">
     <Grid>
 
         <Canvas>
@@ -17,18 +17,17 @@
 
                 </Grid.CacheMode>
 
-                <ed:Arc ArcThickness="7" ArcThicknessUnit="Pixel" EndAngle="360" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="65" Margin="0" Stretch="None" StartAngle="0" VerticalAlignment="Top" Width="65">
+                <ed:Arc ArcThickness="7" ArcThicknessUnit="Pixel" EndAngle="360" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="65" Margin="0" Stretch="None" StartAngle="0" VerticalAlignment="Top" Width="65" Cursor="None">
                     <ed:Arc.Effect>
                         <DropShadowEffect ShadowDepth="7" Opacity="0.17" BlurRadius="0" Direction="270"/>
                     </ed:Arc.Effect>
                 </ed:Arc>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="16"  VerticalAlignment="Center" Width="16" Margin="0,0,0,7" >
+                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="16"  VerticalAlignment="Center" Width="16" Margin="0,0,0,7" Cursor="None" >
                     <Ellipse.Effect>
                         <DropShadowEffect ShadowDepth="7" Opacity="0.17" BlurRadius="0" Direction="270"/>
                     </Ellipse.Effect>
                 </Ellipse>
-                <Label x:Name="rar" Content="Label" HorizontalAlignment="Left" Margin="13,22,0,0" VerticalAlignment="Top"/>
-
+                
             </Grid>
         </Canvas>
         
