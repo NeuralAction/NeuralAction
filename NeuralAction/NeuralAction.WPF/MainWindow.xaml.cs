@@ -30,33 +30,260 @@ namespace NeuralAction.WPF
 
         [DllImport("user32.dll")]
         public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
         [DllImport("user32.dll")]
         public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
         public static IntPtr FocusedHandle { get; set; }
-
         public static bool RestoreClipboard { get; set; } = true;
 
         int inputcount = 0;
+        string[] koreainputchar = new string[3];
+
 
         public MainWindow()
         {
             InitializeComponent();
-            
+
         }
 
-        public void Inputing(String text)
+        private static string m_ChoSungTbl = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
+        private static string m_JungSungTbl = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
+        private static string m_JongSungTbl =  " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
+        private static ushort m_UniCodeHangulBase = 0xAC00;
+        private static ushort m_UniCodeHangulLast = 0xD79F;
+
+        public static string MergeJaso(string choSung, string jungSung, string jongSung)
+        {
+            int ChoSungPos, JungSungPos, JongSungPos;
+            int nUniCode;
+
+            ChoSungPos = m_ChoSungTbl.IndexOf(choSung);     // 초성 위치
+            JungSungPos = m_JungSungTbl.IndexOf(jungSung);   // 중성 위치
+            JongSungPos = m_JongSungTbl.IndexOf(jongSung);   // 종성 위치
+
+            // 앞서 만들어 낸 계산식
+            nUniCode =  m_UniCodeHangulBase + (ChoSungPos * 21 + JungSungPos) * 28 + JongSungPos;
+            // 코드값을 문자로 변환
+            char temp = Convert.ToChar(nUniCode);
+
+            return temp.ToString();
+        }
+
+
+        public void korean_chosung_keypad_change()  {
+
+            onepie.Tag = "ㅈ";
+            twopie.Tag = "ㅂ";
+            threepie.Tag = "ㄴ";
+            fourpie.Tag = "ㅅ";
+            fivepie.Tag = "ㅇ";
+            sevenpie.Tag = "ㄱ";
+            eightpie.Tag = "ㄷ";
+
+            textblock_one.Text = "ㄱ";
+            textblock_one_one.Text = "ㄲ";
+            textblock_one_two.Text = "ㅋ";
+            textblock_one_two.Text = "";
+            textblock_two.Text = "ㄷ";
+            textblock_two_one.Text = "ㅌ";
+            textblock_two_two.Text = "ㄸ";
+            textblock_two_three.Text = "";
+            textblock_three.Text = "ㅈ";
+            textblock_three_one.Text = "ㅊ";
+            textblock_three_two.Text = "ㅉ";
+            textblock_three_three.Text = "";
+            textblock_four.Text = "ㅂ";
+            textblock_four_one.Text = "ㅍ";
+            textblock_four_two.Text = "ㅃ";
+            textblock_four_three.Text = "";
+            textblock_five.Text = "ㄴ";
+            textblock_five_one.Text = "ㅁ";
+            textblock_five_two.Text = "ㄹ";
+            textblock_five_three.Text = "";
+            textblock_six.Text = "ㅅ";
+            textblock_six_one.Text = "ㅆ";
+            textblock_six_two.Text = "";
+            textblock_six_three.Text = "";
+            textblock_seven.Text = "ㅇ";
+            textblock_seven_one.Text = "ㅎ";
+            textblock_seven_two.Text = "";
+            textblock_seven_three.Text = "";
+
+            textblock_one.Tag = "ㄱ";
+            textblock_one_one.Tag = "ㄲ";
+            textblock_one_two.Tag = "ㅋ";
+            textblock_one_two.Tag = "";
+            textblock_two.Tag = "ㄷ";
+            textblock_two_one.Tag = "ㅌ";
+            textblock_two_two.Tag = "ㄸ";
+            textblock_two_three.Tag = "";
+            textblock_three.Tag = "ㅈ";
+            textblock_three_one.Tag = "ㅊ";
+            textblock_three_two.Tag = "ㅉ";
+            textblock_three_three.Tag = "";
+            textblock_four.Tag = "ㅂ";
+            textblock_four_one.Tag = "ㅍ";
+            textblock_four_two.Tag = "ㅃ";
+            textblock_four_three.Tag = "";
+            textblock_five.Tag = "ㄴ";
+            textblock_five_one.Tag = "ㅁ";
+            textblock_five_two.Tag = "ㄹ";
+            textblock_five_three.Tag = "";
+            textblock_six.Tag = "ㅅ";
+            textblock_six_one.Tag = "ㅆ";
+            textblock_six_two.Tag = "";
+            textblock_six_three.Tag = "";
+            textblock_seven.Tag = "ㅇ";
+            textblock_seven_one.Tag = "ㅎ";
+            textblock_seven_two.Tag = "";
+            textblock_seven_three.Tag = "";
+
+
+        }
+
+        public void korean_jungsung_keypad_change()
         {
 
-       
-           for(int i = 0; i < text.Length; i++)
-            {
-                SendKeys.Send(text[i].ToString());
-                System.Windows.MessageBox.Show(DivideKorean.DivideJaso("뭐"));
-            }
+            onepie.Tag = "ㅗ";
+            twopie.Tag = "ㅜ";
+            threepie.Tag = "ㅡ";
+            fourpie.Tag = "ㅣ";
+            fivepie.Tag = "ㅢ";
+            sevenpie.Tag = "ㅏ";
+            eightpie.Tag = "ㅓ";
+
+            textblock_one.Text = "ㅏ";
+            textblock_one_one.Text = "ㅑ";
+            textblock_one_two.Text = "ㅐ";
+            textblock_one_three.Text = "";
+            textblock_two.Text = "ㅓ";
+            textblock_two_one.Text = "ㅕ";
+            textblock_two_two.Text = "ㅔ";
+            textblock_two_three.Text = "";
+            textblock_three.Text = "ㅗ";
+            textblock_three_one.Text = "ㅛ";
+            textblock_three_two.Text = "ㅚ";
+            textblock_three_three.Text = "";
+            textblock_four.Text = "ㅜ";
+            textblock_four_one.Text = "ㅠ";
+            textblock_four_two.Text = "ㅟ";
+            textblock_four_three.Text = "";
+            textblock_five.Text = "ㅡ";
+            textblock_five_one.Text = "ㅘ";
+            textblock_five_two.Text = "ㅙ";
+            textblock_five_three.Text = "";
+            textblock_six.Text = "ㅣ";
+            textblock_six_one.Text = "ㅒ";
+            textblock_six_two.Text = "ㅖ";
+            textblock_six_three.Text = "";
+            textblock_seven.Text = "ㅢ";
+            textblock_seven_one.Text = "ㅝ";
+            textblock_seven_two.Text = "ㅞ";
+            textblock_seven_three.Text = "";
+
+            textblock_one.Tag = "ㅏ";
+            textblock_one_one.Tag = "ㅑ";
+            textblock_one_two.Tag = "ㅐ";
+            textblock_one_three.Tag = "";
+            textblock_two.Tag = "ㅓ";
+            textblock_two_one.Tag = "ㅕ";
+            textblock_two_two.Tag = "ㅔ";
+            textblock_two_three.Tag = "";
+            textblock_three.Tag = "ㅗ";
+            textblock_three_one.Tag = "ㅛ";
+            textblock_three_two.Tag = "ㅚ";
+            textblock_three_three.Tag = "";
+            textblock_four.Tag = "ㅜ";
+            textblock_four_one.Tag = "ㅠ";
+            textblock_four_two.Tag = "ㅟ";
+            textblock_four_three.Tag = "";
+            textblock_five.Tag = "ㅡ";
+            textblock_five_one.Tag = "ㅘ";
+            textblock_five_two.Tag = "ㅙ";
+            textblock_five_three.Tag = "";
+            textblock_six.Tag = "ㅣ";
+            textblock_six_one.Tag = "ㅒ";
+            textblock_six_two.Tag = "ㅖ";
+            textblock_six_three.Tag = "";
+            textblock_seven.Tag = "ㅢ";
+            textblock_seven_one.Tag = "ㅝ";
+            textblock_seven_two.Tag = "ㅞ";
+            textblock_seven_three.Tag = "";
+
+
         }
 
+        public void korean_jongsung_keypad_change()
+        {
+
+            onepie.Tag = "ㅈ";
+            twopie.Tag = "ㅂ";
+            threepie.Tag = "ㄴ";
+            fourpie.Tag = "ㅅ";
+            fivepie.Tag = "ㅇ";
+            sevenpie.Tag = "ㄱ";
+            eightpie.Tag = "ㄷ";
+
+            textblock_one.Text = "ㄱ";
+            textblock_one_one.Text = "ㄲ";
+            textblock_one_two.Text = "ㅋ";
+            textblock_one_two.Text = "ㄺ";
+            textblock_two.Text = "ㄷ";
+            textblock_two_one.Text = "ㅌ";
+            textblock_two_two.Text = "ㄸ";
+            textblock_two_three.Text = "ㄼ";
+            textblock_three.Text = "ㅈ";
+            textblock_three_one.Text = "ㅊ";
+            textblock_three_two.Text = "ㅉ";
+            textblock_three_three.Text = "ㄶ";
+            textblock_four.Text = "ㅂ";
+            textblock_four_one.Text = "ㅍ";
+            textblock_four_two.Text = "ㅃ";
+            textblock_four_three.Text = "ㅄ";
+            textblock_five.Text = "ㄴ";
+            textblock_five_one.Text = "ㅁ";
+            textblock_five_two.Text = "ㄹ";
+            textblock_five_three.Text = "ㄻ";
+            textblock_six.Text = "ㅅ";
+            textblock_six_one.Text = "ㅆ";
+            textblock_six_two.Text = "ㅄ";
+            textblock_six_three.Text = "ㄳ";
+            textblock_seven.Text = "ㅇ";
+            textblock_seven_one.Text = "ㅎ";
+            textblock_seven_two.Text = "ㄶ";
+            textblock_seven_three.Text = "ㅀ";
+
+            textblock_one.Tag = "ㄱ";
+            textblock_one_one.Tag = "ㄲ";
+            textblock_one_two.Tag = "ㅋ";
+            textblock_one_two.Tag = "ㄺ";
+            textblock_two.Tag = "ㄷ";
+            textblock_two_one.Tag = "ㅌ";
+            textblock_two_two.Tag = "ㄸ";
+            textblock_two_three.Tag = "ㄼ";
+            textblock_three.Tag = "ㅈ";
+            textblock_three_one.Tag = "ㅊ";
+            textblock_three_two.Tag = "ㅉ";
+            textblock_three_three.Tag = "ㄶ";
+            textblock_four.Tag = "ㅂ";
+            textblock_four_one.Tag = "ㅍ";
+            textblock_four_two.Tag = "ㅃ";
+            textblock_four_three.Tag = "ㅄ";
+            textblock_five.Tag = "ㄴ";
+            textblock_five_one.Tag = "ㅁ";
+            textblock_five_two.Tag = "ㄹ";
+            textblock_five_three.Tag = "ㄻ";
+            textblock_six.Tag = "ㅅ";
+            textblock_six_one.Tag = "ㅆ";
+            textblock_six_two.Tag = "ㅄ";
+            textblock_six_three.Tag = "ㄳ";
+            textblock_seven.Tag = "ㅇ";
+            textblock_seven_one.Tag = "ㅎ";
+            textblock_seven_two.Tag = "ㄶ";
+            textblock_seven_three.Tag = "ㅀ";
+
+
+
+        }
 
         CursorIcon CursorIcon = new CursorIcon();
 
@@ -78,15 +305,6 @@ namespace NeuralAction.WPF
 
         }
 
-        private void Window_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-
-            this.Topmost = false;
-            CursorIcon.Topmost = true;
-
-
-        }
-
        void NotWindowsFocus() {
             System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(this);
             SetWindowLong(helper.Handle, GWL_EXSTYLE,
@@ -97,43 +315,170 @@ namespace NeuralAction.WPF
         private void Inputing_eyes(object sender, System.Windows.Input.MouseEventArgs e)
         {
 
+
             if(sender.GetType().ToString() == "System.Windows.Controls.TextBlock")
             {
 
                 string RealSendKey = ((TextBlock)sender).Tag.ToString();
+                string CenterKey = ((TextBlock)sender).Tag.ToString();
 
                 if (RealSendKey == "Backspace")
                 {
+
                     RealSendKey = "{BACK}";
+                    centertext.Text = "←";
+                    inputcount = 0;
+                    korean_chosung_keypad_change();
+
+                    System.Windows.Forms.Clipboard.SetText(RealSendKey);
+
+                    Send sendkeys = new Send(CenterKey, RealSendKey);
+
+                    sendkeys.Work();
+
                 }
+                else { 
 
-                System.Windows.Forms.Clipboard.SetText(RealSendKey);
+                centertext.Text = CenterKey;
 
-                Send sendkeys = new Send(((TextBlock)sender).Tag.ToString(), RealSendKey);
-
-                sendkeys.Work();
+                if(inputcount == 0)
+                {
+                    korean_jungsung_keypad_change();
+                    inputcount++;
+                    koreainputchar[0] = RealSendKey;
+                } else if(inputcount == 1)
+                {
+                    korean_jongsung_keypad_change();
+                    inputcount++;
+                    koreainputchar[1] = RealSendKey;
+                    centertext.Text  = MergeJaso(koreainputchar[0], koreainputchar[1], "");
+                } else if (inputcount == 2)
+                {
+                    korean_chosung_keypad_change();
+                    inputcount = 0;
+                    koreainputchar[2] = RealSendKey;
+                    centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], koreainputchar[2]);
+                }
+                }
 
             } else if(sender.GetType().ToString() == "Microsoft.Expression.Shapes.Arc") {
 
                 string RealSendKey = ((Arc)sender).Tag.ToString();
+                string CenterKey = ((Arc)sender).Tag.ToString();
 
                 if (RealSendKey == "Backspace")
                 {
+
                     RealSendKey = "{BACK}";
+                    centertext.Text = "←";
+                    inputcount = 0;
+                    korean_chosung_keypad_change();
+
+                    System.Windows.Forms.Clipboard.SetText(RealSendKey);
+
+                    Send sendkeys = new Send(CenterKey, RealSendKey);
+
+                    sendkeys.Work();
+
+                } else { 
+
+                centertext.Text = CenterKey;
+
+                if (inputcount == 0)
+                {
+                    korean_jungsung_keypad_change();
+                    inputcount++;
+                    koreainputchar[0] = RealSendKey;
+                }
+                else if (inputcount == 1)
+                {
+                    korean_jongsung_keypad_change();
+                    inputcount++;
+                    koreainputchar[1] = RealSendKey;
+                    centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], "");
+                }
+                else if (inputcount == 2)
+                {
+                    korean_chosung_keypad_change();
+                    inputcount = 0;
+                    koreainputchar[2] = RealSendKey;
+                    centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], koreainputchar[2]);
+                }
                 }
 
-                System.Windows.Forms.Clipboard.SetText(RealSendKey);
 
-                Send sendkeys = new Send(((Arc)sender).Tag.ToString(), RealSendKey);
-
-                sendkeys.Work();
             }
 
         }
 
+        private void Inputing_sentence(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+            string RealSendKey = ((TextBlock)sender).Tag.ToString();
+
+            korean_chosung_keypad_change();
+
+            koreainputchar[0] = "";
+            koreainputchar[1] = "";
+            koreainputchar[2] = "";
+
+            centertext.Text = RealSendKey;
+
+            inputcount = 0;
+
+            korean_chosung_keypad_change();
+
+            System.Windows.Forms.Clipboard.SetText(RealSendKey);
+
+            Send sendkeys = new Send(RealSendKey, RealSendKey);
+
+            sendkeys.Work();
+
+        }
+
+        private void Inputing_char(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+
+            if (centertext.Text == "")
+            {
+
+            }
+            else
+            {
+                System.Windows.Forms.Clipboard.SetText(centertext.Text);
+
+                Send sendkeys = new Send(centertext.Text, centertext.Text);
+
+                sendkeys.Work();
+
+                koreainputchar[0] = "";
+                koreainputchar[1] = "";
+                koreainputchar[2] = "";
+
+                centertext.Text = "";
+
+                inputcount = 0;
+                korean_chosung_keypad_change();
+
+            }
+
+        }
         private void KeypadRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             NotWindowsFocus();
+        }
+
+        private void Ellipse_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.Topmost = false;
+            CursorIcon.Topmost = true;
+        }
+
+        private void Ellipse_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.Topmost = true;
+            CursorIcon.Topmost = false;
         }
     }
 }

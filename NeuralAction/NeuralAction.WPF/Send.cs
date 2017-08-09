@@ -76,7 +76,7 @@ namespace NeuralAction.WPF
                       
                         if (string.IsNullOrEmpty(previousClip))
                             Clipboard.SetText(previousClip);
-
+                        
          
 
                     }

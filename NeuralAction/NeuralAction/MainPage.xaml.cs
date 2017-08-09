@@ -14,47 +14,65 @@ namespace NeuralAction
     {
 
 
-        SKPaint arcPaint = new SKPaint
-        {
-            Style = SKPaintStyle.Fill,
-           
-            IsAntialias = true,
-            Color = SKColor.Parse("#4A4A4A")
-        };
+
 
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
-
-
+            
             SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
             SKCanvas canvas = surface.Canvas;
+            SKPaint Paint = new SKPaint
+            {
+                Style = SKPaintStyle.Fill,
 
+                IsAntialias = true,
+                Color = ((SKCanvasView)sender).BackgroundColor.ToSKColor()
+            };
             SKPoint center = new SKPoint(info.Width / 2, info.Height / 2);
 
             canvas.Clear();
 
-            float explodeOffset = 60;
-            float radius = Math.Min(info.Width / 2, info.Height / 2) - 2 * explodeOffset;
-            SKRect rect = new SKRect(center.X - radius, center.Y - radius,
-                                     center.X + radius, center.Y + radius);
-
-
-            float startAngle = (float)0;
-            float sweepAngle = (float)45.0;
+            float radius = Math.Min(info.Width / 2, info.Height / 2);
 
             using (SKPath path = new SKPath())
             {
                 path.MoveTo(center);
 
-                path.ArcTo(rect, startAngle, sweepAngle, false);
+                path.AddCircle(center.X , center.Y, radius);
 
                 path.Close();
 
-                canvas.DrawPath(path, arcPaint);
-               
+                canvas.DrawPath(path, Paint);
+
                 canvas.Restore();
+                ((SKCanvasView)sender).BackgroundColor = Color.Transparent;
+
             }
+
+            //SKCanvasView info = (SKCanvasView)sender;
+            //float size = (float)info.WidthRequest;
+            //SKSurface surface = args.Surface;
+            //SKCanvas canvas = surface.Canvas;
+
+            //SKPoint center = new SKPoint(size / 2, size / 2);
+
+            //canvas.Clear();
+
+            //float radius = size / 2;     
+
+            //using (SKPath path = new SKPath())
+            //{
+            //    path.MoveTo(center);
+
+            //    path.AddCircle(center.X - radius, center.Y - radius, radius);
+
+            //    path.Close();
+
+            //    canvas.DrawPath(path, arcPaint);
+               
+            //    canvas.Restore();
+            //}
         }
 
 
@@ -67,7 +85,7 @@ namespace NeuralAction
 
 private void CircleButton_Clicked(object sender, EventArgs e)
         {
-            App.Current.MainPage.DisplayAlert("Alert", "X: " + ((Point)sender).X.ToString() + " |  Y: " + ((Point)sender).Y.ToString() , "OK");
+            //App.Current.MainPage.DisplayAlert("Alert", "X: " + ((Point)sender).X.ToString() + " |  Y: " + ((Point)sender).Y.ToString() , "OK");
         }
 
     }
