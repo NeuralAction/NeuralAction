@@ -48,7 +48,7 @@ namespace NeuralAction.WPF
 
         private static string m_ChoSungTbl = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
         private static string m_JungSungTbl = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
-        private static string m_JongSungTbl =  " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
+        private static string m_JongSungTbl = " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
         private static ushort m_UniCodeHangulBase = 0xAC00;
         private static ushort m_UniCodeHangulLast = 0xD79F;
 
@@ -62,7 +62,7 @@ namespace NeuralAction.WPF
             JongSungPos = m_JongSungTbl.IndexOf(jongSung);   // 종성 위치
 
             // 앞서 만들어 낸 계산식
-            nUniCode =  m_UniCodeHangulBase + (ChoSungPos * 21 + JungSungPos) * 28 + JongSungPos;
+            nUniCode = m_UniCodeHangulBase + (ChoSungPos * 21 + JungSungPos) * 28 + JongSungPos;
             // 코드값을 문자로 변환
             char temp = Convert.ToChar(nUniCode);
 
@@ -146,7 +146,7 @@ namespace NeuralAction.WPF
 
         }
 
-        public void korean_chosung_keypad_change()  {
+        public void korean_chosung_keypad_change() {
 
             blank_text.Text = "띄어쓰기";
 
@@ -448,7 +448,7 @@ namespace NeuralAction.WPF
         {
             System.Windows.MessageBox.Show("markpie");
         }
-        
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -456,7 +456,7 @@ namespace NeuralAction.WPF
 
         }
 
-       void NotWindowsFocus() {
+        void NotWindowsFocus() {
             System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(this);
             SetWindowLong(helper.Handle, GWL_EXSTYLE,
                 GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVATE);
@@ -467,99 +467,164 @@ namespace NeuralAction.WPF
         {
 
 
-            if(sender.GetType().ToString() == "System.Windows.Controls.TextBlock")
-            {
+            if (currentlanguage == "kr") {
 
-                string RealSendKey = ((TextBlock)sender).Tag.ToString();
-                string CenterKey = ((TextBlock)sender).Tag.ToString();
-
-                if (RealSendKey == "Backspace")
+                if (sender.GetType().ToString() == "System.Windows.Controls.TextBlock")
                 {
 
-                    RealSendKey = "{BACK}";
-                    centertext.Text = "←";
-                    inputcount = 0;
-                    korean_chosung_keypad_change();
+                    string RealSendKey = ((TextBlock)sender).Tag.ToString();
+                    string CenterKey = ((TextBlock)sender).Tag.ToString();
 
-                    System.Windows.Forms.Clipboard.SetText(RealSendKey);
+                    if (RealSendKey == "Backspace")
+                    {
 
-                    Send sendkeys = new Send(CenterKey, RealSendKey);
+                        RealSendKey = "{BACK}";
+                        centertext.Text = "←";
+                        inputcount = 0;
 
-                    sendkeys.Work();
+                        korean_chosung_keypad_change();
+
+                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
+
+                        Send sendkeys = new Send(CenterKey, RealSendKey);
+
+                        sendkeys.Work();
+
+                    }
+                    else
+                    {
+
+                        centertext.Text = CenterKey;
+
+                        if (inputcount == 0)
+                        {
+                            korean_jungsung_keypad_change();
+                            inputcount++;
+                            koreainputchar[0] = RealSendKey;
+                        }
+                        else if (inputcount == 1)
+                        {
+                            korean_jongsung_keypad_change();
+                            inputcount++;
+                            koreainputchar[1] = RealSendKey;
+                            centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], "");
+                        }
+                        else if (inputcount == 2)
+                        {
+                            korean_chosung_keypad_change();
+                            inputcount = 0;
+                            koreainputchar[2] = RealSendKey;
+                            centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], koreainputchar[2]);
+                        }
+                    }
 
                 }
-                else { 
-
-                centertext.Text = CenterKey;
-
-                if(inputcount == 0)
-                {
-                    korean_jungsung_keypad_change();
-                    inputcount++;
-                    koreainputchar[0] = RealSendKey;
-                } else if(inputcount == 1)
-                {
-                    korean_jongsung_keypad_change();
-                    inputcount++;
-                    koreainputchar[1] = RealSendKey;
-                    centertext.Text  = MergeJaso(koreainputchar[0], koreainputchar[1], "");
-                } else if (inputcount == 2)
-                {
-                    korean_chosung_keypad_change();
-                    inputcount = 0;
-                    koreainputchar[2] = RealSendKey;
-                    centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], koreainputchar[2]);
-                }
-                }
-
-            } else if(sender.GetType().ToString() == "Microsoft.Expression.Shapes.Arc") {
-
-                string RealSendKey = ((Arc)sender).Tag.ToString();
-                string CenterKey = ((Arc)sender).Tag.ToString();
-
-                if (RealSendKey == "Backspace")
+                else if (sender.GetType().ToString() == "Microsoft.Expression.Shapes.Arc")
                 {
 
-                    RealSendKey = "{BACK}";
-                    centertext.Text = "←";
-                    inputcount = 0;
-                    korean_chosung_keypad_change();
+                    string RealSendKey = ((Arc)sender).Tag.ToString();
+                    string CenterKey = ((Arc)sender).Tag.ToString();
 
-                    System.Windows.Forms.Clipboard.SetText(RealSendKey);
+                    if (RealSendKey == "Backspace")
+                    {
 
-                    Send sendkeys = new Send(CenterKey, RealSendKey);
+                        RealSendKey = "{BACK}";
+                        centertext.Text = "←";
+                        inputcount = 0;
+                        korean_chosung_keypad_change();
 
-                    sendkeys.Work();
+                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
 
-                } else { 
+                        Send sendkeys = new Send(CenterKey, RealSendKey);
 
-                centertext.Text = CenterKey;
+                        sendkeys.Work();
 
-                if (inputcount == 0)
-                {
-                    korean_jungsung_keypad_change();
-                    inputcount++;
-                    koreainputchar[0] = RealSendKey;
-                }
-                else if (inputcount == 1)
-                {
-                    korean_jongsung_keypad_change();
-                    inputcount++;
-                    koreainputchar[1] = RealSendKey;
-                    centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], "");
-                }
-                else if (inputcount == 2)
-                {
-                    korean_chosung_keypad_change();
-                    inputcount = 0;
-                    koreainputchar[2] = RealSendKey;
-                    centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], koreainputchar[2]);
-                }
+                    }
+                    else
+                    {
+
+                        centertext.Text = CenterKey;
+
+                        if (inputcount == 0)
+                        {
+                            korean_jungsung_keypad_change();
+                            inputcount++;
+                            koreainputchar[0] = RealSendKey;
+                        }
+                        else if (inputcount == 1)
+                        {
+                            korean_jongsung_keypad_change();
+                            inputcount++;
+                            koreainputchar[1] = RealSendKey;
+                            centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], "");
+                        }
+                        else if (inputcount == 2)
+                        {
+                            korean_chosung_keypad_change();
+                            inputcount = 0;
+                            koreainputchar[2] = RealSendKey;
+                            centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], koreainputchar[2]);
+                        }
+                    }
+
+
                 }
 
+            } else if (currentlanguage == "en" || currentlanguage == "sp") {
 
+                if (sender.GetType().ToString() == "System.Windows.Controls.TextBlock")
+                {
+
+                    string RealSendKey = ((TextBlock)sender).Tag.ToString();
+                    string CenterKey = ((TextBlock)sender).Tag.ToString();
+
+                    if (RealSendKey == "Backspace")  {
+
+                        RealSendKey = "{BACK}";
+                        centertext.Text = "←";
+                        inputcount = 0;
+                       
+                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
+                        Send sendkeys = new Send(CenterKey, RealSendKey);
+                        sendkeys.Work();
+
+                    }  else  {
+
+                        centertext.Text = CenterKey;
+                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
+                        Send sendkeys = new Send(CenterKey, RealSendKey);
+                        sendkeys.Work();
+                    }
+
+                }  else if (sender.GetType().ToString() == "Microsoft.Expression.Shapes.Arc") {
+
+                    string RealSendKey = ((Arc)sender).Tag.ToString();
+                    string CenterKey = ((Arc)sender).Tag.ToString();
+
+                    if (RealSendKey == "Backspace")
+                    {
+
+                        RealSendKey = "{BACK}";
+                        centertext.Text = "←";
+                        inputcount = 0;
+
+                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
+
+                        Send sendkeys = new Send(CenterKey, RealSendKey);
+
+                        sendkeys.Work();
+
+                    } else  {
+
+                        centertext.Text = CenterKey;
+                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
+                        Send sendkeys = new Send(CenterKey, RealSendKey);
+                        sendkeys.Work();
+                    }
+
+
+                }
             }
-
         }
 
         private void Inputing_sentence(object sender, System.Windows.Input.MouseEventArgs e)
@@ -593,18 +658,15 @@ namespace NeuralAction.WPF
 
             string inputtext = centertext.Text;
 
-            if (inputtext == "")
-            {
+            if (inputtext == "") {
 
-            }
-            else
-            {
+            }  else {
 
-                if(inputtext == "←")
+                if (inputtext == "←")
                 {
                     inputtext = "{BACK}";
                 }
-                    
+
                 System.Windows.Forms.Clipboard.SetText(inputtext);
 
                 Send sendkeys = new Send(centertext.Text, centertext.Text);
@@ -623,6 +685,7 @@ namespace NeuralAction.WPF
             }
 
         }
+    
 
 
 
