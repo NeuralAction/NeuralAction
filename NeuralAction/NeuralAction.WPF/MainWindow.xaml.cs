@@ -21,7 +21,7 @@ namespace NeuralAction.WPF
     public partial class MainWindow : Window
     {
 
-        String currentlanguage = "en";
+
 
         DivideKorean DK = new DivideKorean();
 
@@ -35,6 +35,7 @@ namespace NeuralAction.WPF
         public static IntPtr FocusedHandle { get; set; }
         public static bool RestoreClipboard { get; set; } = true;
 
+        string currentlanguage = "kr";
         int inputcount = 0;
         string[] koreainputchar = new string[3];
 
@@ -69,7 +70,85 @@ namespace NeuralAction.WPF
         }
 
 
+
+        public void english_keypad_change()
+        {
+
+            blank_text.Text = "Spacing";
+            blank_text.Tag = " ";
+
+            onepie.Tag = "g";
+            twopie.Tag = "j";
+            threepie.Tag = "m";
+            fourpie.Tag = "p";
+            fivepie.Tag = "s";
+            sevenpie.Tag = "a";
+            eightpie.Tag = "d";
+
+            textblock_one.Text = "a";
+            textblock_one_one.Text = "b";
+            textblock_one_two.Text = "c";
+            textblock_one_two.Text = "v";
+            textblock_two.Text = "d";
+            textblock_two_one.Text = "e";
+            textblock_two_two.Text = "f";
+            textblock_two_three.Text = "w";
+            textblock_three.Text = "g";
+            textblock_three_one.Text = "h";
+            textblock_three_two.Text = "i";
+            textblock_three_three.Text = "x";
+            textblock_four.Text = "j";
+            textblock_four_one.Text = "k";
+            textblock_four_two.Text = "l";
+            textblock_four_three.Text = "y";
+            textblock_five.Text = "m";
+            textblock_five_one.Text = "n";
+            textblock_five_two.Text = "o";
+            textblock_five_three.Text = "z";
+            textblock_six.Text = "p";
+            textblock_six_one.Text = "q";
+            textblock_six_two.Text = "r";
+            textblock_six_three.Text = "";
+            textblock_seven.Text = "s";
+            textblock_seven_one.Text = "t";
+            textblock_seven_two.Text = "u";
+            textblock_seven_three.Text = "";
+
+            textblock_one.Tag = "a";
+            textblock_one_one.Tag = "b";
+            textblock_one_two.Tag = "c";
+            textblock_one_two.Tag = "v";
+            textblock_two.Tag = "d";
+            textblock_two_one.Tag = "e";
+            textblock_two_two.Tag = "f";
+            textblock_two_three.Tag = "w";
+            textblock_three.Tag = "g";
+            textblock_three_one.Tag = "h";
+            textblock_three_two.Tag = "i";
+            textblock_three_three.Tag = "x";
+            textblock_four.Tag = "j";
+            textblock_four_one.Tag = "k";
+            textblock_four_two.Tag = "l";
+            textblock_four_three.Tag = "y";
+            textblock_five.Tag = "m";
+            textblock_five_one.Tag = "n";
+            textblock_five_two.Tag = "o";
+            textblock_five_three.Tag = "z";
+            textblock_six.Tag = "p";
+            textblock_six_one.Tag = "Q";
+            textblock_six_two.Tag = "r";
+            textblock_six_three.Tag = "";
+            textblock_seven.Tag = "s";
+            textblock_seven_one.Tag = "t";
+            textblock_seven_two.Tag = "u";
+            textblock_seven_three.Tag = "";
+
+
+        }
+
         public void korean_chosung_keypad_change()  {
+
+            blank_text.Text = "띄어쓰기";
 
             onepie.Tag = "ㅈ";
             twopie.Tag = "ㅂ";
@@ -82,7 +161,7 @@ namespace NeuralAction.WPF
             textblock_one.Text = "ㄱ";
             textblock_one_one.Text = "ㄲ";
             textblock_one_two.Text = "ㅋ";
-            textblock_one_two.Text = "";
+            textblock_one_three.Text = "";
             textblock_two.Text = "ㄷ";
             textblock_two_one.Text = "ㅌ";
             textblock_two_two.Text = "ㄸ";
@@ -111,7 +190,7 @@ namespace NeuralAction.WPF
             textblock_one.Tag = "ㄱ";
             textblock_one_one.Tag = "ㄲ";
             textblock_one_two.Tag = "ㅋ";
-            textblock_one_two.Tag = "";
+            textblock_one_three.Tag = "";
             textblock_two.Tag = "ㄷ";
             textblock_two_one.Tag = "ㅌ";
             textblock_two_two.Tag = "ㄸ";
@@ -285,6 +364,79 @@ namespace NeuralAction.WPF
 
         }
 
+        public void specialchar_keypad_change()
+        {
+
+            onepie.Tag = "(";
+            twopie.Tag = ")";
+            threepie.Tag = "&";
+            fourpie.Tag = ",";
+            fivepie.Tag = ".";
+            sevenpie.Tag = "!";
+            eightpie.Tag = "?";
+
+            textblock_one.Text = "!";
+            textblock_one_one.Text = "";
+            textblock_one_two.Text = "";
+            textblock_one_two.Text = "";
+            textblock_two.Text = "?";
+            textblock_two_one.Text = "";
+            textblock_two_two.Text = "";
+            textblock_two_three.Text = "";
+            textblock_three.Text = "(";
+            textblock_three_one.Text = "";
+            textblock_three_two.Text = "";
+            textblock_three_three.Text = "";
+            textblock_four.Text = ")";
+            textblock_four_one.Text = "";
+            textblock_four_two.Text = "";
+            textblock_four_three.Text = "";
+            textblock_five.Text = "&";
+            textblock_five_one.Text = "";
+            textblock_five_two.Text = "";
+            textblock_five_three.Text = "";
+            textblock_six.Text = ",";
+            textblock_six_one.Text = "";
+            textblock_six_two.Text = "";
+            textblock_six_three.Text = "";
+            textblock_seven.Text = ".";
+            textblock_seven_one.Text = "";
+            textblock_seven_two.Text = "";
+            textblock_seven_three.Text = "";
+
+            textblock_one.Tag = "!";
+            textblock_one_one.Tag = "";
+            textblock_one_two.Tag = "";
+            textblock_one_two.Tag = "";
+            textblock_two.Tag = "?";
+            textblock_two_one.Tag = "";
+            textblock_two_two.Tag = "";
+            textblock_two_three.Tag = "";
+            textblock_three.Tag = "(";
+            textblock_three_one.Tag = "";
+            textblock_three_two.Tag = "";
+            textblock_three_three.Tag = "";
+            textblock_four.Tag = ")";
+            textblock_four_one.Tag = "";
+            textblock_four_two.Tag = "";
+            textblock_four_three.Tag = "";
+            textblock_five.Tag = "&";
+            textblock_five_one.Tag = "";
+            textblock_five_two.Tag = "";
+            textblock_five_three.Tag = "";
+            textblock_six.Tag = ",";
+            textblock_six_one.Tag = "";
+            textblock_six_two.Tag = "";
+            textblock_six_three.Tag = "";
+            textblock_seven.Tag = ".";
+            textblock_seven_one.Tag = "";
+            textblock_seven_two.Tag = "";
+            textblock_seven_three.Tag = "";
+
+
+        }
+
+
         CursorIcon CursorIcon = new CursorIcon();
 
         private void blankpie_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -301,7 +453,6 @@ namespace NeuralAction.WPF
         {
 
             NotWindowsFocus();
-      
 
         }
 
@@ -440,13 +591,21 @@ namespace NeuralAction.WPF
         {
 
 
-            if (centertext.Text == "")
+            string inputtext = centertext.Text;
+
+            if (inputtext == "")
             {
 
             }
             else
             {
-                System.Windows.Forms.Clipboard.SetText(centertext.Text);
+
+                if(inputtext == "←")
+                {
+                    inputtext = "{BACK}";
+                }
+                    
+                System.Windows.Forms.Clipboard.SetText(inputtext);
 
                 Send sendkeys = new Send(centertext.Text, centertext.Text);
 
@@ -464,6 +623,28 @@ namespace NeuralAction.WPF
             }
 
         }
+
+
+
+        private void inputing_space(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+
+                System.Windows.Forms.Clipboard.SetText(" ");
+
+                Send sendkeys = new Send(" ", " ");
+
+                sendkeys.Work();
+
+                koreainputchar[0] = "";
+                koreainputchar[1] = "";
+                koreainputchar[2] = "";
+
+                centertext.Text = "";
+
+            
+        }
+
         private void KeypadRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             NotWindowsFocus();
@@ -480,5 +661,58 @@ namespace NeuralAction.WPF
             this.Topmost = true;
             CursorIcon.Topmost = false;
         }
+
+        private void change_language(object sender, MouseButtonEventArgs e)
+        {
+            if(currentlanguage == "kr")
+            {
+
+                currentlanguage = "en";
+                english_keypad_change();
+
+                koreainputchar[0] = "";
+                koreainputchar[1] = "";
+                koreainputchar[2] = "";
+
+                centertext.Text = "";
+
+                inputcount = 0;
+
+                mark_text.Text = "Special";
+
+            } else if(currentlanguage == "en") {
+
+                currentlanguage = "sp";
+                specialchar_keypad_change();
+
+                koreainputchar[0] = "";
+                koreainputchar[1] = "";
+                koreainputchar[2] = "";
+
+                centertext.Text = "";
+
+                inputcount = 0;
+
+                mark_text.Text = "한국어";
+
+            } else if(currentlanguage == "sp") {
+
+                currentlanguage = "kr";
+                korean_chosung_keypad_change();
+
+                koreainputchar[0] = "";
+                koreainputchar[1] = "";
+                koreainputchar[2] = "";
+
+                centertext.Text = "";
+
+                inputcount = 0;
+
+                mark_text.Text = "English";
+
+            }
+
+        }
+
     }
 }
