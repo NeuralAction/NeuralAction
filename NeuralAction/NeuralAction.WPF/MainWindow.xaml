@@ -94,112 +94,112 @@
                 </Ellipse.Effect>
             </Ellipse>
 
-            <TextBlock x:Name="centertext" HorizontalAlignment="Center" Height="68" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="90" Foreground="White" FontSize="68" TextAlignment="Center" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_char"/>
+            <TextBlock x:Name="centertext" HorizontalAlignment="Center" Height="80" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="90" Foreground="White" FontSize="68" TextAlignment="Center" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_char"/>
 
         </Grid>
 
         <!--추가_키패드-->
-        <TextBlock x:Name="textblock_one_one"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="48" Margin="0,0,600,300" TextWrapping="Wrap"  Width="48" Foreground="White" Text="ㄲ" FontSize="48" Tag="ㄲ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumSquare">
+        <TextBlock x:Name="textblock_one_one"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="48" Margin="0,0,600,300" TextWrapping="Wrap"  Width="60" TextAlignment="Center" Foreground="White" Text="ㄲ" FontSize="48" Tag="ㄲ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumSquare">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_one_two"  HorizontalAlignment="Center" Height="48" Margin="0,0,750,425" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="ㅋ" FontSize="48" Tag="ㅋ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumSquare">
+        <TextBlock x:Name="textblock_one_two"  HorizontalAlignment="Center" Height="48" Margin="0,0,750,425" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅋ" FontSize="48" Tag="ㅋ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumSquare">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_one_three"  HorizontalAlignment="Center" Height="48" Margin="0,0,900,550" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumSquare">
+        <TextBlock x:Name="textblock_one_three"  HorizontalAlignment="Center" Height="48" Margin="0,0,900,550" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumSquare">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_two_one"  HorizontalAlignment="Center" Height="48" Margin="0,0,200,600" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="ㅌ" FontSize="48" Tag="ㅌ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_two_one"  HorizontalAlignment="Center" Height="48" Margin="0,0,200,600" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅌ" FontSize="48" Tag="ㅌ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_two_two" HorizontalAlignment="Center" Height="48" Margin="0,0,300,750" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="ㄸ" FontSize="48"  Tag="ㄸ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_two_two" HorizontalAlignment="Center" Height="48" Margin="0,0,300,750" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㄸ" FontSize="48"  Tag="ㄸ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>하
         </TextBlock>
-        <TextBlock x:Name="textblock_two_three" HorizontalAlignment="Center" Height="48" Margin="0,0,400,900" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="" FontSize="48"  Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_two_three" HorizontalAlignment="Center" Height="48" Margin="0,0,400,900" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48"  Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_three_one" HorizontalAlignment="Center" Height="48" Margin="200,0,0,600" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="ㅊ" FontSize="48" Tag="ㅊ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light">
+        <TextBlock x:Name="textblock_three_one" HorizontalAlignment="Center" Height="48" Margin="200,0,0,600" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅊ" FontSize="48" Tag="ㅊ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_three_two"  HorizontalAlignment="Center" Height="48" Margin="300,0,0,750" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="ㅉ" FontSize="48"  Tag="ㅉ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_three_two"  HorizontalAlignment="Center" Height="48" Margin="300,0,0,750" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅉ" FontSize="48"  Tag="ㅉ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_three_three"  HorizontalAlignment="Center" Height="48" Margin="400,0,0,900" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="" FontSize="48"  Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_three_three"  HorizontalAlignment="Center" Height="48" Margin="400,0,0,900" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48"  Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_four_one"  HorizontalAlignment="Center" Height="48" Margin="600,0,0,300" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="ㅍ" FontSize="48"  Tag="ㅍ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_four_one"  HorizontalAlignment="Center" Height="48" Margin="600,0,0,300" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅍ" FontSize="48"  Tag="ㅍ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_four_two"  HorizontalAlignment="Center" Height="48" Margin="750,0,0,425" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="ㅃ" FontSize="48"  Tag="ㅃ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
+        <TextBlock x:Name="textblock_four_two"  HorizontalAlignment="Center" Height="48" Margin="750,0,0,425" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅃ" FontSize="48"  Tag="ㅃ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_four_three"  HorizontalAlignment="Center" Height="60" Margin="900,0,0,562" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="" FontSize="48"  Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
+        <TextBlock x:Name="textblock_four_three"  HorizontalAlignment="Center" Height="60" Margin="900,0,0,562" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48"  Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_five_one"  HorizontalAlignment="Center" Height="48" Margin="600,300,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White" Text="ㅁ" FontSize="48" Tag="ㅆ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_five_one"  HorizontalAlignment="Center" Height="48" Margin="600,300,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅁ" FontSize="48" Tag="ㅁ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_five_two"  HorizontalAlignment="Center" Height="48" Margin="750,425,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White" Text="ㄹ" FontSize="48" Tag="ㄹ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_five_two"  HorizontalAlignment="Center" Height="48" Margin="750,425,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㄹ" FontSize="48" Tag="ㄹ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_five_three"  HorizontalAlignment="Center" Height="48" Margin="900,550,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_five_three"  HorizontalAlignment="Center" Height="48" Margin="900,550,0,0" TextWrapping="Wrap" VerticalAlignment="Center"  Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_six_one"  HorizontalAlignment="Center" Height="60" Margin="200,612,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="ㅆ" FontSize="48" Tag="ㅆ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_six_one"  HorizontalAlignment="Center" Height="60" Margin="200,612,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅆ" FontSize="48" Tag="ㅆ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_six_two"  HorizontalAlignment="Center" Height="48" Margin="300,750,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
+        <TextBlock x:Name="textblock_six_two"  HorizontalAlignment="Center" Height="48" Margin="300,750,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_six_three"  HorizontalAlignment="Center" Height="48" Margin="400,900,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="48" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
+        <TextBlock x:Name="textblock_six_three"  HorizontalAlignment="Center" Height="48" Margin="400,900,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_seven_one" HorizontalAlignment="Center" Height="48" Margin="0,600,200,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="48"  Foreground="White" Text="ㅎ" FontSize="48" Tag="ㅎ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_seven_one" HorizontalAlignment="Center" Height="48" Margin="0,600,200,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center"  Foreground="White" Text="ㅎ" FontSize="48" Tag="ㅎ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_seven_two"  HorizontalAlignment="Center" Height="48" Margin="0,750,300,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="48"  Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_seven_two"  HorizontalAlignment="Center" Height="48" Margin="0,750,300,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center"  Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock x:Name="textblock_seven_three"  HorizontalAlignment="Center" Height="48" Margin="0,900,400,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="48"  Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+        <TextBlock x:Name="textblock_seven_three"  HorizontalAlignment="Center" Height="48" Margin="0,900,400,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center"  Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
             </TextBlock.Effect>

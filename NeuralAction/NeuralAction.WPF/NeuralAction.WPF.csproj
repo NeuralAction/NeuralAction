@@ -92,7 +92,6 @@
     <Compile Include="CursorIcon.xaml.cs">
       <DependentUpon>CursorIcon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DivideKorean.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
