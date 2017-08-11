@@ -4,14 +4,8 @@
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:local="clr-namespace:ButtonCircle.FormsPlugin.Abstractions;assembly=ButtonCircle.FormsPlugin.Abstractions"
              x:Class="NeuralAction.MainPage">
-
-
     <Grid>
-
-
         <Grid>
-
-
             <skia:SKCanvasView
                 x:Name="one"
                 BackgroundColor="#343434"
@@ -121,7 +115,6 @@
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="CenterAndExpand"
                 Clicked="CircleButton_Clicked">
-
             </local:CircleButton>
 
 
@@ -131,24 +124,16 @@
                 PaintSurface="OnCanvasViewPaintSurface">
                     
             </skia:SKCanvasView>
-          
+			
             <Label WidthRequest="70" HeightRequest="70" TextColor="#000000" FontSize = "50" Text="ㄱ" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></Label>
-
-
-            <local:CircleButton
-                
+            <!--<local:CircleButton
                 x:Name="two"
                 HeightRequest="150"
                 WidthRequest="150" 
                 BorderRadius="100"
                 BackgroundColor="#1C1C1C"
                 HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand"
-       
-             >
-
-            </local:CircleButton>
-
+                VerticalOptions="CenterAndExpand"/>
             <local:CircleButton
                 x:Name="three"
                 HeightRequest="70"
@@ -161,13 +146,6 @@
                 TextColor="White">
 
             </local:CircleButton>-->
-
-
-
         </Grid>
-
-
-
     </Grid>
-
 </ContentPage>

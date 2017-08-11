@@ -12,13 +12,8 @@ namespace NeuralAction
 {
     public partial class MainPage : ContentPage
     {
-
-
-
-
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
-            
             SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
             SKCanvas canvas = surface.Canvas;
@@ -32,8 +27,9 @@ namespace NeuralAction
             SKPoint center = new SKPoint(info.Width / 2, info.Height / 2);
 
             canvas.Clear();
-
+			
             float radius = Math.Min(info.Width / 2, info.Height / 2);
+			
 
             using (SKPath path = new SKPath())
             {
@@ -75,18 +71,14 @@ namespace NeuralAction
             //}
         }
 
-
         public MainPage()
         {
             InitializeComponent();
-
         }
 
-
-private void CircleButton_Clicked(object sender, EventArgs e)
+        private void CircleButton_Clicked(object sender, EventArgs e)
         {
             //App.Current.MainPage.DisplayAlert("Alert", "X: " + ((Point)sender).X.ToString() + " |  Y: " + ((Point)sender).Y.ToString() , "OK");
         }
-
     }
 }
