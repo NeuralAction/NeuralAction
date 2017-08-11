@@ -217,13 +217,13 @@ namespace NeuralAction.WPF
         public void korean_jungsung_keypad_change()
         {
 
-            onepie.Tag = ".";
-            twopie.Tag = ",";
-            threepie.Tag = "0";
-            fourpie.Tag = "1";
-            fivepie.Tag = "2";
-            sevenpie.Tag = "3";
-            eightpie.Tag = "4";
+            onepie.Tag = "ㅣ";
+            twopie.Tag = "ㅢ";
+            threepie.Tag = "ㅏ";
+            fourpie.Tag = "ㅓ";
+            fivepie.Tag = "ㅗ";
+            sevenpie.Tag = "ㅜ";
+            eightpie.Tag = "ㅡ";
 
             textblock_one.Text = "ㅏ";
             textblock_one_one.Text = "ㅑ";
@@ -503,8 +503,8 @@ namespace NeuralAction.WPF
                             koreainputchar[2] = RealSendKey;
                             centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], koreainputchar[2]);
 
-                            System.Windows.Forms.Clipboard.SetText(RealSendKey);
-                            Send sendkeys = new Send(CenterKey, RealSendKey);
+                            System.Windows.Forms.Clipboard.SetText(centertext.Text);
+                            Send sendkeys = new Send(centertext.Text, centertext.Text);
                             sendkeys.Work();
 
                             koreainputchar[0] = "";
@@ -521,12 +521,15 @@ namespace NeuralAction.WPF
                     string RealSendKey = ((Arc)sender).Tag.ToString();
                     string CenterKey = ((Arc)sender).Tag.ToString();
 
+
+
                     if (RealSendKey == "Backspace")
                     {
 
                         RealSendKey = "{BACK}";
                         centertext.Text = "←";
                         inputcount = 0;
+
                         korean_chosung_keypad_change();
 
                         System.Windows.Forms.Clipboard.SetText(RealSendKey);
@@ -538,6 +541,8 @@ namespace NeuralAction.WPF
                     }
                     else
                     {
+
+                        centertext.Text = CenterKey;
 
                         if (inputcount == 0)
                         {
@@ -559,14 +564,13 @@ namespace NeuralAction.WPF
                             koreainputchar[2] = RealSendKey;
                             centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], koreainputchar[2]);
 
-                            System.Windows.Forms.Clipboard.SetText(RealSendKey);
-                            Send sendkeys = new Send(CenterKey, RealSendKey);
+                            System.Windows.Forms.Clipboard.SetText(centertext.Text);
+                            Send sendkeys = new Send(centertext.Text, centertext.Text);
                             sendkeys.Work();
-                            centertext.Text = "";
+
                             koreainputchar[0] = "";
                             koreainputchar[1] = "";
                             koreainputchar[2] = "";
-
 
                         }
                     }
