@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
-        xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="NeuralAction.WPF.MainWindow"
+        xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 
+        x:Class="NeuralAction.WPF.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Background="{x:Null}" Topmost="True">
 
@@ -216,17 +217,17 @@
                 <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="1500,428,0,0" TextWrapping="Wrap" Text="ㅋㅋㅋㅋㅋㅋ" VerticalAlignment="Center" Foreground="White" FontSize="42" Background="#BF232323" Padding="10,5" Tag="ㅋㅋㅋㅋㅋㅋ" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
+        <TextBlock HorizontalAlignment="Left" Margin="1500,428,0,0" TextWrapping="Wrap" Text="삽질인듯이건" VerticalAlignment="Center" Foreground="White" FontSize="42" Background="#BF232323" Padding="10,5" Tag="ㅋㅋㅋㅋㅋㅋ" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock HorizontalAlignment="RIght" Margin="0,0,1500,428" TextWrapping="Wrap" Text="정올대상각" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" Tag="정올대상각" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
+        <TextBlock HorizontalAlignment="RIght" Margin="0,0,1500,428" TextWrapping="Wrap" Text="앙앙아앙아" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" Tag="정올대상각" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Right" Margin="0,0,1574,0" TextWrapping="Wrap" Text="인정?어인정" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" Tag="인정?어인정" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
+        <TextBlock HorizontalAlignment="Right" Margin="0,0,1574,0" TextWrapping="Wrap" Text="후후하하하" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" Tag="인정?어인정" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
             </TextBlock.Effect>
