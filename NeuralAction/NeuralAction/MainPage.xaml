@@ -33,14 +33,9 @@
             </skia:SKCanvasView>
 
             <BoxView WidthRequest="500" HeightRequest="2" BackgroundColor="#FF404040" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></BoxView>
-
             <BoxView WidthRequest="2" HeightRequest="500" BackgroundColor="#FF404040" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></BoxView>
-
             <BoxView Rotation="45" WidthRequest="500" HeightRequest="2" BackgroundColor="#FF404040" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></BoxView>
-
             <BoxView Rotation="135" WidthRequest="500" HeightRequest="2" BackgroundColor="#FF404040" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></BoxView>
-
-            
             <skia:SKCanvasView
                 x:Name="two"
                 WidthRequest="270"
@@ -97,14 +92,14 @@
             </skia:SKCanvasView>
 
 
-            <Label  WidthRequest="62" HeightRequest="66" HeightRequest="66" Margin="0,0,355,150"   WidthRequest="62" TextColor="Black" Text="ㄱ" ClassId="ㄱ" FontSize="60" />
-            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="66" Margin="0,0,150,355"   WidthRequest="60" TextColor="Black" Text="ㄷ" FontSize="60" ClassId="ㄷ"  ></Label>
-            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="66" Margin="150,0,0,355"   WidthRequest="60" TextColor="Black" Text="ㅈ" FontSize="60" ClassId="ㅈ"  ></Label>
-            <Label  WidthRequest="62" HeightRequest="66"  HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="66" Margin="355,0,0,150"   WidthRequest="60" TextColor="Black" Text="ㅂ" FontSize="60" ClassId="ㅂ"  ></Label>
-            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="66" Margin="355,150,0,0"   WidthRequest="60" TextColor="Black" Text="ㄴ" FontSize="60" ClassId="ㄴ"   ></Label>
-            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="66" Margin="150,355,0,0"   WidthRequest="60" TextColor="Black" Text="ㅅ" FontSize="60" ClassId="ㅅ"  ></Label>
-            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="66" Margin="0,355,150,0"   WidthRequest="60" TextColor="Black" Text="ㅇ" FontSize="60" ClassId="ㅇ"   ></Label>
-            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="66" Margin="0,150,355,0"   WidthRequest="60" TextColor="Black" Text="←" FontSize="60" ClassId="Backspace" ></Label>
+            <Label  WidthRequest="62" HeightRequest="66" Margin="0,0,355,150"  TextColor="Black" Text="ㄱ" ClassId="ㄱ" FontSize="60" />
+            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,150,355" TextColor="Black" Text="ㄷ" FontSize="60" ClassId="ㄷ"  ></Label>
+            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" Margin="150,0,0,355" TextColor="Black" Text="ㅈ" FontSize="60" ClassId="ㅈ"  ></Label>
+            <Label  WidthRequest="62" HeightRequest="66"  HorizontalOptions="Center" VerticalOptions="Center" Margin="355,0,0,150" TextColor="Black" Text="ㅂ" FontSize="60" ClassId="ㅂ"  ></Label>
+            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" Margin="355,150,0,0"  TextColor="Black" Text="ㄴ" FontSize="60" ClassId="ㄴ"   ></Label>
+            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" Margin="150,355,0,0" TextColor="Black" Text="ㅅ" FontSize="60" ClassId="ㅅ"  ></Label>
+            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,355,150,0" TextColor="Black" Text="ㅇ" FontSize="60" ClassId="ㅇ"   ></Label>
+            <Label  WidthRequest="62" HeightRequest="66" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,150,355,0" TextColor="Black" Text="←" FontSize="60" ClassId="Backspace" ></Label>
             
             <!--<local:CircleButton
                 x:Name="one"abcdefg
@@ -126,7 +121,7 @@
             </skia:SKCanvasView>
 			
             <Label WidthRequest="70" HeightRequest="70" TextColor="#000000" FontSize = "50" Text="ㄱ" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></Label>
-            <!--<local:CircleButton
+            <local:CircleButton
                 x:Name="two"
                 HeightRequest="150"
                 WidthRequest="150" 
