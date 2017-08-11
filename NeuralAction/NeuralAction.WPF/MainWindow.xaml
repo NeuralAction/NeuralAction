@@ -6,35 +6,8 @@
         xmlns:local="clr-namespace:NeuralAction.WPF"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="NeuralAction.WPF.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1920" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Background="{x:Null}" MouseEnter="Window_MouseEnter">
-    <Window.Resources>
-        <Storyboard x:Key="Activepie">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(ed:Arc.EndAngle)" Storyboard.TargetName="activepie">
-                <EasingDoubleKeyFrame KeyTime="0" Value="180">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseInOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="225">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseInOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(ed:Arc.StartAngle)" Storyboard.TargetName="activepie">
-                <EasingDoubleKeyFrame KeyTime="0" Value="135">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseInOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="180">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseInOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-    </Window.Resources>
+        Title="MainWindow" Height="1080" Width="1920" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Background="{x:Null}" Topmost="True">
+
     <Window.CacheMode>
         <BitmapCache EnableClearType="True" SnapsToDevicePixels="True">
 
@@ -48,14 +21,13 @@
 
         </Grid.CacheMode>
 
+        <!--키패드_가장 큰 원-->
         <Grid Width="500" Height="500">
-            <Ellipse Fill="#FF4A4A4A" Width="500" Height="500" Grid.ColumnSpan="2">
+            <Ellipse Fill="#FF4A4A4A" Width="500" Height="500" Grid.ColumnSpan="2" MouseEnter="Ellipse_MouseEnter">
                 <Ellipse.Effect>
-                    <DropShadowEffect Opacity="0.13" ShadowDepth="11" Direction="270" RenderingBias="Quality" BlurRadius="0"/>
+                    <DropShadowEffect Opacity="0.13" ShadowDepth="11" Direction="270" BlurRadius="0"/>
                 </Ellipse.Effect>
             </Ellipse>
-
-
 
             <ed:Arc x:Name="onepie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="45" Fill="#FF343434" HorizontalAlignment="Left" Height="500" Margin="0" Stretch="None" StartAngle="0" VerticalAlignment="Top" Width="500"  Tag="ㅈ" MouseLeftButtonDown="Inputing_eyes"/>
             <ed:Arc x:Name="twopie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="90" Fill="#FF343434" HorizontalAlignment="Left" Height="500" Stretch="None" StartAngle="45" VerticalAlignment="Top" Width="500"  Tag="ㅂ" MouseLeftButtonDown="Inputing_eyes"/>
@@ -64,18 +36,17 @@
             <ed:Arc x:Name="fivepie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="225" Fill="#FF343434" HorizontalAlignment="Left" Height="500" Stretch="None" StartAngle="180" VerticalAlignment="Top" Width="500"  Tag="ㅇ" MouseLeftButtonDown="Inputing_eyes" />
             <ed:Arc x:Name="sixpie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="270" Fill="#FF343434" HorizontalAlignment="Left" Height="500" Stretch="None" StartAngle="225" VerticalAlignment="Top" Width="500"  Tag="Backspace" MouseLeftButtonDown="Inputing_eyes"/>
             <ed:Arc x:Name="sevenpie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="315" Fill="#FF343434" HorizontalAlignment="Left" Height="500" Stretch="None" StartAngle="270" VerticalAlignment="Top" Width="500"  Tag="ㄱ" MouseLeftButtonDown="Inputing_eyes"/>
-
             <ed:Arc x:Name="eightpie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="360" Fill="#FF343434" HorizontalAlignment="Left" Height="500" Stretch="None" StartAngle="315" VerticalAlignment="Top" Width="500"  Tag="ㄷ" MouseLeftButtonDown="Inputing_eyes"/>
 
-            <ed:Arc x:Name="activepie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="315" Fill="#FF2BDC96" HorizontalAlignment="Left" Height="500" Stretch="None" StartAngle="270" VerticalAlignment="Top" Width="500" MouseLeftButtonDown="Inputing_eyes" Tag="ㄱ"/>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="44,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Foreground="Black" Text="ㄱ" Tag="ㄱ" FontSize="60" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic" RenderTransformOrigin="0.935,0.515"/>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="146,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Foreground="Black" FontSize="60" Tag="ㄷ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"><Run Foreground="White" Text="ㄷ"/></TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="289,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Foreground="Black" FontSize="60" Tag="ㅈ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"><Run Foreground="White" Text="ㅈ"/></TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="402,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Foreground="Black" FontSize="60" Tag="ㅂ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"><Run Foreground="White" Text="ㅂ"/></TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="289,392,0,42" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Foreground="Black" FontSize="60" Tag="ㄴ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light" ><Run Foreground="White" Text="ㄴ"/></TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="402,279,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Foreground="Black" FontSize="60" Tag="ㅅ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"><Run Foreground="White" Text="ㅅ"/></TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="146,392,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Foreground="Black" FontSize="60" Tag="ㅇ"  MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"><Run Foreground="White" Text="ㅇ"/></TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="46,287,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Foreground="Black" FontSize="60" Tag="Backspace" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"><Run Foreground="White" Text="←"/></TextBlock>
+            <TextBlock x:Name="textblock_one" HorizontalAlignment="Center" Height="66" Margin="0,0,355,150" TextWrapping="Wrap" VerticalAlignment="Center" Width="62" Foreground="White" Text="ㄱ" Tag="ㄱ" FontSize="60" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic" RenderTransformOrigin="0.935,0.515"/>
+            <TextBlock x:Name="textblock_two" HorizontalAlignment="Center" Height="66" Margin="0,0,150,355" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Foreground="White" Text="ㄷ" FontSize="60" Tag="ㄷ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"></TextBlock>
+            <TextBlock x:Name="textblock_three" HorizontalAlignment="Center" Height="70" Margin="150,0,0,351" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Foreground="White" Text="ㅈ"  FontSize="60" Tag="ㅈ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"></TextBlock>
+            <TextBlock x:Name="textblock_four" HorizontalAlignment="Center" Height="70" Margin="355,0,0,146" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Foreground="White" Text="ㅂ"  FontSize="60" Tag="ㅂ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"></TextBlock>
+            <TextBlock x:Name="textblock_five" HorizontalAlignment="Center" Height="66" Margin="355,150,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Foreground="White" Text="ㄴ" FontSize="60" Tag="ㄴ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light" ></TextBlock>
+            <TextBlock x:Name="textblock_six" HorizontalAlignment="Center" Height="66" Margin="150,355,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Foreground="White" Text="ㅅ" FontSize="60" Tag="ㅅ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"></TextBlock>
+            <TextBlock x:Name="textblock_seven" HorizontalAlignment="Center" Height="66" Margin="0,355,150,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Foreground="White" Text="ㅇ" FontSize="60" Tag="ㅇ"  MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"></TextBlock>
+            <TextBlock x:Name="textblock_eight" HorizontalAlignment="Center" Height="66" Margin="0,150,355,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Foreground="White" Text="←" FontSize="60" Tag="Backspace" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light"></TextBlock>
+            
             <Rectangle Fill="#FF404040" HorizontalAlignment="Center" Height="1"  VerticalAlignment="Center" Width="500" MouseLeftButtonDown="KeypadRectangle_MouseLeftButtonDown" />
             <Rectangle Fill="#FF404040" HorizontalAlignment="Center" Height="500"  VerticalAlignment="Center" Width="1" MouseLeftButtonDown="KeypadRectangle_MouseLeftButtonDown"/>
             <Rectangle Fill="#FF404040" HorizontalAlignment="Center" Height="1"  VerticalAlignment="Center" Width="500" RenderTransformOrigin="0.5,0.5"  MouseLeftButtonDown="KeypadRectangle_MouseLeftButtonDown">
@@ -100,127 +71,173 @@
                 </Rectangle.RenderTransform>
             </Rectangle>
 
-
-
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="-67,73,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Foreground="White" Text="ㄲ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㄲ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumSquare">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="-163,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Foreground="White" Text="ㅋ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㅋ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumSquare">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="97,-71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Foreground="White" Text="ㅌ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㅌ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="44,-168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Foreground="White" Text="ㄸ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㄸ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock HorizontalAlignment="Center" Height="66" Margin="386,-66,52,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Foreground="White" Text="ㅊ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㅊ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock HorizontalAlignment="Right" Height="66" Margin="34,-167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Foreground="White" Text="ㅉ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㅉ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="503,73,-65,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Foreground="White" Text="ㅍ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㅍ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="588,5,-150,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Foreground="White" Text="ㅃ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㅃ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="356,500,0,-66" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Foreground="White" Text="ㅁ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㅁ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock HorizontalAlignment="Left" Height="66" Margin="438,586,0,-152" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" Foreground="White" Text="ㄹ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㄹ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock Height="66" Margin="505,346,-67,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="White" Text="ㅆ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㅆ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock Height="66" Margin="97,500,341,-66" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="White" Text="ㅎ" FontSize="60" RenderTransformOrigin="-1.323,-0.826" Tag="ㅎ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-
-
-
         </Grid>
+
+        <!--키패드_중간_원-->
         <Grid Width="270" Height="270">
 
-            <Ellipse Fill="#FF1C1C1C"  Width="270" Height="270" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Ellipse Fill="#FF1C1C1C"  Width="270" Height="270" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            </Ellipse>
-
-            <ed:Arc x:Name="blankpie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="90" Fill="#FF1C1C1C" HorizontalAlignment="Center" Height="270" Margin="0" Stretch="None" StartAngle="-90" VerticalAlignment="Center" Width="270" MouseLeftButtonDown="blankpie_MouseLeftButtonDown"/>
-            <ed:Arc x:Name="markpie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="270" Fill="#FF1C1C1C" HorizontalAlignment="Center" Height="270" Margin="0" Stretch="None" StartAngle="90" VerticalAlignment="Center" Width="270" MouseLeftButtonDown="markpie_MouseLeftButtonDown"/>
-            <TextBlock HorizontalAlignment="Center" Height="28" Margin="0,0,0,190" TextWrapping="Wrap" Text="공백" VerticalAlignment="Center" Width="90" Foreground="White" FontSize="24" TextAlignment="Center"/>
-            <TextBlock HorizontalAlignment="Center" Height="28" Margin="0,190,0,0" TextWrapping="Wrap" Text="기호" VerticalAlignment="Center" Width="90" Foreground="White" FontSize="24" TextAlignment="Center"/>
+            <ed:Arc x:Name="blankpie" Tag =" " ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="90" Fill="#FF1C1C1C" HorizontalAlignment="Center" Height="270" Margin="0" Stretch="None" StartAngle="-90" VerticalAlignment="Center" Width="270" MouseLeftButtonDown="inputing_space"/>
+            <ed:Arc x:Name="markpie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="270" Fill="#FF1C1C1C" HorizontalAlignment="Center" Height="270" Margin="0" Stretch="None" StartAngle="90" VerticalAlignment="Center" Width="270" MouseLeftButtonDown="change_language"/>
+            <TextBlock x:Name="blank_text" HorizontalAlignment="Center" Height="28" Margin="0,0,0,190" TextWrapping="Wrap" Text="띄어쓰기" VerticalAlignment="Center" Width="120" Foreground="White" FontSize="20" TextAlignment="Center" Tag=" " MouseLeftButtonDown="inputing_space"/>
+            <TextBlock x:Name="mark_text" HorizontalAlignment="Center" Height="28" Margin="0,190,0,0" TextWrapping="Wrap" Text="English" VerticalAlignment="Center" Width="120" Foreground="White" FontSize="20" TextAlignment="Center" MouseLeftButtonDown="change_language"/>
 
         </Grid>
 
+        <!--키패드_가장_작은_원-->
         <Grid Width="132" Height="132">
 
-            <Ellipse Fill="#FF343434"  Width="132" Height="132" HorizontalAlignment="Center">
+            <Ellipse x:Name="inputbutton" Fill="#FF343434"  Width="132" Height="132" HorizontalAlignment="Center" MouseLeftButtonDown="Inputing_char">
                 <Ellipse.Effect>
-                    <DropShadowEffect Direction="270" RenderingBias="Quality" BlurRadius="0" ShadowDepth="7" Opacity="0.21"/>
+                    <DropShadowEffect Direction="270"  BlurRadius="0" ShadowDepth="7" Opacity="0.21"/>
                 </Ellipse.Effect>
             </Ellipse>
 
-            <TextBlock HorizontalAlignment="Center" Height="66" Margin="0" TextWrapping="Wrap" Text="ㄱ" VerticalAlignment="Center" Width="90" Foreground="White" FontSize="68" TextAlignment="Center" FontFamily="NanumBarunGothic"/>
+            <TextBlock x:Name="centertext" HorizontalAlignment="Center" Height="80" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="90" Foreground="White" FontSize="68" TextAlignment="Center" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_char"/>
 
         </Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="1500,0,0,428" TextWrapping="Wrap" Text="abcdefg" VerticalAlignment="Center" Foreground="White" FontSize="42" Background="#BF232323" Padding="10,5" Tag="abcdefg" MouseEnter="Inputing_eyes" FontFamily="NanumBarunGothic">
+
+        <!--추가_키패드-->
+        <TextBlock x:Name="textblock_one_one"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="48" Margin="0,0,600,300" TextWrapping="Wrap"  Width="60" TextAlignment="Center" Foreground="White" Text="ㄲ" FontSize="48" Tag="ㄲ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumSquare">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_one_two"  HorizontalAlignment="Center" Height="48" Margin="0,0,750,425" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅋ" FontSize="48" Tag="ㅋ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumSquare">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_one_three"  HorizontalAlignment="Center" Height="48" Margin="0,0,900,550" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumSquare">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_two_one"  HorizontalAlignment="Center" Height="48" Margin="0,0,200,600" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅌ" FontSize="48" Tag="ㅌ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_two_two" HorizontalAlignment="Center" Height="48" Margin="0,0,300,750" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㄸ" FontSize="48"  Tag="ㄸ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>하
+        </TextBlock>
+        <TextBlock x:Name="textblock_two_three" HorizontalAlignment="Center" Height="48" Margin="0,0,400,900" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48"  Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_three_one" HorizontalAlignment="Center" Height="48" Margin="200,0,0,600" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅊ" FontSize="48" Tag="ㅊ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumBarunGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_three_two"  HorizontalAlignment="Center" Height="48" Margin="300,0,0,750" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅉ" FontSize="48"  Tag="ㅉ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_three_three"  HorizontalAlignment="Center" Height="48" Margin="400,0,0,900" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48"  Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_four_one"  HorizontalAlignment="Center" Height="48" Margin="600,0,0,300" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅍ" FontSize="48"  Tag="ㅍ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_four_two"  HorizontalAlignment="Center" Height="48" Margin="750,0,0,425" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅃ" FontSize="48"  Tag="ㅃ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_four_three"  HorizontalAlignment="Center" Height="60" Margin="900,0,0,562" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48"  Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_five_one"  HorizontalAlignment="Center" Height="48" Margin="600,300,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅁ" FontSize="48" Tag="ㅁ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_five_two"  HorizontalAlignment="Center" Height="48" Margin="750,425,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㄹ" FontSize="48" Tag="ㄹ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_five_three"  HorizontalAlignment="Center" Height="48" Margin="900,550,0,0" TextWrapping="Wrap" VerticalAlignment="Center"  Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_six_one"  HorizontalAlignment="Center" Height="60" Margin="200,612,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="ㅆ" FontSize="48" Tag="ㅆ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_six_two"  HorizontalAlignment="Center" Height="48" Margin="300,750,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_six_three"  HorizontalAlignment="Center" Height="48" Margin="400,900,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center" Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light" >
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_seven_one" HorizontalAlignment="Center" Height="48" Margin="0,600,200,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center"  Foreground="White" Text="ㅎ" FontSize="48" Tag="ㅎ" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_seven_two"  HorizontalAlignment="Center" Height="48" Margin="0,750,300,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center"  Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="textblock_seven_three"  HorizontalAlignment="Center" Height="48" Margin="0,900,400,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" TextAlignment="Center"  Foreground="White" Text="" FontSize="48" Tag="" MouseLeftButtonDown="Inputing_eyes" FontFamily="NanumGothic Light">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="270" ShadowDepth="10" Opacity="0.5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        
+        <!--입력예측 박스-->
+        <TextBlock HorizontalAlignment="Left" Margin="1500,0,0,428" TextWrapping="Wrap" Text="abcdefg" VerticalAlignment="Center" Foreground="White" FontSize="42" Background="#BF232323" Padding="10,5" Tag="abcdefg" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="1574,0,0,0" TextWrapping="Wrap" Text="으아아아ㅏㄱ" VerticalAlignment="Center" Foreground="White" FontSize="42" Background="#BF232323" Padding="10,5" Tag="으아아아ㅏㄱ" MouseEnter="Inputing_eyes" FontFamily="NanumBarunGothic">
+        <TextBlock HorizontalAlignment="Left" Margin="1574,0,0,0" TextWrapping="Wrap" Text="으아아아ㅏㄱ" VerticalAlignment="Center" Foreground="White" FontSize="42" Background="#BF232323" Padding="10,5" Tag="으아아아ㅏㄱ" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="1500,428,0,0" TextWrapping="Wrap" Text="ㅋㅋㅋㅋㅋㅋ" VerticalAlignment="Center" Foreground="White" FontSize="42" Background="#BF232323" Padding="10,5" Tag="ㅋㅋㅋㅋㅋㅋ" MouseEnter="Inputing_eyes" FontFamily="NanumBarunGothic">
+        <TextBlock HorizontalAlignment="Left" Margin="1500,428,0,0" TextWrapping="Wrap" Text="ㅋㅋㅋㅋㅋㅋ" VerticalAlignment="Center" Foreground="White" FontSize="42" Background="#BF232323" Padding="10,5" Tag="ㅋㅋㅋㅋㅋㅋ" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock HorizontalAlignment="RIght" Margin="0,0,1500,428" TextWrapping="Wrap" Text="정올대상각" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" Tag="정올대상각" MouseEnter="Inputing_eyes" FontFamily="NanumBarunGothic">
+        <TextBlock HorizontalAlignment="RIght" Margin="0,0,1500,428" TextWrapping="Wrap" Text="정올대상각" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" Tag="정올대상각" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Right" Margin="0,0,1574,0" TextWrapping="Wrap" Text="인정?어인정" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" Tag="인정?어인정" MouseEnter="Inputing_eyes" FontFamily="NanumBarunGothic">
+        <TextBlock HorizontalAlignment="Right" Margin="0,0,1574,0" TextWrapping="Wrap" Text="인정?어인정" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" Tag="인정?어인정" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Right" Margin="0,428,1500,0" TextWrapping="Wrap" Text="테스트" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" Tag="테스트" MouseEnter="Inputing_eyes" FontFamily="NanumBarunGothic">
+        <TextBlock HorizontalAlignment="Right" Margin="0,428,1500,0" TextWrapping="Wrap" Text="테스트" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" Tag="테스트" FontFamily="NanumBarunGothic" MouseLeftButtonDown="Inputing_sentence">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
             </TextBlock.Effect>
         </TextBlock>
 
+        <!--테스트_텍스트박스-->
         <TextBox x:Name="TestTextBox" HorizontalAlignment="Center" Height="24" Margin="55,931,1475,0" TextWrapping="NoWrap"  AcceptsReturn="False"  Text="TextBox" VerticalAlignment="Top" Width="390" Background="#02FEFEFE" BorderBrush="White" Foreground="White" BorderThickness="0,0,0,2" FontSize="14" MaxLines="1"/>
 
 
