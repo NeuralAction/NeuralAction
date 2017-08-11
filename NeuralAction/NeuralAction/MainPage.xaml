@@ -4,17 +4,9 @@
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:local="clr-namespace:ButtonCircle.FormsPlugin.Abstractions;assembly=ButtonCircle.FormsPlugin.Abstractions"
              x:Class="NeuralAction.MainPage">
-
-
     <Grid>
-
-
         <Grid>
-
-
-
-
-            <local:CircleButton
+            <!--<local:CircleButton
                 x:Name="one"
                 HeightRequest="280"
                 WidthRequest="280" 
@@ -23,36 +15,20 @@
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="CenterAndExpand"
                 Clicked="CircleButton_Clicked">
-
-            </local:CircleButton>
-
-
-
+            </local:CircleButton>-->
             <BoxView WidthRequest="275" HeightRequest="1" BackgroundColor="#FF404040" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></BoxView>
-
             <BoxView WidthRequest="1" HeightRequest="275" BackgroundColor="#FF404040" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></BoxView>
-
             <BoxView Rotation="45" WidthRequest="275" HeightRequest="1" BackgroundColor="#FF404040" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></BoxView>
-
             <BoxView Rotation="135" WidthRequest="275" HeightRequest="1" BackgroundColor="#FF404040" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></BoxView>
-
             <Label WidthRequest="70" HeightRequest="70" TextColor="#000000" FontSize = "50" Text="ㄱ" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></Label>
-
-
-            <local:CircleButton
-                
+            <!--<local:CircleButton
                 x:Name="two"
                 HeightRequest="150"
                 WidthRequest="150" 
                 BorderRadius="100"
                 BackgroundColor="#1C1C1C"
                 HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand"
-       
-             >
-
-            </local:CircleButton>
-
+                VerticalOptions="CenterAndExpand"/>
             <local:CircleButton
                 x:Name="three"
                 HeightRequest="70"
@@ -62,16 +38,7 @@
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="CenterAndExpand"
                 Text="ㄱ"
-                TextColor="White">
-
-            </local:CircleButton>
-
-
-
+                TextColor="White"/>-->
         </Grid>
-
-
-
     </Grid>
-
 </ContentPage>
