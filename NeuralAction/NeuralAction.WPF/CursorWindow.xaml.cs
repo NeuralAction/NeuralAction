@@ -12,49 +12,40 @@ namespace NeuralAction.WPF
     /// </summary>
     public partial class CursorWindow : Window
     {
-        [StructLayout(LayoutKind.Sequential)]
-        public struct POINT
-        {
-            public int X;
-            public int Y;
-
-            public static implicit operator Point(POINT point)
-            {
-                return new Point(point.X, point.Y);
-            }
-        }
-
-        [DllImport("user32.dll")]
-        public static extern bool GetCursorPos(out POINT lpPoint);
-
-        public static Point GetCursorPosition()
-        {
-            POINT lpPoint;
-            GetCursorPos(out lpPoint);
-            return lpPoint;
-        }
-
-        double scale;
-        Timer mousemove = new Timer();
+        public double Scale { get; set; } = 1;
 
         public CursorWindow()
         {
             InitializeComponent();
         }
 
-        void mousemove_event(object sender, EventArgs e)
+        public void SetPosition(double x, double y)
         {
-            Left = (int)(GetCursorPosition().X / scale - 25);
-            Top = (int)(GetCursorPosition().Y / scale - 25);
+            Dispatcher.Invoke(() => 
+            {
+                Left = x - ActualWidth / 2;
+                Top = y - ActualHeight / 2;
+            });
+        }
+
+        public void SetAvailable(bool result)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (result)
+                {
+                    Opacity = 1;
+                }
+                else
+                {
+                    Opacity = 0.33;
+                }
+            });
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            scale = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
-
-            mousemove.Interval = 1;
-            mousemove.Tick += mousemove_event;
-            mousemove.Enabled = true;
+            Scale = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
         }
     }
 }

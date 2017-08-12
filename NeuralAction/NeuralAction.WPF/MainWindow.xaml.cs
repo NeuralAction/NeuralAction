@@ -57,6 +57,7 @@ namespace NeuralAction.WPF
             return $"{(char)UniCode}";
         }
 
+        CursorService cursorServcie;
         Languages CurrentLanguage = Languages.Korean;
         string[] koreaInputChar = new string[3];
         int inputCount = 0;
@@ -64,6 +65,9 @@ namespace NeuralAction.WPF
         public MainWindow()
         {
             InitializeComponent();
+
+            // TODO: get screen / dpi
+            cursorServcie = new CursorService();
         }
 
         #region UI Events
@@ -73,6 +77,8 @@ namespace NeuralAction.WPF
             NotWindowsFocus();
 
             KeymapChange(GetKeymapArray(CurrentLanguage));
+
+            cursorServcie.StartAsync(0);
         }
 
         void NotWindowsFocus()

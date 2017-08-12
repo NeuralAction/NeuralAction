@@ -6,18 +6,18 @@
         xmlns:local="clr-namespace:NeuralAction.WPF"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
         mc:Ignorable="d"
-        Title="MainWindow" Width="65" Height="72" Background="{x:Null}" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="Manual" Loaded="Window_Loaded" Topmost="True" Cursor="None">
+        Title="MainWindow" Width="65" Height="72" Background="{x:Null}" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Topmost="True" Cursor="None">
     <Grid>
         <Canvas>
             <Grid x:Name="CursorIconGrid" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="65" Height="72">
                 <Grid.CacheMode>
                     <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
                 </Grid.CacheMode>
-                <ed:Arc ArcThickness="7" ArcThicknessUnit="Pixel" EndAngle="360" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="65" Margin="0" Stretch="None" StartAngle="0" VerticalAlignment="Top" Width="65" Cursor="None">
-                    <ed:Arc.Effect>
+                <Ellipse Width="65" Height="65" StrokeThickness="7" Stroke="White" VerticalAlignment="Top">
+                    <Ellipse.Effect>
                         <DropShadowEffect ShadowDepth="7" Opacity="0.17" BlurRadius="0" Direction="270"/>
-                    </ed:Arc.Effect>
-                </ed:Arc>
+                    </Ellipse.Effect>
+                </Ellipse>
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="16"  VerticalAlignment="Center" Width="16" Margin="0,0,0,7" Cursor="None" >
                     <Ellipse.Effect>
                         <DropShadowEffect ShadowDepth="7" Opacity="0.17" BlurRadius="0" Direction="270"/>
