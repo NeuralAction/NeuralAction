@@ -346,7 +346,7 @@ namespace NeuralAction.WPF
 
             InputingReset();
 
-            string RealSendKey = ((TextBlock)sender).Tag.ToString();
+            string RealSendKey = ((TextBlock)sender).Text;
             CenterText.Text = RealSendKey;
 
             System.Windows.Forms.Clipboard.SetText(RealSendKey);
