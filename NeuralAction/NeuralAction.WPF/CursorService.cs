@@ -33,7 +33,6 @@ namespace NeuralAction.WPF
         public event EventHandler<GazeEventArgs> GazeTracked;
         public event EventHandler Started;
         public event EventHandler Stopped;
-        public event EventHandler Throwed;
 
         public CursorWindow Window { get; protected set; }
 
