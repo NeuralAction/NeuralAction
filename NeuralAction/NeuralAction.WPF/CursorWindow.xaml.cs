@@ -16,6 +16,22 @@ namespace NeuralAction.WPF
     {
         public double Scale { get; set; } = 1;
         public bool Smooth { get; set; } = true;
+        public double ActualLeft
+        {
+            get => Left * Scale;
+            set
+            {
+                Left = value / Scale;
+            }
+        }
+        public double ActualTop
+        {
+            get => Top * Scale;
+            set
+            {
+                Top = value / Scale;
+            }
+        }
 
         Storyboard CursorOn;
         Storyboard CursorOff;
@@ -36,16 +52,16 @@ namespace NeuralAction.WPF
                         moveTimer.Interval = TimeSpan.FromMilliseconds(15);
                         moveTimer.Tick += (sender, arg) =>
                         {
-                            if (Math.Abs(targetPt.X - Left) + Math.Abs(targetPt.Y - Top) < 1)
+                            if (Math.Abs(targetPt.X - ActualLeft) + Math.Abs(targetPt.Y - ActualTop) < 1)
                             {
-                                Left = targetPt.X;
-                                Top = targetPt.Y;
+                                ActualLeft = targetPt.X;
+                                ActualTop = targetPt.Y;
                                 moveTimer.Stop();
                             }
                             else
                             {
-                                Left += (targetPt.X - Left) * 0.6;
-                                Top += (targetPt.Y - Top) * 0.6;
+                                ActualLeft += (targetPt.X - ActualLeft) * 0.6;
+                                ActualTop += (targetPt.Y - ActualTop) * 0.6;
                             }
                         };
                     }
@@ -53,8 +69,8 @@ namespace NeuralAction.WPF
                 }
                 else
                 {
-                    Left = targetPt.X;
-                    Top = targetPt.Y;
+                    ActualLeft = targetPt.X;
+                    ActualTop = targetPt.Y;
                 }
             }
         }
@@ -73,7 +89,7 @@ namespace NeuralAction.WPF
 
         private void CursorWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            targetPt = new Point(Left, Top);
+            targetPt = new Point(ActualLeft, ActualTop);
         }
 
         public void SetPosition(double x, double y)
