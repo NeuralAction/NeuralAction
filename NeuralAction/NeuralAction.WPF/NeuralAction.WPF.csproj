@@ -72,6 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CursorService.cs" />
     <Compile Include="Send.cs" />
     <Compile Include="SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
@@ -79,7 +80,7 @@
     <Compile Include="SkiaShape.xaml.cs">
       <DependentUpon>SkiaShape.xaml</DependentUpon>
     </Compile>
-    <Page Include="CursorIcon.xaml">
+    <Page Include="CursorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -91,8 +92,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CursorIcon.xaml.cs">
-      <DependentUpon>CursorIcon.xaml</DependentUpon>
+    <Compile Include="CursorWindow.xaml.cs">
+      <DependentUpon>CursorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

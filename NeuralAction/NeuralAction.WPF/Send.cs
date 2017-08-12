@@ -11,7 +11,6 @@ namespace NeuralAction.WPF
 {
     public class Send
     {
-
         static int InstanceCount = 0;
         public int uid;
 
@@ -39,13 +38,10 @@ namespace NeuralAction.WPF
 
             try
             {
-
-
                 string previousClip = Clipboard.GetText();
 
                 if (previousClip == "{BACK}")
                 {
-
                     SetForegroundWindow(MainWindow.FocusedHandle);
 
                     SendKeys.SendWait("{BACKSPACE}");
@@ -53,42 +49,28 @@ namespace NeuralAction.WPF
 
                     if (MainWindow.RestoreClipboard)
                     {
-                     
                         if (string.IsNullOrEmpty(previousClip))
                             Clipboard.SetText(previousClip);
-
-         
                     }
-
-                } else  {
-
-             
-                
-
+                }
+                else
+                {
                     Clipboard.SetText(Content);
-
-                
+                    
                     SendKeys.SendWait("^(v)");
                     SendKeys.Flush();
 
                     if (MainWindow.RestoreClipboard)
                     {
-                      
                         if (string.IsNullOrEmpty(previousClip))
                             Clipboard.SetText(previousClip);
-                        
-         
-
                     }
-
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ERROR Keydata59:\n" + ex.ToString());
-           
+                MessageBox.Show("ERROR Keydata 72:\n" + ex.ToString());
             }
         }
-
     }
 }

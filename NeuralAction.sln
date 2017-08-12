@@ -13,11 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralAction.UWP", "NeuralA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralAction.iOS", "NeuralAction\NeuralAction.iOS\NeuralAction.iOS.csproj", "{5BC4C9C6-5B3F-4AE6-B9EF-34C5372A0881}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vision", "Vision", "{23E47283-76C5-4C45-AFD7-514E432A2B54}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralAction.WPF", "NeuralAction\NeuralAction.WPF\NeuralAction.WPF.csproj", "{809713B4-C1E5-4A84-B4A3-822B65FAA105}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PredictSentence", "PredictSentence", "{049C2FA2-6F00-4F18-A488-D9E89F349A8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

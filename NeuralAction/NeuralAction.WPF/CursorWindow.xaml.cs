@@ -10,12 +10,8 @@ namespace NeuralAction.WPF
     /// <summary>
     /// CursorIcon.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class CursorIcon : Window
+    public partial class CursorWindow : Window
     {
-
-        /// <summary>
-        /// Struct representing a point.
-        /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
@@ -28,10 +24,6 @@ namespace NeuralAction.WPF
             }
         }
 
-        /// <summary>
-        /// Retrieves the cursor's position, in screen coordinates.
-        /// </summary>
-        /// <see>See MSDN documentation for further information.</see>
         [DllImport("user32.dll")]
         public static extern bool GetCursorPos(out POINT lpPoint);
 
@@ -39,47 +31,30 @@ namespace NeuralAction.WPF
         {
             POINT lpPoint;
             GetCursorPos(out lpPoint);
-            //bool success = User32.GetCursorPos(out lpPoint);
-            // if (!success)
-
             return lpPoint;
         }
 
+        double scale;
+        Timer mousemove = new Timer();
 
-        int currentDPI;
-        int scale;
-
-        public CursorIcon()
+        public CursorWindow()
         {
             InitializeComponent();
         }
 
-        Timer mousemove = new Timer();
-
-       void mousemove_event(object sender, System.EventArgs e)
+        void mousemove_event(object sender, EventArgs e)
         {
-
-          
-            this.Left = (int) (GetCursorPosition().X / scale - 25);
-
-
-            this.Top = (int) (GetCursorPosition().Y / scale - 25);
-
+            Left = (int)(GetCursorPosition().X / scale - 25);
+            Top = (int)(GetCursorPosition().Y / scale - 25);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            scale = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
 
-           
-         
-            
-            scale = (int) PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
             mousemove.Interval = 1;
-            mousemove.Tick += new EventHandler(mousemove_event);
+            mousemove.Tick += mousemove_event;
             mousemove.Enabled = true;
-     
-
-
         }
     }
 }

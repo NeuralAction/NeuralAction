@@ -26,7 +26,6 @@ namespace NeuralAction.WPF
             InitializeComponent();
         }
 
-
         SKPaint arcPaint = new SKPaint
         {
             Style = SKPaintStyle.Fill,
@@ -37,9 +36,6 @@ namespace NeuralAction.WPF
 
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
-
-            
-
             SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
             SKCanvas canvas = surface.Canvas;
@@ -50,12 +46,10 @@ namespace NeuralAction.WPF
 
             float explodeOffset = 60;
             float radius = Math.Min(info.Width / 2, info.Height / 2) - 2 * explodeOffset;
-            SKRect rect = new SKRect(center.X - radius, center.Y - radius,
-                                     center.X + radius, center.Y + radius);
-
-
-            float startAngle = (float)0;
-            float sweepAngle = (float)45.0;
+            SKRect rect = new SKRect(center.X - radius, center.Y - radius, center.X + radius, center.Y + radius);
+            
+            float startAngle = 0;
+            float sweepAngle = 45;
 
             using (SKPath path = new SKPath())
             {
@@ -70,7 +64,5 @@ namespace NeuralAction.WPF
                 canvas.Restore();
             }
         }
-
-
     }
 }
