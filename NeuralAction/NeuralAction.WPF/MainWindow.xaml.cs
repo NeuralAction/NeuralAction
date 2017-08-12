@@ -21,6 +21,8 @@ namespace NeuralAction.WPF
     public partial class MainWindow : Window
     {
 
+        CursorIcon CursorIcon = new CursorIcon();
+
         private const int GWL_EXSTYLE = -20;
         private const int WS_EX_NOACTIVATE = 0x08000000;
 
@@ -29,416 +31,6 @@ namespace NeuralAction.WPF
         [DllImport("user32.dll")]
         public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         public static IntPtr FocusedHandle { get; set; }
-        public static bool RestoreClipboard { get; set; } = true;
-
-        string currentlanguage = "kr";
-        int inputcount = 0;
-        string[] koreainputchar = new string[3];
-
-
-        public MainWindow()
-        {
-            InitializeComponent();
-
-        }
-
-        private static string m_ChoSungTbl = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
-        private static string m_JungSungTbl = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
-        private static string m_JongSungTbl = " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
-        private static ushort m_UniCodeHangulBase = 0xAC00;
-
-        public static string MergeJaso(string choSung, string jungSung, string jongSung)
-        {
-            int ChoSungPos, JungSungPos, JongSungPos;
-            int nUniCode;
-
-            ChoSungPos = m_ChoSungTbl.IndexOf(choSung);    
-            JungSungPos = m_JungSungTbl.IndexOf(jungSung); 
-            JongSungPos = m_JongSungTbl.IndexOf(jongSung);  
-
-
-            nUniCode = m_UniCodeHangulBase + (ChoSungPos * 21 + JungSungPos) * 28 + JongSungPos;
-
-            char temp = Convert.ToChar(nUniCode);
-
-            return temp.ToString();
-        }
-
-
-
-        public void english_keypad_change()
-        {
-
-            blank_text.Text = "Spacing";
-            blank_text.Tag = " ";
-
-            onepie.Tag = "g";
-            twopie.Tag = "j";
-            threepie.Tag = "m";
-            fourpie.Tag = "p";
-            fivepie.Tag = "s";
-            sevenpie.Tag = "a";
-            eightpie.Tag = "d";
-
-            textblock_one.Text = "a";
-            textblock_one_one.Text = "b";
-            textblock_one_two.Text = "c";
-            textblock_one_three.Text = "v";
-            textblock_two.Text = "d";
-            textblock_two_one.Text = "e";
-            textblock_two_two.Text = "f";
-            textblock_two_three.Text = "w";
-            textblock_three.Text = "g";
-            textblock_three_one.Text = "h";
-            textblock_three_two.Text = "i";
-            textblock_three_three.Text = "x";
-            textblock_four.Text = "j";
-            textblock_four_one.Text = "k";
-            textblock_four_two.Text = "l";
-            textblock_four_three.Text = "y";
-            textblock_five.Text = "m";
-            textblock_five_one.Text = "n";
-            textblock_five_two.Text = "o";
-            textblock_five_three.Text = "z";
-            textblock_six.Text = "p";
-            textblock_six_one.Text = "q";
-            textblock_six_two.Text = "r";
-            textblock_six_three.Text = "";
-            textblock_seven.Text = "s";
-            textblock_seven_one.Text = "t";
-            textblock_seven_two.Text = "u";
-            textblock_seven_three.Text = "";
-
-            textblock_one.Tag = "a";
-            textblock_one_one.Tag = "b";
-            textblock_one_two.Tag = "c";
-            textblock_one_three.Tag = "v";
-            textblock_two.Tag = "d";
-            textblock_two_one.Tag = "e";
-            textblock_two_two.Tag = "f";
-            textblock_two_three.Tag = "w";
-            textblock_three.Tag = "g";
-            textblock_three_one.Tag = "h";
-            textblock_three_two.Tag = "i";
-            textblock_three_three.Tag = "x";
-            textblock_four.Tag = "j";
-            textblock_four_one.Tag = "k";
-            textblock_four_two.Tag = "l";
-            textblock_four_three.Tag = "y";
-            textblock_five.Tag = "m";
-            textblock_five_one.Tag = "n";
-            textblock_five_two.Tag = "o";
-            textblock_five_three.Tag = "z";
-            textblock_six.Tag = "p";
-            textblock_six_one.Tag = "q";
-            textblock_six_two.Tag = "r";
-            textblock_six_three.Tag = "";
-            textblock_seven.Tag = "s";
-            textblock_seven_one.Tag = "t";
-            textblock_seven_two.Tag = "u";
-            textblock_seven_three.Tag = "";
-
-
-        }
-
-        public void korean_chosung_keypad_change() {
-
-            blank_text.Text = "띄어쓰기";
-
-            onepie.Tag = "ㅈ";
-            twopie.Tag = "ㅂ";
-            threepie.Tag = "ㄴ";
-            fourpie.Tag = "ㅅ";
-            fivepie.Tag = "ㅇ";
-            sevenpie.Tag = "ㄱ";
-            eightpie.Tag = "ㄷ";
-
-            textblock_one.Text = "ㄱ";
-            textblock_one_one.Text = "ㄲ";
-            textblock_one_two.Text = "ㅋ";
-            textblock_one_three.Text = "";
-            textblock_two.Text = "ㄷ";
-            textblock_two_one.Text = "ㅌ";
-            textblock_two_two.Text = "ㄸ";
-            textblock_two_three.Text = "";
-            textblock_three.Text = "ㅈ";
-            textblock_three_one.Text = "ㅊ";
-            textblock_three_two.Text = "ㅉ";
-            textblock_three_three.Text = "";
-            textblock_four.Text = "ㅂ";
-            textblock_four_one.Text = "ㅍ";
-            textblock_four_two.Text = "ㅃ";
-            textblock_four_three.Text = "";
-            textblock_five.Text = "ㄴ";
-            textblock_five_one.Text = "ㅁ";
-            textblock_five_two.Text = "ㄹ";
-            textblock_five_three.Text = "";
-            textblock_six.Text = "ㅅ";
-            textblock_six_one.Text = "ㅆ";
-            textblock_six_two.Text = "";
-            textblock_six_three.Text = "";
-            textblock_seven.Text = "ㅇ";
-            textblock_seven_one.Text = "ㅎ";
-            textblock_seven_two.Text = "";
-            textblock_seven_three.Text = "";
-
-            textblock_one.Tag = "ㄱ";
-            textblock_one_one.Tag = "ㄲ";
-            textblock_one_two.Tag = "ㅋ";
-            textblock_one_three.Tag = "";
-            textblock_two.Tag = "ㄷ";
-            textblock_two_one.Tag = "ㅌ";
-            textblock_two_two.Tag = "ㄸ";
-            textblock_two_three.Tag = "";
-            textblock_three.Tag = "ㅈ";
-            textblock_three_one.Tag = "ㅊ";
-            textblock_three_two.Tag = "ㅉ";
-            textblock_three_three.Tag = "";
-            textblock_four.Tag = "ㅂ";
-            textblock_four_one.Tag = "ㅍ";
-            textblock_four_two.Tag = "ㅃ";
-            textblock_four_three.Tag = "";
-            textblock_five.Tag = "ㄴ";
-            textblock_five_one.Tag = "ㅁ";
-            textblock_five_two.Tag = "ㄹ";
-            textblock_five_three.Tag = "";
-            textblock_six.Tag = "ㅅ";
-            textblock_six_one.Tag = "ㅆ";
-            textblock_six_two.Tag = "";
-            textblock_six_three.Tag = "";
-            textblock_seven.Tag = "ㅇ";
-            textblock_seven_one.Tag = "ㅎ";
-            textblock_seven_two.Tag = "";
-            textblock_seven_three.Tag = "";
-
-
-        }
-
-        public void korean_jungsung_keypad_change()
-        {
-
-            onepie.Tag = "ㅣ";
-            twopie.Tag = "ㅢ";
-            threepie.Tag = "ㅏ";
-            fourpie.Tag = "ㅓ";
-            fivepie.Tag = "ㅗ";
-            sevenpie.Tag = "ㅜ";
-            eightpie.Tag = "ㅡ";
-
-            textblock_one.Text = "ㅏ";
-            textblock_one_one.Text = "ㅑ";
-            textblock_one_two.Text = "ㅐ";
-            textblock_one_three.Text = "";
-            textblock_two.Text = "ㅓ";
-            textblock_two_one.Text = "ㅕ";
-            textblock_two_two.Text = "ㅔ";
-            textblock_two_three.Text = "";
-            textblock_three.Text = "ㅗ";
-            textblock_three_one.Text = "ㅛ";
-            textblock_three_two.Text = "ㅚ";
-            textblock_three_three.Text = "";
-            textblock_four.Text = "ㅜ";
-            textblock_four_one.Text = "ㅠ";
-            textblock_four_two.Text = "ㅟ";
-            textblock_four_three.Text = "";
-            textblock_five.Text = "ㅡ";
-            textblock_five_one.Text = "ㅘ";
-            textblock_five_two.Text = "ㅙ";
-            textblock_five_three.Text = "";
-            textblock_six.Text = "ㅣ";
-            textblock_six_one.Text = "ㅒ";
-            textblock_six_two.Text = "ㅖ";
-            textblock_six_three.Text = "";
-            textblock_seven.Text = "ㅢ";
-            textblock_seven_one.Text = "ㅝ";
-            textblock_seven_two.Text = "ㅞ";
-            textblock_seven_three.Text = "";
-
-            textblock_one.Tag = "ㅏ";
-            textblock_one_one.Tag = "ㅑ";
-            textblock_one_two.Tag = "ㅐ";
-            textblock_one_three.Tag = "";
-            textblock_two.Tag = "ㅓ";
-            textblock_two_one.Tag = "ㅕ";
-            textblock_two_two.Tag = "ㅔ";
-            textblock_two_three.Tag = "";
-            textblock_three.Tag = "ㅗ";
-            textblock_three_one.Tag = "ㅛ";
-            textblock_three_two.Tag = "ㅚ";
-            textblock_three_three.Tag = "";
-            textblock_four.Tag = "ㅜ";
-            textblock_four_one.Tag = "ㅠ";
-            textblock_four_two.Tag = "ㅟ";
-            textblock_four_three.Tag = "";
-            textblock_five.Tag = "ㅡ";
-            textblock_five_one.Tag = "ㅘ";
-            textblock_five_two.Tag = "ㅙ";
-            textblock_five_three.Tag = "";
-            textblock_six.Tag = "ㅣ";
-            textblock_six_one.Tag = "ㅒ";
-            textblock_six_two.Tag = "ㅖ";
-            textblock_six_three.Tag = "";
-            textblock_seven.Tag = "ㅢ";
-            textblock_seven_one.Tag = "ㅝ";
-            textblock_seven_two.Tag = "ㅞ";
-            textblock_seven_three.Tag = "";
-
-
-        }
-
-        public void korean_jongsung_keypad_change()
-        {
-
-            onepie.Tag = "ㅈ";
-            twopie.Tag = "ㅂ";
-            threepie.Tag = "ㄴ";
-            fourpie.Tag = "ㅅ";
-            fivepie.Tag = "ㅇ";
-            sevenpie.Tag = "ㄱ";
-            eightpie.Tag = "ㄷ";
-
-            textblock_one.Text = "ㄱ";
-            textblock_one_one.Text = "ㄲ";
-            textblock_one_two.Text = "ㅋ";
-            textblock_one_three.Text = "ㄺ";
-            textblock_two.Text = "ㄷ";
-            textblock_two_one.Text = "ㅌ";
-            textblock_two_two.Text = "ㄸ";
-            textblock_two_three.Text = "ㄼ";
-            textblock_three.Text = "ㅈ";
-            textblock_three_one.Text = "ㅊ";
-            textblock_three_two.Text = "ㅉ";
-            textblock_three_three.Text = "ㄶ";
-            textblock_four.Text = "ㅂ";
-            textblock_four_one.Text = "ㅍ";
-            textblock_four_two.Text = "ㅃ";
-            textblock_four_three.Text = "ㅄ";
-            textblock_five.Text = "ㄴ";
-            textblock_five_one.Text = "ㅁ";
-            textblock_five_two.Text = "ㄹ";
-            textblock_five_three.Text = "ㄻ";
-            textblock_six.Text = "ㅅ";
-            textblock_six_one.Text = "ㅆ";
-            textblock_six_two.Text = "ㅄ";
-            textblock_six_three.Text = "ㄳ";
-            textblock_seven.Text = "ㅇ";
-            textblock_seven_one.Text = "ㅎ";
-            textblock_seven_two.Text = "ㄶ";
-            textblock_seven_three.Text = "ㅀ";
-
-            textblock_one.Tag = "ㄱ";
-            textblock_one_one.Tag = "ㄲ";
-            textblock_one_two.Tag = "ㅋ";
-            textblock_one_three.Tag = "ㄺ";
-            textblock_two.Tag = "ㄷ";
-            textblock_two_one.Tag = "ㅌ";
-            textblock_two_two.Tag = "ㄸ";
-            textblock_two_three.Tag = "ㄼ";
-            textblock_three.Tag = "ㅈ";
-            textblock_three_one.Tag = "ㅊ";
-            textblock_three_two.Tag = "ㅉ";
-            textblock_three_three.Tag = "ㄶ";
-            textblock_four.Tag = "ㅂ";
-            textblock_four_one.Tag = "ㅍ";
-            textblock_four_two.Tag = "ㅃ";
-            textblock_four_three.Tag = "ㅄ";
-            textblock_five.Tag = "ㄴ";
-            textblock_five_one.Tag = "ㅁ";
-            textblock_five_two.Tag = "ㄹ";
-            textblock_five_three.Tag = "ㄻ";
-            textblock_six.Tag = "ㅅ";
-            textblock_six_one.Tag = "ㅆ";
-            textblock_six_two.Tag = "ㅄ";
-            textblock_six_three.Tag = "ㄳ";
-            textblock_seven.Tag = "ㅇ";
-            textblock_seven_one.Tag = "ㅎ";
-            textblock_seven_two.Tag = "ㄶ";
-            textblock_seven_three.Tag = "ㅀ";
-
-
-
-        }
-
-        public void specialchar_keypad_change()
-        {
-
-            onepie.Tag = ".";
-            twopie.Tag = ",";
-            threepie.Tag = "0";
-            fourpie.Tag = "1";
-            fivepie.Tag = "2";
-            sevenpie.Tag = "3";
-            eightpie.Tag = "4";
-      
-
-            textblock_one.Text = ".";
-            textblock_one_one.Text = "5";
-            textblock_one_two.Text = "(";
-            textblock_one_three.Text = "";
-            textblock_two.Text = ",";
-            textblock_two_one.Text = "6";
-            textblock_two_two.Text = ")";
-            textblock_two_three.Text = "";
-            textblock_three.Text = "0";
-            textblock_three_one.Text = "7";
-            textblock_three_two.Text = "&";
-            textblock_three_three.Text = "";
-            textblock_four.Text = "1";
-            textblock_four_one.Text = "8";
-            textblock_four_two.Text = "+";
-            textblock_four_three.Text = "";
-            textblock_five.Text = "2";
-            textblock_five_one.Text = "9";
-            textblock_five_two.Text = "-";
-            textblock_five_three.Text = "";
-            textblock_six.Text = "3";
-            textblock_six_one.Text = "!";
-            textblock_six_two.Text = "*";
-            textblock_six_three.Text = "";
-            textblock_seven.Text = "4";
-            textblock_seven_one.Text = "?";
-            textblock_seven_two.Text = "/";
-            textblock_seven_three.Text = "";
-
-
-            textblock_one.Tag = ".";
-            textblock_one_one.Tag = "5";
-            textblock_one_two.Tag = "(";
-            textblock_one_three.Tag = "";
-            textblock_two.Tag = ",";
-            textblock_two_one.Tag = "6";
-            textblock_two_two.Tag = ")";
-            textblock_two_three.Tag = "";
-            textblock_three.Tag = "0";
-            textblock_three_one.Tag = "7";
-            textblock_three_two.Tag = "&";
-            textblock_three_three.Tag = "";
-            textblock_four.Tag = "1";
-            textblock_four_one.Tag = "8";
-            textblock_four_two.Tag = "+";
-            textblock_four_three.Tag = "";
-            textblock_five.Tag = "2";
-            textblock_five_one.Tag = "9";
-            textblock_five_two.Tag = "-";
-            textblock_five_three.Tag = "";
-            textblock_six.Tag = "3";
-            textblock_six_one.Tag = "!";
-            textblock_six_two.Tag = "*";
-            textblock_six_three.Tag = "";
-            textblock_seven.Tag = "4";
-            textblock_seven_one.Tag = "?";
-            textblock_seven_two.Tag = "/";
-            textblock_seven_three.Tag = "";
-
-
-        }
-
-        CursorIcon CursorIcon = new CursorIcon();
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            NotWindowsFocus();
-        }
 
         void NotWindowsFocus() {
             System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(this);
@@ -447,327 +39,428 @@ namespace NeuralAction.WPF
             CursorIcon.Show();
         }
 
-        private void Inputing_eyes(object sender, System.Windows.Input.MouseEventArgs e)
+        public static bool RestoreClipboard { get; set; } = true;
+
+        string[] koreainputchar = new string[3];
+        string CurrentLanguage = "kr";
+        int inputcount = 0;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            NotWindowsFocus();
+            KeymapChange(GetKeymapArray(CurrentLanguage));
+        }
+
+        private static string ChoSungTbl = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
+        private static string JungSungTbl = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
+        private static string JongSungTbl = " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
+        private static ushort UniCodeHangulBase = 0xAC00;
+
+        public static string MergeJaso(string choSung, string jungSung, string jongSung) {
+            int ChoSungPos, JungSungPos, JongSungPos;
+            int UniCode;
+
+            ChoSungPos = ChoSungTbl.IndexOf(choSung);
+            JungSungPos = JungSungTbl.IndexOf(jungSung);
+            JongSungPos = JongSungTbl.IndexOf(jongSung);
+
+            UniCode = UniCodeHangulBase + (ChoSungPos * 21 + JungSungPos) * 28 + JongSungPos;
+
+            char temp = Convert.ToChar(UniCode);
+
+            return temp.ToString();
+        }
+
+        public void CenterTextMerge(string[] Keymap, int index) {
+
+            if (inputcount == 1) {
+                CenterText.Text = MergeJaso(koreainputchar[0], Keymap[index], "");
+                koreainputchar[1] = Keymap[index];
+            } else if (inputcount == 2) {
+                CenterText.Text = MergeJaso(koreainputchar[0], koreainputchar[1], Keymap[index]);
+            }
+
+        }
+
+        string[] EnglishKeymap = new string[28] { "a", "b", "c", "v", "d", "e", "f", "w", "g", "h", "i", "x", "j", "k", "l", "y", "m", "n", "o", "z", "p", "q", "r", "", "s", "t", "u", "" };
+        string[] KoreanChosungKeymap = new string[28] { "ㄱ", "ㄲ", "ㅋ", "", "ㄷ", "ㅌ", "ㄸ", "", "ㅈ", "ㅊ", "ㅉ", "", "ㅂ", "ㅍ", "ㅃ", "", "ㄴ", "ㅁ", "ㄹ", "", "ㅅ", "ㅆ", "", "", "ㅇ", "ㅎ", "", "" };
+        string[] KoreanJungsungKeymap = new string[28] { "ㅏ", "ㅑ", "ㅐ", "", "ㅓ", "ㅕ", "ㅔ", "", "ㅗ", "ㅛ", "ㅚ", "", "ㅜ", "ㅠ", "ㅟ", "", "ㅡ", "ㅘ", "ㅙ", "", "ㅣ", "ㅒ", "ㅖ", "", "ㅢ", "ㅝ", "ㅞ", "" };
+        string[] KoreanJongsungKeymap = new string[28] { "ㄱ", "ㄲ", "ㅋ", "ㄺ", "ㄷ", "ㅌ", "ㄸ", "ㄼ", "ㅈ", "ㅊ", "ㅉ", "ㄶ", "ㅂ", "ㅍ", "ㅃ", "ㅄ", "ㄴ", "ㅁ", "ㄹ", "ㄻ", "ㅅ", "ㅆ", "ㅄ", "ㄳ", "ㅇ", "ㅎ", "ㄶ", "ㅀ" };
+        string[] SpecialCharKeymap = new string[28] { ".", "5", "(", "", ",", "6", ")", "", "0", "7", "&", "", "1", "8", "+", "", "2", "9", "-", "", "3", "!", "*", "", "4", "?", "/", "" };
+
+        public string[] GetKeymapArray(string CurrentLanguage)
         {
 
+            if (CurrentLanguage == "kr") {
+                if (inputcount == 0) {
+                    return KoreanChosungKeymap;
+                } else if (inputcount == 1) {
+                    return KoreanJungsungKeymap;
+                } else if (inputcount == 2) {
+                    return KoreanJongsungKeymap;
+                }
+            } else if (CurrentLanguage == "en") {
+                return EnglishKeymap;
+            } else if (CurrentLanguage == "sp") {
+                return SpecialCharKeymap;
+            }
+            return null;
 
+        }
 
-            if (currentlanguage == "kr") {
+        public void KeymapChange(string[] keymap) {
 
-                if (sender.GetType().ToString() == "System.Windows.Controls.TextBlock")
-                {
+            input0.Text = keymap[0];
+            input1.Text = keymap[4];
+            input2.Text = keymap[8];
+            input3.Text = keymap[12];
+            input4.Text = keymap[16];
+            input5.Text = keymap[20];
+            input6.Text = keymap[24];
 
-                    string RealSendKey = ((TextBlock)sender).Tag.ToString();
-                    string CenterKey = ((TextBlock)sender).Tag.ToString();
+        }
 
+        public void InputingReset(bool onlytagreset = false) {
 
+            if (onlytagreset == true) {
 
-                    if (RealSendKey == "Backspace")
-                    {
+                pie0.Tag = 0;
+                pie1.Tag = 4;
+                pie2.Tag = 8;
+                pie3.Tag = 12;
+                pie4.Tag = 16;
+                pie5.Tag = 20;
+                pie6.Tag = 24;
 
-                        RealSendKey = "{BACK}";
-                        centertext.Text = "←";
-                        inputcount = 0;
+                input0.Tag = 0;
+                input1.Tag = 4;
+                input2.Tag = 8;
+                input3.Tag = 12;
+                input4.Tag = 16;
+                input5.Tag = 20;
+                input6.Tag = 24;
 
-                        korean_chosung_keypad_change();
+            } else {
 
-                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
+                koreainputchar[0] = "";
+                koreainputchar[1] = "";
+                koreainputchar[2] = "";
+                CenterText.Text = "";
+                inputcount = 0;
 
-                        Send sendkeys = new Send(CenterKey, RealSendKey);
+            }
+        }
 
-                        sendkeys.Work();
+        private void KeyChange(object sender, System.Windows.Input.MouseEventArgs e) {
 
+            int i = 0;
+            string[] Keymap = GetKeymapArray(CurrentLanguage);
+
+            if (sender.GetType().ToString() == "System.Windows.Controls.TextBlock") {
+                i = Convert.ToInt32(((TextBlock)sender).Tag.ToString());
+            }  else if (sender.GetType().ToString() == "Microsoft.Expression.Shapes.Arc") {
+                i = Convert.ToInt32(((Arc)sender).Tag.ToString());
+            }
+
+            if (i < 4) {
+
+                CenterText.Text = input0.Text;
+
+                if (Keymap[i + 1] == "" || i == 3) {
+
+                    if (CurrentLanguage == "kr"){
+                        CenterTextMerge(Keymap, i);
                     }
-                    else
-                    {
 
-                        centertext.Text = CenterKey;
+                    pie0.Tag = 0;
+                    input0.Tag = 0;
+                    input0.Text = Keymap[0];
 
-                        if (inputcount == 0)
-                        {
-                            korean_jungsung_keypad_change();
-                            inputcount++;
-                            koreainputchar[0] = RealSendKey;
-                        }
-                        else if (inputcount == 1)
-                        {
-                            korean_jongsung_keypad_change();
-                            inputcount++;
-                            koreainputchar[1] = RealSendKey;
-                            centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], "");
-                        }
-                        else if (inputcount == 2)
-                        {
-                            korean_chosung_keypad_change();
-                            inputcount = 0;
-                            koreainputchar[2] = RealSendKey;
-                            centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], koreainputchar[2]);
+                } else {
 
-                            System.Windows.Forms.Clipboard.SetText(centertext.Text);
-                            Send sendkeys = new Send(centertext.Text, centertext.Text);
-                            sendkeys.Work();
+                    pie0.Tag = (Convert.ToInt32(pie0.Tag.ToString()) + 1).ToString();
+                    input0.Tag = (Convert.ToInt32(input0.Tag.ToString()) + 1).ToString();
+                    input0.Text = Keymap[i + 1];
 
-                            koreainputchar[0] = "";
-                            koreainputchar[1] = "";
-                            koreainputchar[2] = "";
-
-                        }
+                    if (CurrentLanguage == "kr") {
+                        CenterTextMerge(Keymap, i);
                     }
 
                 }
-                else if (sender.GetType().ToString() == "Microsoft.Expression.Shapes.Arc")
-                {
 
-                    string RealSendKey = ((Arc)sender).Tag.ToString();
-                    string CenterKey = ((Arc)sender).Tag.ToString();
+            } else if (i < 8) {
 
+                CenterText.Text = input1.Text;
 
+                if (Keymap[i + 1] == "" || i == 7) {
 
-                    if (RealSendKey == "Backspace")
-                    {
-
-                        RealSendKey = "{BACK}";
-                        centertext.Text = "←";
-                        inputcount = 0;
-
-                        korean_chosung_keypad_change();
-
-                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
-
-                        Send sendkeys = new Send(CenterKey, RealSendKey);
-
-                        sendkeys.Work();
-
-                    }
-                    else
-                    {
-
-                        centertext.Text = CenterKey;
-
-                        if (inputcount == 0)
-                        {
-                            korean_jungsung_keypad_change();
-                            inputcount++;
-                            koreainputchar[0] = RealSendKey;
-                        }
-                        else if (inputcount == 1)
-                        {
-                            korean_jongsung_keypad_change();
-                            inputcount++;
-                            koreainputchar[1] = RealSendKey;
-                            centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], "");
-                        }
-                        else if (inputcount == 2)
-                        {
-                            korean_chosung_keypad_change();
-                            inputcount = 0;
-                            koreainputchar[2] = RealSendKey;
-                            centertext.Text = MergeJaso(koreainputchar[0], koreainputchar[1], koreainputchar[2]);
-
-                            System.Windows.Forms.Clipboard.SetText(centertext.Text);
-                            Send sendkeys = new Send(centertext.Text, centertext.Text);
-                            sendkeys.Work();
-
-                            koreainputchar[0] = "";
-                            koreainputchar[1] = "";
-                            koreainputchar[2] = "";
-
-                        }
+                    if (CurrentLanguage == "kr") {
+                        CenterTextMerge(Keymap, i);
                     }
 
+                    pie1.Tag = 4;
+                    input1.Tag = 4;
+                    input1.Text = Keymap[4];
 
+                } else {
+                    pie1.Tag = (Convert.ToInt32(pie1.Tag.ToString()) + 1).ToString();
+                    input1.Tag = (Convert.ToInt32(input1.Tag.ToString()) + 1).ToString();
+                    input1.Text = Keymap[i + 1];
+
+                    if (CurrentLanguage == "kr") {
+                        CenterTextMerge(Keymap, i);
+                    }
                 }
 
-            } else if (currentlanguage == "en" || currentlanguage == "sp") {
+            } else if (i < 12) {
 
-                if (sender.GetType().ToString() == "System.Windows.Controls.TextBlock")
+                CenterText.Text = input2.Text;
+
+                if (Keymap[i + 1] == "" || i == 11)
                 {
 
-                    string RealSendKey = ((TextBlock)sender).Tag.ToString();
-                    string CenterKey = ((TextBlock)sender).Tag.ToString();
-
-                    if (RealSendKey == "Backspace")  {
-
-                        RealSendKey = "{BACK}";
-                        centertext.Text = "←";
-                        inputcount = 0;
-                       
-                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
-                        Send sendkeys = new Send(CenterKey, RealSendKey);
-                        sendkeys.Work();
-
-                    }  else  {
-
-                        centertext.Text = CenterKey;
-                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
-                        Send sendkeys = new Send(CenterKey, RealSendKey);
-                        sendkeys.Work();
+                    if (CurrentLanguage == "kr") {
+                        CenterTextMerge(Keymap, i);
                     }
 
-                }  else if (sender.GetType().ToString() == "Microsoft.Expression.Shapes.Arc") {
+                    pie2.Tag = 8;
+                    input2.Tag = 8;
+                    input2.Text = Keymap[8];
 
-                    string RealSendKey = ((Arc)sender).Tag.ToString();
-                    string CenterKey = ((Arc)sender).Tag.ToString();
+                } else  {
 
-                    if (RealSendKey == "Backspace")
-                    {
+                    pie2.Tag = (Convert.ToInt32(pie2.Tag.ToString()) + 1).ToString();
+                    input2.Tag = (Convert.ToInt32(input2.Tag.ToString()) + 1).ToString();
+                    input2.Text = Keymap[i + 1];
 
-                        RealSendKey = "{BACK}";
-                        centertext.Text = "←";
-                        inputcount = 0;
+                    if (CurrentLanguage == "kr") {
+                        CenterTextMerge(Keymap, i);
+                    }
+                }
 
-                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
+            } else if (i < 16) {
 
-                        Send sendkeys = new Send(CenterKey, RealSendKey);
+                CenterText.Text = input3.Text;
 
-                        sendkeys.Work();
+                if (Keymap[i + 1] == "" || i == 15) {
 
-                    } else  {
+                    if (CurrentLanguage == "kr")  {
+                        CenterTextMerge(Keymap, i);
+                    }
 
-                        centertext.Text = CenterKey;
-                        System.Windows.Forms.Clipboard.SetText(RealSendKey);
-                        Send sendkeys = new Send(CenterKey, RealSendKey);
-                        sendkeys.Work();
+                    pie3.Tag = 12;
+                    input3.Tag = 12;
+                    input3.Text = Keymap[12];
+
+                } else {
+                    pie3.Tag = (Convert.ToInt32(pie3.Tag.ToString()) + 1).ToString();
+                    input3.Tag = (Convert.ToInt32(input3.Tag.ToString()) + 1).ToString();
+                    input3.Text = Keymap[i + 1];
+                    if (CurrentLanguage == "kr") {
+                        CenterTextMerge(Keymap, i);
+                    }
+                }
+
+            } else if (i < 20) {
+
+                CenterText.Text = input4.Text;
+
+                if (Keymap[i + 1] == "" || i == 19)  {
+
+                    if (CurrentLanguage == "kr") {
+                        CenterTextMerge(Keymap, i);
+                    }
+
+                    pie4.Tag = 16;
+                    input4.Tag = 16;
+                    input4.Text = Keymap[16];
+
+                } else {
+                    pie4.Tag = (Convert.ToInt32(pie4.Tag.ToString()) + 1).ToString();
+                    input4.Tag = (Convert.ToInt32(input4.Tag.ToString()) + 1).ToString();
+                    input4.Text = Keymap[i + 1];
+                    if (CurrentLanguage == "kr") {
+                        CenterTextMerge(Keymap, i);
+                    }
+                }
+
+            } else if (i < 24)  {
+
+                CenterText.Text = input5.Text;
+
+                if (Keymap[i + 1] == "" || i == 23) {
+
+                    if (CurrentLanguage == "kr") {
+                        CenterTextMerge(Keymap, i);
+                    }
+
+                    pie5.Tag = 20;
+                    input5.Tag = 20;
+                    input5.Text = Keymap[20];
+
+                } else {
+
+                    pie5.Tag = (Convert.ToInt32(pie5.Tag.ToString()) + 1).ToString();
+                    input5.Tag = (Convert.ToInt32(input5.Tag.ToString()) + 1).ToString();
+                    input5.Text = Keymap[i + 1];
+
+
+                    if (CurrentLanguage == "kr") {
+                        CenterTextMerge(Keymap, i);
+                    }
+                }
+
+            } else if (i < 28) {
+
+                CenterText.Text = input6.Text;
+
+                if (i == 27 || Keymap[i + 1] == "")
+                {
+
+                    if (CurrentLanguage == "kr") {
+                        CenterTextMerge(Keymap, i);
+                    }
+
+                    pie6.Tag = 24;
+                    input6.Tag = 24;
+                    input6.Text = Keymap[24];
+
+                } else {
+
+                    pie6.Tag = (Convert.ToInt32(pie6.Tag.ToString()) + 1).ToString();
+                    input6.Tag = (Convert.ToInt32(input6.Tag.ToString()) + 1).ToString();
+                    input6.Text = Keymap[i + 1];
+
+                    if (CurrentLanguage == "kr")  {
+                        CenterTextMerge(Keymap, i);
                     }
                 }
             }
         }
 
-        private void Inputing_sentence(object sender, System.Windows.Input.MouseEventArgs e)
-        {
+        private void InputingSentence(object sender, System.Windows.Input.MouseEventArgs e)  {
+
+            InputingReset();
 
             string RealSendKey = ((TextBlock)sender).Tag.ToString();
-
-            korean_chosung_keypad_change();
-
-            koreainputchar[0] = "";
-            koreainputchar[1] = "";
-            koreainputchar[2] = "";
-
-            centertext.Text = RealSendKey;
-
-            inputcount = 0;
-
-            korean_chosung_keypad_change();
+            CenterText.Text = RealSendKey;
 
             System.Windows.Forms.Clipboard.SetText(RealSendKey);
-
             Send sendkeys = new Send(RealSendKey, RealSendKey);
-
             sendkeys.Work();
 
         }
 
-        private void Inputing_char(object sender, System.Windows.Input.MouseEventArgs e)
-        {
+        private void InputingChar(object sender, System.Windows.Input.MouseEventArgs e)  {
 
+            if(CenterText.Text != "") { 
+            System.Windows.Forms.Clipboard.SetText(CenterText.Text);
+            Send sendkeys = new Send(CenterText.Text, CenterText.Text);
 
-            string inputtext = centertext.Text;
+            if (CenterText.Text == "←") {
 
-            if (inputtext == "") {
+                System.Windows.Forms.Clipboard.SetText("{BACK}");
+                sendkeys = new Send("{BACK}", "{BACK}");
 
-            }  else {
+            } else  if (CurrentLanguage == "kr") {
 
-                if (inputtext == "←")
-                {
-                    inputtext = "{BACK}";
+                if (inputcount == 0) {
+
+                    inputcount++;
+                    KeymapChange(KoreanJungsungKeymap);
+                    koreainputchar[0] = CenterText.Text;
+                    InputingReset(true);
+
+                }  else if (inputcount == 1) {
+
+                    inputcount++;
+                    KeymapChange(KoreanJongsungKeymap);
+                    InputingReset(true);
+
+                }  else if (inputcount == 2) {
+
+                    inputcount = 0;
+                    KeymapChange(KoreanChosungKeymap);
+                    sendkeys = new Send(CenterText.Text, CenterText.Text);
+                    sendkeys.Work();
+                    InputingReset();
+
                 }
 
-                System.Windows.Forms.Clipboard.SetText(inputtext);
-
-                Send sendkeys = new Send(centertext.Text, centertext.Text);
+            } else {
 
                 sendkeys.Work();
-
-                koreainputchar[0] = "";
-                koreainputchar[1] = "";
-                koreainputchar[2] = "";
-
-                centertext.Text = "";
-
-                inputcount = 0;
 
             }
-
-        }
-    
-
-
-
-        private void inputing_space(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-
-
-                System.Windows.Forms.Clipboard.SetText(" ");
-
-                Send sendkeys = new Send(" ", " ");
-
-                sendkeys.Work();
-
-                koreainputchar[0] = "";
-                koreainputchar[1] = "";
-                koreainputchar[2] = "";
-
-                centertext.Text = "";
-
-            
+            }
         }
 
-        private void KeypadRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+        private void BackSpace(object sender, System.Windows.Input.MouseEventArgs e)  {
+
+            System.Windows.Forms.Clipboard.SetText("{BACK}");
+            Send sendkeys = new Send("{BACK}", "{BACK}");
+            sendkeys.Work();
+
+            InputingReset();
+
+            CenterText.Text = "←";
+
+        }
+
+        private void InputingSpace(object sender, System.Windows.Input.MouseEventArgs e) {
+
+            System.Windows.Forms.Clipboard.SetText(" ");
+            Send sendkeys = new Send(" ", " ");
+            sendkeys.Work();
+
+            InputingReset();
+
+        }
+
+        private void KeypadRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             NotWindowsFocus();
         }
 
-        private void Ellipse_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
+        private void Ellipse_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) {
             this.Topmost = false;
             CursorIcon.Topmost = true;
         }
 
-        private void Ellipse_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
+        private void Ellipse_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) {
             this.Topmost = true;
             CursorIcon.Topmost = false;
         }
 
-        private void change_language(object sender, MouseButtonEventArgs e)
-        {
-            if(currentlanguage == "kr")
-            {
+        private void ChangeLanguage(object sender, MouseButtonEventArgs e) {
 
-                currentlanguage = "en";
-                english_keypad_change();
+            if (CurrentLanguage == "kr") {
 
+                CurrentLanguage = "en";
+                KeymapChange(GetKeymapArray(CurrentLanguage));
+                BlankText.Text = "Spacing";
+                LauguageChangeText.Text = "Special";
 
+            } else if (CurrentLanguage == "en") {
 
-                mark_text.Text = "Special";
+                CurrentLanguage = "sp";
+                KeymapChange(GetKeymapArray(CurrentLanguage));
+                LauguageChangeText.Text = "한국어";
 
-            } else if(currentlanguage == "en") {
+            } else if (CurrentLanguage == "sp") {
 
-                currentlanguage = "sp";
-                specialchar_keypad_change();
-
-                mark_text.Text = "한국어";
-
-            } else if(currentlanguage == "sp") {
-
-                currentlanguage = "kr";
-                korean_chosung_keypad_change();
-
-                mark_text.Text = "English";
+                CurrentLanguage = "kr";
+                KeymapChange(GetKeymapArray(CurrentLanguage));
+                BlankText.Text = "띄어쓰기";
+                LauguageChangeText.Text = "English";
 
             }
 
-            koreainputchar[0] = "";
-            koreainputchar[1] = "";
-            koreainputchar[2] = "";
-
-            centertext.Text = "";
-
-            inputcount = 0;
+            InputingReset();
 
         }
-
-       
     }
 }
