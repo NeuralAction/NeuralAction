@@ -95,6 +95,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CursorService.cs" />
+    <Compile Include="Key.xaml.cs">
+      <DependentUpon>Key.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="KeyWindow.xaml.cs">
+      <DependentUpon>KeyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Send.cs" />
     <Compile Include="SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
@@ -103,6 +109,14 @@
       <DependentUpon>SkiaShape.xaml</DependentUpon>
     </Compile>
     <Page Include="CursorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Key.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KeyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

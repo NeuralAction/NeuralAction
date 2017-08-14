@@ -31,7 +31,7 @@ namespace NeuralAction.WPF
 
         public void Work()
         {
-            IntPtr hwnd = MainWindow.FocusedHandle;
+            IntPtr hwnd = KeyWindow.FocusedHandle;
 
             if (hwnd == IntPtr.Zero && Content == null)
                 return;
@@ -42,12 +42,12 @@ namespace NeuralAction.WPF
 
                 if (previousClip == "{BACK}")
                 {
-                    SetForegroundWindow(MainWindow.FocusedHandle);
+                    SetForegroundWindow(KeyWindow.FocusedHandle);
 
                     SendKeys.SendWait("{BACKSPACE}");
                     SendKeys.Flush();
 
-                    if (MainWindow.RestoreClipboard)
+                    if (KeyWindow.RestoreClipboard)
                     {
                         if (string.IsNullOrEmpty(previousClip))
                             Clipboard.SetText(previousClip);
@@ -60,7 +60,7 @@ namespace NeuralAction.WPF
                     SendKeys.SendWait("^(v)");
                     SendKeys.Flush();
 
-                    if (MainWindow.RestoreClipboard)
+                    if (KeyWindow.RestoreClipboard)
                     {
                         if (string.IsNullOrEmpty(previousClip))
                             Clipboard.SetText(previousClip);
