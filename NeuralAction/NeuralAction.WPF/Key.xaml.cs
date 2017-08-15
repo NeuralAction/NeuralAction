@@ -16,10 +16,6 @@ using System.Windows.Shapes;
 
 namespace NeuralAction.WPF
 {
-    /// <summary>
-    /// Key.xaml에 대한 상호 작용 논리
-    /// </summary>
-    /// 
     public enum Languages
     {
         Korean = 0,
@@ -27,11 +23,8 @@ namespace NeuralAction.WPF
         Special = 2
     }
 
-
     public partial class Key : UserControl
     {
-
-
         static string ChoSungTbl = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
         static string JungSungTbl = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
         static string JongSungTbl = " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
@@ -45,25 +38,24 @@ namespace NeuralAction.WPF
 
         public static string MergeJaso(string choSung, string jungSung, string jongSung)
         {
-            var ChoSungPos = ChoSungTbl.IndexOf(choSung);
-            var JungSungPos = JungSungTbl.IndexOf(jungSung);
-            var JongSungPos = JongSungTbl.IndexOf(jongSung);
+            var ChoSungInd = ChoSungTbl.IndexOf(choSung);
+            var JungSungInd = JungSungTbl.IndexOf(jungSung);
+            var JongSungInd = JongSungTbl.IndexOf(jongSung);
 
-            var UniCode = UniCodeHangulBase + (ChoSungPos * 21 + JungSungPos) * 28 + JongSungPos;
+            var Unicode = UniCodeHangulBase + (ChoSungInd * 21 + JungSungInd) * 28 + JongSungInd;
 
-            return $"{(char)UniCode}";
+            return $"{(char)Unicode}";
         }
 
-        public Languages CurrentLanguage = Languages.Korean;
+        public Languages CurrentLanguage { get; set; } = Languages.Korean;
+
         string[] koreaInputChar = new string[3];
         int inputCount = 0;
-
-
+        
         public Key()
         {
             InitializeComponent();
         }
-
 
         #region UI Events
 
@@ -339,8 +331,7 @@ namespace NeuralAction.WPF
                     pie5.Tag = (Convert.ToInt32(pie5.Tag.ToString()) + 1).ToString();
                     input5.Tag = (Convert.ToInt32(input5.Tag.ToString()) + 1).ToString();
                     input5.Text = keymap[i + 1];
-
-
+                    
                     if (CurrentLanguage == Languages.Korean)
                     {
                         CenterTextMerge(keymap, i);
@@ -483,6 +474,5 @@ namespace NeuralAction.WPF
         }
 
         #endregion Keyboard
-
     }
 }
