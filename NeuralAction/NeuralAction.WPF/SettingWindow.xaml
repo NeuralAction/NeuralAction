@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="SettingWindow" Height="300" Width="300">
+        Title="SettingWindow" Height="300" Width="300" WindowStyle="SingleBorderWindow">
     <Grid>
-        
+      
     </Grid>
 </Window>

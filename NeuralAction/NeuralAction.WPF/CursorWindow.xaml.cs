@@ -111,7 +111,7 @@ namespace NeuralAction.WPF
                     if(cursorAniWaiter == null)
                     {
                         cursorAniWaiter = new DispatcherTimer();
-                        cursorAniWaiter.Interval = TimeSpan.FromMilliseconds(100);
+                        cursorAniWaiter.Interval = TimeSpan.FromMilliseconds(1);
                         cursorAniWaiter.Tick += (s, o) =>
                         {
                             if (show)
