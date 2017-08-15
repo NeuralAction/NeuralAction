@@ -15,8 +15,6 @@
         <Grid.CacheMode>
             <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
         </Grid.CacheMode>
-
         <keypad:Key x:Name="Keyboard"></keypad:Key>
-
     </Grid>
 </Window>
