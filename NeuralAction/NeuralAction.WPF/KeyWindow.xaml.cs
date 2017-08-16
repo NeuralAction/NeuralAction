@@ -28,6 +28,7 @@ namespace NeuralAction.WPF
         public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         [DllImport("user32.dll")]
         public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
         void NotWindowsFocus()
         {
             System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(this);
@@ -61,8 +62,7 @@ namespace NeuralAction.WPF
 
         private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Application.Current.Shutdown();
-
+            Environment.Exit(0);
         }
     }
 }

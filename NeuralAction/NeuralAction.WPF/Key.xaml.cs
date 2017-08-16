@@ -80,40 +80,83 @@ namespace NeuralAction.WPF
         {
             Arc MouseEnterArc = (Arc)sender;
 
+            var hoverColor = new SolidColorBrush(Color.FromRgb(54, 222, 155));
+            var hoverTextColor = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            hoverColor.Freeze();
+            hoverTextColor.Freeze();
 
-            MouseEnterArc.Fill = new SolidColorBrush(Color.FromRgb(54,222,155));
+            MouseEnterArc.Fill = hoverColor;
 
-            if(MouseEnterArc.Name == "pie0")
+            switch (MouseEnterArc.Name)
             {
-                input0.Foreground = new SolidColorBrush(Color.FromRgb(0,0,0));
+                case "pie0":
+                    input0.Foreground = hoverTextColor;
+                    break;
+                case "pie1":
+                    input1.Foreground = hoverTextColor;
+                    break;
+                case "pie2":
+                    input2.Foreground = hoverTextColor;
+                    break;
+                case "pie3":
+                    input3.Foreground = hoverTextColor;
+                    break;
+                case "pie4":
+                    input4.Foreground = hoverTextColor;
+                    break;
+                case "pie5":
+                    input5.Foreground = hoverTextColor;
+                    break;
+                case "pie6":
+                    input6.Foreground = hoverTextColor;
+                    break;
+                case "pie7":
+                    input7.Foreground = hoverTextColor;
+                    break;
+                default:
+                    throw new ArgumentException("unknown exception");
             }
-            if (MouseEnterArc.Name == "pie1")
+        }
+
+        private void PieMouseLeave(object sender, MouseEventArgs e)
+        {
+            Arc MouseEnterArc = (Arc)sender;
+
+            var normalColor = new SolidColorBrush(Color.FromRgb(54, 54, 54));
+            var normalTextColor = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            normalColor.Freeze();
+            normalTextColor.Freeze();
+
+            MouseEnterArc.Fill = normalColor;
+
+            switch (MouseEnterArc.Name)
             {
-                input1.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            }
-            if (MouseEnterArc.Name == "pie2")
-            {
-                input2.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            }
-            if (MouseEnterArc.Name == "pie3")
-            {
-                input3.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            }
-            if (MouseEnterArc.Name == "pie4")
-            {
-                input4.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            }
-            if (MouseEnterArc.Name == "pie5")
-            {
-                input5.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            }
-            if (MouseEnterArc.Name == "pie6")
-            {
-                input6.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            }
-            if (MouseEnterArc.Name == "pie7")
-            {
-                input7.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                case "pie0":
+                    input0.Foreground = normalTextColor;
+                    break;
+                case "pie1":
+                    input1.Foreground = normalTextColor;
+                    break;
+                case "pie2":
+                    input2.Foreground = normalTextColor;
+                    break;
+                case "pie3":
+                    input3.Foreground = normalTextColor;
+                    break;
+                case "pie4":
+                    input4.Foreground = normalTextColor;
+                    break;
+                case "pie5":
+                    input5.Foreground = normalTextColor;
+                    break;
+                case "pie6":
+                    input6.Foreground = normalTextColor;
+                    break;
+                case "pie7":
+                    input7.Foreground = normalTextColor;
+                    break;
+                default:
+                    throw new ArgumentException("unknown exception");
             }
         }
 
