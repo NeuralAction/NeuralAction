@@ -7,7 +7,7 @@
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 
         xmlns:keypad="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="keyWindow" Height="1000" Width="1600" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Background="#7F1B1B1B" Topmost="True" AllowsTransparency="true" ShowInTaskbar="False" WindowState="Maximized">
+        Title="keyWindow" Height="1000" Width="1600" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Background="#7F1B1B1B" Topmost="True" AllowsTransparency="true" ShowInTaskbar="False" WindowState="Normal">
     <Window.CacheMode>
         <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
     </Window.CacheMode>
