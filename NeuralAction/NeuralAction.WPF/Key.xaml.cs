@@ -76,6 +76,47 @@ namespace NeuralAction.WPF
             //CursorIcon.Topmost = false;
         }
 
+        private void PieMouseEnter(object sender, MouseEventArgs e)
+        {
+            Arc MouseEnterArc = (Arc)sender;
+
+
+            MouseEnterArc.Fill = new SolidColorBrush(Color.FromRgb(54,222,155));
+
+            if(MouseEnterArc.Name == "pie0")
+            {
+                input0.Foreground = new SolidColorBrush(Color.FromRgb(0,0,0));
+            }
+            if (MouseEnterArc.Name == "pie1")
+            {
+                input1.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            }
+            if (MouseEnterArc.Name == "pie2")
+            {
+                input2.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            }
+            if (MouseEnterArc.Name == "pie3")
+            {
+                input3.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            }
+            if (MouseEnterArc.Name == "pie4")
+            {
+                input4.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            }
+            if (MouseEnterArc.Name == "pie5")
+            {
+                input5.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            }
+            if (MouseEnterArc.Name == "pie6")
+            {
+                input6.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            }
+            if (MouseEnterArc.Name == "pie7")
+            {
+                input7.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            }
+        }
+
         #endregion UI Events
 
         #region Keyboard
@@ -474,5 +515,6 @@ namespace NeuralAction.WPF
         }
 
         #endregion Keyboard
+
     }
 }

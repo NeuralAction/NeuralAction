@@ -61,7 +61,8 @@ namespace NeuralAction.WPF
 
         private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Environment.Exit(0);
+            Application.Current.Shutdown();
+
         }
     }
 }

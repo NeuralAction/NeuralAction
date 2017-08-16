@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1600">
     <Grid>
-        <Grid>
+        <!--<Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
@@ -51,7 +51,7 @@
                     <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
                 </TextBlock.Effect>
             </TextBlock>
-        </Grid>
+        </Grid>-->
         <Grid Grid.ColumnSpan="2" Width="1000" Height="1000">
             <Ellipse Fill="#FF4A4A4A" Width="1000" Height="1000" MouseEnter="Ellipse_MouseEnter">
                 <Ellipse.Effect>
@@ -59,14 +59,14 @@
                 </Ellipse.Effect>
             </Ellipse>
 
-            <ed:Arc x:Name="pie0" Tag="0"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="315" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="270" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange"/>
-            <ed:Arc x:Name="pie1" Tag="4" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="360" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="315" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange"/>
-            <ed:Arc x:Name="pie2" Tag="8" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="45" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Margin="0" Stretch="None" StartAngle="0" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange"/>
-            <ed:Arc x:Name="pie3" Tag="12"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="90" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="45" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange"/>
-            <ed:Arc x:Name="pie4" Tag="16"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="135" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="90" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange" />
-            <ed:Arc x:Name="pie5" Tag="20"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="180" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="135" VerticalAlignment="Top" Width="1000"   MouseLeftButtonDown="KeyChange" />
-            <ed:Arc x:Name="pie6" Tag="24"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="225" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="180" VerticalAlignment="Top" Width="1000"   MouseLeftButtonDown="KeyChange" />
-            <ed:Arc x:Name="pie7" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="270" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="225" VerticalAlignment="Top" Width="1000" MouseLeftButtonDown="BackSpace"/>
+            <ed:Arc x:Name="pie0" Tag="0"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="315" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="270" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter"/>
+            <ed:Arc x:Name="pie1" Tag="4" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="360" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="315" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter"/>
+            <ed:Arc x:Name="pie2" Tag="8" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="45" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Margin="0" Stretch="None" StartAngle="0" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter"/>
+            <ed:Arc x:Name="pie3" Tag="12"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="90" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="45" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter"/>
+            <ed:Arc x:Name="pie4" Tag="16"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="135" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="90" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter"/>
+            <ed:Arc x:Name="pie5" Tag="20"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="180" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="135" VerticalAlignment="Top" Width="1000"   MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter"/>
+            <ed:Arc x:Name="pie6" Tag="24"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="225" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="180" VerticalAlignment="Top" Width="1000"   MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter"/>
+            <ed:Arc x:Name="pie7" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="270" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="225" VerticalAlignment="Top" Width="1000" MouseLeftButtonDown="BackSpace" MouseEnter="PieMouseEnter"/>
 
             <TextBlock x:Name="input0" Tag="0" HorizontalAlignment="Center" Height="128" Margin="0,0,700,275" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Foreground="White" Text="" FontSize="128" MouseLeftButtonDown="KeyChange" FontFamily="NanumBarunGothic Light" TextAlignment="Center"/>
             <TextBlock x:Name="input1" Tag="4" HorizontalAlignment="Center" Height="128" Margin="0,0,300,700" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Foreground="White" Text="" FontSize="128"  MouseLeftButtonDown="KeyChange" FontFamily="NanumBarunGothic Light" TextAlignment="Center"/>

@@ -7,7 +7,7 @@
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 
         xmlns:keypad="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="keyWindow" Height="1000" Width="1600" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Background="{x:Null}" Topmost="True" AllowsTransparency="true" ShowInTaskbar="False">
+        Title="keyWindow" Height="1000" Width="1600" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Background="#7F1B1B1B" Topmost="True" AllowsTransparency="true" ShowInTaskbar="False" WindowState="Maximized">
     <Window.CacheMode>
         <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
     </Window.CacheMode>
@@ -16,8 +16,13 @@
             <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
         </Grid.CacheMode>
 
+        <Ellipse x:Name="gradientover" Width="1600" Height="1600"  HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Orange"/>
+        
+        <Ellipse x:Name="keyboardover" Width="1400" Height="1400"  HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Red"/>
+     
         <keypad:Key x:Name="Keyboard" MouseLeftButtonDown="Keyboard_MouseLeftButtonDown"></keypad:Key>
-        <TextBlock HorizontalAlignment="Left" Margin="1544,20,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" FontSize="50" Foreground="White" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" />
+        <TextBlock HorizontalAlignment="Right" Margin="0,25,25,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" FontSize="50" Foreground="White" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" />
+
 
     </Grid>
 </Window>
