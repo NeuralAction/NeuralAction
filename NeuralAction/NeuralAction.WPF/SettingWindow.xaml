@@ -5,8 +5,54 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="SettingWindow" Height="300" Width="300" WindowStyle="SingleBorderWindow">
-    <Grid>
-      
+        Title="SettingWindow" Height="800" Width="375" WindowStyle="None" ResizeMode="NoResize"  AllowsTransparency="True" Loaded="Window_Loaded" ContentRendered="Window_ContentRendered" Background="{x:Null}">
+    <Grid Background="#E5171717" Margin="25,0,0,0">
+
+        <Grid.Effect>
+            <DropShadowEffect Direction="180" Opacity="0.4" ShadowDepth="5" BlurRadius="10"/>
+        </Grid.Effect>
+
+        <Grid Height="125" VerticalAlignment="Top">
+            <TextBlock Text="Neural Action" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="20,30,0,0" FontFamily="NanumBarunGothic" FontSize="36"/>
+            <TextBlock Text="Ver.1.0.0" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Top" Margin="0,52,32,0" FontFamily="NanumBarunGothic" FontSize="12"/>
+            <TextBlock Text="신경망과 시선추적을 이용한 새로운 Man Machine Interface" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="20,70,0,0" FontFamily="NanumBarunGothic"/>
+            <TextBlock Text="이희준, 함종현" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Top" Margin="0,88,32,0" FontFamily="NanumBarunGothic"/>
+            <Rectangle Fill="#663F3F3F" Height="1" VerticalAlignment="Bottom"/>
+        </Grid>
+        <Grid Height="300" VerticalAlignment="Top" Margin="0,125,0,0">
+        <TextBlock Text="Camera" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="20,30,0,0" FontFamily="NanumBarunGothic"/>
+        <TextBox Text="0" Width="50" HorizontalAlignment="Right" Height="20" x:Name="Tb_Camera" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" Margin="0,28,20,0" FontFamily="NanumBarunGothic"/>
+
+
+        <TextBlock Text="Head Use Smooth" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="20,60,0,0"  FontFamily="NanumBarunGothic"/>
+        <CheckBox HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="Cb_Head_Smooth" Margin="0,60,20,0" Background="{x:Null}" BorderBrush="#FF36DE9B" BorderThickness="2" Foreground="#FF36DE9B" IsChecked="True"  />
+
+        <TextBlock Text="Gaze Use Smooth" HorizontalAlignment="Left"  Foreground="White"  VerticalAlignment="Top" Margin="20,90,0,0"  FontFamily="NanumBarunGothic" />
+        <CheckBox IsChecked="True" HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="Cb_Gaze_Smooth"   Margin="0,90,20,0" BorderBrush="#FF36DE9B" BorderThickness="2" Foreground="#FF36DE9B"/>
+
+
+        <TextBlock Text="Gaze Use Extend Model" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,120,0,0"  FontFamily="NanumBarunGothic" Foreground="White"/>
+        <CheckBox IsChecked="True" HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="Cb_Gaze_Ex"  Margin="0,120,20,0" BorderBrush="#FF36DE9B" BorderThickness="2" Foreground="#FF36DE9B"/>
+
+        <TextBlock Text="Gaze Sensitive" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="20,170,0,0" Foreground="White" FontFamily="NanumBarunGothic"/>
+
+        <TextBlock Text="X" Margin="0, 170, 200, 0" VerticalAlignment="Top"   Foreground="White" FontFamily="NanumBarunGothic" HorizontalAlignment="Right" />
+        <TextBox Text="1.85" Width="50" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="Tb_SesitiveX" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" Margin="0,166,120,0" FontFamily="NanumBarunGothic"/>
+        <TextBlock Text="Y" Margin="0, 170, 90, 0" VerticalAlignment="Top"  Foreground="White" FontFamily="NanumBarunGothic" HorizontalAlignment="Right"/>
+        <TextBox Text="2.0" Width="50" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="Tb_SesitiveY" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" Margin="0,166,20,0" FontFamily="NanumBarunGothic"/>
+
+        <TextBlock Text="Gaze Offset" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="20,200,0,0" Foreground="White" FontFamily="NanumBarunGothic"/>
+
+        <TextBlock Text="X" Margin="0, 200, 200, 0" VerticalAlignment="Top"   Foreground="White" FontFamily="NanumBarunGothic" HorizontalAlignment="Right" />
+        <TextBox Text="0.02" Width="50" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="Tb_OffsetX" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" Margin="0,196,120,0" FontFamily="NanumBarunGothic" />
+        <TextBlock Text="Y" Margin="0, 200, 90, 0" VerticalAlignment="Top"  Foreground="White" FontFamily="NanumBarunGothic" HorizontalAlignment="Right"/>
+        <TextBox Text="-0.06" Width="50" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="Tb_OffsetY" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" Margin="0,196,20,0" FontFamily="NanumBarunGothic"/>
+            <Rectangle Fill="#663F3F3F" Margin="0,150,0,0" Height="1" VerticalAlignment="Top"/>
+        </Grid>
+
+        <Button Content="Start" x:Name="Bt_Start" FontFamily="NanumBarunGothic" VerticalAlignment="Bottom" Height="50" Background="#FF090909" Foreground="White" BorderBrush="{x:Null}"/>
+        <Rectangle Fill="#663F3F3F" HorizontalAlignment="Left" Margin="0,0,0,0" Width="1"/>
+
+
     </Grid>
 </Window>
