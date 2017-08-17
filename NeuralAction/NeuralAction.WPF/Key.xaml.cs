@@ -160,6 +160,91 @@ namespace NeuralAction.WPF
             }
         }
 
+
+        private void TextMouseEnter(object sender, MouseEventArgs e)
+        {
+            TextBlock MouseEnterTextBlock = (TextBlock)sender;
+
+            var hoverColor = new SolidColorBrush(Color.FromRgb(54, 222, 155));
+            var hoverTextColor = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            hoverColor.Freeze();
+            hoverTextColor.Freeze();
+
+            MouseEnterTextBlock.Foreground = hoverTextColor;
+
+            switch (MouseEnterTextBlock.Name)
+            {
+                case "input0":
+                    pie0.Fill= hoverColor;
+                    break;
+                case "input1":
+                    pie1.Fill = hoverColor;
+                    break;
+                case "input2":
+                    pie2.Fill = hoverColor;
+                    break;
+                case "input3":
+                    pie3.Fill = hoverColor;
+                    break;
+                case "input4":
+                    pie4.Fill = hoverColor;
+                    break;
+                case "input5":
+                    pie5.Fill = hoverColor;
+                    break;
+                case "input6":
+                    pie6.Fill = hoverColor;
+                    break;
+                case "input7":
+                    pie7.Fill = hoverColor;
+                    break;
+                default:
+                    throw new ArgumentException("unknown exception");
+            }
+        }
+
+        private void TextMouseLeave(object sender, MouseEventArgs e)
+        {
+            TextBlock MouseEnterTextBlock = (TextBlock)sender;
+
+            var normalColor = new SolidColorBrush(Color.FromRgb(54, 54, 54));
+            var normalTextColor = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            normalColor.Freeze();
+            normalTextColor.Freeze();
+
+            MouseEnterTextBlock.Foreground = normalColor;
+
+            switch (MouseEnterTextBlock.Name)
+            {
+                case "input0":
+                    pie0.Fill = normalColor;
+                    break;
+                case "input1":
+                    pie1.Fill = normalColor;
+                    break;
+                case "input2":
+                    pie2.Fill = normalColor;
+                    break;
+                case "input3":
+                    pie3.Fill = normalColor;
+                    break;
+                case "input4":
+                    pie4.Fill = normalColor;
+                    break;
+                case "input5":
+                    pie5.Fill = normalColor;
+                    break;
+                case "input6":
+                    pie6.Fill = normalColor;
+                    break;
+                case "input7":
+                    pie7.Fill = normalColor;
+                    break;
+                default:
+                    throw new ArgumentException("unknown exception");
+            }
+        }
+
         #endregion UI Events
 
         #region Keyboard
