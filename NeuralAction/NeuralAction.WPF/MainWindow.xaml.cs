@@ -22,8 +22,13 @@ namespace NeuralAction.WPF
 
         private SettingWindow settingWindow;
 
+        private System.Windows.Controls.ContextMenu notifyMenu;
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+
+            Closed += MainWindow_Closed;
+
             Settings.Load();
             InputService.Init();
 
@@ -49,9 +54,25 @@ namespace NeuralAction.WPF
             NotifyIcon.Icon = Properties.Resources.neuralaction_ico;
             NotifyIcon.Visible = true;
             NotifyIcon.ContextMenu = menu;
+            NotifyIcon.Text = "NeuralAction";
+
+            InputService.Current.Owner = this;
             InputService.Current.Settings = Settings.Current;
             InputService.Current.Start();
+        }
 
+        private void Open_Click(object sender, EventArgs e)
+        {
+            InputService.Current.ShowKeyboard();
+        }
+
+
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            NotifyIcon.Visible = false;
+            Settings.Save();
+            Environment.Exit(0);
         }
 
         private void Exit_Click(object sender, EventArgs e)
@@ -61,7 +82,6 @@ namespace NeuralAction.WPF
 
         private void Setting_Click(object sender, EventArgs e)
         {
-          
 
             if (settingWindow == null)
             {
@@ -79,9 +99,6 @@ namespace NeuralAction.WPF
             }
         }
 
-        private void Open_Click(object sender, EventArgs e)
-        {
-            InputService.Current.ShowKeyboard();
-        }
+
     }
 }

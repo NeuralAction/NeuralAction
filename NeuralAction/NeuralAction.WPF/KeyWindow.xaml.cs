@@ -48,10 +48,12 @@ namespace NeuralAction.WPF
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
+
             //this.Height = SystemParameters.WorkArea.Height;
             //this.Width = SystemParameters.WorkArea.Width;
             //Top = 0;
             //Left = 0;
+
 
             Keyboard.KeymapChange(Keyboard.GetKeymapArray(Keyboard.CurrentLanguage));
 

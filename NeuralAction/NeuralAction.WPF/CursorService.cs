@@ -256,6 +256,20 @@ namespace NeuralAction.WPF
                 case nameof(Settings.HeadSmooth):
                     GazeService.FaceDetector.SmoothLandmarks = Settings.HeadSmooth;
                     break;
+
+                case nameof(Settings.GazeOffsetX):
+                    GazeService.GazeDetector.OffsetX = Settings.GazeOffsetX;
+                    break;
+                case nameof(Settings.GazeOffsetY):
+                    GazeService.GazeDetector.OffsetY = Settings.GazeOffsetY;
+                    break;
+                case nameof(Settings.GazeSensitiveX):
+                    GazeService.GazeDetector.SensitiveX = Settings.GazeSensitiveX;
+                    break;
+                case nameof(Settings.GazeSensitiveY):
+                    GazeService.GazeDetector.SensitiveY = Settings.GazeSensitiveY;
+                    break;
+
             }
         }
 
@@ -264,6 +278,12 @@ namespace NeuralAction.WPF
             GazeService.FaceDetector.SmoothLandmarks = set.HeadSmooth;
             GazeService.GazeDetector.UseSmoothing = set.GazeSmooth;
             GazeService.GazeDetector.UseBothEyes = set.GazeExtendModel;
+
+            GazeService.GazeDetector.OffsetX = set.GazeOffsetX;
+            GazeService.GazeDetector.OffsetY = set.GazeOffsetY;
+            GazeService.GazeDetector.SensitiveX = set.GazeSensitiveX;
+            GazeService.GazeDetector.SensitiveY = set.GazeSensitiveY;
+
             SetCamera(set.CameraIndex);
         }
     }

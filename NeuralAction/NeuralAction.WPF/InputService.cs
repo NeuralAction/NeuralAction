@@ -24,7 +24,15 @@ namespace NeuralAction.WPF
         public Window Owner
         {
             get => owner;
-            set { owner = value; KeyWindow.Owner = value; Cursor.Window.Owner = value; }
+        
+            set
+            {
+                owner = value;
+                if(KeyWindow != null)
+                    KeyWindow.Owner = value;
+                Cursor.Window.Owner = value;
+            }
+
         }
 
         public override Settings Settings
