@@ -25,6 +25,8 @@ namespace NeuralAction.WPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Closed += MainWindow_Closed;
+
             Settings.Load();
             InputService.Init();
 
@@ -32,11 +34,20 @@ namespace NeuralAction.WPF
 
             NotifyIcon = new NotifyIcon();
             NotifyIcon.Icon = Properties.Resources.neuralaction_ico;
+            NotifyIcon.Text = "NeuralAction";
             NotifyIcon.Visible = true;
             NotifyIcon.MouseDown += NotifyMouseDown;
 
+            InputService.Current.Owner = this;
             InputService.Current.Settings = Settings.Current;
             InputService.Current.Start();
+        }
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            NotifyIcon.Visible = false;
+            Settings.Save();
+            Environment.Exit(0);
         }
 
         private void NotifyMouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -68,7 +79,7 @@ namespace NeuralAction.WPF
 
         private void MenuExit_Click(object sender, RoutedEventArgs e)
         {
-            Environment.Exit(0);
+            Close();
         }
 
         private void MenuOpen_Click(object sender, RoutedEventArgs e)
