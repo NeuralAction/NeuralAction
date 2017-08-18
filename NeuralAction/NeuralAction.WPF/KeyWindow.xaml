@@ -18,6 +18,5 @@
         <Ellipse x:Name="gradientover" Width="1600" Height="1600"  HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Orange"/>
         <Ellipse x:Name="keyboardover" Width="1400" Height="1400"  HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Red"/>
         <keypad:Key x:Name="Keyboard" MouseLeftButtonDown="Keyboard_MouseLeftButtonDown"></keypad:Key>
-        <TextBlock HorizontalAlignment="Right" Margin="0,25,25,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" FontSize="50" Foreground="White" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" />
     </Grid>
 </Window>

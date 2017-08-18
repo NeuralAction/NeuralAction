@@ -24,22 +24,29 @@ namespace NeuralAction.WPF
         public SettingWindow()
         {
             InitializeComponent();
+
+            Loaded += Window_Loaded;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            Height = SystemParameters.WorkArea.Height;
+
+            Top = SystemParameters.WorkArea.Top;
+            Left = SystemParameters.WorkArea.Width - ActualWidth;
         }
 
-        private void Window_ContentRendered(object sender, EventArgs e)
+        private void Bt_Apply_Click(object sender, RoutedEventArgs e)
         {
 
-            scale = (int)PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
+        }
 
-            this.Height = SystemParameters.WorkArea.Height;
-            this.Top = 0;
-            this.Left = (SystemParameters.WorkArea.Width) - this.Width;
-           
+        private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(e.Key == System.Windows.Input.Key.Escape)
+            {
+                Close();
+            }
         }
     }
 }

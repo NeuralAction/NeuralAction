@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace NeuralAction.WPF
         }
     }
 
-    public class CursorService
+    public class CursorService : SettingListener, IDisposable
     {
         public event EventHandler<GazeEventArgs> GazeTracked;
         public event EventHandler Started;
@@ -73,7 +74,17 @@ namespace NeuralAction.WPF
             }
         }
 
-        public ScreenProperties Screen { get; set; }
+        private ScreenProperties screen;
+        public ScreenProperties Screen
+        {
+            get => screen;
+            set
+            {
+                if (GazeService != null)
+                    GazeService.ScreenProperties = value;
+                screen = value;
+            }
+        }
 
         object stateLocker = new object();
         bool faceDetected = false;
@@ -108,39 +119,41 @@ namespace NeuralAction.WPF
 
         private void Init()
         {
-            Window = new CursorWindow();
+            GazeService = new EyeGazeService(Screen);
+            GazeService.GazeTracked += GazeService_GazeTracked;
+            GazeService.FaceTracked += GazeService_FaceTracked;
 
+            Window = new CursorWindow();
             Window.Show();
         }
 
         public void StartAsync(int camera)
         {
-            Task t = new Task(() =>
+            Task.Factory.StartNew(() =>
             {
-                lock (stateLocker)
-                {
-                    Window.SetAvailable(false);
-
-                    if (GazeService != null)
-                    {
-                        GazeService.Dispose();
-                        GazeService = null;
-                    }
-
-                    GazeService = new EyeGazeService(Screen);
-                    GazeService.GazeDetector.ClipToBound = true;
-                    GazeService.GazeTracked += GazeService_GazeTracked;
-                    GazeService.FaceTracked += GazeService_FaceTracked;
-                    Smooth = Smooth;
-
-                    GazeService.Start(camera);
-
-                    IsRunning = true;
-                    Started?.Invoke(this, EventArgs.Empty);
-                }
+                Start(camera);
             });
+        }
 
-            t.Start();
+        public void Start(int camera)
+        {
+            lock (stateLocker)
+            {
+                Window.SetAvailable(false);
+
+                if (GazeService != null)
+                {
+                    GazeService.Stop();
+                }
+
+                GazeService.GazeDetector.ClipToBound = true;
+                Smooth = Smooth;
+
+                GazeService.Start(camera);
+
+                IsRunning = true;
+                Started?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void GazeService_FaceTracked(object sender, FaceRect[] e)
@@ -176,22 +189,82 @@ namespace NeuralAction.WPF
         {
             Task t = new Task(() =>
             {
-                lock (stateLocker)
-                {
-                    Window.SetAvailable(false);
-
-                    if(GazeService != null)
-                    {
-                        GazeService.Dispose();
-                        GazeService = null;
-
-                        IsRunning = false;
-                        Stopped?.Invoke(this, EventArgs.Empty);
-                    }
-                }
+                Stop();
             });
 
             t.Start();
+        }
+
+        public void Stop()
+        {
+            lock (stateLocker)
+            {
+                Window.SetAvailable(false);
+
+                if (GazeService != null)
+                {
+                    GazeService.Stop();
+                }
+
+                IsRunning = false;
+                Stopped?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public void Dispose()
+        {
+            if(Window != null)
+            {
+                Window.Close();
+                Window = null;
+            }
+
+            if (GazeService != null)
+            {
+                lock (stateLocker)
+                {
+                    GazeService.Dispose();
+                    GazeService = null;
+
+                    IsRunning = false;
+                }
+            }
+        }
+
+        public void SetCamera(int index)
+        {
+            if (IsRunning)
+            {
+                Stop();
+            }
+            Start(index);
+        }
+
+        protected override void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Settings.CameraIndex):
+                    SetCamera(Settings.CameraIndex);
+                    break;
+                case nameof(Settings.GazeExtendModel):
+                    GazeService.GazeDetector.UseBothEyes = Settings.GazeExtendModel;
+                    break;
+                case nameof(Settings.GazeSmooth):
+                    GazeService.GazeDetector.UseSmoothing = Settings.GazeSmooth;
+                    break;
+                case nameof(Settings.HeadSmooth):
+                    GazeService.FaceDetector.SmoothLandmarks = Settings.HeadSmooth;
+                    break;
+            }
+        }
+
+        protected override void OnSettingChanged(Settings set)
+        {
+            GazeService.FaceDetector.SmoothLandmarks = set.HeadSmooth;
+            GazeService.GazeDetector.UseSmoothing = set.GazeSmooth;
+            GazeService.GazeDetector.UseBothEyes = set.GazeExtendModel;
+            SetCamera(set.CameraIndex);
         }
     }
 }

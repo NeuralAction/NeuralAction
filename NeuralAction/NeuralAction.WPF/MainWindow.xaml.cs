@@ -18,35 +18,70 @@ namespace NeuralAction.WPF
 
     public partial class MainWindow : Window
     {
+        public NotifyIcon NotifyIcon { get; set; }
 
-
-        public NotifyIcon notify;
+        private SettingWindow settingWindow;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Settings.Load();
+            InputService.Init();
 
-            notify = new NotifyIcon();
-            notify.Icon = NeuralAction.WPF.Properties.Resources.neuralaction_ico;
-            notify.Visible = true;
+            System.Windows.Forms.ContextMenu menu = new System.Windows.Forms.ContextMenu();
 
-            notify.MouseClick += new System.Windows.Forms.MouseEventHandler(NotifyMouseDown);
-            KeyWindow MW = new KeyWindow();
-            MW.Owner = this;
-            MW.ShowInTaskbar = false;
-            MW.Show();
+            System.Windows.Forms.MenuItem open = new System.Windows.Forms.MenuItem();
+            open.Text = "Open";
+            open.Click += Open_Click;
+
+            System.Windows.Forms.MenuItem setting = new System.Windows.Forms.MenuItem();
+            setting.Text = "Setting";
+            setting.Click += Setting_Click;
+
+            System.Windows.Forms.MenuItem exit = new System.Windows.Forms.MenuItem();
+            exit.Text = "Exit";
+            exit.Click += Exit_Click;
+
+            menu.MenuItems.Add(open);
+            menu.MenuItems.Add(setting);
+            menu.MenuItems.Add(exit);
+
+            NotifyIcon = new NotifyIcon();
+            NotifyIcon.Icon = Properties.Resources.neuralaction_ico;
+            NotifyIcon.Visible = true;
+            NotifyIcon.ContextMenu = menu;
+            InputService.Current.Settings = Settings.Current;
+            InputService.Current.Start();
 
         }
 
-        private void NotifyMouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void Exit_Click(object sender, EventArgs e)
         {
-            System.Windows.Controls.ContextMenu menu = (System.Windows.Controls.ContextMenu)this.FindResource("NotifierContextMenu");
-            menu.IsOpen = true;
+            Environment.Exit(0);
         }
 
-        private void MenuItemSetting_Click(object sender, RoutedEventArgs e)
+        private void Setting_Click(object sender, EventArgs e)
         {
-            SettingWindow SW = new SettingWindow();
-            SW.Show();
+          
+
+            if (settingWindow == null)
+            {
+                SettingWindow settingWindow = new SettingWindow();
+                settingWindow.Owner = this;
+                settingWindow.Closed += delegate
+                {
+                    settingWindow = null;
+                };
+                settingWindow.Show();
+            }
+            else
+            {
+                settingWindow.Activate();
+            }
+        }
+
+        private void Open_Click(object sender, EventArgs e)
+        {
+            InputService.Current.ShowKeyboard();
         }
     }
 }
