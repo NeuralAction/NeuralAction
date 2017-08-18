@@ -18,16 +18,12 @@ namespace NeuralAction.WPF
 
     public partial class MainWindow : Window
     {
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
-            KeyWindow MW = new KeyWindow();
-            MW.Owner = this;
-            MW.ShowInTaskbar = false;
-            MW.Show();
-
+            KeyWindow keyWindow = new KeyWindow();
+            keyWindow.Owner = this;
+            keyWindow.ShowInTaskbar = false;
+            keyWindow.Show();
         }
-
     }
 }
