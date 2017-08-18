@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="SettingWindow" Height="800" Width="375" WindowStyle="None" ResizeMode="NoResize"  AllowsTransparency="True" Loaded="Window_Loaded" ContentRendered="Window_ContentRendered" Background="{x:Null}">
+        Title="SettingWindow" Height="800" Width="375" WindowStyle="None" ResizeMode="NoResize"  AllowsTransparency="True" Loaded="Window_Loaded" ContentRendered="Window_ContentRendered" Background="{x:Null}" Icon="Resources/neuralaction_ico.ico" ShowInTaskbar="False">
     <Grid Background="#E5171717" Margin="25,0,0,0">
 
         <Grid.Effect>

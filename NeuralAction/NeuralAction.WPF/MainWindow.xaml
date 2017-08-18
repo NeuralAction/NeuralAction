@@ -7,6 +7,15 @@
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 
         x:Class="NeuralAction.WPF.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="0" Width="0" Left="-32000" Top="-32000" WindowStyle="ToolWindow" ResizeMode="NoResize"  Loaded="Window_Loaded" ShowInTaskbar="false">
-
+        Title="MainWindow" Height="0" Width="0" Left="-32000" Top="-32000" WindowStyle="ToolWindow" ResizeMode="NoResize"  Loaded="Window_Loaded" ShowInTaskbar="false" Background="#E5171717">
+    <Window.Resources>
+        <ContextMenu x:Key="NotifierContextMenu"
+                    Placement="MousePoint">
+            <MenuItem x:Name="MenuItemOpen" Header="Open" />
+            <MenuItem x:Name="MenuItemSetting"  Header="Setting" Click="MenuItemSetting_Click" />
+            <Separator />
+            <MenuItem x:Name="MenuItemExit"  Header="Exit" />
+   
+        </ContextMenu>
+    </Window.Resources>
 </Window>
