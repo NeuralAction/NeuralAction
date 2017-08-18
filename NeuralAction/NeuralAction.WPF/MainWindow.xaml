@@ -9,13 +9,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="0" Width="0" Left="-32000" Top="-32000" WindowStyle="ToolWindow" ResizeMode="NoResize"  Loaded="Window_Loaded" ShowInTaskbar="false" Background="#E5171717">
     <Window.Resources>
-        <ContextMenu x:Key="NotifierContextMenu"
-                    Placement="MousePoint">
-            <MenuItem x:Name="MenuItemOpen" Header="Open" />
-            <MenuItem x:Name="MenuItemSetting"  Header="Setting" Click="MenuItemSetting_Click" />
+        <ContextMenu x:Key="NotifyContextMenu" Placement="MousePoint">
+            <MenuItem x:Name="MenuOpen" Header="Open" Click="MenuOpen_Click"/>
+            <MenuItem x:Name="MenuSetting" Header="Setting" Click="MenuSetting_Click" />
             <Separator />
-            <MenuItem x:Name="MenuItemExit"  Header="Exit" />
-   
+            <MenuItem x:Name="MenuExit" Header="Exit" Click="MenuExit_Click"/>
         </ContextMenu>
     </Window.Resources>
 </Window>

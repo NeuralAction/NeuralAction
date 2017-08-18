@@ -47,14 +47,9 @@ namespace NeuralAction.WPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            CursorService cursorServcie = new CursorService();
-
-            cursorServcie.StartAsync(0);
-
             Keyboard.KeymapChange(Keyboard.GetKeymapArray(Keyboard.CurrentLanguage));
 
             NotWindowsFocus();
-
         }
 
         private void Keyboard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -64,7 +59,7 @@ namespace NeuralAction.WPF
 
         private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Environment.Exit(0);
+            Close();
         }
     }
 }

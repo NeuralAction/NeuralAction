@@ -5,13 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="SettingWindow" Height="800" Width="375" WindowStyle="None" ResizeMode="NoResize"  AllowsTransparency="True" Loaded="Window_Loaded" ContentRendered="Window_ContentRendered" Background="{x:Null}" Icon="Resources/neuralaction_ico.ico" ShowInTaskbar="False">
+        Title="SettingWindow" Height="800" Width="375" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" Icon="Resources/neuralaction_ico.ico" ShowInTaskbar="False" PreviewKeyDown="Window_PreviewKeyDown">
     <Grid Background="#E5171717" Margin="25,0,0,0">
-
         <Grid.Effect>
             <DropShadowEffect Direction="180" Opacity="0.4" ShadowDepth="5" BlurRadius="10"/>
         </Grid.Effect>
-
         <Grid Height="125" VerticalAlignment="Top">
             <TextBlock Text="Neural Action" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="20,30,0,0" FontFamily="NanumBarunGothic" FontSize="36"/>
             <TextBlock Text="Ver.1.0.0" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Top" Margin="0,52,32,0" FontFamily="NanumBarunGothic" FontSize="12"/>
@@ -50,9 +48,7 @@
             <Rectangle Fill="#663F3F3F" Margin="0,150,0,0" Height="1" VerticalAlignment="Top"/>
         </Grid>
 
-        <Button Content="Start" x:Name="Bt_Start" FontFamily="NanumBarunGothic" VerticalAlignment="Bottom" Height="50" Background="#FF090909" Foreground="White" BorderBrush="{x:Null}"/>
+        <Button Content="Apply" x:Name="Bt_Apply" FontFamily="NanumBarunGothic" VerticalAlignment="Bottom" Height="50" Background="#FF090909" Foreground="White" BorderBrush="{x:Null}" Click="Bt_Apply_Click"/>
         <Rectangle Fill="#663F3F3F" HorizontalAlignment="Left" Margin="0,0,0,0" Width="1"/>
-
-
     </Grid>
 </Window>

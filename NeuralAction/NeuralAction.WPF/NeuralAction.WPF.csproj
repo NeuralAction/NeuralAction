@@ -98,6 +98,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CursorService.cs" />
+    <Compile Include="InputService.cs" />
     <Compile Include="Key.xaml.cs">
       <DependentUpon>Key.xaml</DependentUpon>
     </Compile>
@@ -105,6 +106,7 @@
       <DependentUpon>KeyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Send.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>

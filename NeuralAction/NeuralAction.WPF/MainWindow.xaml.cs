@@ -18,33 +18,62 @@ namespace NeuralAction.WPF
 
     public partial class MainWindow : Window
     {
-        public NotifyIcon notify;
+        public NotifyIcon NotifyIcon { get; set; }
+
+        private SettingWindow settingWindow;
+        private System.Windows.Controls.ContextMenu notifyMenu;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Settings.Load();
+            InputService.Init();
 
-            notify = new NotifyIcon();
-            notify.Icon = NeuralAction.WPF.Properties.Resources.neuralaction_ico;
-            notify.Visible = true;
+            notifyMenu = (System.Windows.Controls.ContextMenu)FindResource("NotifyContextMenu");
 
-            notify.MouseClick += new System.Windows.Forms.MouseEventHandler(NotifyMouseDown);
-            KeyWindow MW = new KeyWindow();
-            MW.Owner = this;
-            MW.ShowInTaskbar = false;
-            MW.Show();
+            NotifyIcon = new NotifyIcon();
+            NotifyIcon.Icon = Properties.Resources.neuralaction_ico;
+            NotifyIcon.Visible = true;
+            NotifyIcon.MouseDown += NotifyMouseDown;
 
+            InputService.Current.Settings = Settings.Current;
+            InputService.Current.Start();
         }
 
         private void NotifyMouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            System.Windows.Controls.ContextMenu menu = (System.Windows.Controls.ContextMenu)this.FindResource("NotifierContextMenu");
-            menu.IsOpen = true;
+            if (e.Button == MouseButtons.Right)
+            {
+                notifyMenu.IsOpen = true;
+                notifyMenu.StaysOpen = false;
+            }
         }
 
-        private void MenuItemSetting_Click(object sender, RoutedEventArgs e)
+        private void MenuSetting_Click(object sender, RoutedEventArgs e)
         {
-            SettingWindow SW = new SettingWindow();
-            SW.Show();
+            if (settingWindow == null)
+            {
+                SettingWindow settingWindow = new SettingWindow();
+                settingWindow.Owner = this;
+                settingWindow.Closed += delegate
+                {
+                    settingWindow = null;
+                };
+                settingWindow.Show();
+            }
+            else
+            {
+                settingWindow.Activate();
+            }
+        }
+
+        private void MenuExit_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void MenuOpen_Click(object sender, RoutedEventArgs e)
+        {
+            InputService.Current.ShowKeyboard();
         }
     }
 }
