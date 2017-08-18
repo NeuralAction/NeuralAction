@@ -18,12 +18,33 @@ namespace NeuralAction.WPF
 
     public partial class MainWindow : Window
     {
+        public NotifyIcon notify;
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            KeyWindow keyWindow = new KeyWindow();
-            keyWindow.Owner = this;
-            keyWindow.ShowInTaskbar = false;
-            keyWindow.Show();
+
+            notify = new NotifyIcon();
+            notify.Icon = NeuralAction.WPF.Properties.Resources.neuralaction_ico;
+            notify.Visible = true;
+
+            notify.MouseClick += new System.Windows.Forms.MouseEventHandler(NotifyMouseDown);
+            KeyWindow MW = new KeyWindow();
+            MW.Owner = this;
+            MW.ShowInTaskbar = false;
+            MW.Show();
+
+        }
+
+        private void NotifyMouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            System.Windows.Controls.ContextMenu menu = (System.Windows.Controls.ContextMenu)this.FindResource("NotifierContextMenu");
+            menu.IsOpen = true;
+        }
+
+        private void MenuItemSetting_Click(object sender, RoutedEventArgs e)
+        {
+            SettingWindow SW = new SettingWindow();
+            SW.Show();
         }
     }
 }

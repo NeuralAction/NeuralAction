@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -53,6 +54,7 @@ namespace NeuralAction.WPF
             Keyboard.KeymapChange(Keyboard.GetKeymapArray(Keyboard.CurrentLanguage));
 
             NotWindowsFocus();
+
         }
 
         private void Keyboard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
