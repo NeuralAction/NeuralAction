@@ -86,6 +86,8 @@ namespace NeuralAction.WPF
             }
         }
 
+        public Point Point { get; protected set; }
+
         object stateLocker = new object();
         bool faceDetected = false;
 
@@ -150,7 +152,7 @@ namespace NeuralAction.WPF
                 Smooth = Smooth;
 
                 GazeService.Start(camera);
-
+                
                 IsRunning = true;
                 Started?.Invoke(this, EventArgs.Empty);
             }
@@ -182,6 +184,7 @@ namespace NeuralAction.WPF
                 Window.SetAvailable(false);
             }
 
+            Point = e; 
             GazeTracked?.Invoke(this, arg);
         }
 
@@ -256,7 +259,6 @@ namespace NeuralAction.WPF
                 case nameof(Settings.HeadSmooth):
                     GazeService.FaceDetector.SmoothLandmarks = Settings.HeadSmooth;
                     break;
-
                 case nameof(Settings.GazeOffsetX):
                     GazeService.GazeDetector.OffsetX = Settings.GazeOffsetX;
                     break;
@@ -268,8 +270,7 @@ namespace NeuralAction.WPF
                     break;
                 case nameof(Settings.GazeSensitiveY):
                     GazeService.GazeDetector.SensitiveY = Settings.GazeSensitiveY;
-                    break;
-
+                    break; 
             }
         }
 
@@ -278,12 +279,10 @@ namespace NeuralAction.WPF
             GazeService.FaceDetector.SmoothLandmarks = set.HeadSmooth;
             GazeService.GazeDetector.UseSmoothing = set.GazeSmooth;
             GazeService.GazeDetector.UseBothEyes = set.GazeExtendModel;
-
             GazeService.GazeDetector.OffsetX = set.GazeOffsetX;
             GazeService.GazeDetector.OffsetY = set.GazeOffsetY;
             GazeService.GazeDetector.SensitiveX = set.GazeSensitiveX;
             GazeService.GazeDetector.SensitiveY = set.GazeSensitiveY;
-
             SetCamera(set.CameraIndex);
         }
     }

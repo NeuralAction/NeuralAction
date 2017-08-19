@@ -66,8 +66,6 @@ namespace NeuralAction.WPF
             InputService.Current.ShowKeyboard();
         }
 
-
-
         private void MainWindow_Closed(object sender, EventArgs e)
         {
             NotifyIcon.Visible = false;

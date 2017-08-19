@@ -58,6 +58,8 @@ namespace NeuralAction.WPF
             Keyboard.KeymapChange(Keyboard.GetKeymapArray(Keyboard.CurrentLanguage));
 
             NotWindowsFocus();
+
+    
         }
 
         private void Keyboard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
