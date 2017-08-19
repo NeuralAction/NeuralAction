@@ -31,9 +31,7 @@ namespace NeuralAction.WPF
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            Height = SystemParameters.WorkArea.Height;
-
-            Top = SystemParameters.WorkArea.Top;
+            Top = SystemParameters.WorkArea.Height - ActualHeight + 1;
             Left = SystemParameters.WorkArea.Width - ActualWidth;
         }
 

@@ -19,7 +19,6 @@
 
 
         <local:Key x:Name="Keyboard" MouseLeftButtonDown="Keyboard_MouseLeftButtonDown"></local:Key>
-        <TextBlock x:Name="test" HorizontalAlignment="Left" Margin="347,134,0,0" TextWrapping="Wrap" Text="fefsefsefesfsfesfsf" VerticalAlignment="Top" Foreground="White"/>
 
     </Grid>
 </Window>
