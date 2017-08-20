@@ -32,6 +32,7 @@ namespace NeuralAction.WPF
     public class CursorService : SettingListener, IDisposable
     {
         public event EventHandler<GazeEventArgs> GazeTracked;
+        public event EventHandler<Point> Clicked;
         public event EventHandler Started;
         public event EventHandler Stopped;
 
