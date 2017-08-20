@@ -32,28 +32,10 @@ namespace NeuralAction.WPF
             Settings.Load();
             InputService.Init();
 
-            System.Windows.Forms.ContextMenu menu = new System.Windows.Forms.ContextMenu();
-
-            System.Windows.Forms.MenuItem open = new System.Windows.Forms.MenuItem();
-            open.Text = "Open";
-            open.Click += Open_Click;
-
-            System.Windows.Forms.MenuItem setting = new System.Windows.Forms.MenuItem();
-            setting.Text = "Setting";
-            setting.Click += Setting_Click;
-
-            System.Windows.Forms.MenuItem exit = new System.Windows.Forms.MenuItem();
-            exit.Text = "Exit";
-            exit.Click += Exit_Click;
-
-            menu.MenuItems.Add(open);
-            menu.MenuItems.Add(setting);
-            menu.MenuItems.Add(exit);
-
             NotifyIcon = new NotifyIcon();
             NotifyIcon.Icon = Properties.Resources.neuralaction_ico;
             NotifyIcon.Visible = true;
-            NotifyIcon.ContextMenu = menu;
+            NotifyIcon.MouseClick += NotifyIcon_MouseClick;
             NotifyIcon.Text = "NeuralAction";
 
             InputService.Current.Owner = this;
@@ -61,9 +43,10 @@ namespace NeuralAction.WPF
             InputService.Current.Start();
         }
 
-        private void Open_Click(object sender, EventArgs e)
+        private void NotifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            InputService.Current.ShowKeyboard();
+            Menu ME = new Menu();
+            ME.Show();
         }
 
         private void MainWindow_Closed(object sender, EventArgs e)
@@ -71,30 +54,6 @@ namespace NeuralAction.WPF
             NotifyIcon.Visible = false;
             Settings.Save();
             Environment.Exit(0);
-        }
-
-        private void Exit_Click(object sender, EventArgs e)
-        {
-            Environment.Exit(0);
-        }
-
-        private void Setting_Click(object sender, EventArgs e)
-        {
-
-            if (settingWindow == null)
-            {
-                SettingWindow settingWindow = new SettingWindow();
-                settingWindow.Owner = this;
-                settingWindow.Closed += delegate
-                {
-                    settingWindow = null;
-                };
-                settingWindow.Show();
-            }
-            else
-            {
-                settingWindow.Activate();
-            }
         }
 
 

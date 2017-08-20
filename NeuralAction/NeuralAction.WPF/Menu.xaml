@@ -5,23 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="SettingWindow" Height="152" Width="375" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" Icon="Resources/neuralaction_ico.ico" ShowInTaskbar="False">
-    <Grid Background="#E5171717" Margin="25,0,0,0">
+        Title="SettingWindow" Height="303" Width="375" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" Icon="Resources/neuralaction_ico.ico" ShowInTaskbar="False" Loaded="Window_Loaded">
+    <Grid Background="#E5171717" Margin="25,25,0,0" Width="350">
         <Grid.Effect>
             <DropShadowEffect Direction="180" Opacity="0.4" ShadowDepth="5" BlurRadius="10"/>
         </Grid.Effect>
- 
-        <Grid Height="152" VerticalAlignment="Top" >
-            <Button Content="Open" x:Name="Open" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}"/>
+        <StackPanel>
+            <Grid Height="125" VerticalAlignment="Top">
+                <Grid.CacheMode>
+                    <BitmapCache SnapsToDevicePixels="True"/>
+                </Grid.CacheMode>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Grid Margin="0,4">
+                        <TextBlock Text="Neural Action" Foreground="White" FontFamily="NanumBarunGothic" FontSize="36"/>
+                        <TextBlock Text="Ver.1.0.0" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Bottom" FontFamily="NanumBarunGothic" FontSize="12"/>
+                    </Grid>
+                    <TextBlock Margin="0,2" Text="신경망과 시선추적을 이용한 새로운 Man Machine Interface" HorizontalAlignment="Stretch" Foreground="White" FontFamily="NanumBarunGothic"/>
+                    <TextBlock Text="이희준, 함종현" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Top" FontFamily="NanumBarunGothic"/>
+                </StackPanel>
+            </Grid>
+            <Rectangle Fill="#663F3F3F" Height="1" VerticalAlignment="Bottom"/>
+            <StackPanel >
+                <Grid Height="51">
+                    <Button Content="Open" x:Name="Open" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Click="Open_Click"/>
 
-            <Rectangle Fill="#663F3F3F" Margin="0,50,0,0" Height="1" VerticalAlignment="Top"/>
-            <Button Content="Open" x:Name="Setting" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Margin="0,51,0,0"/>
+                    <Rectangle Fill="#663F3F3F" Margin="0,50,0,0" Height="1" VerticalAlignment="Top"/>
+                  
+                </Grid>
+                <Grid Height="51">
+                    <Button Content="Setting" x:Name="Setting" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Click="Setting_Click"/>
 
-            <Rectangle Fill="#663F3F3F" Margin="0,101,0,0" Height="1" VerticalAlignment="Top"/>
-            <Button Content="Open" x:Name="Exit" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Margin="0,102,0,0"/>
+                    <Rectangle Fill="#663F3F3F" Margin="0,51,0,0" Height="1" VerticalAlignment="Top"/>
 
-        </Grid>
+                </Grid>
+                <Grid Height="51">
+                    <Button Content="Exit" x:Name="Exit" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Click="Exit_Click"/>
 
-         <Rectangle Fill="#663F3F3F" HorizontalAlignment="Left" Margin="0,0,0,0" Width="1"/>
+                    <Rectangle Fill="#663F3F3F" Margin="0,51,0,0" Height="1" VerticalAlignment="Top"/>
+                </Grid>
+
+            </StackPanel>
+        </StackPanel>
     </Grid>
+
+
 </Window>
