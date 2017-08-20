@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="SettingWindow" Height="800" Width="375" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" Icon="Resources/neuralaction_ico.ico" ShowInTaskbar="False" PreviewKeyDown="Window_PreviewKeyDown">
+        Title="SettingWindow" Height="400" Width="375" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" Icon="Resources/neuralaction_ico.ico" ShowInTaskbar="False" PreviewKeyDown="Window_PreviewKeyDown">
     <Grid Background="#E5171717" Margin="25,0,0,0">
         <Grid.Effect>
             <DropShadowEffect Direction="180" Opacity="0.4" ShadowDepth="5" BlurRadius="10"/>
@@ -23,7 +23,7 @@
 
 
         <TextBlock Text="Head Use Smooth" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="20,60,0,0"  FontFamily="NanumBarunGothic"/>
-        <CheckBox HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="Cb_Head_Smooth" Margin="0,60,20,0" Background="{x:Null}" BorderBrush="#FF36DE9B" BorderThickness="2" Foreground="#FF36DE9B" IsChecked="True"  />
+        <CheckBox HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="Cb_Head_Smooth" Margin="0,60,20,0" BorderBrush="#FF36DE9B" BorderThickness="2" Foreground="#FF36DE9B" IsChecked="True"  />
 
         <TextBlock Text="Gaze Use Smooth" HorizontalAlignment="Left"  Foreground="White"  VerticalAlignment="Top" Margin="20,90,0,0"  FontFamily="NanumBarunGothic" />
         <CheckBox IsChecked="True" HorizontalAlignment="Right" VerticalAlignment="Top" x:Name="Cb_Gaze_Smooth"   Margin="0,90,20,0" BorderBrush="#FF36DE9B" BorderThickness="2" Foreground="#FF36DE9B"/>

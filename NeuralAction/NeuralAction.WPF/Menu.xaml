@@ -1,0 +1,27 @@
+﻿<Window x:Class="NeuralAction.WPF.Menu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeuralAction.WPF"
+        mc:Ignorable="d"
+        Title="SettingWindow" Height="152" Width="375" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" Icon="Resources/neuralaction_ico.ico" ShowInTaskbar="False">
+    <Grid Background="#E5171717" Margin="25,0,0,0">
+        <Grid.Effect>
+            <DropShadowEffect Direction="180" Opacity="0.4" ShadowDepth="5" BlurRadius="10"/>
+        </Grid.Effect>
+ 
+        <Grid Height="152" VerticalAlignment="Top" >
+            <Button Content="Open" x:Name="Open" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}"/>
+
+            <Rectangle Fill="#663F3F3F" Margin="0,50,0,0" Height="1" VerticalAlignment="Top"/>
+            <Button Content="Open" x:Name="Setting" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Margin="0,51,0,0"/>
+
+            <Rectangle Fill="#663F3F3F" Margin="0,101,0,0" Height="1" VerticalAlignment="Top"/>
+            <Button Content="Open" x:Name="Exit" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Margin="0,102,0,0"/>
+
+        </Grid>
+
+         <Rectangle Fill="#663F3F3F" HorizontalAlignment="Left" Margin="0,0,0,0" Width="1"/>
+    </Grid>
+</Window>
