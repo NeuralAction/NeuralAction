@@ -24,20 +24,31 @@ namespace NeuralAction.WPF
         public SettingWindow()
         {
             InitializeComponent();
-
+            DataContext = Settings.Current;
             Loaded += Window_Loaded;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
             Top = SystemParameters.WorkArea.Height - ActualHeight + 1;
             Left = SystemParameters.WorkArea.Width - ActualWidth;
         }
 
         private void Bt_Apply_Click(object sender, RoutedEventArgs e)
         {
+            int ind = int.MinValue;
+            try
+            {
+                ind = Convert.ToInt32(Tb_Camera.Text);
+            }
+            catch
+            {
 
+            }
+            if (ind != int.MinValue)
+                Settings.Current.CameraIndex = ind;
+
+            Settings.Save();
         }
 
         private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)

@@ -39,7 +39,6 @@ namespace NeuralAction.WPF
         
         public static void Load()
         {
-
             Current = new Settings();
 
             string path = Path.Combine(Environment.CurrentDirectory, "Settings.xml");
@@ -56,18 +55,15 @@ namespace NeuralAction.WPF
             {
                 Current = new Settings();
             }
-
         }
 
         public static void Save()
         {
-
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
             using (StreamWriter wr = new StreamWriter(Path.Combine(Environment.CurrentDirectory, "Settings.xml")))
             {
                 xmlSerializer.Serialize(wr, Current);
             }
-
         }
 
         private int cameraIndex = 0;
@@ -127,6 +123,12 @@ namespace NeuralAction.WPF
             set { gazeSensitiveY = value; OnPropertyChanged(); }
         }
 
+        private double gazeSpeedLimit = 3;
+        public double GazeSpeedLimit
+        {
+            get => gazeSpeedLimit;
+            set { gazeSpeedLimit = value; OnPropertyChanged(); }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

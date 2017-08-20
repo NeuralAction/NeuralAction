@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeuralAction.WPF"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
         mc:Ignorable="d"
-        Title="CursorWindow" Width="105" Height="105" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Topmost="True" Cursor="None" ShowInTaskbar="False">
+        Title="CursorWindow" Width="120" Height="120" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Topmost="True" Cursor="None" ShowInTaskbar="False">
     <Window.Resources>
         <Storyboard x:Key="CursorOn" Timeline.DesiredFrameRate="30">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Grid_Root">
@@ -62,7 +62,7 @@
             <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <TransformGroup>
-                        <ScaleTransform/>
+                        <ScaleTransform x:Name="scale"/>
                         <SkewTransform/>
                         <RotateTransform/>
                         <TranslateTransform/>

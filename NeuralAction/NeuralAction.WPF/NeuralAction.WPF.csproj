@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{809713B4-C1E5-4A84-B4A3-822B65FAA105}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>NeuralAction.WPF</RootNamespace>
     <AssemblyName>NeuralAction.WPF</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -108,6 +108,7 @@
     <Compile Include="Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MouseEvent.cs" />
     <Compile Include="Send.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SettingWindow.xaml.cs">
@@ -116,6 +117,8 @@
     <Compile Include="SkiaShape.xaml.cs">
       <DependentUpon>SkiaShape.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TextToDoubleConverter.cs" />
+    <Compile Include="WinApi.cs" />
     <Page Include="CursorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

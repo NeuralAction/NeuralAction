@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Threading;
 using Vision;
 using Vision.Detection;
 
@@ -29,9 +30,22 @@ namespace NeuralAction.WPF
         }
     }
 
+    public class CursorTimes
+    {
+        public Point Point { get; set; }
+        public TimeSpan Time { get; set; }
+
+        public CursorTimes(Point pt, TimeSpan t)
+        {
+            Point = pt;
+            Time = t;
+        }
+    }
+
     public class CursorService : SettingListener, IDisposable
     {
         public event EventHandler<GazeEventArgs> GazeTracked;
+        public event EventHandler<System.Windows.Point> Moved;
         public event EventHandler<Point> Clicked;
         public event EventHandler Started;
         public event EventHandler Stopped;
@@ -87,8 +101,14 @@ namespace NeuralAction.WPF
             }
         }
 
+        public double ClickDelay { get; set; } = 300;
+        public double ClickWait { get; set; } = 150;
+
         public Point Point { get; protected set; }
 
+        System.Timers.Timer clickWaiter;
+        object logLocker = new object();
+        Dictionary<TimeSpan, bool> clickLog = new Dictionary<TimeSpan, bool>();
         object stateLocker = new object();
         bool faceDetected = false;
 
@@ -125,9 +145,16 @@ namespace NeuralAction.WPF
             GazeService = new EyeGazeService(Screen);
             GazeService.GazeTracked += GazeService_GazeTracked;
             GazeService.FaceTracked += GazeService_FaceTracked;
+            GazeService.Clicked += GazeService_Clicked;
 
             Window = new CursorWindow();
+            Window.Moved += Window_Moved;
             Window.Show();
+        }
+
+        private void Window_Moved(object sender, System.Windows.Point e)
+        {
+            Moved?.Invoke(sender, e);
         }
 
         public void StartAsync(int camera)
@@ -159,6 +186,74 @@ namespace NeuralAction.WPF
             }
         }
 
+        private void GazeService_Clicked(object sender, Point e)
+        {
+            Profiler.ReportOn = false;
+
+            lock (logLocker)
+            lock (Window.MoveLocker)
+            {
+                var movelist = Window.MoveList;
+                if (e != null && movelist != null)
+                {
+                    if (clickWaiter == null)
+                    {
+                        clickWaiter = new System.Timers.Timer();
+                        clickWaiter.Elapsed += delegate
+                        {
+                            var now = DateTime.Now.TimeOfDay;
+
+                            var logLimit = now.TotalMilliseconds - ClickWait;
+                            var log = from l in clickLog
+                                      where l.Key.TotalMilliseconds > logLimit
+                                      select l;
+                            
+                            if (log.Count() > 0)
+                            {
+                                double logScore = 0;
+                                foreach (var l in log)
+                                    if (l.Value)
+                                        logScore++;
+                                logScore = logScore / log.Count();
+                                
+                                if (logScore > 0.6)
+                                {
+                                    var dataLimit = now.TotalMilliseconds - ClickDelay;
+                                    var data = from pt in movelist
+                                               where pt.Time.TotalMilliseconds > dataLimit
+                                               orderby pt.Time.TotalMilliseconds
+                                               select pt;
+
+                                    if (data.Count() > 0)
+                                    {
+                                        var click = data.First().Point;
+                                        var winClick = new System.Windows.Point(click.X, click.Y);
+
+                                        Logger.Log("Clicked" + click.ToString());
+                                        Window.Goto(winClick);
+                                        MouseEvent.Click(MouseButton.Left);
+                                        Window.Clicked();
+                                        Clicked?.Invoke(sender, click);
+                                    }
+                                }
+                            }
+
+                            Logger.Log("timer stop");
+                            clickWaiter.Stop();
+                        };
+
+                        clickWaiter.Interval = ClickWait;
+                    }
+                    
+                    if (!clickWaiter.Enabled)
+                    {
+                        Logger.Log("timer start" + e.ToString());
+                        clickWaiter.Start();
+                    }
+                }
+            }
+        }
+
         private void GazeService_FaceTracked(object sender, FaceRect[] e)
         {
             if (e != null && e.Length > 0)
@@ -179,6 +274,11 @@ namespace NeuralAction.WPF
             {
                 Window.SetAvailable(true);
                 Window.SetPosition(e.X, e.Y);
+
+                lock (logLocker)
+                {
+                    clickLog.Add(DateTime.Now.TimeOfDay, GazeService.IsLeftClicking || GazeService.IsRightClicking);
+                }
             }
             else
             {
@@ -271,7 +371,10 @@ namespace NeuralAction.WPF
                     break;
                 case nameof(Settings.GazeSensitiveY):
                     GazeService.GazeDetector.SensitiveY = Settings.GazeSensitiveY;
-                    break; 
+                    break;
+                case nameof(Settings.GazeSpeedLimit):
+                    Window.SpeedLimit = Settings.GazeSpeedLimit;
+                    break;
             }
         }
 
@@ -284,6 +387,7 @@ namespace NeuralAction.WPF
             GazeService.GazeDetector.OffsetY = set.GazeOffsetY;
             GazeService.GazeDetector.SensitiveX = set.GazeSensitiveX;
             GazeService.GazeDetector.SensitiveY = set.GazeSensitiveY;
+            Window.SpeedLimit = Settings.GazeSpeedLimit;
             SetCamera(set.CameraIndex);
         }
     }

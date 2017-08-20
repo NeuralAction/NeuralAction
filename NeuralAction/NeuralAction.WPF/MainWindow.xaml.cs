@@ -19,15 +19,6 @@ namespace NeuralAction.WPF
 
     public partial class MainWindow : Window
     {
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
-        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
-
-        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
-        private const int MOUSEEVENTF_LEFTUP = 0x04;
-        private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
-        private const int MOUSEEVENTF_RIGHTUP = 0x10;
-
         public NotifyIcon NotifyIcon { get; set; }
 
         private SettingWindow settingWindow;
@@ -36,7 +27,6 @@ namespace NeuralAction.WPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
             Closed += MainWindow_Closed;
 
             Settings.Load();
@@ -69,18 +59,6 @@ namespace NeuralAction.WPF
             InputService.Current.Owner = this;
             InputService.Current.Settings = Settings.Current;
             InputService.Current.Start();
-
-            InputService.Current.Cursor.GazeTracked += Cursor_GazeTracked;
-           
-        }
-
-        private void Cursor_GazeTracked(object sender, GazeEventArgs e)
-        {
-            if(e.IsGazeDetected)
-            {
-                // 눈 감는거 인식 어떻게하죵... 일단 e.point.x, e.point.y 로 좌표 구하고
-                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (uint) e.Point.X, (uint) e.Point.Y, 0, 0);
-            }
         }
 
         private void Open_Click(object sender, EventArgs e)

@@ -55,9 +55,9 @@ namespace NeuralAction.WPF
 
         public void Start()
         {
-            ShowKeyboard();
-
             Cursor.StartAsync(CameraIndex);
+
+            ShowKeyboard();
         }
 
         public void CloseKeyboard()
