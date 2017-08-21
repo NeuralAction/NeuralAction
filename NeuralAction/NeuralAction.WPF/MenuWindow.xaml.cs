@@ -15,20 +15,24 @@ using System.Windows.Shapes;
 namespace NeuralAction.WPF
 {
     /// <summary>
-    /// Menu.xaml에 대한 상호 작용 논리
+    /// MenuWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class Menu : Window
+    public partial class MenuWindow : Window
     {
 
         private SettingWindow settingWindow;
 
-        public Menu()
+        public MenuWindow()
         {
             InitializeComponent();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if (settingWindow != null)
+            {
+                settingWindow.Close();
+            }
             Top = SystemParameters.WorkArea.Height - ActualHeight + 1;
             Left = SystemParameters.WorkArea.Width - ActualWidth;
         }
@@ -36,6 +40,8 @@ namespace NeuralAction.WPF
         private void Open_Click(object sender, RoutedEventArgs e)
         {
             InputService.Current.ShowKeyboard();
+            this.Hide();
+
         }
 
         private void Setting_Click(object sender, RoutedEventArgs e)
@@ -54,11 +60,13 @@ namespace NeuralAction.WPF
             {
                 settingWindow.Activate();
             }
+            this.Hide();
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
         }
-    }
+    
+}
 }

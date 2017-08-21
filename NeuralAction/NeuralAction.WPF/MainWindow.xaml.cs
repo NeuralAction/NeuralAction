@@ -23,6 +23,8 @@ namespace NeuralAction.WPF
 
         private SettingWindow settingWindow;
 
+        private MenuWindow menuWindow;
+
         private System.Windows.Controls.ContextMenu notifyMenu;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -45,8 +47,27 @@ namespace NeuralAction.WPF
 
         private void NotifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            Menu ME = new Menu();
-            ME.Show();
+
+            if(settingWindow != null)
+            {
+                settingWindow.Close();
+            }
+
+            if (menuWindow == null)
+            {
+                MenuWindow menuWindow = new MenuWindow();
+                menuWindow.Owner = this;
+                menuWindow.Closed += delegate
+                {
+                    menuWindow = null;
+                };
+                menuWindow.Show();
+            }
+            else
+            {
+                menuWindow.Activate();
+            }
+
         }
 
         private void MainWindow_Closed(object sender, EventArgs e)

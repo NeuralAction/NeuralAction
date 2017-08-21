@@ -105,8 +105,8 @@
     <Compile Include="KeyWindow.xaml.cs">
       <DependentUpon>KeyWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Menu.xaml.cs">
-      <DependentUpon>Menu.xaml</DependentUpon>
+    <Compile Include="MenuWindow.xaml.cs">
+      <DependentUpon>MenuWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MouseEvent.cs" />
     <Compile Include="Send.cs" />
@@ -146,7 +146,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Menu.xaml">
+    <Page Include="MenuWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
