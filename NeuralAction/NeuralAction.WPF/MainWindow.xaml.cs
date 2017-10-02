@@ -76,7 +76,5 @@ namespace NeuralAction.WPF
             Settings.Save();
             Environment.Exit(0);
         }
-
-
     }
 }
