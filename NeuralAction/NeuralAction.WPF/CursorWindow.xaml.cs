@@ -37,6 +37,9 @@ namespace NeuralAction.WPF
                 Top = value / Scale;
             }
         }
+        /// <summary>
+        /// actual cursor point
+        /// </summary>
         public Vision.Point Point { get => new Vision.Point(ActualLeft + ActualWidth / 2, ActualTop + ActualHeight / 2); }
         public List<CursorTimes> MoveList { get; set; } = new List<CursorTimes>();
         public object MoveLocker { get; set; } = new object();
@@ -95,7 +98,7 @@ namespace NeuralAction.WPF
 
                     if (show)
                     {
-                        var pt = new System.Windows.Point(Point.X, Point.Y);
+                        var pt = new Point(Point.X, Point.Y);
                         MouseEvent.MoveAt(pt);
                         Moved?.Invoke(this, pt);
                     }
