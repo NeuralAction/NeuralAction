@@ -1,3 +1,6 @@
 [submodule "Vision"]
 	path = Vision
 	url = https://github.com/gmlwns2000/Vision.git
+[submodule "Predict"]
+	path = Predict
+	url = https://github.com/hjh010501/Predict.git
