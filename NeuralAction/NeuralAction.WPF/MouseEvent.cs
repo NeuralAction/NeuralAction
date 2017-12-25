@@ -46,7 +46,8 @@ namespace NeuralAction.WPF
 
         static MouseEvent()
         {
-            DisplaySize = new Size(SystemParameters.PrimaryScreenWidth, SystemParameters.PrimaryScreenHeight);
+            var scale = WinApi.GetDpi() / 96.0;
+            DisplaySize = new Size(SystemParameters.PrimaryScreenWidth * scale, SystemParameters.PrimaryScreenHeight * scale);
         }
 
         #region Moving
