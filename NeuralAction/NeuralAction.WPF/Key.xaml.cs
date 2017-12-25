@@ -540,8 +540,7 @@ namespace NeuralAction.WPF
         {
             InputingReset();
 
-            string RealSendKey = ((TextBlock)sender).Text;
-            CenterText.Text = RealSendKey;
+            string RealSendKey = ((Grid)sender).Tag.ToString();
 
             System.Windows.Forms.Clipboard.SetText(RealSendKey);
             Send sendkeys = new Send(RealSendKey, RealSendKey);
@@ -643,6 +642,5 @@ namespace NeuralAction.WPF
         }
 
         #endregion Keyboard
-
     }
 }

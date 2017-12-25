@@ -44,6 +44,14 @@ namespace NeuralAction.WPF
 
         }
 
+        private void Calibration_Click(object sender, RoutedEventArgs e)
+        {
+            if (!InputService.Current.Cursor.GazeService.GazeDetector.Calibrator.IsStarted)
+                InputService.Current.Cursor.GazeService.GazeDetector.Calibrator.Start(InputService.Current.Cursor.GazeService.ScreenProperties);
+
+        }
+
+
         private void Setting_Click(object sender, RoutedEventArgs e)
         {
             if (settingWindow == null)
@@ -67,6 +75,7 @@ namespace NeuralAction.WPF
         {
             Environment.Exit(0);
         }
-    
-}
+
+
+    }
 }

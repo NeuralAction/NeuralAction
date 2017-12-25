@@ -97,6 +97,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CaliCircleWIndow.xaml.cs">
+      <DependentUpon>CaliCircleWIndow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CursorService.cs" />
     <Compile Include="InputService.cs" />
     <Compile Include="Key.xaml.cs">
@@ -119,6 +122,10 @@
     </Compile>
     <Compile Include="TextToDoubleConverter.cs" />
     <Compile Include="WinApi.cs" />
+    <Page Include="CaliCircleWIndow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CursorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -187,6 +194,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Vision\SharpFace\OpenCvSharp\src\OpenCvSharp\OpenCvSharp.csproj">
+      <Project>{658C140F-2E73-4E22-80A7-F05DF0A83318}</Project>
+      <Name>OpenCvSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Vision\TensorFlowSharp\TensorFlowSharp.Windows\TensorFlowSharp.Windows.csproj">
       <Project>{9a5fc834-a8df-4410-a21d-cf60b4fcacb7}</Project>
       <Name>TensorFlowSharp.Windows</Name>

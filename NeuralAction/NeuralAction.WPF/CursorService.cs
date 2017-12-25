@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Vision;
 using Vision.Detection;
@@ -89,6 +90,8 @@ namespace NeuralAction.WPF
         }
 
         private ScreenProperties screen;
+        CalibratingArgs calibratingArgs;
+
         public ScreenProperties Screen
         {
             get => screen;
@@ -121,9 +124,12 @@ namespace NeuralAction.WPF
 
         public CursorService()
         {
+            var dpi = WinApi.GetDpi();
+            Logger.Log(this, $"DPI: {dpi}");
+
             Screen s = System.Windows.Forms.Screen.PrimaryScreen;
 
-            Screen = ScreenProperties.CreatePixelScreen(s.Bounds.Width, s.Bounds.Height, 96);
+            Screen = ScreenProperties.CreatePixelScreen(s.Bounds.Width, s.Bounds.Height, dpi);
 
             Init();
         }
@@ -178,12 +184,60 @@ namespace NeuralAction.WPF
 
                 GazeService.GazeDetector.ClipToBound = true;
                 Smooth = Smooth;
-
+                GazeService.GazeDetector.Calibrator.Calibarting += GazeCalibrater_Calibarting;
+                GazeService.GazeDetector.Calibrator.CalibrateBegin += GazeCalibrater_CalibrateBegin;
+                GazeService.GazeDetector.Calibrator.Calibrated += GazeCalibrater_Calibrated;
                 GazeService.Start(camera);
                 
                 IsRunning = true;
                 Started?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        private void GazeCalibrater_Calibrated(object sender, CalibratedArgs e)
+        {
+            Logger.Log(this, "Calibrated");
+
+            EyeGazeCalibrationLog logger = new EyeGazeCalibrationLog(e.Data);
+            logger.Save();
+
+            using (OpenCvSharp.Mat frame = logger.Plot(screen, GazeService.GazeDetector.Calibrator))
+            {
+                var savepath = logger.File.AbosolutePath;
+                savepath = savepath.Replace(".clb", ".jpg");
+                Core.Cv.ImgWrite(savepath, frame);
+
+                while (true)
+                {
+                    Core.Cv.ImgShow("calib_result", frame);
+                    var c = Core.Cv.WaitKey(1);
+                    if (c != 255 || e.Token.IsCancellationRequested)
+                    {
+                        Core.Cv.CloseWindow("calib_result");
+                        return;
+                    }
+                }
+            }
+        }
+
+        CaliCircleWIndow calibrationcircle;
+
+        private void GazeCalibrater_CalibrateBegin(object sender, EventArgs e)
+        {
+            Logger.Log(this, "Calibrate begin");
+
+        }
+
+        Vision.Point preCalibPt;
+
+        private void GazeCalibrater_Calibarting(object sender, CalibratingArgs e)
+        {
+            calibratingArgs = e;
+
+
+
+
+
         }
 
         private void GazeService_Clicked(object sender, Point e)
@@ -303,6 +357,45 @@ namespace NeuralAction.WPF
 
             Point = e; 
             GazeTracked?.Invoke(this, arg);
+
+            //if (GazeService.GazeDetector.Calibrator.IsStarted && calibratingArgs != null)
+            //{
+            //    //MessageBox.Show(calibratingArgs.Data.X + " " + calibratingArgs.Data.Y);
+            //    //var calibPt = calibratingArgs.Data;
+            //    //SolidColorBrush color = new SolidColorBrush();
+            //    //switch (calibratingArgs.State)
+            //    //{
+            //    //    case CalibratingState.Point:
+            //    //        if (preCalibPt == null)
+            //    //        {
+            //    //            preCalibPt = new Vision.Point(screen.PixelSize.Width / 2, screen.PixelSize.Height / 2);
+            //    //        }
+            //    //        calibPt = preCalibPt = preCalibPt + (calibPt - preCalibPt) / 3;
+            //    //        color.Color = Colors.Green;
+            //    //        break;
+            //    //    case CalibratingState.Wait:
+            //    //        preCalibPt = calibPt;
+            //    //        color.Color = Colors.Yellow;
+            //    //        break;
+            //    //    case CalibratingState.SampleWait:
+            //    //        color.Color = Colors.Orange;
+            //    //        break;
+            //    //    case CalibratingState.Sample:
+            //    //        color.Color = Colors.Red;
+            //    //        break;
+            //    //    default:
+            //    //        color = null;
+            //    //        Logger.Throw("unknow state");
+            //    //        break;
+            //    //}
+            //    Cursor
+            //    calibrationcircle.Show();
+            //    calibrationcircle.Left = calibratingArgs.Data.X;
+            //    calibrationcircle.Top = calibratingArgs.Data.Y;
+               
+
+            //}
+
         }
 
         public void StopAsync()

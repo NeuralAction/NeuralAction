@@ -52,6 +52,31 @@
                 </TextBlock.Effect>
             </TextBlock>
         </Grid>-->
+
+        <Grid Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock  HorizontalAlignment="Left" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        </Grid>
+
+        <Grid Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock  HorizontalAlignment="Left" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        </Grid>
+
+        <Grid Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock  HorizontalAlignment="Left" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        </Grid>
+
+        <Grid Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock  HorizontalAlignment="Right" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        </Grid>
+
+        <Grid Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock  HorizontalAlignment="Right" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        </Grid>
+
+        <Grid Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock  HorizontalAlignment="Right" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        </Grid>
+        
         <Grid Grid.ColumnSpan="2" Width="1000" Height="1000">
             <Ellipse Fill="#FF4A4A4A" Width="1000" Height="1000" MouseEnter="Ellipse_MouseEnter">
                 <Ellipse.Effect>

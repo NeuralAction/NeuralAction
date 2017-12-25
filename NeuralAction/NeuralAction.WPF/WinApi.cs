@@ -37,6 +37,17 @@ namespace NeuralAction.WPF
         [DllImport("user32.dll", EntryPoint = "SetLayeredWindowAttributes")]
         public static extern bool SetLayeredWindowAttributes(IntPtr hWnd, int crKey, byte alpha, LWA dwFlags);
 
+        [DllImport("user32.dll")]
+        public static extern int GetDpiForWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetDesktopWindow();
+
+        public static int GetDpi()
+        {
+            return GetDpiForWindow(GetDesktopWindow());
+        }
+
         public static void SetTransClick(Window e)
         {
             IntPtr handle = new WindowInteropHelper(e).Handle;
