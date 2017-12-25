@@ -18,7 +18,7 @@ namespace NeuralAction.WPF
     {
         public event EventHandler<Point> Moved;
 
-        public double SpeedLimit { get; set; } = 4;
+        //public double SpeedLimit { get; set; } = 4;
         public double Scale { get; set; } = 1;
         public bool Smooth { get; set; } = true;
         public double ActualLeft
@@ -68,9 +68,7 @@ namespace NeuralAction.WPF
                                 ActualLeft = targetPt.X;
                                 ActualTop = targetPt.Y;
                                 moveTimer.Stop();
-                            }
-                            else
-                            {
+                            } else {
                                 ActualLeft += Clamp((targetPt.X - ActualLeft) / 15);
                                 ActualTop += Clamp((targetPt.Y - ActualTop) / 15);
                             }
@@ -129,15 +127,15 @@ namespace NeuralAction.WPF
         {
             targetPt = new Point(ActualLeft, ActualTop);
         }
-        
+
         private double Clamp(double value)
         {
             double mul = 1;
             if (value < 0)
                 mul = -1;
             value = Math.Abs(value);
-            if (value > 3)
-                value = Math.Sqrt(value * SpeedLimit);
+            //if (value > 3)
+            //    value = Math.Sqrt(value * SpeedLimit);
             return value * mul;
         }
 

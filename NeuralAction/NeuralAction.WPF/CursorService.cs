@@ -481,9 +481,6 @@ namespace NeuralAction.WPF
                 case nameof(Settings.GazeSensitiveY):
                     GazeService.GazeDetector.SensitiveY = Settings.GazeSensitiveY;
                     break;
-                case nameof(Settings.GazeSpeedLimit):
-                    Window.SpeedLimit = Settings.GazeSpeedLimit;
-                    break;
             }
         }
 
@@ -496,7 +493,6 @@ namespace NeuralAction.WPF
             GazeService.GazeDetector.OffsetY = set.GazeOffsetY;
             GazeService.GazeDetector.SensitiveX = set.GazeSensitiveX;
             GazeService.GazeDetector.SensitiveY = set.GazeSensitiveY;
-            Window.SpeedLimit = Settings.GazeSpeedLimit;
             SetCamera(set.CameraIndex);
         }
     }
