@@ -1,0 +1,27 @@
+﻿<Window x:Class="NeuralAction.WPF.CalibrateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeuralAction.WPF"
+        mc:Ignorable="d"
+        Title="CaliCircleWIndow"  Width="500" Height="500" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Topmost="True" Cursor="None" ShowInTaskbar="False">
+    <Grid x:Name="Grid_Background">
+        <Canvas>
+            <Grid x:Name="Calib" IsHitTestVisible="False" Visibility="Visible" Canvas.Top="10" Canvas.Left="10">
+                <Ellipse Width="25" Height="25" Fill="Red" Margin="-100" x:Name="Calib_Circle"/>
+                <Canvas>
+                    <Grid Margin="0,25,0,0">
+                        <TextBlock x:Name="Calib_Text" Text="100%"  ClipToBounds="False" FontWeight="Bold" Foreground="White" FontSize="15" Margin="-100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </Canvas>
+                <Grid.Effect>
+                    <DropShadowEffect ShadowDepth="2" Direction="270" BlurRadius="5"/>
+                </Grid.Effect>
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+            </Grid>
+        </Canvas>
+    </Grid>
+</Window>

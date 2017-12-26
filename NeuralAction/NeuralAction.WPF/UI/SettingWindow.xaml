@@ -5,12 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="SettingWindow" SizeToContent="WidthAndHeight" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" Icon="Resources/neuralaction_ico.ico" ShowInTaskbar="False" PreviewKeyDown="Window_PreviewKeyDown">
-    <Window.Resources>
-        <ResourceDictionary>
-            <local:TextToDoubleConverter x:Key="double"/>
-        </ResourceDictionary>
-    </Window.Resources>
+        Title="Settings" SizeToContent="WidthAndHeight" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" ShowInTaskbar="False" PreviewKeyDown="Window_PreviewKeyDown" Icon="/NeuralAction.WPF;component/Resources/icon.ico">
     <Grid Background="#E5171717" Margin="25,25,0,0" Width="350">
         <Grid.Effect>
             <DropShadowEffect Direction="180" Opacity="0.4" ShadowDepth="5" BlurRadius="10"/>
@@ -51,18 +46,18 @@
                     <TextBlock Text="Gaze Sensitive" VerticalAlignment="Center" Foreground="White" FontFamily="NanumBarunGothic"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,3">
                         <TextBlock Text="X" VerticalAlignment="Bottom" Foreground="White" FontFamily="NanumBarunGothic" Margin="5,0"/>
-                        <TextBox Text="{Binding GazeSensitiveX, Converter={StaticResource double}}" Width="50" Height="20" x:Name="Tb_SesitiveX" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" FontFamily="NanumBarunGothic"/>
+                        <TextBox Text="{Binding GazeSensitiveX}" Width="50" Height="20" x:Name="Tb_SesitiveX" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" FontFamily="NanumBarunGothic"/>
                         <TextBlock Text="Y" VerticalAlignment="Bottom" Foreground="White" FontFamily="NanumBarunGothic" Margin="10,0,5,0"/>
-                        <TextBox Text="{Binding GazeSensitiveY, Converter={StaticResource double}}" Width="50" Height="20" x:Name="Tb_SesitiveY" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" FontFamily="NanumBarunGothic"/>
+                        <TextBox Text="{Binding GazeSensitiveY}" Width="50" Height="20" x:Name="Tb_SesitiveY" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" FontFamily="NanumBarunGothic"/>
                     </StackPanel>
                 </Grid>
                 <Grid Height="32">
                     <TextBlock Text="Gaze Offset" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontFamily="NanumBarunGothic"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,3">
                         <TextBlock Text="X" VerticalAlignment="Bottom" Foreground="White" FontFamily="NanumBarunGothic" Margin="5,0"/>
-                        <TextBox Text="{Binding GazeOffsetX, Converter={StaticResource double}}" Width="50" Height="20" x:Name="Tb_OffsetX" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" FontFamily="NanumBarunGothic" />
+                        <TextBox Text="{Binding GazeOffsetX}" Width="50" Height="20" x:Name="Tb_OffsetX" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" FontFamily="NanumBarunGothic" />
                         <TextBlock Text="Y" VerticalAlignment="Bottom" Foreground="White" FontFamily="NanumBarunGothic" Margin="10,0,5,0"/>
-                        <TextBox Text="{Binding GazeOffsetY, Converter={StaticResource double}}" Width="50" Height="20" x:Name="Tb_OffsetY" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" FontFamily="NanumBarunGothic"/>
+                        <TextBox Text="{Binding GazeOffsetY}" Width="50" Height="20" x:Name="Tb_OffsetY" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" FontFamily="NanumBarunGothic"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>

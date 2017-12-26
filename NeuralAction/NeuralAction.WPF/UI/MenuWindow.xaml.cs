@@ -14,68 +14,59 @@ using System.Windows.Shapes;
 
 namespace NeuralAction.WPF
 {
-    /// <summary>
-    /// MenuWindow.xaml에 대한 상호 작용 논리
-    /// </summary>
     public partial class MenuWindow : Window
     {
-
-        private SettingWindow settingWindow;
-
         public MenuWindow()
         {
             InitializeComponent();
+
+            Update();
+        }
+
+        void Update()
+        {
+            Open.Content = InputService.Current.IsKeyboardShowen ? "Close" : "Open";
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (settingWindow != null)
-            {
-                settingWindow.Close();
-            }
             Top = SystemParameters.WorkArea.Height - ActualHeight + 1;
             Left = SystemParameters.WorkArea.Width - ActualWidth;
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)
         {
-            InputService.Current.ShowKeyboard();
-            this.Hide();
-
+            if (InputService.Current.IsKeyboardShowen)
+            {
+                InputService.Current.CloseKeyboard();
+            }
+            else
+            {
+                InputService.Current.ShowKeyboard();
+            }
+            Update();
+            Close();
         }
 
         private void Calibration_Click(object sender, RoutedEventArgs e)
         {
             if (!InputService.Current.Cursor.GazeService.GazeDetector.Calibrator.IsStarted)
+            {
                 InputService.Current.Cursor.GazeService.GazeDetector.Calibrator.Start(InputService.Current.Cursor.GazeService.ScreenProperties);
-
+                Close();
+            }
         }
 
 
         private void Setting_Click(object sender, RoutedEventArgs e)
         {
-            if (settingWindow == null)
-            {
-                SettingWindow settingWindow = new SettingWindow();
-                settingWindow.Owner = this;
-                settingWindow.Closed += delegate
-                {
-                    settingWindow = null;
-                };
-                settingWindow.Show();
-            }
-            else
-            {
-                settingWindow.Activate();
-            }
-            this.Hide();
+            MainWindow.OpenSetting();
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            Environment.Exit(0);
+            Close();
+            MainWindow.Exit();
         }
-
-
     }
 }

@@ -20,7 +20,6 @@ namespace NeuralAction.WPF
     /// </summary>
     public partial class SettingWindow : Window
     {
-        int scale;
         public SettingWindow()
         {
             InitializeComponent();

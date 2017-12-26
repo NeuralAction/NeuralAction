@@ -14,11 +14,6 @@
         <Grid.CacheMode>
             <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
         </Grid.CacheMode>
-        <!--<Ellipse x:Name="gradientover" Width="1600" Height="1600"  HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Orange"/>
-        <Ellipse x:Name="keyboardover" Width="1400" Height="1400"  HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Red"/>-->
-
-
-        <local:Key x:Name="Keyboard" MouseLeftButtonDown="Keyboard_MouseLeftButtonDown"></local:Key>
-
+        <local:KeyControl x:Name="Keyboard" MouseLeftButtonDown="Keyboard_MouseLeftButtonDown"></local:KeyControl>
     </Grid>
 </Window>

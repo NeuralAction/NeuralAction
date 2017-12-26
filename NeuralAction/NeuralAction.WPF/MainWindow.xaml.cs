@@ -15,17 +15,59 @@ using System.Windows.Media;
 
 namespace NeuralAction.WPF
 {
-
-
     public partial class MainWindow : Window
     {
-        public NotifyIcon NotifyIcon { get; set; }
+        public static NotifyIcon NotifyIcon { get; set; }
+        public static SettingWindow SettingWindow;
+        public static MenuWindow MenuWindow;
 
-        private SettingWindow settingWindow;
+        public static void OpenSetting()
+        {
+            MenuWindow?.Close();
 
-        private MenuWindow menuWindow;
+            if (SettingWindow == null)
+            {
+                SettingWindow = new SettingWindow();
+                SettingWindow.Owner = App.Current.MainWindow;
+                SettingWindow.Closed += delegate
+                {
+                    SettingWindow = null;
+                };
+                SettingWindow.Show();
+            }
+            else
+            {
+                SettingWindow.Activate();
+            }
+        }
 
-        private System.Windows.Controls.ContextMenu notifyMenu;
+        public static void OpenMenu()
+        {
+            SettingWindow?.Close();
+
+            if (MenuWindow == null)
+            {
+                MenuWindow = new MenuWindow();
+                MenuWindow.Owner = App.Current.MainWindow;
+                MenuWindow.Closed += delegate
+                {
+                    MenuWindow = null;
+                };
+                MenuWindow.Show();
+            }
+            else
+            {
+                MenuWindow.Activate();
+            }
+        }
+
+        public static void Exit()
+        {
+            NotifyIcon.Visible = false;
+            Settings.Save();
+            InputService.Current.Dispose();
+            Environment.Exit(0);
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -35,7 +77,8 @@ namespace NeuralAction.WPF
             InputService.Init();
 
             NotifyIcon = new NotifyIcon();
-            NotifyIcon.Icon = Properties.Resources.neuralaction_ico;
+            using (var stream = System.Windows.Application.GetResourceStream(new Uri("Resources/icon.ico", UriKind.Relative)).Stream)
+                NotifyIcon.Icon = new System.Drawing.Icon(stream);
             NotifyIcon.Visible = true;
             NotifyIcon.MouseClick += NotifyIcon_MouseClick;
             NotifyIcon.Text = "NeuralAction";
@@ -47,34 +90,12 @@ namespace NeuralAction.WPF
 
         private void NotifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-
-            if(settingWindow != null)
-            {
-                settingWindow.Close();
-            }
-
-            if (menuWindow == null)
-            {
-                MenuWindow menuWindow = new MenuWindow();
-                menuWindow.Owner = this;
-                menuWindow.Closed += delegate
-                {
-                    menuWindow = null;
-                };
-                menuWindow.Show();
-            }
-            else
-            {
-                menuWindow.Activate();
-            }
-
+            OpenMenu();
         }
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
-            NotifyIcon.Visible = false;
-            Settings.Save();
-            Environment.Exit(0);
+            Exit();
         }
     }
 }

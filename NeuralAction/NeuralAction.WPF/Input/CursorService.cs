@@ -89,6 +89,8 @@ namespace NeuralAction.WPF
             }
         }
 
+        public bool ClickAllowed { get; set; } = true;
+
         private ScreenProperties screen;
         CalibratingArgs calibratingArgs;
 
@@ -128,7 +130,6 @@ namespace NeuralAction.WPF
             Logger.Log(this, $"DPI: {dpi}");
 
             Screen s = System.Windows.Forms.Screen.PrimaryScreen;
-
             Screen = ScreenProperties.CreatePixelScreen(s.Bounds.Width, s.Bounds.Height, dpi);
 
             Init();
@@ -142,7 +143,6 @@ namespace NeuralAction.WPF
         public CursorService(double width, double height, double dpi)
         {
             Screen = ScreenProperties.CreatePixelScreen(width, height, dpi);
-
             Init();
         }
 
@@ -152,6 +152,8 @@ namespace NeuralAction.WPF
             GazeService.GazeTracked += GazeService_GazeTracked;
             GazeService.FaceTracked += GazeService_FaceTracked;
             GazeService.Clicked += GazeService_Clicked;
+            GazeService.GazeDetector.Calibrator.CalibrateBegin += GazeCalibrater_CalibrateBegin;
+            GazeService.GazeDetector.Calibrator.Calibrated += GazeCalibrater_Calibrated;
 
             Window = new CursorWindow();
             Window.Moved += Window_Moved;
@@ -177,16 +179,10 @@ namespace NeuralAction.WPF
             {
                 Window.SetAvailable(false);
 
-                if (GazeService != null)
-                {
-                    GazeService.Stop();
-                }
+                GazeService?.Stop();
 
                 GazeService.GazeDetector.ClipToBound = true;
                 Smooth = Smooth;
-                GazeService.GazeDetector.Calibrator.Calibarting += GazeCalibrater_Calibarting;
-                GazeService.GazeDetector.Calibrator.CalibrateBegin += GazeCalibrater_CalibrateBegin;
-                GazeService.GazeDetector.Calibrator.Calibrated += GazeCalibrater_Calibrated;
                 GazeService.Start(camera);
                 
                 IsRunning = true;
@@ -196,48 +192,35 @@ namespace NeuralAction.WPF
 
         private void GazeCalibrater_Calibrated(object sender, CalibratedArgs e)
         {
-            Logger.Log(this, "Calibrated");
-
+            ClickAllowed = true;
             EyeGazeCalibrationLog logger = new EyeGazeCalibrationLog(e.Data);
-            logger.Save();
 
-            using (OpenCvSharp.Mat frame = logger.Plot(screen, GazeService.GazeDetector.Calibrator))
+            Task.Factory.StartNew(() => 
             {
-                var savepath = logger.File.AbosolutePath;
-                savepath = savepath.Replace(".clb", ".jpg");
-                Core.Cv.ImgWrite(savepath, frame);
-
-                while (true)
+                using (OpenCvSharp.Mat frame = logger.Plot(screen, GazeService.GazeDetector.Calibrator))
                 {
+                    var savepath = logger.File.AbosolutePath;
+                    savepath = savepath.Replace(".clb", ".jpg");
+                    Core.Cv.ImgWrite(savepath, frame);
+
                     Core.Cv.ImgShow("calib_result", frame);
-                    var c = Core.Cv.WaitKey(1);
-                    if (c != 255 || e.Token.IsCancellationRequested)
-                    {
-                        Core.Cv.CloseWindow("calib_result");
-                        return;
-                    }
+                    var c = Core.Cv.WaitKey(0);
+                    Core.Cv.CloseAllWindows();
                 }
-            }
+            }, TaskCreationOptions.LongRunning);
         }
-
-        CaliCircleWIndow calibrationcircle;
-
+        
         private void GazeCalibrater_CalibrateBegin(object sender, EventArgs e)
         {
-            Logger.Log(this, "Calibrate begin");
+            Window.Dispatcher.Invoke(() => 
+            {
+                ClickAllowed = false;
 
-        }
+                InputService.Current.CloseKeyboard();
 
-        Vision.Point preCalibPt;
-
-        private void GazeCalibrater_Calibarting(object sender, CalibratingArgs e)
-        {
-            calibratingArgs = e;
-
-
-
-
-
+                var window = new CalibrateWindow(GazeService.GazeDetector.Calibrator);
+                window.Show();
+            });
         }
 
         private void GazeService_Clicked(object sender, Point e)
@@ -319,7 +302,8 @@ namespace NeuralAction.WPF
                 Window.Goto(winClick);
                 Logger.Log("Clicked" + click.ToString());
             }
-            MouseEvent.Click(MouseButton.Left);
+            if(ClickAllowed)
+                MouseEvent.Click(MouseButton.Left);
             Window.Clicked();
             Clicked?.Invoke(GazeService, Window.Point);
         }
@@ -342,8 +326,8 @@ namespace NeuralAction.WPF
 
             if (arg.IsFaceDetected && arg.IsGazeDetected)
             {
-                Window.SetAvailable(true);
-                Window.SetPosition(e.X, e.Y);
+                Window?.SetAvailable(true);
+                Window?.SetPosition(e.X, e.Y);
 
                 lock (logLocker)
                 {
@@ -352,49 +336,11 @@ namespace NeuralAction.WPF
             }
             else
             {
-                Window.SetAvailable(false);
+                Window?.SetAvailable(false);
             }
 
             Point = e; 
             GazeTracked?.Invoke(this, arg);
-
-            //if (GazeService.GazeDetector.Calibrator.IsStarted && calibratingArgs != null)
-            //{
-            //    //MessageBox.Show(calibratingArgs.Data.X + " " + calibratingArgs.Data.Y);
-            //    //var calibPt = calibratingArgs.Data;
-            //    //SolidColorBrush color = new SolidColorBrush();
-            //    //switch (calibratingArgs.State)
-            //    //{
-            //    //    case CalibratingState.Point:
-            //    //        if (preCalibPt == null)
-            //    //        {
-            //    //            preCalibPt = new Vision.Point(screen.PixelSize.Width / 2, screen.PixelSize.Height / 2);
-            //    //        }
-            //    //        calibPt = preCalibPt = preCalibPt + (calibPt - preCalibPt) / 3;
-            //    //        color.Color = Colors.Green;
-            //    //        break;
-            //    //    case CalibratingState.Wait:
-            //    //        preCalibPt = calibPt;
-            //    //        color.Color = Colors.Yellow;
-            //    //        break;
-            //    //    case CalibratingState.SampleWait:
-            //    //        color.Color = Colors.Orange;
-            //    //        break;
-            //    //    case CalibratingState.Sample:
-            //    //        color.Color = Colors.Red;
-            //    //        break;
-            //    //    default:
-            //    //        color = null;
-            //    //        Logger.Throw("unknow state");
-            //    //        break;
-            //    //}
-            //    Cursor
-            //    calibrationcircle.Show();
-            //    calibrationcircle.Left = calibratingArgs.Data.X;
-            //    calibrationcircle.Top = calibratingArgs.Data.Y;
-               
-
-            //}
 
         }
 
@@ -461,7 +407,10 @@ namespace NeuralAction.WPF
                     SetCamera(Settings.CameraIndex);
                     break;
                 case nameof(Settings.GazeExtendModel):
-                    GazeService.GazeDetector.DetectMode = EyeGazeDetectMode.Face;
+                    if (Settings.GazeExtendModel)
+                        GazeService.GazeDetector.DetectMode = EyeGazeDetectMode.FaceMobile;
+                    else
+                        GazeService.GazeDetector.DetectMode = EyeGazeDetectMode.Both;
                     break;
                 case nameof(Settings.GazeSmooth):
                     GazeService.GazeDetector.UseSmoothing = Settings.GazeSmooth;
@@ -488,7 +437,7 @@ namespace NeuralAction.WPF
         {
             GazeService.FaceDetector.UseSmooth = set.HeadSmooth;
             GazeService.GazeDetector.UseSmoothing = set.GazeSmooth;
-            GazeService.GazeDetector.DetectMode = set.GazeExtendModel ? EyeGazeDetectMode.Face : EyeGazeDetectMode.Both;
+            GazeService.GazeDetector.DetectMode = set.GazeExtendModel ? EyeGazeDetectMode.FaceMobile : EyeGazeDetectMode.Both;
             GazeService.GazeDetector.OffsetX = set.GazeOffsetX;
             GazeService.GazeDetector.OffsetY = set.GazeOffsetY;
             GazeService.GazeDetector.SensitiveX = set.GazeSensitiveX;

@@ -24,7 +24,6 @@ namespace NeuralAction.WPF
         public Window Owner
         {
             get => owner;
-        
             set
             {
                 owner = value;
@@ -32,7 +31,6 @@ namespace NeuralAction.WPF
                     KeyWindow.Owner = value;
                 Cursor.Window.Owner = value;
             }
-
         }
 
         public override Settings Settings
@@ -48,6 +46,8 @@ namespace NeuralAction.WPF
 
         public int CameraIndex { get; set; } = 0;
 
+        public bool IsKeyboardShowen => KeyWindow != null;
+
         public InputService()
         {
             Cursor = new CursorService();
@@ -56,16 +56,12 @@ namespace NeuralAction.WPF
         public void Start()
         {
             Cursor.StartAsync(CameraIndex);
-
-            ShowKeyboard();
+            //ShowKeyboard();
         }
 
         public void CloseKeyboard()
         {
-            if(KeyWindow != null)
-            {
-                KeyWindow.Close();
-            }
+            KeyWindow?.Close();
         }
 
         public void ShowKeyboard()
@@ -86,7 +82,6 @@ namespace NeuralAction.WPF
             else
             {
                 KeyWindow.Activate();
-
                 Cursor.Window.Activate();
             }
         }

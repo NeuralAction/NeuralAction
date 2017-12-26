@@ -23,7 +23,7 @@ namespace NeuralAction.WPF
         Special = 2
     }
 
-    public partial class Key : UserControl
+    public partial class KeyControl : UserControl
     {
         static string ChoSungTbl = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
         static string JungSungTbl = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
@@ -52,7 +52,7 @@ namespace NeuralAction.WPF
         string[] koreaInputChar = new string[3];
         int inputCount = 0;
         
-        public Key()
+        public KeyControl()
         {
             InitializeComponent();
         }

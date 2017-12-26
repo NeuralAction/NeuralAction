@@ -60,7 +60,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\neuralaction_ico.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Expression.Drawing">
@@ -97,44 +97,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CaliCircleWIndow.xaml.cs">
-      <DependentUpon>CaliCircleWIndow.xaml</DependentUpon>
+    <Compile Include="Input\CalibrateWindow.xaml.cs">
+      <DependentUpon>CalibrateWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CursorService.cs" />
-    <Compile Include="InputService.cs" />
-    <Compile Include="Key.xaml.cs">
-      <DependentUpon>Key.xaml</DependentUpon>
+    <Compile Include="Input\CursorService.cs" />
+    <Compile Include="Input\InputService.cs" />
+    <Compile Include="Input\KeyControl.xaml.cs">
+      <DependentUpon>KeyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KeyWindow.xaml.cs">
+    <Compile Include="Input\KeyWindow.xaml.cs">
       <DependentUpon>KeyWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MenuWindow.xaml.cs">
+    <Compile Include="UI\MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MouseEvent.cs" />
-    <Compile Include="Send.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="SettingWindow.xaml.cs">
+    <Compile Include="Input\MouseEvent.cs" />
+    <Compile Include="Input\Send.cs" />
+    <Compile Include="UI\Settings.cs" />
+    <Compile Include="UI\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SkiaShape.xaml.cs">
-      <DependentUpon>SkiaShape.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TextToDoubleConverter.cs" />
-    <Compile Include="WinApi.cs" />
-    <Page Include="CaliCircleWIndow.xaml">
+    <Compile Include="UI\Converters.cs" />
+    <Compile Include="UI\WinApi.cs" />
+    <Page Include="Input\CalibrateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CursorWindow.xaml">
+    <Page Include="Input\CursorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Key.xaml">
+    <Page Include="Input\KeyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="KeyWindow.xaml">
+    <Page Include="Input\KeyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -146,22 +143,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CursorWindow.xaml.cs">
+    <Compile Include="Input\CursorWindow.xaml.cs">
       <DependentUpon>CursorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MenuWindow.xaml">
+    <Page Include="UI\MenuWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SkiaShape.xaml">
+    <Page Include="UI\SettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -183,8 +176,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="UI\packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -194,9 +188,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Vision\SharpFace\OpenCvSharp\src\OpenCvSharp.Windows\OpenCvSharp.Windows.csproj">
+      <Project>{d7856971-d877-4cb1-a08c-c2a763ebfad1}</Project>
+      <Name>OpenCvSharp.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Vision\SharpFace\OpenCvSharp\src\OpenCvSharp\OpenCvSharp.csproj">
       <Project>{658C140F-2E73-4E22-80A7-F05DF0A83318}</Project>
       <Name>OpenCvSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Vision\SharpFace\SharpFace.Windows\SharpFace.Windows.csproj">
+      <Project>{7a473bf1-ae5d-47ff-878e-e49112561ca3}</Project>
+      <Name>SharpFace.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Vision\SharpFace\SharpFace\SharpFace.csproj">
+      <Project>{b3a225b9-1a79-4330-9b4e-a3c4e07bbeab}</Project>
+      <Name>SharpFace</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Vision\TensorFlowSharp\TensorFlowSharp.Windows\TensorFlowSharp.Windows.csproj">
       <Project>{9a5fc834-a8df-4410-a21d-cf60b4fcacb7}</Project>
@@ -216,9 +222,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\neuralaction_ico.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\SkiaSharp.1.59.1\build\net45\SkiaSharp.targets" Condition="Exists('..\..\packages\SkiaSharp.1.59.1\build\net45\SkiaSharp.targets')" />

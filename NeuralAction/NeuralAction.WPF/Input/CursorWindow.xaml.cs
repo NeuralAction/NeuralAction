@@ -17,8 +17,7 @@ namespace NeuralAction.WPF
     public partial class CursorWindow : Window
     {
         public event EventHandler<Point> Moved;
-
-        //public double SpeedLimit { get; set; } = 4;
+        
         public double Scale { get; set; } = 1;
         public bool Smooth { get; set; } = true;
         public double ActualLeft
@@ -50,37 +49,30 @@ namespace NeuralAction.WPF
         Storyboard CursorClickOff;
 
         DispatcherTimer moveTimer;
-        Point _targetPt;
-        Point targetPt
+        Point targetPt;
+        Point TargetPt
         {
-            get => _targetPt;
+            get => targetPt;
             set
             {
-                _targetPt = value;
+                targetPt = value;
 
                 if (Smooth)
                 {
                     if (moveTimer == null)
                     {
                         moveTimer = new DispatcherTimer();
-                        moveTimer.Interval = TimeSpan.FromMilliseconds(15);
+                        moveTimer.Interval = TimeSpan.FromMilliseconds(30);
                         moveTimer.Tick += (sender, arg) =>
                         {
-                            if (Math.Abs(targetPt.X - ActualLeft) + Math.Abs(targetPt.Y - ActualTop) < 1)
-                            {
-                                ActualLeft = targetPt.X;
-                                ActualTop = targetPt.Y;
-                                moveTimer.Stop();
-                            } else {
-                                ActualLeft += Clamp((targetPt.X - ActualLeft) / 15);
-                                ActualTop += Clamp((targetPt.Y - ActualTop) / 15);
-                            }
+                            ActualLeft += (TargetPt.X - ActualLeft) / 4;
+                            ActualTop += (TargetPt.Y - ActualTop) / 4;
+
                             Topmost = false;
                             Topmost = true;
+
                             lock (MoveLocker)
-                            {
                                 MoveList.Add(new CursorTimes(Point, DateTime.Now.TimeOfDay));
-                            }
 
                             if (show)
                             {
@@ -94,8 +86,10 @@ namespace NeuralAction.WPF
                 }
                 else
                 {
-                    ActualLeft = targetPt.X;
-                    ActualTop = targetPt.Y;
+                    moveTimer?.Stop();
+
+                    ActualLeft = TargetPt.X;
+                    ActualTop = TargetPt.Y;
 
                     if (show)
                     {
@@ -130,18 +124,7 @@ namespace NeuralAction.WPF
 
         private void CursorWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            targetPt = new Point(ActualLeft, ActualTop);
-        }
-
-        private double Clamp(double value)
-        {
-            double mul = 1;
-            if (value < 0)
-                mul = -1;
-            value = Math.Abs(value);
-            //if (value > 3)
-            //    value = Math.Sqrt(value * SpeedLimit);
-            return value * mul;
+            TargetPt = new Point(ActualLeft, ActualTop);
         }
 
         public void Goto(Point pt)
@@ -153,7 +136,7 @@ namespace NeuralAction.WPF
 
                 var pre = Smooth;
                 Smooth = false;
-                targetPt = new Point(pt.X - ActualWidth / 2, pt.Y - ActualHeight / 2);
+                TargetPt = new Point(pt.X - ActualWidth / 2, pt.Y - ActualHeight / 2);
                 Smooth = pre;
             });
         }
@@ -184,7 +167,7 @@ namespace NeuralAction.WPF
         {
             Dispatcher.Invoke(() => 
             {
-                targetPt = new Point(x - ActualWidth / 2, y - ActualHeight / 2);
+                TargetPt = new Point(x - ActualWidth / 2, y - ActualHeight / 2);
             });
         }
 
@@ -198,7 +181,7 @@ namespace NeuralAction.WPF
                     {
                         cursorAniWaiter = new DispatcherTimer();
                         cursorAniWaiter.Interval = TimeSpan.FromMilliseconds(100);
-                        cursorAniWaiter.Tick += (s, o) =>
+                        cursorAniWaiter.Tick += delegate
                         {
                             if (show)
                             {
