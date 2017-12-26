@@ -46,6 +46,9 @@ namespace NeuralAction.WPF
 
         Storyboard CursorOn;
         Storyboard CursorOff;
+        Storyboard CursorClick;
+        Storyboard CursorClickOff;
+
         DispatcherTimer moveTimer;
         Point _targetPt;
         Point targetPt
@@ -116,6 +119,8 @@ namespace NeuralAction.WPF
             CursorOff = (Storyboard)FindResource("CursorOff");
             CursorOff.Begin();
             CursorOn = (Storyboard)FindResource("CursorOn");
+            CursorClick = (Storyboard)FindResource("CursorClick");
+            CursorClickOff = (Storyboard)FindResource("CursorClickOff");
         }
 
         private void CursorWindow_SourceInitialized(object sender, EventArgs e)
@@ -158,13 +163,15 @@ namespace NeuralAction.WPF
         {
             Dispatcher.Invoke(() => 
             {
-                Background = Brushes.Red;
+                CursorClickOff.Stop();
+                CursorClick.Begin();
                 if (clickWait == null)
                 {
                     clickWait = new DispatcherTimer();
                     clickWait.Tick += delegate
                     {
-                        Background = null;
+                        CursorClick.Stop();
+                        CursorClickOff.Begin();
                         clickWait.Stop();
                     };
                     clickWait.Interval = TimeSpan.FromMilliseconds(250);
