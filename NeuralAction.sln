@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NeuralAction", "NeuralAction", "{BD3684EA-D4FD-45FF-9EC0-9719331972C4}"
 EndProject
@@ -560,8 +560,8 @@ Global
 		{809713B4-C1E5-4A84-B4A3-822B65FAA105}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{809713B4-C1E5-4A84-B4A3-822B65FAA105}.Release|None.ActiveCfg = Release|Any CPU
 		{809713B4-C1E5-4A84-B4A3-822B65FAA105}.Release|None.Build.0 = Release|Any CPU
-		{809713B4-C1E5-4A84-B4A3-822B65FAA105}.Release|x64.ActiveCfg = Release|Any CPU
-		{809713B4-C1E5-4A84-B4A3-822B65FAA105}.Release|x64.Build.0 = Release|Any CPU
+		{809713B4-C1E5-4A84-B4A3-822B65FAA105}.Release|x64.ActiveCfg = Release|x64
+		{809713B4-C1E5-4A84-B4A3-822B65FAA105}.Release|x64.Build.0 = Release|x64
 		{809713B4-C1E5-4A84-B4A3-822B65FAA105}.Release|x86.ActiveCfg = Release|Any CPU
 		{809713B4-C1E5-4A84-B4A3-822B65FAA105}.Release|x86.Build.0 = Release|Any CPU
 		{809713B4-C1E5-4A84-B4A3-822B65FAA105}.Release|x86_64.ActiveCfg = Release|Any CPU

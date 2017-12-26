@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Predict;
 
 namespace NeuralAction.WPF
 {
@@ -25,6 +26,9 @@ namespace NeuralAction.WPF
 
     public partial class KeyControl : UserControl
     {
+
+        WordCorrecter AutocompleteWord;
+
         static string ChoSungTbl = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
         static string JungSungTbl = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
         static string JongSungTbl = " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
@@ -534,6 +538,45 @@ namespace NeuralAction.WPF
                     }
                 }
             }
+
+           WordSuggestions[] Autocompletes =  AutocompleteWord.Correcting(CenterText.Text);
+
+            if (Autocompletes != null)
+            {
+
+
+                int counts = Autocompletes.Length;
+               
+
+                autocomplete1.Text = counts <= 0 ? "완성된 단어가 없습니다." : Autocompletes[0].Name;
+                autocomplete2.Text = counts >= 2 ? Autocompletes[1].Name : "완성된 단어가 없습니다.";
+                autocomplete3.Text = counts >= 3 ? Autocompletes[2].Name : "완성된 단어가 없습니다.";
+                autocomplete4.Text = counts >= 4 ? Autocompletes[3].Name : "완성된 단어가 없습니다.";
+                autocomplete5.Text = counts >= 5 ? Autocompletes[4].Name : "완성된 단어가 없습니다.";
+                autocomplete6.Text = counts >= 6 ? Autocompletes[5].Name : "완성된 단어가 없습니다.";
+
+                Gautocomplete1.Tag = counts <= 0 ? "" : Autocompletes[0].Name;
+                Gautocomplete2.Tag = counts >= 2 ? Autocompletes[1].Name : "";
+                Gautocomplete3.Tag = counts >= 3 ? Autocompletes[2].Name : "";
+                Gautocomplete4.Tag = counts >= 4 ? Autocompletes[3].Name : "";
+                Gautocomplete5.Tag = counts >= 5 ? Autocompletes[4].Name : "";
+                Gautocomplete6.Tag = counts >= 6 ? Autocompletes[5].Name : "";
+
+            } else {
+                autocomplete1.Text = "완성된 단어가 없습니다.";
+                autocomplete2.Text = "완성된 단어가 없습니다.";
+                autocomplete3.Text = "완성된 단어가 없습니다.";
+                autocomplete4.Text = "완성된 단어가 없습니다.";
+                autocomplete5.Text = "완성된 단어가 없습니다.";
+                autocomplete6.Text = "완성된 단어가 없습니다.";
+                Gautocomplete1.Tag = "";
+                Gautocomplete2.Tag = "";
+                Gautocomplete3.Tag = "";
+                Gautocomplete4.Tag = "";
+                Gautocomplete5.Tag = "";
+                Gautocomplete6.Tag = "";
+            }
+
         }
 
         private void InputingSentence(object sender, System.Windows.Input.MouseEventArgs e)
@@ -613,23 +656,29 @@ namespace NeuralAction.WPF
             InputingReset();
         }
 
+
         private void ChangeLanguage(object sender, MouseButtonEventArgs e)
         {
             switch (CurrentLanguage)
             {
                 case Languages.Korean:
                     CurrentLanguage = Languages.English;
+                    MessageBox.Show("English");
+                    AutocompleteWord = new WordCorrecter(System.Environment.CurrentDirectory + "\\Database\\englishdatabase.xml");
                     KeymapChange(GetKeymapArray(CurrentLanguage));
                     BlankText.Text = "Spacing";
                     LauguageChangeText.Text = "Special";
                     break;
                 case Languages.English:
                     CurrentLanguage = Languages.Special;
+                    MessageBox.Show("Special");
                     KeymapChange(GetKeymapArray(CurrentLanguage));
                     LauguageChangeText.Text = "한국어";
                     break;
                 case Languages.Special:
                     CurrentLanguage = Languages.Korean;
+                    MessageBox.Show("Korean");
+                    AutocompleteWord = new WordCorrecter(System.Environment.CurrentDirectory + "\\Database\\koreandatabase.xml");
                     KeymapChange(GetKeymapArray(CurrentLanguage));
                     BlankText.Text = "띄어쓰기";
                     LauguageChangeText.Text = "English";
@@ -642,5 +691,10 @@ namespace NeuralAction.WPF
         }
 
         #endregion Keyboard
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            AutocompleteWord = new WordCorrecter(System.Environment.CurrentDirectory + "\\Database\\koreandatabase.xml");
+        }
     }
 }
