@@ -48,10 +48,6 @@
                     <CheckBox IsChecked="{Binding GazeExtendModel}" HorizontalAlignment="Right" VerticalAlignment="Center" x:Name="Cb_Gaze_Ex" BorderBrush="#FF36DE9B" BorderThickness="2" Foreground="#FF36DE9B"/>
                 </Grid>
                 <Grid Height="32">
-                    <TextBlock Text="Cursor Speed Limit" Foreground="White" FontFamily="NanumBarunGothic" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding GazeSpeedLimit}" Width="50" HorizontalAlignment="Right" Height="20" x:Name="Tb_Speed" VerticalAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" Foreground="White" BorderBrush="#FF36DE9B" BorderThickness="0,0,0,2" FontFamily="NanumBarunGothic"/>
-                </Grid>
-                <Grid Height="32">
                     <TextBlock Text="Gaze Sensitive" VerticalAlignment="Center" Foreground="White" FontFamily="NanumBarunGothic"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,3">
                         <TextBlock Text="X" VerticalAlignment="Bottom" Foreground="White" FontFamily="NanumBarunGothic" Margin="5,0"/>
