@@ -44,21 +44,18 @@
                 <SplineDoubleKeyFrame KeySpline="1,0,1,1" KeyTime="0:0:0.208" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-
         <Storyboard x:Key="CursorClick" Timeline.DesiredFrameRate="30">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="StrokeThickness" Storyboard.TargetName="OutlineCircle">
                 <EasingDoubleKeyFrame KeyTime="0" Value="{Binding ElementName=OutlineCircle, Path=StrokeThickness}"/>
                 <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="25" KeySpline="0,0,0.22,1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-
         <Storyboard x:Key="CursorClickOff" Timeline.DesiredFrameRate="30">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="StrokeThickness" Storyboard.TargetName="OutlineCircle">
                 <EasingDoubleKeyFrame KeyTime="0" Value="{Binding ElementName=OutlineCircle, Path=StrokeThickness}"/>
                 <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="7" KeySpline="0,0,0.22,1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-        
     </Window.Resources>
     <Grid x:Name="Grid_Root" RenderTransformOrigin="0.5,0.5">
         <Grid.CacheMode>
