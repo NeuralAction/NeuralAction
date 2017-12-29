@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
-
+using Vision.Detection;
+using Vision;
 
 namespace NeuralAction.WPF
 {
@@ -66,68 +67,116 @@ namespace NeuralAction.WPF
             }
         }
 
-        private int cameraIndex = 0;
+        int cameraIndex = 0;
         public int CameraIndex
         {
             get => cameraIndex;
             set { cameraIndex = value; OnPropertyChanged(); }
         }
 
-        private bool headSmooth = true;
+        bool allowControl = false;
+        public bool AllowControl
+        {
+            get => allowControl;
+            set { allowControl = value; OnPropertyChanged(); }
+        }
+
+        bool headSmooth = true;
         public bool HeadSmooth
         {
             get => headSmooth;
             set { headSmooth = value; OnPropertyChanged(); }
         }
 
-        private bool gazeSmooth = true;
+        EyeGazeDetectMode gazeMode = EyeGazeDetectMode.FaceMobile;
+        public EyeGazeDetectMode GazeMode
+        {
+            get => gazeMode;
+            set { gazeMode = value; OnPropertyChanged(); }
+        }
+
+        bool gazeUseCalib = true;
+        public bool GazeUseCalib
+        {
+            get => gazeUseCalib;
+            set { gazeUseCalib = value; OnPropertyChanged(); }
+        }
+
+        bool gazeSmooth = true;
         public bool GazeSmooth
         {
             get => gazeSmooth;
             set { gazeSmooth = value; OnPropertyChanged(); }
         }
-        
-        private bool gazeExtendModel = true;
-        public bool GazeExtendModel
+
+        PointSmoother.SmoothMethod gazeSmoothMode = PointSmoother.SmoothMethod.MeanKalman;
+        public PointSmoother.SmoothMethod GazeSmoothMode
         {
-            get => gazeExtendModel;
-            set { gazeExtendModel = value; OnPropertyChanged(); }
+            get => gazeSmoothMode;
+            set { gazeSmoothMode = value; OnPropertyChanged(); }
         }
 
+        int gazeSmoothCount = 6;
+        public int GazeSmoothCount
+        {
+            get => gazeSmoothCount;
+            set { gazeSmoothCount = value; OnPropertyChanged(); }
+        }
 
-        private double gazeOffsetX = Vision.Detection.EyeGazeDetector.DefaultOffsetX;
+        EyeOpenDetectMode openMode = EyeOpenDetectMode.V1;
+        public EyeOpenDetectMode OpenMode
+        {
+            get => openMode;
+            set { openMode = value; OnPropertyChanged(); }
+        }
+
+        bool openSmooth = true;
+        public bool OpenSmooth
+        {
+            get => openSmooth;
+            set { openSmooth = value; OnPropertyChanged(); }
+        }
+
+        ClickEyeTarget openEyeTarget = ClickEyeTarget.All;
+        public ClickEyeTarget OpenEyeTarget
+        {
+            get => openEyeTarget;
+            set { openEyeTarget = value; OnPropertyChanged(); }
+        }
+
+        bool cursorSmooth = true;
+        public bool CursorSmooth
+        {
+            get => cursorSmooth;
+            set { cursorSmooth = value; OnPropertyChanged(); }
+        }
+
+        double gazeOffsetX = EyeGazeDetector.DefaultOffsetX;
         public double GazeOffsetX
         {
             get => gazeOffsetX;
             set { gazeOffsetX = value; OnPropertyChanged(); }
         }
 
-        private double gazeOffsetY = Vision.Detection.EyeGazeDetector.DefaultOffsetY;
+        double gazeOffsetY = EyeGazeDetector.DefaultOffsetY;
         public double GazeOffsetY
         {
             get => gazeOffsetY;
             set { gazeOffsetY = value; OnPropertyChanged(); }
         }
 
-        private double gazeSensitiveX = Vision.Detection.EyeGazeDetector.DefaultSensitiveX;
+        double gazeSensitiveX = EyeGazeDetector.DefaultSensitiveX;
         public double GazeSensitiveX
         {
             get => gazeSensitiveX;
             set { gazeSensitiveX = value; OnPropertyChanged(); }
         }
 
-        private double gazeSensitiveY = Vision.Detection.EyeGazeDetector.DefaultSensitiveY;
+        double gazeSensitiveY = EyeGazeDetector.DefaultSensitiveY;
         public double GazeSensitiveY
         {
             get => gazeSensitiveY;
             set { gazeSensitiveY = value; OnPropertyChanged(); }
-        }
-
-        private double gazeSpeedLimit = 3;
-        public double GazeSpeedLimit
-        {
-            get => gazeSpeedLimit;
-            set { gazeSpeedLimit = value; OnPropertyChanged(); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

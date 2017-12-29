@@ -60,7 +60,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\icon_main.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Expression.Drawing">
@@ -108,6 +108,7 @@
     <Compile Include="Input\KeyWindow.xaml.cs">
       <DependentUpon>KeyWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\InputDebugWindow.cs" />
     <Compile Include="UI\MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
     </Compile>
@@ -225,7 +226,9 @@
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\icon_main.ico" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Database\englishdatabase.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
