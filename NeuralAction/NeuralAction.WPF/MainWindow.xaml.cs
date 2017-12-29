@@ -86,6 +86,8 @@ namespace NeuralAction.WPF
             InputService.Current.Owner = this;
             InputService.Current.Settings = Settings.Current;
             InputService.Current.Start();
+
+            InputDebugWindow.Default.Show(InputService.Current);
         }
 
         private void NotifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)

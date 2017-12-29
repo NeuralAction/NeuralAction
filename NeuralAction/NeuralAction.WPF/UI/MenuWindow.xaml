@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="Menu" Height="354" Width="375" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" ShowInTaskbar="False" Loaded="Window_Loaded" Icon="/NeuralAction.WPF;component/Resources/icon.ico">
+        Title="Menu" Height="354" Width="375" WindowStyle="None" ResizeMode="NoResize" Topmost="True" UseLayoutRounding="True" SnapsToDevicePixels="True" AllowsTransparency="True" Background="{x:Null}" ShowInTaskbar="False" Loaded="Window_Loaded" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
     <Grid Background="#E5171717" Margin="25,25,0,0" Width="350">
         <Grid.Effect>
             <DropShadowEffect Direction="180" Opacity="0.4" ShadowDepth="5" BlurRadius="10"/>
@@ -32,22 +32,16 @@
                 </Grid>
                 <Grid Height="51">
                     <Button Content="Calibration" x:Name="Calibration" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Click="Calibration_Click"/>
-
                     <Rectangle Fill="#663F3F3F" Margin="0,50,0,0" Height="1" VerticalAlignment="Top"/>
-
                 </Grid>
                 <Grid Height="51">
                     <Button Content="Setting" x:Name="Setting" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Click="Setting_Click"/>
-
                     <Rectangle Fill="#663F3F3F" Margin="0,51,0,0" Height="1" VerticalAlignment="Top"/>
-
                 </Grid>
                 <Grid Height="51">
                     <Button Content="Exit" x:Name="Exit" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Click="Exit_Click"/>
-
                     <Rectangle Fill="#663F3F3F" Margin="0,51,0,0" Height="1" VerticalAlignment="Top"/>
                 </Grid>
-
             </StackPanel>
         </StackPanel>
     </Grid>

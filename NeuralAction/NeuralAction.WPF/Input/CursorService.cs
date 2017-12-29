@@ -74,26 +74,21 @@ namespace NeuralAction.WPF
         }
         public bool IsLoaded { get; protected set; }
 
-        private bool _smooth = true;
-        public bool Smooth
+        bool controlAllowd = true;
+        public bool ControlAllowed
         {
-            get => _smooth;
+            get => controlAllowd;
             set
             {
-                _smooth = value;
-                if (GazeService != null)
+                controlAllowd = value;
+                if (Window != null)
                 {
-                    GazeService.GazeDetector.UseSmoothing = value;
-                    GazeService.FaceDetector.UseSmooth = value;
+                    Window.AllowControl = value;
                 }
             }
         }
 
-        public bool ClickAllowed { get; set; } = true;
-
         private ScreenProperties screen;
-        CalibratingArgs calibratingArgs;
-
         public ScreenProperties Screen
         {
             get => screen;
@@ -107,7 +102,7 @@ namespace NeuralAction.WPF
 
         public bool UseClickDelay { get; set; } = false;
         public double ClickDelay { get; set; } = 300;
-        public double ClickWait { get; set; } = 150;
+        public double ClickWait { get; set; } = 1;
 
         public Point Point { get; protected set; }
 
@@ -120,7 +115,6 @@ namespace NeuralAction.WPF
         public CursorService(ScreenProperties screen)
         {
             Screen = screen;
-
             Init();
         }
 
@@ -137,7 +131,7 @@ namespace NeuralAction.WPF
 
         public CursorService(System.Windows.Size screenPixelSize, double dpi) : this(screenPixelSize.Width, screenPixelSize.Height, dpi)
         {
-            
+
         }
 
         public CursorService(double width, double height, double dpi)
@@ -167,10 +161,7 @@ namespace NeuralAction.WPF
 
         public void StartAsync(int camera)
         {
-            Task.Factory.StartNew(() =>
-            {
-                Start(camera);
-            });
+            Task.Factory.StartNew(() => { Start(camera); });
         }
 
         public void Start(int camera)
@@ -181,21 +172,23 @@ namespace NeuralAction.WPF
 
                 GazeService?.Stop();
 
+                OnSettingChanged(Settings);
                 GazeService.GazeDetector.ClipToBound = true;
-                Smooth = Smooth;
                 GazeService.Start(camera);
-                
+
                 IsRunning = true;
                 Started?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        private void GazeCalibrater_Calibrated(object sender, CalibratedArgs e)
+        bool tempControlAllow = true;
+        void GazeCalibrater_Calibrated(object sender, CalibratedArgs e)
         {
-            ClickAllowed = true;
+            ControlAllowed = tempControlAllow;
+
             EyeGazeCalibrationLog logger = new EyeGazeCalibrationLog(e.Data);
 
-            Task.Factory.StartNew(() => 
+            Task.Factory.StartNew(() =>
             {
                 using (OpenCvSharp.Mat frame = logger.Plot(screen, GazeService.GazeDetector.Calibrator))
                 {
@@ -209,12 +202,13 @@ namespace NeuralAction.WPF
                 }
             }, TaskCreationOptions.LongRunning);
         }
-        
-        private void GazeCalibrater_CalibrateBegin(object sender, EventArgs e)
+
+        void GazeCalibrater_CalibrateBegin(object sender, EventArgs e)
         {
-            Window.Dispatcher.Invoke(() => 
+            Window.Dispatcher.Invoke(() =>
             {
-                ClickAllowed = false;
+                tempControlAllow = ControlAllowed;
+                ControlAllowed = false;
 
                 InputService.Current.CloseKeyboard();
 
@@ -223,78 +217,78 @@ namespace NeuralAction.WPF
             });
         }
 
-        private void GazeService_Clicked(object sender, Point e)
+        void GazeService_Clicked(object sender, Point e)
         {
             Profiler.ReportOn = false;
 
             if (UseClickDelay)
             {
                 lock (logLocker)
-                lock (Window.MoveLocker)
-                {
-                    var movelist = Window.MoveList;
-                    if (e != null && movelist != null)
+                    lock (Window.MoveLocker)
                     {
-                        if (clickWaiter == null)
+                        var movelist = Window.MoveList;
+                        if (e != null && movelist != null)
                         {
-                            clickWaiter = new System.Timers.Timer();
-                            clickWaiter.Elapsed += delegate
+                            if (clickWaiter == null)
                             {
-                                var now = DateTime.Now.TimeOfDay;
-
-                                var logLimit = now.TotalMilliseconds - ClickWait;
-                                var log = from l in clickLog
-                                            where l.Key.TotalMilliseconds > logLimit
-                                            select l;
-
-                                if (log.Count() > 0)
+                                clickWaiter = new System.Timers.Timer();
+                                clickWaiter.Elapsed += delegate
                                 {
-                                    double logScore = 0;
-                                    foreach (var l in log)
-                                        if (l.Value)
-                                            logScore++;
-                                    logScore = logScore / log.Count();
+                                    var now = DateTime.Now.TimeOfDay;
 
-                                    if (logScore > 0.6)
+                                    var logLimit = now.TotalMilliseconds - ClickWait;
+                                    var log = from l in clickLog
+                                              where l.Key.TotalMilliseconds > logLimit
+                                              select l;
+
+                                    if (log.Count() > 0)
                                     {
-                                        var dataLimit = now.TotalMilliseconds - ClickDelay;
-                                        var data = from pt in movelist
-                                                    where pt.Time.TotalMilliseconds > dataLimit
-                                                    orderby pt.Time.TotalMilliseconds
-                                                    select pt;
+                                        double logScore = 0;
+                                        foreach (var l in log)
+                                            if (l.Value)
+                                                logScore++;
+                                        logScore = logScore / log.Count();
 
-                                        if (data.Count() > 0)
+                                        if (logScore > 0.6)
                                         {
-                                            var click = data.First().Point;
+                                            var dataLimit = now.TotalMilliseconds - ClickDelay;
+                                            var data = from pt in movelist
+                                                       where pt.Time.TotalMilliseconds > dataLimit
+                                                       orderby pt.Time.TotalMilliseconds
+                                                       select pt;
 
-                                            InternalClicked(click);
+                                            if (data.Count() > 0)
+                                            {
+                                                var click = data.First().Point;
+
+                                                InternalClicked(click);
+                                            }
                                         }
                                     }
-                                }
 
-                                Logger.Log("timer stop");
-                                clickWaiter.Stop();
-                            };
+                                    Logger.Log("timer stop");
+                                    clickWaiter.Stop();
+                                };
 
-                            clickWaiter.Interval = ClickWait;
-                        }
+                                clickWaiter.Interval = ClickWait;
+                            }
 
-                        if (!clickWaiter.Enabled)
-                        {
-                            Logger.Log("timer start" + e.ToString());
-                            clickWaiter.Start();
+                            if (!clickWaiter.Enabled)
+                            {
+                                Logger.Log("timer start" + e.ToString());
+                                clickWaiter.Start();
+                            }
                         }
                     }
-                }
             }
             else
             {
-                if(e!=null)
+                if (e != null)
                     InternalClicked(null);
             }
         }
 
-        private void InternalClicked(Point click)
+        void InternalClicked(Point click)
         {
             if (click != null)
             {
@@ -302,25 +296,18 @@ namespace NeuralAction.WPF
                 Window.Goto(winClick);
                 Logger.Log("Clicked" + click.ToString());
             }
-            if(ClickAllowed)
+            if (ControlAllowed)
                 MouseEvent.Click(MouseButton.Left);
             Window.Clicked();
             Clicked?.Invoke(GazeService, Window.Point);
         }
 
-        private void GazeService_FaceTracked(object sender, FaceRect[] e)
+        void GazeService_FaceTracked(object sender, FaceRect[] e)
         {
-            if (e != null && e.Length > 0)
-            {
-                faceDetected = true;
-            }
-            else
-            {
-                faceDetected = false;
-            }
+            faceDetected = e != null && e.Length > 0;
         }
 
-        private void GazeService_GazeTracked(object sender, Point e)
+        void GazeService_GazeTracked(object sender, Point e)
         {
             var arg = new GazeEventArgs(e, Screen, faceDetected, e != null);
 
@@ -339,19 +326,14 @@ namespace NeuralAction.WPF
                 Window?.SetAvailable(false);
             }
 
-            Point = e; 
+            Point = e;
             GazeTracked?.Invoke(this, arg);
 
         }
 
         public void StopAsync()
         {
-            Task t = new Task(() =>
-            {
-                Stop();
-            });
-
-            t.Start();
+            Task.Factory.StartNew(() => { Stop(); });
         }
 
         public void Stop()
@@ -370,9 +352,93 @@ namespace NeuralAction.WPF
             }
         }
 
+        public void SetCamera(int index)
+        {
+            if (IsRunning && GazeService.CaptureIndex != index)
+            {
+                Stop();
+                Start(index);
+            }
+        }
+
+        protected override void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Settings.CameraIndex):
+                    SetCamera(Settings.CameraIndex);
+                    break;
+                case nameof(Settings.HeadSmooth):
+                    GazeService.FaceDetector.UseSmooth = Settings.HeadSmooth;
+                    break;
+                case nameof(Settings.GazeMode):
+                    GazeService.GazeDetector.DetectMode = Settings.GazeMode;
+                    break;
+                case nameof(Settings.GazeSmooth):
+                    GazeService.GazeDetector.UseSmoothing = Settings.GazeSmooth;
+                    break;
+                case nameof(Settings.GazeSmoothMode):
+                    GazeService.GazeDetector.Smoother.Method = Settings.GazeSmoothMode;
+                    break;
+                case nameof(Settings.GazeSmoothCount):
+                    GazeService.GazeDetector.Smoother.QueueCount = Settings.GazeSmoothCount;
+                    break;
+                case nameof(Settings.OpenMode):
+                    GazeService.OpenDetector.DetectMode = Settings.OpenMode;
+                    break;
+                case nameof(Settings.OpenSmooth):
+                    GazeService.SmoothOpen = Settings.OpenSmooth;
+                    break;
+                case nameof(Settings.OpenEyeTarget):
+                    GazeService.ClickTraget = Settings.OpenEyeTarget;
+                    break;
+                case nameof(Settings.GazeOffsetX):
+                    GazeService.GazeDetector.OffsetX = Settings.GazeOffsetX;
+                    break;
+                case nameof(Settings.GazeOffsetY):
+                    GazeService.GazeDetector.OffsetY = Settings.GazeOffsetY;
+                    break;
+                case nameof(Settings.GazeSensitiveX):
+                    GazeService.GazeDetector.SensitiveX = Settings.GazeSensitiveX;
+                    break;
+                case nameof(Settings.GazeSensitiveY):
+                    GazeService.GazeDetector.SensitiveY = Settings.GazeSensitiveY;
+                    break;
+                case nameof(Settings.CursorSmooth):
+                    Window.Smooth = Settings.CursorSmooth;
+                    break;
+                case nameof(Settings.AllowControl):
+                    ControlAllowed = Settings.AllowControl;
+                    break;
+                case nameof(Settings.GazeUseCalib):
+                    GazeService.GazeDetector.UseCalibrator = Settings.GazeUseCalib;
+                    break;
+            }
+        }
+
+        protected override void OnSettingChanged(Settings set)
+        {
+            GazeService.FaceDetector.UseSmooth = set.HeadSmooth;
+            GazeService.GazeDetector.UseCalibrator = set.GazeUseCalib;
+            GazeService.GazeDetector.DetectMode = set.GazeMode;
+            GazeService.GazeDetector.UseSmoothing = set.GazeSmooth;
+            GazeService.GazeDetector.Smoother.Method = set.GazeSmoothMode;
+            GazeService.GazeDetector.Smoother.QueueCount = set.GazeSmoothCount;
+            GazeService.OpenDetector.DetectMode = Settings.OpenMode;
+            GazeService.SmoothOpen = set.OpenSmooth;
+            GazeService.ClickTraget = set.OpenEyeTarget;
+            GazeService.GazeDetector.OffsetX = set.GazeOffsetX;
+            GazeService.GazeDetector.OffsetY = set.GazeOffsetY;
+            GazeService.GazeDetector.SensitiveX = set.GazeSensitiveX;
+            GazeService.GazeDetector.SensitiveY = set.GazeSensitiveY;
+            Window.Smooth = Settings.CursorSmooth;
+            ControlAllowed = Settings.AllowControl;
+            SetCamera(set.CameraIndex);
+        }
+
         public void Dispose()
         {
-            if(Window != null)
+            if (Window != null)
             {
                 Window.Close();
                 Window = null;
@@ -388,61 +454,6 @@ namespace NeuralAction.WPF
                     IsRunning = false;
                 }
             }
-        }
-
-        public void SetCamera(int index)
-        {
-            if (IsRunning)
-            {
-                Stop();
-            }
-            Start(index);
-        }
-
-        protected override void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(Settings.CameraIndex):
-                    SetCamera(Settings.CameraIndex);
-                    break;
-                case nameof(Settings.GazeExtendModel):
-                    if (Settings.GazeExtendModel)
-                        GazeService.GazeDetector.DetectMode = EyeGazeDetectMode.FaceMobile;
-                    else
-                        GazeService.GazeDetector.DetectMode = EyeGazeDetectMode.Both;
-                    break;
-                case nameof(Settings.GazeSmooth):
-                    GazeService.GazeDetector.UseSmoothing = Settings.GazeSmooth;
-                    break;
-                case nameof(Settings.HeadSmooth):
-                    GazeService.FaceDetector.UseSmooth = Settings.HeadSmooth;
-                    break;
-                case nameof(Settings.GazeOffsetX):
-                    GazeService.GazeDetector.OffsetX = Settings.GazeOffsetX;
-                    break;
-                case nameof(Settings.GazeOffsetY):
-                    GazeService.GazeDetector.OffsetY = Settings.GazeOffsetY;
-                    break;
-                case nameof(Settings.GazeSensitiveX):
-                    GazeService.GazeDetector.SensitiveX = Settings.GazeSensitiveX;
-                    break;
-                case nameof(Settings.GazeSensitiveY):
-                    GazeService.GazeDetector.SensitiveY = Settings.GazeSensitiveY;
-                    break;
-            }
-        }
-
-        protected override void OnSettingChanged(Settings set)
-        {
-            GazeService.FaceDetector.UseSmooth = set.HeadSmooth;
-            GazeService.GazeDetector.UseSmoothing = set.GazeSmooth;
-            GazeService.GazeDetector.DetectMode = set.GazeExtendModel ? EyeGazeDetectMode.FaceMobile : EyeGazeDetectMode.Both;
-            GazeService.GazeDetector.OffsetX = set.GazeOffsetX;
-            GazeService.GazeDetector.OffsetY = set.GazeOffsetY;
-            GazeService.GazeDetector.SensitiveX = set.GazeSensitiveX;
-            GazeService.GazeDetector.SensitiveY = set.GazeSensitiveY;
-            SetCamera(set.CameraIndex);
         }
     }
 }

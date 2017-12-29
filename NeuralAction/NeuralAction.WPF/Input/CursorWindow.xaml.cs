@@ -20,6 +20,7 @@ namespace NeuralAction.WPF
         
         public double Scale { get; set; } = 1;
         public bool Smooth { get; set; } = true;
+        public bool AllowControl { get; set; }
         public double ActualLeft
         {
             get => Left * Scale;
@@ -37,7 +38,7 @@ namespace NeuralAction.WPF
             }
         }
         /// <summary>
-        /// actual cursor point
+        /// Actual cursor point
         /// </summary>
         public Vision.Point Point { get => new Vision.Point(ActualLeft + ActualWidth / 2, ActualTop + ActualHeight / 2); }
         public List<CursorTimes> MoveList { get; set; } = new List<CursorTimes>();
@@ -56,7 +57,6 @@ namespace NeuralAction.WPF
             set
             {
                 targetPt = value;
-
                 if (Smooth)
                 {
                     if (moveTimer == null)
@@ -67,19 +67,7 @@ namespace NeuralAction.WPF
                         {
                             ActualLeft += (TargetPt.X - ActualLeft) / 4;
                             ActualTop += (TargetPt.Y - ActualTop) / 4;
-
-                            Topmost = false;
-                            Topmost = true;
-
-                            lock (MoveLocker)
-                                MoveList.Add(new CursorTimes(Point, DateTime.Now.TimeOfDay));
-
-                            if (show)
-                            {
-                                var pt = new Point(Point.X, Point.Y);
-                                MouseEvent.MoveAt(pt);
-                                Moved?.Invoke(this, pt);
-                            }
+                            InternalMove();
                         };
                     }
                     moveTimer.Start();
@@ -87,16 +75,9 @@ namespace NeuralAction.WPF
                 else
                 {
                     moveTimer?.Stop();
-
                     ActualLeft = TargetPt.X;
                     ActualTop = TargetPt.Y;
-
-                    if (show)
-                    {
-                        var pt = new Point(Point.X, Point.Y);
-                        MouseEvent.MoveAt(pt);
-                        Moved?.Invoke(this, pt);
-                    }
+                    InternalMove();
                 }
             }
         }
@@ -111,10 +92,25 @@ namespace NeuralAction.WPF
             InitializeComponent();
 
             CursorOff = (Storyboard)FindResource("CursorOff");
-            CursorOff.Begin();
             CursorOn = (Storyboard)FindResource("CursorOn");
             CursorClick = (Storyboard)FindResource("CursorClick");
             CursorClickOff = (Storyboard)FindResource("CursorClickOff");
+
+            CursorOff.Begin();
+        }
+
+        void InternalMove()
+        {
+            lock (MoveLocker)
+                MoveList.Add(new CursorTimes(Point, DateTime.Now.TimeOfDay));
+
+            if (show)
+            {
+                var pt = new Point(Point.X, Point.Y);
+                if(AllowControl)
+                    MouseEvent.MoveAt(pt);
+                Moved?.Invoke(this, pt);
+            }
         }
 
         private void CursorWindow_SourceInitialized(object sender, EventArgs e)

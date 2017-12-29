@@ -45,7 +45,6 @@ namespace NeuralAction.WPF
         }
 
         public int CameraIndex { get; set; } = 0;
-
         public bool IsKeyboardShowen => KeyWindow != null;
 
         public InputService()
@@ -56,7 +55,6 @@ namespace NeuralAction.WPF
         public void Start()
         {
             Cursor.StartAsync(CameraIndex);
-            //ShowKeyboard();
         }
 
         public void CloseKeyboard()
