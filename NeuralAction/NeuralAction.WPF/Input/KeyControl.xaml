@@ -53,28 +53,28 @@
             </TextBlock>
         </Grid>-->
 
-        <Grid x:Name="Gautocomplete1" Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        <Grid x:Name="Gautocomplete1" Width="800" Height="332" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock x:Name="autocomplete1" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
         </Grid>
 
-        <Grid x:Name="Gautocomplete2" Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete2" HorizontalAlignment="Left" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        <Grid x:Name="Gautocomplete2" Width="800" Height="332" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock x:Name="autocomplete2" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
         </Grid>
 
-        <Grid x:Name="Gautocomplete3" Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete3" HorizontalAlignment="Left" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        <Grid x:Name="Gautocomplete3" Width="800" Height="332" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock x:Name="autocomplete3" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
         </Grid>
 
-        <Grid x:Name="Gautocomplete4" Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete4" HorizontalAlignment="Right" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        <Grid x:Name="Gautocomplete4" Width="800" Height="332" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock x:Name="autocomplete4" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
         </Grid>
 
-        <Grid x:Name="Gautocomplete5" Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete5" HorizontalAlignment="Right" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        <Grid x:Name="Gautocomplete5" Width="800" Height="332" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock x:Name="autocomplete5" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
         </Grid>
 
-        <Grid x:Name="Gautocomplete6" Width="800" Height="332" Tag="awdwadad" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete6" HorizontalAlignment="Right" TextWrapping="Wrap" Text="awdwadad" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        <Grid x:Name="Gautocomplete6" Width="800" Height="332" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+            <TextBlock x:Name="autocomplete6" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
         </Grid>
         
         <Grid Grid.ColumnSpan="2" Width="1000" Height="1000">

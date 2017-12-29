@@ -40,7 +40,7 @@ namespace NeuralAction.WPF
         static string[] KoreanJongsungKeymap = new string[28] { "ㄱ", "ㄲ", "ㅋ", "ㄺ", "ㄷ", "ㅌ", "ㄸ", "ㄼ", "ㅈ", "ㅊ", "ㅉ", "ㄶ", "ㅂ", "ㅍ", "ㅃ", "ㅄ", "ㄴ", "ㅁ", "ㄹ", "ㄻ", "ㅅ", "ㅆ", "ㅄ", "ㄳ", "ㅇ", "ㅎ", "ㄶ", "ㅀ" };
         static string[] SpecialCharKeymap = new string[28] { ".", "5", "(", "", ",", "6", ")", "", "0", "7", "&", "", "1", "8", "+", "", "2", "9", "-", "", "3", "!", "*", "", "4", "?", "/", "" };
 
-        string wordtemp;
+        string wordtemp = "";
 
         public static string MergeJaso(string choSung, string jungSung, string jongSung)
         {
@@ -337,6 +337,7 @@ namespace NeuralAction.WPF
                 CenterText.Text = "";
                 inputCount = 0;
             }
+
         }
 
         private void KeyChange(object sender, System.Windows.Input.MouseEventArgs e)
@@ -539,9 +540,22 @@ namespace NeuralAction.WPF
                         CenterTextMerge(keymap, i);
                     }
                 }
+
             }
 
-           WordSuggestions[] Autocompletes =  AutocompleteWord.Correcting(CenterText.Text);
+
+            if (wordtemp.Length > 1)
+            {
+                wordtemp.Substring(0, wordtemp.Length);
+                wordtemp.Insert(wordtemp.Length, CenterText.Text);
+
+            } else if(wordtemp.Length <= 1) {
+                wordtemp = CenterText.Text;
+            }
+
+            MessageBox.Show(wordtemp.Length + "  " + wordtemp);
+
+           WordSuggestions[] Autocompletes =  AutocompleteWord.Correcting(wordtemp.Trim());
 
             if (Autocompletes != null)
             {
@@ -583,7 +597,8 @@ namespace NeuralAction.WPF
 
         private void InputingSentence(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            InputingReset();
+            wordtemp = "";
+            InputingReset(true);
 
             string RealSendKey = ((Grid)sender).Tag.ToString();
 
@@ -626,6 +641,7 @@ namespace NeuralAction.WPF
                             sendkeys = new Send(CenterText.Text, CenterText.Text);
                             sendkeys.Work();
                             InputingReset();
+                            wordtemp.Insert(wordtemp.Length, " ");
                             break;
                         default:
                             break;
@@ -633,6 +649,8 @@ namespace NeuralAction.WPF
                 }
                 else
                 {
+                    wordtemp.Insert(wordtemp.Length, " ");
+                    InputingReset();
                     sendkeys.Work();
                 }
             }
@@ -643,7 +661,7 @@ namespace NeuralAction.WPF
             System.Windows.Forms.Clipboard.SetText("{BACK}");
             Send sendkeys = new Send("{BACK}", "{BACK}");
             sendkeys.Work();
-
+            wordtemp = "";
             InputingReset();
 
             CenterText.Text = "←";
@@ -654,7 +672,7 @@ namespace NeuralAction.WPF
             System.Windows.Forms.Clipboard.SetText(" ");
             Send sendkeys = new Send(" ", " ");
             sendkeys.Work();
-
+            wordtemp = "";
             InputingReset();
         }
 
@@ -665,7 +683,6 @@ namespace NeuralAction.WPF
             {
                 case Languages.Korean:
                     CurrentLanguage = Languages.English;
-                    MessageBox.Show("English");
                     AutocompleteWord = new WordCorrecter(System.Environment.CurrentDirectory + "\\Database\\englishdatabase.xml");
                     KeymapChange(GetKeymapArray(CurrentLanguage));
                     BlankText.Text = "Spacing";
@@ -673,13 +690,11 @@ namespace NeuralAction.WPF
                     break;
                 case Languages.English:
                     CurrentLanguage = Languages.Special;
-                    MessageBox.Show("Special");
                     KeymapChange(GetKeymapArray(CurrentLanguage));
                     LauguageChangeText.Text = "한국어";
                     break;
                 case Languages.Special:
                     CurrentLanguage = Languages.Korean;
-                    MessageBox.Show("Korean");
                     AutocompleteWord = new WordCorrecter(System.Environment.CurrentDirectory + "\\Database\\koreandatabase.xml");
                     KeymapChange(GetKeymapArray(CurrentLanguage));
                     BlankText.Text = "띄어쓰기";
