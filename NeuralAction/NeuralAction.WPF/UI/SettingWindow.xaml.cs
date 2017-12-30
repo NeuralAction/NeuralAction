@@ -67,7 +67,7 @@ namespace NeuralAction.WPF
                 if (InputDebugWindow.Default.IsShowed)
                     InputDebugWindow.Default.Close();
                 else
-                    InputDebugWindow.Default.Show(InputService.Current);
+                    InputDebugWindow.Default.Show();
             }
         }
     }

@@ -16,7 +16,7 @@
                     </Grid>
                 </Canvas>
                 <Grid.Effect>
-                    <DropShadowEffect ShadowDepth="2" Direction="270" BlurRadius="5"/>
+                    <DropShadowEffect ShadowDepth="0" Direction="270" BlurRadius="12"/>
                 </Grid.Effect>
                 <Grid.CacheMode>
                     <BitmapCache/>

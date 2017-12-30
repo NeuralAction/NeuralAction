@@ -64,8 +64,13 @@ namespace NeuralAction.WPF
         public static void Exit()
         {
             NotifyIcon.Visible = false;
+            NotifyIcon.Icon = null;
+            NotifyIcon.Dispose();
+
             Settings.Save();
+
             InputService.Current.Dispose();
+
             Environment.Exit(0);
         }
 
@@ -80,19 +85,20 @@ namespace NeuralAction.WPF
             using (var stream = System.Windows.Application.GetResourceStream(new Uri("Resources/icon.ico", UriKind.Relative)).Stream)
                 NotifyIcon.Icon = new System.Drawing.Icon(stream);
             NotifyIcon.Visible = true;
-            NotifyIcon.MouseClick += NotifyIcon_MouseClick;
+            NotifyIcon.MouseClick += delegate
+            {
+                if (MenuWindow == null)
+                    OpenMenu();
+                else
+                    MenuWindow.Close();
+            };
             NotifyIcon.Text = "NeuralAction";
 
             InputService.Current.Owner = this;
             InputService.Current.Settings = Settings.Current;
             InputService.Current.Start();
 
-            InputDebugWindow.Default.Show(InputService.Current);
-        }
-
-        private void NotifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            OpenMenu();
+            InputDebugWindow.Default.Show();
         }
 
         private void MainWindow_Closed(object sender, EventArgs e)

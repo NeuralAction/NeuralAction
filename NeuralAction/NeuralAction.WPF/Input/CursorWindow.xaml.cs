@@ -37,6 +37,7 @@ namespace NeuralAction.WPF
                 Top = value / Scale;
             }
         }
+
         /// <summary>
         /// Actual cursor point
         /// </summary>
@@ -90,6 +91,12 @@ namespace NeuralAction.WPF
             Loaded += CursorWindow_Loaded;
 
             InitializeComponent();
+
+            var focus = new DispatcherTimer();
+            focus.Interval = TimeSpan.FromMilliseconds(150);
+            focus.Tick += delegate { Topmost = false; Topmost = true; };
+            focus.Start();
+            Closed += delegate { focus.Stop(); };
 
             CursorOff = (Storyboard)FindResource("CursorOff");
             CursorOn = (Storyboard)FindResource("CursorOn");
