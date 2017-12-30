@@ -8,50 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1600" Loaded="UserControl_Loaded">
     <Grid>
-        <!--<Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-
-
-            <TextBlock Grid.Row="0" HorizontalAlignment="Right"  TextWrapping="Wrap" Text="abcdefg" VerticalAlignment="Center" Foreground="White" FontSize="42" Background="#BF232323" Padding="10,5" FontFamily="NanumBarunGothic" MouseLeftButtonDown="InputingSentence" Height="334" Margin="0,0,0,332.5" Grid.RowSpan="2" Width="799">
-                <TextBlock.Effect>
-                    <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
-                </TextBlock.Effect>
-            </TextBlock>
-
-            <TextBlock Grid.Row="1"  HorizontalAlignment="Right" TextWrapping="Wrap" Text="으아아아ㅏㄱ" VerticalAlignment="Center" Foreground="White" FontSize="42" Background="#BF232323" Padding="10,5" FontFamily="NanumBarunGothic" MouseLeftButtonDown="InputingSentence" Height="332" Margin="0,0.5" Width="437">
-                <TextBlock.Effect>
-                    <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
-                </TextBlock.Effect>
-            </TextBlock>
-
-            <TextBlock Grid.Row="1"  HorizontalAlignment="Right" TextWrapping="Wrap" Text="ㅋㅋㅋㅋㅋㅋ" VerticalAlignment="Center" Foreground="White" FontSize="42" Background="#BF232323" Padding="10,5" FontFamily="NanumBarunGothic" MouseLeftButtonDown="InputingSentence" Height="334" Margin="0,332.5,0,0" Grid.RowSpan="2" Width="799">
-                <TextBlock.Effect>
-                    <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
-                </TextBlock.Effect>
-            </TextBlock>
-
-            <TextBlock Grid.Row="0"  HorizontalAlignment="Left"  TextWrapping="Wrap" Text="앙앙아앙아" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" FontFamily="NanumBarunGothic" MouseLeftButtonDown="InputingSentence" Height="334" Margin="0,0,0,332.5" Grid.RowSpan="2" Width="801">
-                <TextBlock.Effect>
-                    <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
-                </TextBlock.Effect>
-            </TextBlock>
-
-            <TextBlock Grid.Row="1"  HorizontalAlignment="Left" TextWrapping="Wrap" Text="인정?어인정" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" FontFamily="NanumBarunGothic" MouseLeftButtonDown="InputingSentence" Height="332" Margin="0,0.5" Width="801">
-                <TextBlock.Effect>
-                    <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
-                </TextBlock.Effect>
-            </TextBlock>
-
-            <TextBlock Grid.Row="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="test" VerticalAlignment="Center" Foreground="White" FontSize="42"  TextAlignment="Right" Background="#BF232323" Padding="10,5" FontFamily="NanumBarunGothic" MouseLeftButtonDown="InputingSentence" Height="334" Margin="0,332.5,0,0" Width="796" Grid.RowSpan="2">
-                <TextBlock.Effect>
-                    <DropShadowEffect ShadowDepth="7" Opacity="0.22" Direction="270"/>
-                </TextBlock.Effect>
-            </TextBlock>
-        </Grid>-->
 
         <Grid x:Name="Gautocomplete1" Width="800" Height="332" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
             <TextBlock x:Name="autocomplete1" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>

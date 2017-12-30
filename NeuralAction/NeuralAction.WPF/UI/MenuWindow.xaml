@@ -5,46 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="Menu" Height="354" Width="375" WindowStyle="None" ResizeMode="NoResize" Topmost="True" UseLayoutRounding="True" SnapsToDevicePixels="True" AllowsTransparency="True" Background="{x:Null}" ShowInTaskbar="False" Loaded="Window_Loaded" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
-    <Grid Background="#E5171717" Margin="25,25,0,0" Width="350">
-        <Grid.Effect>
-            <DropShadowEffect Direction="180" Opacity="0.4" ShadowDepth="5" BlurRadius="10"/>
-        </Grid.Effect>
-        <StackPanel>
-            <Grid Height="125" VerticalAlignment="Top">
-                <Grid.CacheMode>
-                    <BitmapCache SnapsToDevicePixels="True"/>
-                </Grid.CacheMode>
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Grid Margin="0,4">
-                        <TextBlock Text="Neural Action" Foreground="White" FontFamily="NanumBarunGothic" FontSize="36"/>
-                        <TextBlock Text="Ver.1.0.0" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Bottom" FontFamily="NanumBarunGothic" FontSize="12"/>
-                    </Grid>
-                    <TextBlock Margin="0,2" Text="신경망과 시선추적을 이용한 새로운 Man Machine Interface" HorizontalAlignment="Stretch" Foreground="White" FontFamily="NanumBarunGothic"/>
-                    <TextBlock Text="이희준, 함종현" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Top" FontFamily="NanumBarunGothic"/>
-                </StackPanel>
-            </Grid>
-            <Rectangle Fill="#663F3F3F" Height="1" VerticalAlignment="Bottom"/>
-            <StackPanel >
-                <Grid Height="51">
-                    <Button Content="Open" x:Name="Open" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Click="Open_Click"/>
-                    <Rectangle Fill="#663F3F3F" Margin="0,50,0,0" Height="1" VerticalAlignment="Top"/>
-                </Grid>
-                <Grid Height="51">
-                    <Button Content="Calibration" x:Name="Calibration" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Click="Calibration_Click"/>
-                    <Rectangle Fill="#663F3F3F" Margin="0,50,0,0" Height="1" VerticalAlignment="Top"/>
-                </Grid>
-                <Grid Height="51">
-                    <Button Content="Setting" x:Name="Setting" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Click="Setting_Click"/>
-                    <Rectangle Fill="#663F3F3F" Margin="0,51,0,0" Height="1" VerticalAlignment="Top"/>
-                </Grid>
-                <Grid Height="51">
-                    <Button Content="Exit" x:Name="Exit" FontFamily="NanumBarunGothic" VerticalAlignment="Top" Height="50" Background="#B2090909" Foreground="White" BorderBrush="{x:Null}" Click="Exit_Click"/>
-                    <Rectangle Fill="#663F3F3F" Margin="0,51,0,0" Height="1" VerticalAlignment="Top"/>
-                </Grid>
+        Title="Menu" WindowStyle="None" ResizeMode="NoResize" Width="375" Topmost="True" UseLayoutRounding="True" SnapsToDevicePixels="True" SizeToContent="Height" AllowsTransparency="True" Background="{x:Null}" ShowInTaskbar="False" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DarkStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.CacheMode>
+        <BitmapCache/>
+    </Window.CacheMode>
+    <StackPanel Background="#E5171717" Margin="25,25,0,0" UseLayoutRounding="True" SnapsToDevicePixels="True">
+        <StackPanel.Effect>
+            <DropShadowEffect Opacity="0.4" ShadowDepth="0" BlurRadius="12"/>
+        </StackPanel.Effect>
+        <Grid Margin="25,20" UseLayoutRounding="True" SnapsToDevicePixels="True" IsHitTestVisible="False">
+            <Grid.CacheMode>
+                <BitmapCache SnapsToDevicePixels="True"/>
+            </Grid.CacheMode>
+            <StackPanel VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                <TextBlock Text="Neural Action" FontSize="36" HorizontalAlignment="Right" SnapsToDevicePixels="True"/>
+                <TextBlock Text="이희준, 함종현" SnapsToDevicePixels="True" UseLayoutRounding="True" FontFamily="NanumBarunGothic Light" TextOptions.TextHintingMode="Fixed" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" HorizontalAlignment="Right"/>
             </StackPanel>
-        </StackPanel>
-    </Grid>
-
-
+            <Image Source="/NeuralAction.WPF;component/Resources/icon.png" Width="64" Height="64" HorizontalAlignment="Left" RenderOptions.BitmapScalingMode="Fant"/>
+        </Grid>
+        <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
+        <Button Content="Open" x:Name="Open" Height="50" Click="Open_Click">
+            <Button.CacheMode>
+                <BitmapCache/>
+            </Button.CacheMode>
+        </Button>
+        <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
+        <Button Content="Calibration" x:Name="Calibration" Height="50" Click="Calibration_Click">
+            <Button.CacheMode>
+                <BitmapCache/>
+            </Button.CacheMode>
+        </Button>
+        <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
+        <Button Content="Setting" x:Name="Setting" Height="50" Click="Setting_Click">
+            <Button.CacheMode>
+                <BitmapCache/>
+            </Button.CacheMode>
+        </Button>
+        <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
+        <Button Content="Exit" x:Name="Exit" Height="50" Click="Exit_Click">
+            <Button.CacheMode>
+                <BitmapCache/>
+            </Button.CacheMode>
+        </Button>
+        <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
+    </StackPanel>
 </Window>

@@ -6,14 +6,11 @@
         xmlns:local="clr-namespace:NeuralAction.WPF"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
         mc:Ignorable="d"
-        Title="NeuralAction - Keyboard" Height="1050" Width="1600" WindowStyle="None" Foreground="{x:Null}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Background="{x:Null}" Topmost="True" AllowsTransparency="true" ShowInTaskbar="False" WindowState="Normal" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
+        Title="NeuralAction - Keyboard" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}" Topmost="True" AllowsTransparency="True" ShowInTaskbar="False" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
     <Window.CacheMode>
-        <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
+        <BitmapCache SnapsToDevicePixels="True"/>
     </Window.CacheMode>
     <Grid>
-        <Grid.CacheMode>
-            <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
-        </Grid.CacheMode>
-        <local:KeyControl x:Name="Keyboard" MouseLeftButtonDown="Keyboard_MouseLeftButtonDown"></local:KeyControl>
+        <local:KeyControl x:Name="Keyboard" MouseLeftButtonDown="Keyboard_MouseLeftButtonDown"/>
     </Grid>
 </Window>

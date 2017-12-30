@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:NeuralAction.WPF"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
         mc:Ignorable="d"
-        Title="CursorWindow" Width="120" Height="120" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Topmost="True" Cursor="None" ShowInTaskbar="False">
+        Title="CursorWindow" Width="150" Height="150" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Topmost="True" Cursor="None" ShowInTaskbar="False">
     <Window.Resources>
-        <Storyboard x:Key="CursorOn" Timeline.DesiredFrameRate="30">
+        <Storyboard x:Key="CursorOn">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Grid_Root">
                 <EasingDoubleKeyFrame KeyTime="0" Value="{Binding ElementName=Grid_Root, Path=Opacity}"/>
                 <SplineDoubleKeyFrame KeyTime="0:0:0.125" Value="1" KeySpline="0,0,0.22,1"/>
@@ -26,7 +26,7 @@
                 <SplineDoubleKeyFrame KeyTime="0:0:0.208" Value="1" KeySpline="0,0,0,1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-        <Storyboard x:Key="CursorOff" Timeline.DesiredFrameRate="30">
+        <Storyboard x:Key="CursorOff">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Grid_Root">
                 <SplineDoubleKeyFrame KeyTime="0:0:0.083" Value="{Binding ElementName=Grid_Root, Path=Opacity}"/>
                 <SplineDoubleKeyFrame KeySpline="0.78,0,1,1" KeyTime="0:0:0.208" Value="0"/>
@@ -44,7 +44,7 @@
                 <SplineDoubleKeyFrame KeySpline="1,0,1,1" KeyTime="0:0:0.208" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-        <Storyboard x:Key="CursorClick" Timeline.DesiredFrameRate="30">
+        <Storyboard x:Key="CursorClick">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="StrokeThickness" Storyboard.TargetName="OutlineCircle">
                 <EasingDoubleKeyFrame KeyTime="0" Value="{Binding ElementName=OutlineCircle, Path=StrokeThickness}"/>
                 <SplineDoubleKeyFrame KeyTime="0:0:0.2" Value="25" KeySpline="0,0,0.22,1"/>
@@ -58,12 +58,11 @@
                 <SplineDoubleKeyFrame KeySpline="1,0,1,1" KeyTime="0:0:0.208" Value="2"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-        <Storyboard x:Key="CursorClickOff" Timeline.DesiredFrameRate="30">
+        <Storyboard x:Key="CursorClickOff">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="StrokeThickness" Storyboard.TargetName="OutlineCircle">
                 <EasingDoubleKeyFrame KeyTime="0" Value="{Binding ElementName=OutlineCircle, Path=StrokeThickness}"/>
                 <SplineDoubleKeyFrame KeyTime="0:0:0.2" Value="7" KeySpline="0,0,0.22,1"/>
             </DoubleAnimationUsingKeyFrames>
-
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid">
                 <SplineDoubleKeyFrame KeyTime="0" Value="2"/>
                 <SplineDoubleKeyFrame KeySpline="1,0,1,1" KeyTime="0:0:0.208" Value="1"/>
@@ -72,7 +71,6 @@
                 <SplineDoubleKeyFrame KeyTime="0" Value="2"/>
                 <SplineDoubleKeyFrame KeySpline="1,0,1,1" KeyTime="0:0:0.208" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
-            
         </Storyboard>
     </Window.Resources>
     <Grid x:Name="Grid_Root" RenderTransformOrigin="0.5,0.5">

@@ -19,7 +19,8 @@ namespace NeuralAction.WPF
         public enum WS_EX
         {
             Transparent = 0x20,
-            Layered = 0x80000
+            Layered = 0x80000,
+            NoActivate = 0x08000000,
         }
 
         public enum LWA
@@ -34,6 +35,11 @@ namespace NeuralAction.WPF
         [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
         public static extern int SetWindowLong(IntPtr hWnd, GWL nIndex, int dwNewLong);
 
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        [DllImport("user32.dll")]
+        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
         [DllImport("user32.dll", EntryPoint = "SetLayeredWindowAttributes")]
         public static extern bool SetLayeredWindowAttributes(IntPtr hWnd, int crKey, byte alpha, LWA dwFlags);
 
@@ -42,6 +48,9 @@ namespace NeuralAction.WPF
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetDesktopWindow();
+
+        [DllImport("user32.dll", EntryPoint = "mouse_event", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern void MouseEvent(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
 
         public static int GetDpi()
         {
@@ -55,6 +64,12 @@ namespace NeuralAction.WPF
             int wl = GetWindowLong(handle, GWL.ExStyle);
             wl = wl | 0x80000 | 0x20;
             SetWindowLong(handle, GWL.ExStyle, wl);
+        }
+
+        public static void NotWindowsFocus(Window w)
+        {
+            WindowInteropHelper helper = new WindowInteropHelper(w);
+            SetWindowLong(helper.Handle, (int)GWL.ExStyle, GetWindowLong(helper.Handle, GWL.ExStyle) | (int)WS_EX.NoActivate);
         }
     }
 }

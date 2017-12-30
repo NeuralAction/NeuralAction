@@ -11,15 +11,18 @@ namespace NeuralAction.WPF
 {
     public class Send
     {
+        public static IntPtr FocusedHandle { get; set; }
+        public static bool RestoreClipboard { get; set; } = true;
         static int InstanceCount = 0;
-        public int uid;
+
+        public int UID;
 
         public string Content { get; set; }
         public string Name { get; set; }
 
         public Send(string name, string content)
         {
-            uid = InstanceCount;
+            UID = InstanceCount;
             InstanceCount++;
 
             Name = name;
@@ -31,7 +34,7 @@ namespace NeuralAction.WPF
 
         public void Work()
         {
-            IntPtr hwnd = KeyWindow.FocusedHandle;
+            IntPtr hwnd = FocusedHandle;
 
             if (hwnd == IntPtr.Zero && Content == null)
                 return;
@@ -42,12 +45,12 @@ namespace NeuralAction.WPF
 
                 if (previousClip == "{BACK}")
                 {
-                    SetForegroundWindow(KeyWindow.FocusedHandle);
+                    SetForegroundWindow(FocusedHandle);
 
                     SendKeys.SendWait("{BACKSPACE}");
                     SendKeys.Flush();
 
-                    if (KeyWindow.RestoreClipboard)
+                    if (RestoreClipboard)
                     {
                         if (string.IsNullOrEmpty(previousClip))
                             Clipboard.SetText(previousClip);
@@ -60,7 +63,7 @@ namespace NeuralAction.WPF
                     SendKeys.SendWait("^(v)");
                     SendKeys.Flush();
 
-                    if (KeyWindow.RestoreClipboard)
+                    if (RestoreClipboard)
                     {
                         if (string.IsNullOrEmpty(previousClip))
                             Clipboard.SetText(previousClip);

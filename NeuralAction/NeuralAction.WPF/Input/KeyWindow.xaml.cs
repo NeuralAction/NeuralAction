@@ -21,45 +21,35 @@ namespace NeuralAction.WPF
     /// </summary>
     public partial class KeyWindow : Window
     {
+        InputService service;
 
-        private const int GWL_EXSTYLE = -20;
-        private const int WS_EX_NOACTIVATE = 0x08000000;
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-        [DllImport("user32.dll")]
-        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-        void NotWindowsFocus()
+        public KeyWindow(InputService service)
         {
-            System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(this);
-            SetWindowLong(helper.Handle, GWL_EXSTYLE,
-            GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVATE);
-        }
+            this.service = service;
 
-        public static IntPtr FocusedHandle { get; set; }
-        public static bool RestoreClipboard { get; set; } = true;
-
-        public KeyWindow()
-        {
             InitializeComponent();
+
+            Loaded += delegate
+            {
+                Keyboard.KeymapChange(Keyboard.GetKeymapArray(Keyboard.CurrentLanguage));
+                UpdateScreen();
+                WinApi.NotWindowsFocus(this);
+            };
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        public void UpdateScreen()
         {
-            Keyboard.KeymapChange(Keyboard.GetKeymapArray(Keyboard.CurrentLanguage));
-
-            NotWindowsFocus();
+            var scale = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
+            var scr = service.TargetScreen.WorkingArea;
+            Top = scr.Top / scale;
+            Left = scr.Left / scale;
+            Width = scr.Width / scale;
+            Height = scr.Height / scale;
         }
 
-        private void Keyboard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void Keyboard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            NotWindowsFocus();
-        }
-
-        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Close();
+            WinApi.NotWindowsFocus(this);
         }
     }
 }

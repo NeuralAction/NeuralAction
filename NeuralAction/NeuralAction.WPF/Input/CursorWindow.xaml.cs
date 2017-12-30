@@ -17,31 +17,23 @@ namespace NeuralAction.WPF
     public partial class CursorWindow : Window
     {
         public event EventHandler<Point> Moved;
-        
-        public double Scale { get; set; } = 1;
+
         public bool Smooth { get; set; } = true;
-        public bool AllowControl { get; set; }
+        public bool UseSpeedClamp { get; set; } = true;
+        public double SpeedClamp { get; set; } = 100;
+        
         public double ActualLeft
         {
-            get => Left * Scale;
-            set
-            {
-                Left = value / Scale;
-            }
+            get => Left * WpfScale - parent.TargetScreen.Bounds.Left;
+            set { Left = (value + parent.TargetScreen.Bounds.Left) / WpfScale; }
         }
         public double ActualTop
         {
-            get => Top * Scale;
-            set
-            {
-                Top = value / Scale;
-            }
+            get => Top * WpfScale - parent.TargetScreen.Bounds.Top;
+            set { Top = (value + parent.TargetScreen.Bounds.Top) / WpfScale; }
         }
+        public Vision.Point ActualPosition => new Vision.Point(ActualLeft + ActualWidth / 2 * WpfScale, ActualTop + ActualHeight / 2 * WpfScale);
 
-        /// <summary>
-        /// Actual cursor point
-        /// </summary>
-        public Vision.Point Point { get => new Vision.Point(ActualLeft + ActualWidth / 2, ActualTop + ActualHeight / 2); }
         public List<CursorTimes> MoveList { get; set; } = new List<CursorTimes>();
         public object MoveLocker { get; set; } = new object();
 
@@ -50,45 +42,30 @@ namespace NeuralAction.WPF
         Storyboard CursorClick;
         Storyboard CursorClickOff;
 
+        MouseEvent mouse;
+        CursorService parent;
         DispatcherTimer moveTimer;
-        Point targetPt;
-        Point TargetPt
+        Point targetPosition;
+        Point TargetPosition
         {
-            get => targetPt;
-            set
-            {
-                targetPt = value;
-                if (Smooth)
-                {
-                    if (moveTimer == null)
-                    {
-                        moveTimer = new DispatcherTimer();
-                        moveTimer.Interval = TimeSpan.FromMilliseconds(30);
-                        moveTimer.Tick += (sender, arg) =>
-                        {
-                            ActualLeft += (TargetPt.X - ActualLeft) / 4;
-                            ActualTop += (TargetPt.Y - ActualTop) / 4;
-                            InternalMove();
-                        };
-                    }
-                    moveTimer.Start();
-                }
-                else
-                {
-                    moveTimer?.Stop();
-                    ActualLeft = TargetPt.X;
-                    ActualTop = TargetPt.Y;
-                    InternalMove();
-                }
-            }
+            get => targetPosition;
+            set { targetPosition = value; UpdateTarget(); }
         }
-        bool show = false;
         DispatcherTimer cursorAniWaiter;
+        double WpfScale;
+        bool show = false;
+        bool AllowControl => parent.ControlAllowed;
 
-        public CursorWindow()
+        public CursorWindow(CursorService service)
         {
-            SourceInitialized += CursorWindow_SourceInitialized;
-            Loaded += CursorWindow_Loaded;
+            parent = service;
+
+            mouse = new MouseEvent();
+
+            SourceInitialized += delegate
+            {
+                WinApi.SetTransClick(this);
+            };
 
             InitializeComponent();
 
@@ -96,7 +73,17 @@ namespace NeuralAction.WPF
             focus.Interval = TimeSpan.FromMilliseconds(150);
             focus.Tick += delegate { Topmost = false; Topmost = true; };
             focus.Start();
-            Closed += delegate { focus.Stop(); };
+
+            Loaded += delegate
+            {
+                TargetPosition = new Point(ActualLeft, ActualTop);
+                WpfScale = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
+            };
+
+            Closed += delegate 
+            {
+                focus.Stop();
+            };
 
             CursorOff = (Storyboard)FindResource("CursorOff");
             CursorOn = (Storyboard)FindResource("CursorOn");
@@ -106,31 +93,54 @@ namespace NeuralAction.WPF
             CursorOff.Begin();
         }
 
+
+        void UpdateTarget()
+        {
+            if (Smooth)
+            {
+                if (moveTimer == null)
+                {
+                    moveTimer = new DispatcherTimer();
+                    moveTimer.Interval = TimeSpan.FromMilliseconds(30);
+                    moveTimer.Tick += (sender, arg) =>
+                    {
+                        var clm = UseSpeedClamp ? SpeedClamp : 1000000;
+                        ActualLeft += Clamp((TargetPosition.X - ActualLeft) / 4, -clm, clm);
+                        ActualTop += Clamp((TargetPosition.Y - ActualTop) / 4, -clm, clm);
+                        InternalMove();
+                    };
+                }
+                moveTimer.Start();
+            }
+            else
+            {
+                moveTimer?.Stop();
+                ActualLeft = TargetPosition.X;
+                ActualTop = TargetPosition.Y;
+                InternalMove();
+            }
+        }
+
+        double Clamp(double value, double min, double max)
+        {
+            return Math.Max(min, Math.Min(max, value));
+        }
+
         void InternalMove()
         {
             lock (MoveLocker)
-                MoveList.Add(new CursorTimes(Point, DateTime.Now.TimeOfDay));
+                MoveList.Add(new CursorTimes(ActualPosition, DateTime.Now.TimeOfDay));
 
             if (show)
             {
-                var pt = new Point(Point.X, Point.Y);
+                var pt = new Point(ActualPosition.X, ActualPosition.Y);
                 if(AllowControl)
-                    MouseEvent.MoveAt(pt);
+                    mouse.MoveAt(pt);
                 Moved?.Invoke(this, pt);
             }
         }
 
-        private void CursorWindow_SourceInitialized(object sender, EventArgs e)
-        {
-            WinApi.SetTransClick(this);
-        }
-
-        private void CursorWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            TargetPt = new Point(ActualLeft, ActualTop);
-        }
-
-        public void Goto(Point pt)
+        public void Move(Point pt)
         {
             Dispatcher.Invoke(() =>
             {
@@ -139,7 +149,7 @@ namespace NeuralAction.WPF
 
                 var pre = Smooth;
                 Smooth = false;
-                TargetPt = new Point(pt.X - ActualWidth / 2, pt.Y - ActualHeight / 2);
+                TargetPosition = new Point(pt.X - ActualWidth / 2 * WpfScale, pt.Y - ActualHeight / 2 * WpfScale);
                 Smooth = pre;
             });
         }
@@ -147,6 +157,8 @@ namespace NeuralAction.WPF
         DispatcherTimer clickWait;
         public void Clicked()
         {
+            if (AllowControl)
+                mouse.Click(MouseButton.Left);
             Dispatcher.Invoke(() => 
             {
                 CursorClickOff.Stop();
@@ -160,7 +172,7 @@ namespace NeuralAction.WPF
                         CursorClickOff.Begin();
                         clickWait.Stop();
                     };
-                    clickWait.Interval = TimeSpan.FromMilliseconds(250);
+                    clickWait.Interval = TimeSpan.FromMilliseconds(208);
                 }
                 clickWait.Start();
             });
@@ -170,7 +182,7 @@ namespace NeuralAction.WPF
         {
             Dispatcher.Invoke(() => 
             {
-                TargetPt = new Point(x - ActualWidth / 2, y - ActualHeight / 2);
+                TargetPosition = new Point(x - ActualWidth / 2 * WpfScale, y - ActualHeight / 2 * WpfScale);
             });
         }
 
@@ -205,11 +217,6 @@ namespace NeuralAction.WPF
 
                 show = value;
             });
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            Scale = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace NeuralAction.WPF
             {
                 var scale = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
                 scrScale = scale;
-                var scr = Screen.GetBounds(new System.Drawing.Point((int)(Left + ActualWidth / 2), (int)(Top + ActualHeight / 2)));
+                var scr = InputService.Current.TargetScreen.Bounds;
                 var mw = (scr.Width / scale - ActualWidth) / 2;
                 var mh = (scr.Height / scale - ActualHeight) / 2;
                 Grid_Background.Margin = new Thickness(mw, mh, mw, mh);

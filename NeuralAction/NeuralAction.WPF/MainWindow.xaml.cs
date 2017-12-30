@@ -95,7 +95,6 @@ namespace NeuralAction.WPF
             NotifyIcon.Text = "NeuralAction";
 
             InputService.Current.Owner = this;
-            InputService.Current.Settings = Settings.Current;
             InputService.Current.Start();
 
             InputDebugWindow.Default.Show();

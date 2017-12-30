@@ -35,56 +35,49 @@ namespace NeuralAction.WPF
         X,
     }
 
-    public static class MouseEvent
+    public class MouseEvent
     {
-        [DllImport("user32.dll", EntryPoint = "mouse_event", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
-        public static extern void Event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
-        
         const int ABSOLUTE_SIZE = 65535;
         
-        public static Size DisplaySize { set; get; }
+        Size DisplaySize { set; get; }
 
-        static MouseEvent()
+        public MouseEvent()
         {
-            var scale = WinApi.GetDpi() / 96.0;
-            DisplaySize = new Size(SystemParameters.PrimaryScreenWidth * scale, SystemParameters.PrimaryScreenHeight * scale);
+            var bound = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+            DisplaySize = new Size(bound.Width, bound.Height);
         }
 
-        #region Moving
-        public static void Move(Point Point)
+        public void Move(Point Point)
         {
             MouseEventFlag Flag = MouseEventFlag.Move;
 
             Event((int)Flag, (int)Point.X, (int)Point.Y, 0, IntPtr.Zero);
         }
 
-        public static void MoveAt(Point Point)
+        public void MoveAt(Point Point)
         {
             MouseEventFlag Flag = MouseEventFlag.Move | MouseEventFlag.Absolute;
 
-            int X = (int)(ABSOLUTE_SIZE / DisplaySize.Width * Point.X);
-            int Y = (int)(ABSOLUTE_SIZE / DisplaySize.Height * Point.Y);
+            int X = (int)((ABSOLUTE_SIZE / DisplaySize.Width) * Point.X);
+            int Y = (int)((ABSOLUTE_SIZE / DisplaySize.Height) * Point.Y);
 
             Event((int)Flag, X, Y, 0, IntPtr.Zero);
         }
 
-        public static void MoveAbsolute(Point Point)
+        public void MoveAbsolute(Point Point)
         {
             MouseEventFlag Flag = MouseEventFlag.Move | MouseEventFlag.Absolute;
 
             Event((int)Flag, (int)Point.X, (int)Point.Y, 0, IntPtr.Zero);
         }
-        #endregion
 
-        #region Input
-
-        public static void Click(MouseButton button)
+        public void Click(MouseButton button)
         {
             Down(button);
             Up(button);
         }
 
-        public static void Down(MouseButton Button)
+        public void Down(MouseButton Button)
         {
             MouseEventFlag Flag;
             switch (Button)
@@ -108,7 +101,7 @@ namespace NeuralAction.WPF
             Event((int)Flag, 0, 0, 0, IntPtr.Zero);
         }
 
-        public static void Up(MouseButton Button)
+        public void Up(MouseButton Button)
         {
             MouseEventFlag Flag;
             switch (Button)
@@ -131,6 +124,10 @@ namespace NeuralAction.WPF
 
             Event((int)Flag, 0, 0, 0, IntPtr.Zero);
         }
-        #endregion
+
+        void Event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo)
+        {
+            WinApi.MouseEvent(dwFlags, dx, dy, dwData, dwExtraInfo);
+        }
     }
 }
