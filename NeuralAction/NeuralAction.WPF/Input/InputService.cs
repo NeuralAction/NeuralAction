@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Screen = System.Windows.Forms.Screen;
 
 namespace NeuralAction.WPF
 {
-    public class InputService : SettingListener, IDisposable
+    public class InputService : IDisposable
     {
         public static InputService Current { get; set; }
         public static void Init()
@@ -33,28 +34,34 @@ namespace NeuralAction.WPF
             }
         }
 
-        public override Settings Settings
-        {
-            get => base.Settings;
-            set
-            {
-                base.Settings = value;
-                if (Cursor != null)
-                    Cursor.Settings = value;
-            }
-        }
-
         public int CameraIndex { get; set; } = 0;
         public bool IsKeyboardShowen => KeyWindow != null;
 
+        Screen targetScreen;
+        public Screen TargetScreen
+        {
+            get => targetScreen;
+            set
+            {
+                targetScreen = value;
+                KeyWindow?.UpdateScreen();
+            }
+        }
+
         public InputService()
         {
-            Cursor = new CursorService();
+            TargetScreen = Screen.PrimaryScreen;
+            Cursor = new CursorService(this);
         }
 
         public void Start()
         {
             Cursor.StartAsync(CameraIndex);
+        }
+
+        public void Stop()
+        {
+            Cursor.StopAsync();
         }
 
         public void CloseKeyboard()
@@ -66,7 +73,7 @@ namespace NeuralAction.WPF
         {
             if(KeyWindow == null)
             {
-                KeyWindow = new KeyWindow();
+                KeyWindow = new KeyWindow(this);
                 KeyWindow.Owner = Owner;
                 KeyWindow.Closed += delegate
                 {
@@ -97,16 +104,6 @@ namespace NeuralAction.WPF
                 Cursor.Dispose();
                 Cursor = null;
             }
-        }
-
-        protected override void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-
-        }
-
-        protected override void OnSettingChanged(Settings newSettings)
-        {
-
         }
     }
 }

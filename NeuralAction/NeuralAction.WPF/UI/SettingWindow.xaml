@@ -5,110 +5,192 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="Settings" SizeToContent="WidthAndHeight" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" ShowInTaskbar="False" PreviewKeyDown="Window_PreviewKeyDown" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
+        Title="Settings" SizeToContent="Height" Width="375" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" ShowInTaskbar="False" PreviewKeyDown="Window_PreviewKeyDown" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
     <Window.Resources>
         <ResourceDictionary>
-            <Style TargetType="{x:Type CheckBox}">
-                <Setter Property="BorderBrush" Value="#FF36DE9B"/>
-                <Setter Property="BorderThickness" Value="2"/>
-                <Setter Property="Foreground" Value="#FF36DE9B"/>
-            </Style>
-            <Style TargetType="{x:Type TextBox}">
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="Background" Value="{x:Null}"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="BorderBrush" Value="#FF36DE9B"/>
-                <Setter Property="BorderThickness" Value="0,0,0,2"/>
-                <Setter Property="FontFamily" Value="NanumBarunGothic"/>
-            </Style>
-            <Style TargetType="{x:Type Button}">
-                <Setter Property="FontFamily" Value="NanumBarunGothic"/>
-                <Setter Property="Background" Value="#FF090909"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="BorderBrush" Value="{x:Null}"/>
-            </Style>
-            <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="FontFamily" Value="NanumBarunGothic"/>
-            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DarkStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
             <local:ClickEyeTargetConverter x:Key="ClickEyeTarget"/>
             <local:EyeGazeDetectModeConverter x:Key="EyeGazeDetectMode"/>
             <local:PointSmoothMethodConverter x:Key="PointSmoothMethod"/>
             <local:EyeOpenDetectModeConverter x:Key="EyeOpenDetectMode"/>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Background="#E5171717" Margin="25,25,0,0" Width="350" UseLayoutRounding="True" SnapsToDevicePixels="True">
-        <Grid.Effect>
-            <DropShadowEffect Direction="180" Opacity="0.4" ShadowDepth="5" BlurRadius="10"/>
-        </Grid.Effect>
-        <StackPanel>
-            <Grid Height="125" VerticalAlignment="Top">
+    <Window.CacheMode>
+        <BitmapCache/>
+    </Window.CacheMode>
+    <StackPanel Background="#E5171717" Margin="25,25,0,0" UseLayoutRounding="True" SnapsToDevicePixels="True">
+        <StackPanel.Effect>
+            <DropShadowEffect Opacity="0.4" ShadowDepth="0" BlurRadius="12"/>
+        </StackPanel.Effect>
+        <Grid Margin="25,20" UseLayoutRounding="True" SnapsToDevicePixels="True" IsHitTestVisible="False">
+            <Grid.CacheMode>
+                <BitmapCache SnapsToDevicePixels="True"/>
+            </Grid.CacheMode>
+            <StackPanel VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                <TextBlock Text="Neural Action" FontSize="36" HorizontalAlignment="Right" SnapsToDevicePixels="True"/>
+                <TextBlock Text="이희준, 함종현" SnapsToDevicePixels="True" UseLayoutRounding="True" FontFamily="NanumBarunGothic Light" TextOptions.TextHintingMode="Fixed" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" HorizontalAlignment="Right"/>
+            </StackPanel>
+            <Image Source="/NeuralAction.WPF;component/Resources/icon.png" Width="64" Height="64" HorizontalAlignment="Left" RenderOptions.BitmapScalingMode="Fant"/>
+        </Grid>
+        <Rectangle Fill="#663F3F3F" Height="1" VerticalAlignment="Bottom" IsHitTestVisible="False"/>
+        <StackPanel Margin="25,20">
+            <Grid Height="32">
                 <Grid.CacheMode>
-                    <BitmapCache SnapsToDevicePixels="True"/>
+                    <BitmapCache/>
                 </Grid.CacheMode>
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Grid Margin="0,4">
-                        <TextBlock Text="Neural Action" Foreground="White" FontFamily="NanumBarunGothic" FontSize="36"/>
-                        <TextBlock Text="Ver.1.0.0" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                    </Grid>
-                    <TextBlock Margin="0,2" Text="신경망과 시선추적을 이용한 새로운 Man Machine Interface" HorizontalAlignment="Stretch"/>
-                    <TextBlock Text="이희준, 함종현" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <TextBlock Text="Camera" VerticalAlignment="Center"/>
+                <TextBox Text="0" Width="50" HorizontalAlignment="Right" Height="20" VerticalAlignment="Center" x:Name="Tb_Camera"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Allow Control" VerticalAlignment="Center"/>
+                <CheckBox IsChecked="{Binding AllowControl}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid>
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="DPI" VerticalAlignment="Center"/>
+                <StackPanel HorizontalAlignment="Right" ClipToBounds="False">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBox Text="{Binding DPI}" Width="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,6" Height="20"/>
+                        <Button Command="{Binding CommandDPIReset}" Content="Auto" Width="50" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5" Opacity="0.6">
+                        <TextBlock Text="Screen Pixel Size: "/>
+                        <TextBlock Text="1920" x:Name="Tb_DPI_ScrPixelW" IsHitTestVisible="False"/>
+                        <TextBlock Text="px, " IsHitTestVisible="False"/>
+                        <TextBlock Text="1080" x:Name="Tb_DPI_ScrPixelH" IsHitTestVisible="False"/>
+                        <TextBlock Text="px" IsHitTestVisible="False"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Opacity="0.6">
+                        <TextBlock Text="Expected Screen Size: "/>
+                        <TextBlock Text="320" x:Name="Tb_DPI_ScrSizeW" IsHitTestVisible="False"/>
+                        <TextBlock Text="mm, " IsHitTestVisible="False"/>
+                        <TextBlock Text="240" x:Name="Tb_DPI_ScrSizeH" IsHitTestVisible="False"/>
+                        <TextBlock Text="mm" IsHitTestVisible="False"/>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
-            <Rectangle Fill="#663F3F3F" Height="1" VerticalAlignment="Bottom"/>
-            <StackPanel Margin="25,20">
-                <Grid Height="32">
-                    <TextBlock Text="Camera" VerticalAlignment="Center"/>
-                    <TextBox Text="0" Width="50" HorizontalAlignment="Right" Height="20" VerticalAlignment="Center" x:Name="Tb_Camera"/>
-                </Grid>
-                <Grid Height="32">
-                    <TextBlock Text="Allow Control" VerticalAlignment="Center"/>
-                    <CheckBox IsChecked="{Binding AllowControl}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Height="32">
-                    <TextBlock Text="Head Smooth" VerticalAlignment="Center"/>
-                    <CheckBox IsChecked="{Binding HeadSmooth}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Height="32">
-                    <TextBlock Text="Gaze Mode" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="Cbb_GazeMode" SelectedIndex="{Binding GazeMode, Converter={StaticResource EyeGazeDetectMode}}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"/>
-                </Grid>
-                <Grid Height="32">
-                    <TextBlock Text="Gaze Use Calibration" VerticalAlignment="Center"/>
-                    <CheckBox IsChecked="{Binding GazeUseCalib}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Height="32">
-                    <TextBlock Text="Gaze Smooth" VerticalAlignment="Center"/>
-                    <CheckBox IsChecked="{Binding GazeSmooth}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Height="32">
-                    <TextBlock Text="Gaze Smooth Mode" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="Cbb_GazeSmoothMode" SelectedIndex="{Binding GazeSmoothMode, Converter={StaticResource PointSmoothMethod}}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"/>
-                </Grid>
-                <Grid Height="32">
-                    <TextBlock Text="Gaze Smooth Count" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding GazeSmoothCount}" Width="50" HorizontalAlignment="Right" Height="20" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Height="32">
-                    <TextBlock Text="Open Mode" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="Cbb_OpenMode" SelectedIndex="{Binding OpenMode, Converter={StaticResource EyeOpenDetectMode}}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"/>
-                </Grid>
-                <Grid Height="32">
-                    <TextBlock Text="Open Smooth" VerticalAlignment="Center"/>
-                    <CheckBox IsChecked="{Binding OpenSmooth}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-                <Grid Height="32">
-                    <TextBlock Text="Open Eye Target" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="Cbb_OpenEyeTarget" SelectedIndex="{Binding OpenEyeTarget, Converter={StaticResource ClickEyeTarget}}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"/>
-                </Grid>
-                <Grid Height="32">
-                    <TextBlock Text="Cursor Smooth" VerticalAlignment="Center"/>
-                    <CheckBox IsChecked="{Binding CursorSmooth}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                </Grid>
-            </StackPanel>
-            <Rectangle Fill="#663F3F3F" Height="1" Margin="0,0,0,20"/>
-            <Button Content="Apply" x:Name="Bt_Apply" VerticalAlignment="Bottom" Height="50" Click="Bt_Apply_Click"/>
-            <Rectangle Fill="#663F3F3F" HorizontalAlignment="Left" Margin="0,0,0,0" Width="1"/>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Head Smooth" VerticalAlignment="Center"/>
+                <CheckBox IsChecked="{Binding HeadSmooth}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Gaze Mode" VerticalAlignment="Center"/>
+                <ComboBox x:Name="Cbb_GazeMode" SelectedIndex="{Binding GazeMode, Converter={StaticResource EyeGazeDetectMode}}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="120">
+                    <ComboBoxItem Content="hello"/>
+                </ComboBox>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Gaze Use Calib." VerticalAlignment="Center"/>
+                <CheckBox IsChecked="{Binding GazeUseCalib}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Gaze Calib. Grid" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock Text="W: " Margin="0,4,0,0"/>
+                    <TextBox Text="{Binding GazeCalibGridWidth}" Width="50" Height="20" VerticalAlignment="Center"/>
+                    <TextBlock Text="H: " Margin="5,4,0,0"/>
+                    <TextBox Text="{Binding GazeCalibGridHeight}" Width="50" Height="20" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Gaze Calib. Sample Count" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding GazeCalibSampleCount}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Gaze Smooth" VerticalAlignment="Center"/>
+                <CheckBox IsChecked="{Binding GazeSmooth}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Gaze Smooth Mode" VerticalAlignment="Center"/>
+                <ComboBox x:Name="Cbb_GazeSmoothMode" SelectedIndex="{Binding GazeSmoothMode, Converter={StaticResource PointSmoothMethod}}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"/>
+            </Grid>
+            <Grid Height="32">
+                <TextBlock Text="Gaze Smooth Count" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding GazeSmoothCount}" Width="50" HorizontalAlignment="Right" Height="20" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Open Mode" VerticalAlignment="Center"/>
+                <ComboBox x:Name="Cbb_OpenMode" SelectedIndex="{Binding OpenMode, Converter={StaticResource EyeOpenDetectMode}}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Open Smooth" VerticalAlignment="Center"/>
+                <CheckBox IsChecked="{Binding OpenSmooth}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Open Eye Target" VerticalAlignment="Center"/>
+                <ComboBox x:Name="Cbb_OpenEyeTarget" SelectedIndex="{Binding OpenEyeTarget, Converter={StaticResource ClickEyeTarget}}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="120"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Cursor Smooth" VerticalAlignment="Center"/>
+                <CheckBox IsChecked="{Binding CursorSmooth}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Cursor Use Speed Limit" VerticalAlignment="Center"/>
+                <CheckBox IsChecked="{Binding CursorUseSpeedLimit}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Cursor Speed Limit" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding CursorSpeedLimit}" Width="50" HorizontalAlignment="Right" Height="20" VerticalAlignment="Center"/>
+            </Grid>
         </StackPanel>
-    </Grid>
+        <Rectangle Fill="#663F3F3F" Height="1" Margin="0,0,0,20" IsHitTestVisible="False"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.CacheMode>
+                <BitmapCache/>
+            </Grid.CacheMode>
+            <Button Content="Apply" x:Name="Bt_Apply" VerticalAlignment="Bottom" Height="50" Click="Bt_Apply_Click" Grid.Column="0"/>
+            <Button Content="Reset" VerticalAlignment="Bottom" Height="50" Grid.Column="2" Command="{Binding CommandReset}"/>
+        </Grid>
+    </StackPanel>
 </Window>

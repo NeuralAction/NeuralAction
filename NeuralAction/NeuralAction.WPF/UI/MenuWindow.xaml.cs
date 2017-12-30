@@ -20,18 +20,13 @@ namespace NeuralAction.WPF
         {
             InitializeComponent();
 
-            Update();
-        }
-
-        void Update()
-        {
             Open.Content = InputService.Current.IsKeyboardShowen ? "Close" : "Open";
-        }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            Top = SystemParameters.WorkArea.Height - ActualHeight + 1;
-            Left = SystemParameters.WorkArea.Width - ActualWidth;
+            Loaded += delegate
+            {
+                Top = SystemParameters.WorkArea.Height - ActualHeight + 1;
+                Left = SystemParameters.WorkArea.Width - ActualWidth;
+            };
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)
@@ -44,7 +39,6 @@ namespace NeuralAction.WPF
             {
                 InputService.Current.ShowKeyboard();
             }
-            Update();
             Close();
         }
 
@@ -56,7 +50,6 @@ namespace NeuralAction.WPF
                 Close();
             }
         }
-
 
         private void Setting_Click(object sender, RoutedEventArgs e)
         {

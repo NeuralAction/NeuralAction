@@ -24,23 +24,61 @@ namespace NeuralAction.WPF
         {
             InitializeComponent();
             DataContext = Settings.Current;
-            Loaded += Window_Loaded;
+
+            Loaded += delegate
+            {
+                Top = SystemParameters.WorkArea.Height - ActualHeight + 1;
+                Left = SystemParameters.WorkArea.Width - ActualWidth;
+
+                Settings.Listener.PropertyChanged += Settings_PropertyChanged;
+                Settings.Listener.SettingChanged += Settings_SettingChanged;
+            };
+
+            Closed += delegate
+            {
+                Settings.Listener.PropertyChanged -= Settings_PropertyChanged;
+                Settings.Listener.SettingChanged -= Settings_SettingChanged;
+            };
 
             InitComboBox<EyeGazeDetectMode>(Cbb_GazeMode);
             InitComboBox<PointSmoother.SmoothMethod>(Cbb_GazeSmoothMode);
             InitComboBox<ClickEyeTarget>(Cbb_OpenEyeTarget);
             InitComboBox<EyeOpenDetectMode>(Cbb_OpenMode);
+
+            UpdateDPI();
+        }
+
+        void Settings_SettingChanged(object sender, Settings e)
+        {
+            DataContext = e;
+
+            UpdateDPI();
+        }
+
+        void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Settings.DPI):
+                    UpdateDPI();
+                    break;
+            }
+        }
+
+        void UpdateDPI()
+        {
+            var scrW = InputService.Current.TargetScreen.Bounds.Width;
+            var scrH = InputService.Current.TargetScreen.Bounds.Height;
+            Tb_DPI_ScrPixelH.Text = scrH.ToString();
+            Tb_DPI_ScrPixelW.Text = scrW.ToString();
+            Tb_DPI_ScrSizeH.Text = (scrH / Settings.Current.DPI * 25).ToString("0");
+            Tb_DPI_ScrSizeW.Text = (scrW / Settings.Current.DPI * 25).ToString("0");
         }
 
         void InitComboBox<T>(ComboBox box)
         {
+            box.Items.Clear();
             box.ItemsSource = Enum.GetNames(typeof(T));
-        }
-
-        void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            Top = SystemParameters.WorkArea.Height - ActualHeight + 1;
-            Left = SystemParameters.WorkArea.Width - ActualWidth;
         }
 
         void Bt_Apply_Click(object sender, RoutedEventArgs e)
@@ -67,7 +105,7 @@ namespace NeuralAction.WPF
                 if (InputDebugWindow.Default.IsShowed)
                     InputDebugWindow.Default.Close();
                 else
-                    InputDebugWindow.Default.Show(InputService.Current);
+                    InputDebugWindow.Default.Show();
             }
         }
     }

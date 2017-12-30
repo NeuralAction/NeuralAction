@@ -8,9 +8,60 @@ using System.IO;
 using System.Xml.Serialization;
 using Vision.Detection;
 using Vision;
+using System.Windows.Input;
 
 namespace NeuralAction.WPF
 {
+    public class CommandHandler : ICommand
+    {
+        Action action;
+        bool canExecute;
+
+        public CommandHandler(Action action, bool canExecute)
+        {
+            this.action = action;
+            this.canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return canExecute;
+        }
+
+        public event EventHandler CanExecuteChanged;
+
+        public void Execute(object parameter)
+        {
+            action();
+        }
+    }
+
+    public class BasicSettingListener : SettingListener
+    {
+        public event EventHandler<PropertyChangedEventArgs> PropertyChanged;
+        public event EventHandler<Settings> SettingChanged;
+
+        public BasicSettingListener()
+        {
+
+        }
+
+        public BasicSettingListener(Settings settings)
+        {
+            Settings = settings;
+        }
+
+        protected override void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(sender, e);
+        }
+
+        protected override void OnSettingChanged(Settings newSettings)
+        {
+            SettingChanged?.Invoke(this, newSettings);
+        }
+    }
+
     public abstract class SettingListener
     {
         private Settings settings;
@@ -34,9 +85,14 @@ namespace NeuralAction.WPF
         protected abstract void OnPropertyChanged(object sender, PropertyChangedEventArgs e);
     }
 
-    public class Settings
+    public class Settings : INotifyPropertyChanged
     {
-        public static Settings Current { get; private set; }
+        public static Settings Current
+        {
+            get => Listener.Settings;
+            set => Listener.Settings = value;
+        }
+        public static BasicSettingListener Listener { get; private set; } = new BasicSettingListener();
         
         public static void Load()
         {
@@ -55,6 +111,20 @@ namespace NeuralAction.WPF
             else
             {
                 Current = new Settings();
+            }
+        }
+
+        public static void Reset()
+        {
+            Current = new Settings();
+        }
+
+        ICommand commandReset;
+        public ICommand CommandReset
+        {
+            get
+            {
+                return commandReset ?? (commandReset = new CommandHandler(() => { Reset(); }, true));
             }
         }
 
@@ -81,6 +151,22 @@ namespace NeuralAction.WPF
             set { allowControl = value; OnPropertyChanged(); }
         }
 
+        double dpi = 96;
+        public double DPI
+        {
+            get => dpi;
+            set { dpi = value; OnPropertyChanged(); }
+        }
+
+        ICommand dpiReset;
+        public ICommand CommandDPIReset
+        {
+            get
+            {
+                return dpiReset ?? (dpiReset = new CommandHandler(() => { DPI = WinApi.GetDpi(); }, true));
+            }
+        }
+
         bool headSmooth = true;
         public bool HeadSmooth
         {
@@ -100,6 +186,27 @@ namespace NeuralAction.WPF
         {
             get => gazeUseCalib;
             set { gazeUseCalib = value; OnPropertyChanged(); }
+        }
+
+        int gazeCalibGridWidth = 4;
+        public int GazeCalibGridWidth
+        {
+            get => gazeCalibGridWidth;
+            set { gazeCalibGridWidth = value; OnPropertyChanged(); }
+        }
+
+        int gazeCalibGridHeight = 3;
+        public int GazeCalibGridHeight
+        {
+            get => gazeCalibGridHeight;
+            set { gazeCalibGridHeight = value; OnPropertyChanged(); }
+        }
+
+        int gazeCalibSampleCount = 5;
+        public int GazeCalibSampleCount
+        {
+            get => gazeCalibSampleCount;
+            set { gazeCalibSampleCount = value; OnPropertyChanged(); }
         }
 
         bool gazeSmooth = true;
@@ -123,7 +230,7 @@ namespace NeuralAction.WPF
             set { gazeSmoothCount = value; OnPropertyChanged(); }
         }
 
-        EyeOpenDetectMode openMode = EyeOpenDetectMode.V1;
+        EyeOpenDetectMode openMode = EyeOpenDetectMode.V2;
         public EyeOpenDetectMode OpenMode
         {
             get => openMode;
@@ -137,7 +244,7 @@ namespace NeuralAction.WPF
             set { openSmooth = value; OnPropertyChanged(); }
         }
 
-        ClickEyeTarget openEyeTarget = ClickEyeTarget.All;
+        ClickEyeTarget openEyeTarget = ClickEyeTarget.Both;
         public ClickEyeTarget OpenEyeTarget
         {
             get => openEyeTarget;
@@ -149,6 +256,20 @@ namespace NeuralAction.WPF
         {
             get => cursorSmooth;
             set { cursorSmooth = value; OnPropertyChanged(); }
+        }
+
+        bool cursorUseSpeedLimit = true;
+        public bool CursorUseSpeedLimit
+        {
+            get => cursorUseSpeedLimit;
+            set { cursorUseSpeedLimit = value; OnPropertyChanged(); }
+        }
+
+        double cursorSpeedLimit = 15;
+        public double CursorSpeedLimit
+        {
+            get => cursorSpeedLimit;
+            set { cursorSpeedLimit = value; OnPropertyChanged(); }
         }
 
         double gazeOffsetX = EyeGazeDetector.DefaultOffsetX;

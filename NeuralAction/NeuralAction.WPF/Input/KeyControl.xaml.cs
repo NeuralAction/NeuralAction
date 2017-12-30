@@ -740,7 +740,7 @@ namespace NeuralAction.WPF
                     break;
                 case Languages.Special:
                     CurrentLanguage = Languages.Korean;
-                    AutocompleteWord = new WordCorrecter(System.Environment.CurrentDirectory + "\\Database\\koreandatabase.xml");
+                    AutocompleteWord = new WordCorrecter(Environment.CurrentDirectory + "\\Database\\koreandatabase.xml");
                     KeymapChange(GetKeymapArray(CurrentLanguage));
                     BlankText.Text = "띄어쓰기";
                     LauguageChangeText.Text = "English";
@@ -756,7 +756,7 @@ namespace NeuralAction.WPF
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            AutocompleteWord = new WordCorrecter(System.Environment.CurrentDirectory + "\\Database\\koreandatabase.xml");
+            AutocompleteWord = new WordCorrecter(Environment.CurrentDirectory + "\\Database\\koreandatabase.xml");
         }
     }
 }

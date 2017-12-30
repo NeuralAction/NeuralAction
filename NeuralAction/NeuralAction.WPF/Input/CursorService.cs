@@ -43,7 +43,7 @@ namespace NeuralAction.WPF
         }
     }
 
-    public class CursorService : SettingListener, IDisposable
+    public class CursorService : IDisposable
     {
         public event EventHandler<GazeEventArgs> GazeTracked;
         public event EventHandler<System.Windows.Point> Moved;
@@ -81,10 +81,6 @@ namespace NeuralAction.WPF
             set
             {
                 controlAllowd = value;
-                if (Window != null)
-                {
-                    Window.AllowControl = value;
-                }
             }
         }
 
@@ -106,42 +102,43 @@ namespace NeuralAction.WPF
 
         public Point Point { get; protected set; }
 
+        public InputService Parent { get; set; }
+
+        public Screen TargetScreen => Parent == null ? System.Windows.Forms.Screen.PrimaryScreen : Parent.TargetScreen;
+
+        Settings Settings => Settings.Current;
+
         System.Timers.Timer clickWaiter;
         object logLocker = new object();
         Dictionary<TimeSpan, bool> clickLog = new Dictionary<TimeSpan, bool>();
         object stateLocker = new object();
         bool faceDetected = false;
 
-        public CursorService(ScreenProperties screen)
+        public CursorService(InputService service, ScreenProperties screen)
         {
+            Parent = service;
             Screen = screen;
             Init();
         }
 
-        public CursorService()
+        public CursorService(InputService service)
         {
-            var dpi = WinApi.GetDpi();
+            Parent = service;
+
+            var dpi = Settings.DPI;
             Logger.Log(this, $"DPI: {dpi}");
 
-            Screen s = System.Windows.Forms.Screen.PrimaryScreen;
+            Screen s = TargetScreen;
             Screen = ScreenProperties.CreatePixelScreen(s.Bounds.Width, s.Bounds.Height, dpi);
 
             Init();
         }
 
-        public CursorService(System.Windows.Size screenPixelSize, double dpi) : this(screenPixelSize.Width, screenPixelSize.Height, dpi)
-        {
-
-        }
-
-        public CursorService(double width, double height, double dpi)
-        {
-            Screen = ScreenProperties.CreatePixelScreen(width, height, dpi);
-            Init();
-        }
-
         private void Init()
         {
+            Settings.Listener.PropertyChanged += OnPropertyChanged;
+            Settings.Listener.SettingChanged += (s, o) => { OnSettingChanged(o); };
+
             GazeService = new EyeGazeService(Screen);
             GazeService.GazeTracked += GazeService_GazeTracked;
             GazeService.FaceTracked += GazeService_FaceTracked;
@@ -149,7 +146,7 @@ namespace NeuralAction.WPF
             GazeService.GazeDetector.Calibrator.CalibrateBegin += GazeCalibrater_CalibrateBegin;
             GazeService.GazeDetector.Calibrator.Calibrated += GazeCalibrater_Calibrated;
 
-            Window = new CursorWindow();
+            Window = new CursorWindow(this);
             Window.Moved += Window_Moved;
             Window.Show();
         }
@@ -293,13 +290,11 @@ namespace NeuralAction.WPF
             if (click != null)
             {
                 var winClick = new System.Windows.Point(click.X, click.Y);
-                Window.Goto(winClick);
+                Window.Move(winClick);
                 Logger.Log("Clicked" + click.ToString());
             }
-            if (ControlAllowed)
-                MouseEvent.Click(MouseButton.Left);
             Window.Clicked();
-            Clicked?.Invoke(GazeService, Window.Point);
+            Clicked?.Invoke(GazeService, Window.ActualPosition);
         }
 
         void GazeService_FaceTracked(object sender, FaceRect[] e)
@@ -361,8 +356,11 @@ namespace NeuralAction.WPF
             }
         }
 
-        protected override void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (GazeService == null)
+                return;
+
             switch (e.PropertyName)
             {
                 case nameof(Settings.CameraIndex):
@@ -407,19 +405,43 @@ namespace NeuralAction.WPF
                 case nameof(Settings.CursorSmooth):
                     Window.Smooth = Settings.CursorSmooth;
                     break;
+                case nameof(Settings.CursorSpeedLimit):
+                    Window.SpeedClamp = Settings.CursorSpeedLimit;
+                    break;
+                case nameof(Settings.CursorUseSpeedLimit):
+                    Window.UseSpeedClamp = Settings.CursorUseSpeedLimit;
+                    break;
                 case nameof(Settings.AllowControl):
                     ControlAllowed = Settings.AllowControl;
                     break;
                 case nameof(Settings.GazeUseCalib):
                     GazeService.GazeDetector.UseCalibrator = Settings.GazeUseCalib;
                     break;
+                case nameof(Settings.GazeCalibGridWidth):
+                    GazeService.GazeDetector.Calibrator.GridWidth = Settings.GazeCalibGridWidth;
+                    break;
+                case nameof(Settings.GazeCalibGridHeight):
+                    GazeService.GazeDetector.Calibrator.GridHeight = Settings.GazeCalibGridHeight;
+                    break;
+                case nameof(Settings.GazeCalibSampleCount):
+                    GazeService.GazeDetector.Calibrator.SampleCount = Settings.GazeCalibSampleCount;
+                    break;
+                case nameof(Settings.DPI):
+                    Screen = ScreenProperties.CreatePixelScreen(TargetScreen.Bounds.Width, TargetScreen.Bounds.Height, Settings.DPI);
+                    break;
             }
         }
 
-        protected override void OnSettingChanged(Settings set)
+        void OnSettingChanged(Settings set)
         {
+            if (GazeService == null)
+                return;
+
             GazeService.FaceDetector.UseSmooth = set.HeadSmooth;
             GazeService.GazeDetector.UseCalibrator = set.GazeUseCalib;
+            GazeService.GazeDetector.Calibrator.GridWidth = Settings.GazeCalibGridWidth;
+            GazeService.GazeDetector.Calibrator.GridHeight = Settings.GazeCalibGridHeight;
+            GazeService.GazeDetector.Calibrator.SampleCount = Settings.GazeCalibSampleCount;
             GazeService.GazeDetector.DetectMode = set.GazeMode;
             GazeService.GazeDetector.UseSmoothing = set.GazeSmooth;
             GazeService.GazeDetector.Smoother.Method = set.GazeSmoothMode;
@@ -432,7 +454,10 @@ namespace NeuralAction.WPF
             GazeService.GazeDetector.SensitiveX = set.GazeSensitiveX;
             GazeService.GazeDetector.SensitiveY = set.GazeSensitiveY;
             Window.Smooth = Settings.CursorSmooth;
+            Window.SpeedClamp = Settings.CursorSpeedLimit;
+            Window.UseSpeedClamp = Settings.CursorUseSpeedLimit;
             ControlAllowed = Settings.AllowControl;
+            Screen = ScreenProperties.CreatePixelScreen(TargetScreen.Bounds.Width, TargetScreen.Bounds.Height, Settings.DPI);
             SetCamera(set.CameraIndex);
         }
 

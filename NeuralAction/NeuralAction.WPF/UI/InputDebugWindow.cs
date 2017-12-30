@@ -35,12 +35,12 @@ namespace NeuralAction.WPF
 
         }
 
-        public void Show(InputService service)
+        public void Show(InputService service = null)
         {
             if (IsShowed)
                 Close();
 
-            this.service = service;
+            service = this.service = service == null ? InputService.Current : service;
             service.Cursor.GazeService.FrameCaptured += GazeService_FrameCaptured;
             service.Cursor.GazeService.FaceTracked += GazeService_FaceTracked;
             cancellation = new CancellationTokenSource();

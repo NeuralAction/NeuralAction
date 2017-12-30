@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="CaliCircleWIndow"  Width="500" Height="500" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Topmost="True" Cursor="None" ShowInTaskbar="False" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
+        Title="NeuralAction"  Width="500" Height="500" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Topmost="True" Cursor="None" ShowInTaskbar="False" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
     <Grid x:Name="Grid_Background">
         <Canvas>
             <Grid x:Name="Calib" IsHitTestVisible="False" Visibility="Visible" Canvas.Top="10" Canvas.Left="10">
@@ -16,7 +16,7 @@
                     </Grid>
                 </Canvas>
                 <Grid.Effect>
-                    <DropShadowEffect ShadowDepth="2" Direction="270" BlurRadius="5"/>
+                    <DropShadowEffect ShadowDepth="3" Direction="270" BlurRadius="12"/>
                 </Grid.Effect>
                 <Grid.CacheMode>
                     <BitmapCache/>
