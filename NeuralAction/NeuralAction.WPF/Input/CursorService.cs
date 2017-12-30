@@ -137,7 +137,7 @@ namespace NeuralAction.WPF
         private void Init()
         {
             Settings.Listener.PropertyChanged += OnPropertyChanged;
-            Settings.Listener.SettingChanged += (s,o)=> { OnSettingChanged(o); };
+            Settings.Listener.SettingChanged += (s, o) => { OnSettingChanged(o); };
 
             GazeService = new EyeGazeService(Screen);
             GazeService.GazeTracked += GazeService_GazeTracked;
@@ -417,6 +417,15 @@ namespace NeuralAction.WPF
                 case nameof(Settings.GazeUseCalib):
                     GazeService.GazeDetector.UseCalibrator = Settings.GazeUseCalib;
                     break;
+                case nameof(Settings.GazeCalibGridWidth):
+                    GazeService.GazeDetector.Calibrator.GridWidth = Settings.GazeCalibGridWidth;
+                    break;
+                case nameof(Settings.GazeCalibGridHeight):
+                    GazeService.GazeDetector.Calibrator.GridHeight = Settings.GazeCalibGridHeight;
+                    break;
+                case nameof(Settings.GazeCalibSampleCount):
+                    GazeService.GazeDetector.Calibrator.SampleCount = Settings.GazeCalibSampleCount;
+                    break;
                 case nameof(Settings.DPI):
                     Screen = ScreenProperties.CreatePixelScreen(TargetScreen.Bounds.Width, TargetScreen.Bounds.Height, Settings.DPI);
                     break;
@@ -430,6 +439,9 @@ namespace NeuralAction.WPF
 
             GazeService.FaceDetector.UseSmooth = set.HeadSmooth;
             GazeService.GazeDetector.UseCalibrator = set.GazeUseCalib;
+            GazeService.GazeDetector.Calibrator.GridWidth = Settings.GazeCalibGridWidth;
+            GazeService.GazeDetector.Calibrator.GridHeight = Settings.GazeCalibGridHeight;
+            GazeService.GazeDetector.Calibrator.SampleCount = Settings.GazeCalibSampleCount;
             GazeService.GazeDetector.DetectMode = set.GazeMode;
             GazeService.GazeDetector.UseSmoothing = set.GazeSmooth;
             GazeService.GazeDetector.Smoother.Method = set.GazeSmoothMode;

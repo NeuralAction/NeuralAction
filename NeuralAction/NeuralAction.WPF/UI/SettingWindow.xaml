@@ -96,8 +96,27 @@
                 <Grid.CacheMode>
                     <BitmapCache/>
                 </Grid.CacheMode>
-                <TextBlock Text="Gaze Use Calibration" VerticalAlignment="Center"/>
+                <TextBlock Text="Gaze Use Calib." VerticalAlignment="Center"/>
                 <CheckBox IsChecked="{Binding GazeUseCalib}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Gaze Calib. Grid" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock Text="W: " Margin="0,4,0,0"/>
+                    <TextBox Text="{Binding GazeCalibGridWidth}" Width="50" Height="20" VerticalAlignment="Center"/>
+                    <TextBlock Text="H: " Margin="5,4,0,0"/>
+                    <TextBox Text="{Binding GazeCalibGridHeight}" Width="50" Height="20" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+            <Grid Height="32">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock Text="Gaze Calib. Sample Count" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding GazeCalibSampleCount}" Width="50" Height="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
             </Grid>
             <Grid Height="32">
                 <Grid.CacheMode>

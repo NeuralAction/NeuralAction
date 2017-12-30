@@ -44,6 +44,8 @@ namespace NeuralAction.WPF
             InitComboBox<PointSmoother.SmoothMethod>(Cbb_GazeSmoothMode);
             InitComboBox<ClickEyeTarget>(Cbb_OpenEyeTarget);
             InitComboBox<EyeOpenDetectMode>(Cbb_OpenMode);
+
+            UpdateDPI();
         }
 
         void Settings_SettingChanged(object sender, Settings e)

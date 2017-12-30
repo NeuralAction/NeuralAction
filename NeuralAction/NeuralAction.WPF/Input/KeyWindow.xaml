@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeuralAction.WPF"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
         mc:Ignorable="d"
-        Title="NeuralAction - Keyboard" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}" Topmost="True" AllowsTransparency="True" ShowInTaskbar="False" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
+        Title="NeuralAction" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}" Topmost="True" AllowsTransparency="True" ShowInTaskbar="False" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
     <Window.CacheMode>
         <BitmapCache SnapsToDevicePixels="True"/>
     </Window.CacheMode>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeuralAction.WPF"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
         mc:Ignorable="d"
-        Title="CursorWindow" Width="150" Height="150" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Topmost="True" Cursor="None" ShowInTaskbar="False">
+        Title="NeuralAction" Width="150" Height="150" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Topmost="True" Cursor="None" ShowInTaskbar="False">
     <Window.Resources>
         <Storyboard x:Key="CursorOn">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Grid_Root">

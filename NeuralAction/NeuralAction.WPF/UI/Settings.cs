@@ -188,6 +188,27 @@ namespace NeuralAction.WPF
             set { gazeUseCalib = value; OnPropertyChanged(); }
         }
 
+        int gazeCalibGridWidth = 4;
+        public int GazeCalibGridWidth
+        {
+            get => gazeCalibGridWidth;
+            set { gazeCalibGridWidth = value; OnPropertyChanged(); }
+        }
+
+        int gazeCalibGridHeight = 3;
+        public int GazeCalibGridHeight
+        {
+            get => gazeCalibGridHeight;
+            set { gazeCalibGridHeight = value; OnPropertyChanged(); }
+        }
+
+        int gazeCalibSampleCount = 5;
+        public int GazeCalibSampleCount
+        {
+            get => gazeCalibSampleCount;
+            set { gazeCalibSampleCount = value; OnPropertyChanged(); }
+        }
+
         bool gazeSmooth = true;
         public bool GazeSmooth
         {
