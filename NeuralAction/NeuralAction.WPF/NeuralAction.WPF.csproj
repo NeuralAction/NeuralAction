@@ -228,12 +228,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-=======
-    <Resource Include="Resources\icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
->>>>>>> e90a3c67ca2e688bdfab28b3452655bdafe8efd7
     <Resource Include="Resources\icon_main.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +240,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\SkiaSharp.1.59.1\build\net45\SkiaSharp.targets" Condition="Exists('..\..\packages\SkiaSharp.1.59.1\build\net45\SkiaSharp.targets')" />
