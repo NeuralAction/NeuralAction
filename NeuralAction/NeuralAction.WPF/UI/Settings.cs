@@ -102,6 +102,8 @@ namespace NeuralAction.WPF
 
     public class Settings : NotifyPropertyChnagedBase
     {
+        #region Static
+
         public static Settings Current
         {
             get => Listener.Settings;
@@ -134,6 +136,19 @@ namespace NeuralAction.WPF
             Current = new Settings();
         }
 
+        public static void Save()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
+            using (StreamWriter wr = new StreamWriter(Path.Combine(Environment.CurrentDirectory, "Settings.xml")))
+            {
+                xmlSerializer.Serialize(wr, Current);
+            }
+        }
+
+        #endregion Static
+
+        #region Command
+
         ICommand commandReset;
         public ICommand CommandReset
         {
@@ -143,14 +158,18 @@ namespace NeuralAction.WPF
             }
         }
 
-        public static void Save()
+        ICommand dpiReset;
+        public ICommand CommandDPIReset
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
-            using (StreamWriter wr = new StreamWriter(Path.Combine(Environment.CurrentDirectory, "Settings.xml")))
+            get
             {
-                xmlSerializer.Serialize(wr, Current);
+                return dpiReset ?? (dpiReset = new CommandHandler(() => { DPI = WinApi.GetDpi(); }, true));
             }
         }
+
+        #endregion Command
+
+        #region Common 
 
         int cameraIndex = 0;
         public int CameraIndex
@@ -173,21 +192,16 @@ namespace NeuralAction.WPF
             set { dpi = value; OnPropertyChanged(); }
         }
 
-        ICommand dpiReset;
-        public ICommand CommandDPIReset
-        {
-            get
-            {
-                return dpiReset ?? (dpiReset = new CommandHandler(() => { DPI = WinApi.GetDpi(); }, true));
-            }
-        }
-
         bool headSmooth = true;
         public bool HeadSmooth
         {
             get => headSmooth;
             set { headSmooth = value; OnPropertyChanged(); }
         }
+
+        #endregion Common
+
+        #region Gaze
 
         EyeGazeDetectMode gazeMode = EyeGazeDetectMode.FaceMobile;
         public EyeGazeDetectMode GazeMode
@@ -245,48 +259,6 @@ namespace NeuralAction.WPF
             set { gazeSmoothCount = value; OnPropertyChanged(); }
         }
 
-        EyeOpenDetectMode openMode = EyeOpenDetectMode.V2;
-        public EyeOpenDetectMode OpenMode
-        {
-            get => openMode;
-            set { openMode = value; OnPropertyChanged(); }
-        }
-
-        bool openSmooth = true;
-        public bool OpenSmooth
-        {
-            get => openSmooth;
-            set { openSmooth = value; OnPropertyChanged(); }
-        }
-
-        ClickEyeTarget openEyeTarget = ClickEyeTarget.Both;
-        public ClickEyeTarget OpenEyeTarget
-        {
-            get => openEyeTarget;
-            set { openEyeTarget = value; OnPropertyChanged(); }
-        }
-
-        bool cursorSmooth = true;
-        public bool CursorSmooth
-        {
-            get => cursorSmooth;
-            set { cursorSmooth = value; OnPropertyChanged(); }
-        }
-
-        bool cursorUseSpeedLimit = true;
-        public bool CursorUseSpeedLimit
-        {
-            get => cursorUseSpeedLimit;
-            set { cursorUseSpeedLimit = value; OnPropertyChanged(); }
-        }
-
-        double cursorSpeedLimit = 15;
-        public double CursorSpeedLimit
-        {
-            get => cursorSpeedLimit;
-            set { cursorSpeedLimit = value; OnPropertyChanged(); }
-        }
-
         double gazeOffsetX = EyeGazeDetector.DefaultOffsetX;
         public double GazeOffsetX
         {
@@ -314,5 +286,89 @@ namespace NeuralAction.WPF
             get => gazeSensitiveY;
             set { gazeSensitiveY = value; OnPropertyChanged(); }
         }
+
+        #endregion Gaze
+
+        #region Open
+
+        EyeOpenDetectMode openMode = EyeOpenDetectMode.V2;
+        public EyeOpenDetectMode OpenMode
+        {
+            get => openMode;
+            set { openMode = value; OnPropertyChanged(); }
+        }
+
+        bool openSmooth = true;
+        public bool OpenSmooth
+        {
+            get => openSmooth;
+            set { openSmooth = value; OnPropertyChanged(); }
+        }
+
+        ClickEyeTarget openEyeTarget = ClickEyeTarget.Both;
+        public ClickEyeTarget OpenEyeTarget
+        {
+            get => openEyeTarget;
+            set { openEyeTarget = value; OnPropertyChanged(); }
+        }
+
+        #endregion Open
+
+        #region Cursor
+
+        bool cursorSmooth = true;
+        public bool CursorSmooth
+        {
+            get => cursorSmooth;
+            set { cursorSmooth = value; OnPropertyChanged(); }
+        }
+
+        bool cursorUseSpeedLimit = true;
+        public bool CursorUseSpeedLimit
+        {
+            get => cursorUseSpeedLimit;
+            set { cursorUseSpeedLimit = value; OnPropertyChanged(); }
+        }
+
+        double cursorSpeedLimit = 15;
+        public double CursorSpeedLimit
+        {
+            get => cursorSpeedLimit;
+            set { cursorSpeedLimit = value; OnPropertyChanged(); }
+        }
+
+        #endregion Cursor
+
+        #region Magnify
+
+        double magnifyFactor = 2;
+        public double MagnifyFactor
+        {
+            get => magnifyFactor;
+            set { magnifyFactor = value; OnPropertyChanged(); }
+        }
+
+        double magnifySpeedMin = 3;
+        public double MagnifySpeedMin
+        {
+            get => magnifySpeedMin;
+            set { magnifySpeedMin = value; OnPropertyChanged(); }
+        }
+
+        double magnifySpeedMax = 80;
+        public double MagnifySpeedMax
+        {
+            get => magnifySpeedMax;
+            set { magnifySpeedMax = value; OnPropertyChanged(); }
+        }
+
+        double magnifyMoveSmooth = 5;
+        public double MagnifyMoveSmooth
+        {
+            get => magnifyMoveSmooth;
+            set { magnifyMoveSmooth = value; OnPropertyChanged(); }
+        }
+
+        #endregion Magnify
     }
 }

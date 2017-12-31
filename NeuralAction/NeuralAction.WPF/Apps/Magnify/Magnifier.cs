@@ -24,6 +24,15 @@ namespace NeuralAction.WPF.Magnify
             }
         }
 
+        RECT sourceRect = new RECT();
+
+        public double Top => sourceRect.top;
+        public double Left => sourceRect.left;
+        public double Bottom => sourceRect.bottom;
+        public double Right => sourceRect.right;
+        public double Width => Right - Left;
+        public double Height => Bottom - Top;
+
         public int CenterX { get; set; } = 100;
         public int CenterY { get; set; } = 100;
 
@@ -59,8 +68,8 @@ namespace NeuralAction.WPF.Magnify
         {
             if ((!initialized) || (hwndMag == IntPtr.Zero))
                 return;
-            
-            RECT sourceRect = new RECT();
+
+            sourceRect = new RECT();
 
             int width = (int)((magWindowRect.right - magWindowRect.left) / magnification);
             int height = (int)((magWindowRect.bottom - magWindowRect.top) / magnification);

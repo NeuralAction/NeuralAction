@@ -515,9 +515,9 @@ namespace NeuralAction.WPF
 
         void InputingSentence(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            string RealSendKey = ((Grid)sender).Tag.ToString();
+            string RealSendKey = ((Grid)sender).Tag?.ToString();
 
-            if (RealSendKey != "")
+            if (RealSendKey != null && RealSendKey != "")
             {
                 if (wordtemp.Length <= 1)
                 {

@@ -294,8 +294,8 @@ namespace NeuralAction.WPF
                 Window.Move(winClick);
                 Logger.Log("Clicked" + click.ToString());
             }
-            Window.Clicked();
-            Clicked?.Invoke(GazeService, Window.ActualPosition);
+            var pt = Window.Clicked();
+            Clicked?.Invoke(GazeService, new Point(pt.X, pt.Y));
         }
 
         void GazeService_FaceTracked(object sender, FaceRect[] e)

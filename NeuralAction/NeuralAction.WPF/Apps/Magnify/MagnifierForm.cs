@@ -7,6 +7,17 @@ namespace NeuralAction.WPF.Magnify
 {
     public class MagnifierForm
     {
+        double magnification = 2;
+        public double Magnification
+        {
+            get => magnification;
+            set
+            {
+                magnification = value;
+                if (Magnifier != null)
+                    Magnifier.Magnification = magnification;
+            }
+        }
         public Magnifier Magnifier { get; set; }
         public Form Form { get; set; }
 
@@ -21,9 +32,16 @@ namespace NeuralAction.WPF.Magnify
             Form.Load += delegate
             {
                 Magnifier = new Magnifier(Form);
+                Magnifier.Magnification = magnification;
+
                 WinApi.NotWindowsFocus(Form.Handle);
                 WinApi.SetTransClick(Form.Handle);
             };
+        }
+
+        public void Hide()
+        {
+            Form.Hide();
         }
 
         public void Show()

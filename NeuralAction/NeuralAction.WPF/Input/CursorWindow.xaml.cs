@@ -21,7 +21,8 @@ namespace NeuralAction.WPF
         public bool Smooth { get; set; } = true;
         public bool UseSpeedClamp { get; set; } = true;
         public double SpeedClamp { get; set; } = 100;
-        
+        public double WpfScale { get; set; }
+
         public double ActualLeft
         {
             get => Left * WpfScale - parent.TargetScreen.Bounds.Left;
@@ -55,7 +56,6 @@ namespace NeuralAction.WPF
             set { targetPosition = value; UpdateTargetPosition(); }
         }
         DispatcherTimer cursorAniWaiter;
-        double WpfScale;
         bool show = false;
         bool AllowControl => parent.ControlAllowed && Visibility == Visibility.Visible;
 
@@ -142,14 +142,17 @@ namespace NeuralAction.WPF
             });
         }
 
-        public void Clicked()
+        public Vision.Point Clicked()
         {
             if (AllowControl)
                 MouseEvent.Click(MouseButton.Left);
-            Dispatcher.Invoke(() => 
+            Vision.Point pt = null;
+            Dispatcher.Invoke(() =>
             {
                 CursorControl.Click();
+                pt = ActualPosition;
             });
+            return pt;
         }
 
         public void SetPosition(double x, double y)

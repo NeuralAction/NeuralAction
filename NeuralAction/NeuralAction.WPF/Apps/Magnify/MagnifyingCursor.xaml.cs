@@ -21,16 +21,55 @@ namespace NeuralAction.WPF.Magnify
     {
         public MagnifyingGlass Model { get; set; }
 
+        public double ActualTop
+        {
+            get => (Top + ActualHeight / 2 * wpfScale) * wpfScale;
+            set => Top = value / wpfScale - ActualHeight / 2 * wpfScale;
+        }
+
+        public double ActualLeft
+        {
+            get => (Left + ActualWidth / 2 * wpfScale) * wpfScale;
+            set => Left = value / wpfScale - ActualWidth / 2 * wpfScale;
+        }
+
+        bool available = false;
+        public bool Available
+        {
+            get => available;
+            set
+            {
+                if(available != value)
+                {
+                    available = value;
+                    if (value)
+                        CursorControl.Show();
+                    else
+                        CursorControl.Hide();
+                }
+            }
+        }
+
+        double wpfScale = InputService.Current.Cursor.Window.WpfScale;
+
         public MagnifyingCursor(MagnifyingGlass Model)
         {
             InitializeComponent();
 
             this.Model = Model;
             DataContext = Model;
+
+            Loaded += delegate
+            {
+                WinApi.SetTransClick(this);
+                WinApi.NotWindowsFocus(this);
+            };
         }
 
         public void Click()
         {
+            if(Settings.Current.AllowControl)
+                MouseEvent.Click(MouseButton.Left);
             CursorControl.Click();
         }
     }
