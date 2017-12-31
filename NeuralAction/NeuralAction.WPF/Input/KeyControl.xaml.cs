@@ -27,8 +27,6 @@ namespace NeuralAction.WPF
 
     public partial class KeyControl : UserControl
     {
-        WordCorrecter AutocompleteWord;
-
         static string ChoSungTbl = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
         static string JungSungTbl = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
         static string JongSungTbl = " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
@@ -40,7 +38,6 @@ namespace NeuralAction.WPF
         static string[] KoreanJongsungKeymap = new string[28] { "ㄱ", "ㄲ", "ㅋ", "ㄺ", "ㄷ", "ㅌ", "ㄸ", "ㄼ", "ㅈ", "ㅊ", "ㅉ", "ㄶ", "ㅂ", "ㅍ", "ㅃ", "ㅄ", "ㄴ", "ㅁ", "ㄹ", "ㄻ", "ㅅ", "ㅆ", "ㅄ", "ㄳ", "ㅇ", "ㅎ", "ㄶ", "ㅀ" };
         static string[] SpecialCharKeymap = new string[28] { ".", "5", "(", "", ",", "6", ")", "", "0", "7", "&", "", "1", "8", "+", "", "2", "9", "-", "", "3", "!", "*", "", "4", "?", "/", "" };
 
-        string wordtemp = "";
         public static string MergeJaso(string choSung, string jungSung, string jongSung)
         {
             var ChoSungInd = ChoSungTbl.IndexOf(choSung);
@@ -54,7 +51,27 @@ namespace NeuralAction.WPF
 
         public Languages CurrentLanguage { get; set; } = Languages.Korean;
 
+        WordCorrecter AutocompleteWord
+        {
+            get
+            {
+                switch (CurrentLanguage)
+                {
+                    case Languages.Korean:
+                        return KoreanCorrecter;
+                    case Languages.English:
+                        return EnglishCorrecter;
+                    case Languages.Special:
+                    default:
+                        return null;
+                }
+            }
+        }
+        WordCorrecter KoreanCorrecter;
+        WordCorrecter EnglishCorrecter;
+
         string[] koreaInputChar = new string[3];
+        string wordtemp = "";
         int inputCount = 0;
 
         public KeyControl()
@@ -62,6 +79,9 @@ namespace NeuralAction.WPF
             InitializeComponent();
 
             SignCache(Grid_Big);
+
+            KoreanCorrecter = new WordCorrecter(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "CorrectionKorean.xml"));
+            EnglishCorrecter = new WordCorrecter(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "CorrectionEnglish.xml"));
         }
 
         void SignCache(Panel element)
@@ -78,7 +98,7 @@ namespace NeuralAction.WPF
 
         #region UI Events
 
-        private void PieMouseEnter(object sender, MouseEventArgs e)
+        void PieMouseEnter(object sender, MouseEventArgs e)
         {
             Arc MouseEnterArc = (Arc)sender;
 
@@ -120,7 +140,7 @@ namespace NeuralAction.WPF
             }
         }
 
-        private void PieMouseLeave(object sender, MouseEventArgs e)
+        void PieMouseLeave(object sender, MouseEventArgs e)
         {
             Arc MouseEnterArc = (Arc)sender;
 
@@ -245,15 +265,14 @@ namespace NeuralAction.WPF
             }
         }
 
-        private void KeyChange(object sender, System.Windows.Input.MouseEventArgs e)
+        void KeyChange(object sender, System.Windows.Input.MouseEventArgs e)
         {
             int i = 0;
             string[] keymap = GetKeymapArray(CurrentLanguage);
 
             if (sender is TextBlock)
             {
-                throw new Exception("need to be arc. trun off hittestvisible of textblock");
-                i = Convert.ToInt32(((TextBlock)sender).Tag.ToString());
+                throw new Exception("need to be arc. trun off hitTestVisible of textblock");
             }
             else if (sender is Arc)
             {
@@ -494,7 +513,7 @@ namespace NeuralAction.WPF
             }
         }
 
-        private void InputingSentence(object sender, System.Windows.Input.MouseEventArgs e)
+        void InputingSentence(object sender, System.Windows.Input.MouseEventArgs e)
         {
             string RealSendKey = ((Grid)sender).Tag.ToString();
 
@@ -525,7 +544,6 @@ namespace NeuralAction.WPF
                 KeymapChange(GetKeymapArray(CurrentLanguage));
             }
 
-
             Gautocomplete1.Tag = "";
             Gautocomplete2.Tag = "";
             Gautocomplete3.Tag = "";
@@ -541,7 +559,7 @@ namespace NeuralAction.WPF
             InputingReset(true);
         }
 
-        private void InputingChar(object sender, System.Windows.Input.MouseEventArgs e)
+        void InputingChar(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (CenterText.Text != "")
             {
@@ -591,7 +609,7 @@ namespace NeuralAction.WPF
             }
         }
 
-        private void BackSpace(object sender, System.Windows.Input.MouseEventArgs e)
+        void BackSpace(object sender, System.Windows.Input.MouseEventArgs e)
         {
             System.Windows.Forms.Clipboard.SetText("{BACK}");
             Send sendkeys = new Send("{BACK}", "{BACK}");
@@ -605,7 +623,7 @@ namespace NeuralAction.WPF
             }
         }
 
-        private void InputingSpace(object sender, System.Windows.Input.MouseEventArgs e)
+        void InputingSpace(object sender, System.Windows.Input.MouseEventArgs e)
         {
             System.Windows.Forms.Clipboard.SetText(" ");
             Send sendkeys = new Send(" ", " ");
@@ -618,14 +636,12 @@ namespace NeuralAction.WPF
             }
         }
 
-
-        private void ChangeLanguage(object sender, MouseButtonEventArgs e)
+        void ChangeLanguage(object sender, MouseButtonEventArgs e)
         {
             switch (CurrentLanguage)
             {
                 case Languages.Korean:
                     CurrentLanguage = Languages.English;
-                    AutocompleteWord = new WordCorrecter(System.Environment.CurrentDirectory + "\\Database\\englishdatabase.xml");
                     KeymapChange(GetKeymapArray(CurrentLanguage));
                     BlankText.Text = "Spacing";
                     LauguageChangeText.Text = "Special";
@@ -637,7 +653,6 @@ namespace NeuralAction.WPF
                     break;
                 case Languages.Special:
                     CurrentLanguage = Languages.Korean;
-                    AutocompleteWord = new WordCorrecter(Environment.CurrentDirectory + "\\Database\\koreandatabase.xml");
                     KeymapChange(GetKeymapArray(CurrentLanguage));
                     BlankText.Text = "띄어쓰기";
                     LauguageChangeText.Text = "English";
@@ -650,10 +665,5 @@ namespace NeuralAction.WPF
         }
 
         #endregion Keyboard
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            AutocompleteWord = new WordCorrecter(Environment.CurrentDirectory + "\\Database\\koreandatabase.xml");
-        }
     }
 }

@@ -28,6 +28,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vision.Windows", "Vision\Vision.Windows\Vision.Windows.csproj", "{15E57A3F-8B2F-46F0-A717-34B308307B1D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenCvSharp", "OpenCvSharp", "{F43821D3-BA08-4BAD-ACF3-D96F6A0FF24D}"
+	ProjectSection(SolutionItems) = preProject
+		NeuralAction\NeuralAction.WPF\UI\packages.config = NeuralAction\NeuralAction.WPF\UI\packages.config
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp", "Vision\SharpFace\OpenCvSharp\src\OpenCvSharp\OpenCvSharp.csproj", "{658C140F-2E73-4E22-80A7-F05DF0A83318}"
 EndProject

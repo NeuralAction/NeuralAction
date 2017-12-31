@@ -88,8 +88,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Apps\Magnify\Magnifier.cs" />
+    <Compile Include="Apps\Magnify\MagnifierForm.cs" />
+    <Compile Include="Apps\Magnify\MagnifyingCursor.xaml.cs">
+      <DependentUpon>MagnifyingCursor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Apps\Magnify\NativeMethods.cs" />
+    <Compile Include="Apps\Magnify\NativeStructures.cs" />
     <Compile Include="Input\CalibrateWindow.xaml.cs">
       <DependentUpon>CalibrateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\CursorControl.xaml.cs">
+      <DependentUpon>CursorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Input\CursorService.cs" />
     <Compile Include="Input\InputService.cs" />
@@ -99,6 +109,7 @@
     <Compile Include="Input\KeyWindow.xaml.cs">
       <DependentUpon>KeyWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Apps\Magnify\MagnifyingGlass.cs" />
     <Compile Include="UI\InputDebugWindow.cs" />
     <Compile Include="UI\MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
@@ -110,9 +121,18 @@
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Converters.cs" />
-    <Compile Include="UI\WinApi.cs" />
-    <Compile Include="WordCorrector.cs" />
+    <Compile Include="Input\WinApi.cs" />
+    <Compile Include="Input\WordCorrector.cs" />
+    <Compile Include="UI\Util.cs" />
+    <Page Include="Apps\Magnify\MagnifyingCursor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Input\CalibrateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\CursorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,7 +195,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="UI\packages.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -222,12 +242,12 @@
     <Resource Include="Resources\icon_main.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Database\englishdatabase.xml">
+    <None Include="Resources\CorrectionEnglish.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Database\koreandatabase.xml">
+    </None>
+    <None Include="Resources\CorrectionKorean.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon.png" />
@@ -235,6 +255,7 @@
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\SkiaSharp.1.59.1\build\net45\SkiaSharp.targets" Condition="Exists('..\..\packages\SkiaSharp.1.59.1\build\net45\SkiaSharp.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

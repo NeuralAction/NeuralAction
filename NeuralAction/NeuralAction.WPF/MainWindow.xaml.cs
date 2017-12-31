@@ -82,7 +82,7 @@ namespace NeuralAction.WPF
             InputService.Init();
 
             NotifyIcon = new NotifyIcon();
-            using (var stream = System.Windows.Application.GetResourceStream(new Uri("Resources/icon.ico", UriKind.Relative)).Stream)
+            using (var stream = Util.GetResourceStream("Resources/icon.ico"))
                 NotifyIcon.Icon = new System.Drawing.Icon(stream);
             NotifyIcon.Visible = true;
             NotifyIcon.MouseClick += delegate

@@ -85,7 +85,22 @@ namespace NeuralAction.WPF
         protected abstract void OnPropertyChanged(object sender, PropertyChangedEventArgs e);
     }
 
-    public class Settings : INotifyPropertyChanged
+    public class NotifyPropertyChnagedBase : INotifyPropertyChanged
+    {
+        public virtual event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(this, e);
+        }
+
+        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public class Settings : NotifyPropertyChnagedBase
     {
         public static Settings Current
         {
@@ -298,18 +313,6 @@ namespace NeuralAction.WPF
         {
             get => gazeSensitiveY;
             set { gazeSensitiveY = value; OnPropertyChanged(); }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
-
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
     }
 }

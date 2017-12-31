@@ -16,14 +16,15 @@ namespace NeuralAction.WPF
 {
     public class GazeEventArgs : EventArgs
     {
-        public Point Point { get; set; }
+        public Point Position { get; set; }
         public ScreenProperties ScreenProperties { get; set; }
+        public bool IsAvailable => IsFaceDetected && IsGazeDetected;
         public bool IsFaceDetected { get; set; }
         public bool IsGazeDetected { get; set; }
 
         public GazeEventArgs(Point pt, ScreenProperties screen, bool isFace, bool isGaze)
         {
-            Point = pt;
+            Position = pt;
             ScreenProperties = screen;
 
             IsFaceDetected = isFace;
@@ -33,12 +34,12 @@ namespace NeuralAction.WPF
 
     public class CursorTimes
     {
-        public Point Point { get; set; }
+        public Point Position { get; set; }
         public TimeSpan Time { get; set; }
 
         public CursorTimes(Point pt, TimeSpan t)
         {
-            Point = pt;
+            Position = pt;
             Time = t;
         }
     }
@@ -100,9 +101,9 @@ namespace NeuralAction.WPF
         public double ClickDelay { get; set; } = 300;
         public double ClickWait { get; set; } = 1;
 
-        public Point Point { get; protected set; }
-
         public InputService Parent { get; set; }
+
+        public Point Position { get; protected set; }
 
         public Screen TargetScreen => Parent == null ? System.Windows.Forms.Screen.PrimaryScreen : Parent.TargetScreen;
 
@@ -193,7 +194,7 @@ namespace NeuralAction.WPF
                     savepath = savepath.Replace(".clb", ".jpg");
                     Core.Cv.ImgWrite(savepath, frame);
 
-                    Core.Cv.ImgShow("calib_result", frame);
+                    Core.Cv.ImgShow("Press Any Key To Close", frame);
                     var c = Core.Cv.WaitKey(0);
                     Core.Cv.CloseAllWindows();
                 }
@@ -256,7 +257,7 @@ namespace NeuralAction.WPF
 
                                             if (data.Count() > 0)
                                             {
-                                                var click = data.First().Point;
+                                                var click = data.First().Position;
 
                                                 InternalClicked(click);
                                             }
@@ -306,7 +307,7 @@ namespace NeuralAction.WPF
         {
             var arg = new GazeEventArgs(e, Screen, faceDetected, e != null);
 
-            if (arg.IsFaceDetected && arg.IsGazeDetected)
+            if (arg.IsAvailable)
             {
                 Window?.SetAvailable(true);
                 Window?.SetPosition(e.X, e.Y);
@@ -321,7 +322,7 @@ namespace NeuralAction.WPF
                 Window?.SetAvailable(false);
             }
 
-            Point = e;
+            Position = e;
             GazeTracked?.Invoke(this, arg);
         }
 

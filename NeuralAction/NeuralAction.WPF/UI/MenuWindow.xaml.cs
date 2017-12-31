@@ -61,5 +61,18 @@ namespace NeuralAction.WPF
             Close();
             MainWindow.Exit();
         }
+
+        private void Bt_App_Glass_Click(object sender, RoutedEventArgs e)
+        {
+            if (!MagnifyingGlass.Current.IsShowed)
+            {
+                MagnifyingGlass.Current.Show();
+                Close();
+            }
+            else
+            {
+                MagnifyingGlass.Current.Close();
+            }
+        }
     }
 }
