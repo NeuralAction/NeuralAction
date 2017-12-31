@@ -336,6 +336,7 @@ namespace NeuralAction.WPF
                 koreaInputChar[2] = "";
                 CenterText.Text = "";
                 inputCount = 0;
+
             }
 
         }
@@ -546,17 +547,13 @@ namespace NeuralAction.WPF
 
             if (wordtemp.Length > 1)
             {
-                wordtemp.Substring(0, wordtemp.Length);
-                wordtemp.Insert(wordtemp.Length, CenterText.Text);
-
+                wordtemp = wordtemp.Substring(0, wordtemp.Length - 1);
+                wordtemp += CenterText.Text;
             } else if(wordtemp.Length <= 1) {
-                wordtemp = CenterText.Text;
+                 wordtemp = CenterText.Text;
             }
 
-            MessageBox.Show(wordtemp.Length + "  " + wordtemp);
-
-           WordSuggestions[] Autocompletes =  AutocompleteWord.Correcting(wordtemp.Trim());
-
+            WordSuggestions[] Autocompletes = AutocompleteWord.Correcting(wordtemp.Replace(" ", ""));
             if (Autocompletes != null)
             {
 
@@ -597,14 +594,54 @@ namespace NeuralAction.WPF
 
         private void InputingSentence(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            wordtemp = "";
-            InputingReset(true);
+
 
             string RealSendKey = ((Grid)sender).Tag.ToString();
 
-            System.Windows.Forms.Clipboard.SetText(RealSendKey);
-            Send sendkeys = new Send(RealSendKey, RealSendKey);
-            sendkeys.Work();
+            if(RealSendKey == "")
+            {
+
+            } else {
+
+                if(wordtemp.Length <= 1)
+                {
+
+                } else {
+                    RealSendKey = RealSendKey.Substring(wordtemp.Trim().Length - 1, RealSendKey.Length == 1 ? 1 : RealSendKey.Length - wordtemp.Trim().Length + 1);
+                }
+
+                
+ 
+                System.Windows.Forms.Clipboard.SetText(RealSendKey);
+                Send sendkeys = new Send(RealSendKey, RealSendKey);
+                sendkeys.Work();
+            }
+          
+            wordtemp = "";
+            InputingReset();
+            if (CurrentLanguage == Languages.Korean)
+            {
+                KeymapChange(KoreanChosungKeymap);
+            } else
+            {
+                KeymapChange(GetKeymapArray(CurrentLanguage));
+            }
+
+
+            Gautocomplete1.Tag = "";
+            Gautocomplete2.Tag = "";
+            Gautocomplete3.Tag = "";
+            Gautocomplete4.Tag = "";
+            Gautocomplete5.Tag = "";
+            Gautocomplete6.Tag = "";
+            autocomplete1.Text = "";
+            autocomplete2.Text = "";
+            autocomplete3.Text = "";
+            autocomplete4.Text = "";
+            autocomplete5.Text = "";
+            autocomplete6.Text = "";
+            InputingReset(true);
+
         }
 
         private void InputingChar(object sender, System.Windows.Input.MouseEventArgs e)
@@ -641,7 +678,7 @@ namespace NeuralAction.WPF
                             sendkeys = new Send(CenterText.Text, CenterText.Text);
                             sendkeys.Work();
                             InputingReset();
-                            wordtemp.Insert(wordtemp.Length, " ");
+                            wordtemp += " ";
                             break;
                         default:
                             break;
@@ -649,7 +686,8 @@ namespace NeuralAction.WPF
                 }
                 else
                 {
-                    wordtemp.Insert(wordtemp.Length, " ");
+                    KeymapChange(GetKeymapArray(CurrentLanguage));
+                    wordtemp += " ";
                     InputingReset();
                     sendkeys.Work();
                 }
@@ -662,9 +700,12 @@ namespace NeuralAction.WPF
             Send sendkeys = new Send("{BACK}", "{BACK}");
             sendkeys.Work();
             wordtemp = "";
-            InputingReset();
-
             CenterText.Text = "←";
+            InputingReset();
+            if(CurrentLanguage == Languages.Korean)
+            {
+                KeymapChange(KoreanChosungKeymap);
+            }
         }
 
         private void InputingSpace(object sender, System.Windows.Input.MouseEventArgs e)
@@ -674,6 +715,10 @@ namespace NeuralAction.WPF
             sendkeys.Work();
             wordtemp = "";
             InputingReset();
+            if (CurrentLanguage == Languages.Korean)
+            {
+                KeymapChange(KoreanChosungKeymap);
+            }
         }
 
 
@@ -703,7 +748,7 @@ namespace NeuralAction.WPF
                 default:
                     throw new Exception("wrong language");
             }
-
+            wordtemp = "";
             InputingReset();
         }
 

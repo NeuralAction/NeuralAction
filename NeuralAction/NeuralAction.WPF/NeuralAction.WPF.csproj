@@ -60,12 +60,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-<<<<<<< HEAD
-    <ApplicationIcon>
-    </ApplicationIcon>
-=======
     <ApplicationIcon>Resources\icon_main.ico</ApplicationIcon>
->>>>>>> 5aad200a6b5eecec9814f0aa60a374358286ad23
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Expression.Drawing">
@@ -229,15 +224,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-=======
-    <Resource Include="Resources\icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\icon_main.ico" />
   </ItemGroup>
   <ItemGroup>
->>>>>>> 5aad200a6b5eecec9814f0aa60a374358286ad23
     <EmbeddedResource Include="Database\englishdatabase.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
