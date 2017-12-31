@@ -6,102 +6,149 @@
              xmlns:local="clr-namespace:NeuralAction.WPF"
              xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
              mc:Ignorable="d" 
-             d:DesignHeight="1000" d:DesignWidth="1600" Loaded="UserControl_Loaded">
+             d:DesignHeight="1080" d:DesignWidth="1920" Loaded="UserControl_Loaded" UseLayoutRounding="True" SnapsToDevicePixels="True">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="NanumBarunGothic"/>
+        </Style>
+        <Style TargetType="{x:Type ed:Arc}">
+            <Setter Property="ArcThicknessUnit" Value="Percent"/>
+            <Setter Property="ArcThickness" Value="1"/>
+        </Style>
+    </UserControl.Resources>
+    <UserControl.CacheMode>
+        <BitmapCache/>
+    </UserControl.CacheMode>
     <Grid>
-
-        <Grid x:Name="Gautocomplete1" Width="800" Height="332" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete1" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
+        <Grid Margin="0,50">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                    <Setter Property="FontSize" Value="48"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="32,0"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.CacheMode>
+                <BitmapCache/>
+            </Grid.CacheMode>
+            <Grid x:Name="Gautocomplete1" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock x:Name="autocomplete1" IsHitTestVisible="False"/>
+            </Grid>
+            <Grid x:Name="Gautocomplete2" Background="#B2171717" MouseLeftButtonDown="InputingSentence" Grid.Row="2">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock x:Name="autocomplete2" IsHitTestVisible="False"/>
+            </Grid>
+            <Grid x:Name="Gautocomplete3" Background="#B2171717" MouseLeftButtonDown="InputingSentence" Grid.Row="4">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock x:Name="autocomplete3" IsHitTestVisible="False"/>
+            </Grid>
+            <Grid x:Name="Gautocomplete4" Background="#B2171717" MouseLeftButtonDown="InputingSentence" Grid.Column="1">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock x:Name="autocomplete4" HorizontalAlignment="Right" IsHitTestVisible="False"/>
+            </Grid>
+            <Grid x:Name="Gautocomplete5" Background="#B2171717" MouseLeftButtonDown="InputingSentence" Grid.Column="1" Grid.Row="2">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock x:Name="autocomplete5" HorizontalAlignment="Right" IsHitTestVisible="False"/>
+            </Grid>
+            <Grid x:Name="Gautocomplete6" Background="#B2171717" MouseLeftButtonDown="InputingSentence" Grid.Column="1" Grid.Row="4">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <TextBlock x:Name="autocomplete6" HorizontalAlignment="Right" IsHitTestVisible="False"/>
+            </Grid>
         </Grid>
-
-        <Grid x:Name="Gautocomplete2" Width="800" Height="332" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete2" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
-        </Grid>
-
-        <Grid x:Name="Gautocomplete3" Width="800" Height="332" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete3" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
-        </Grid>
-
-        <Grid x:Name="Gautocomplete4" Width="800" Height="332" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete4" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
-        </Grid>
-
-        <Grid x:Name="Gautocomplete5" Width="800" Height="332" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete5" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
-        </Grid>
-
-        <Grid x:Name="Gautocomplete6" Width="800" Height="332" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
-            <TextBlock x:Name="autocomplete6" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.377" Foreground="White" FontSize="48" TextAlignment="Center"/>
-        </Grid>
-        
-        <Grid Grid.ColumnSpan="2" Width="1000" Height="1000">
-            <Ellipse Fill="#FF4A4A4A" Width="1000" Height="1000" MouseEnter="Ellipse_MouseEnter">
-                <Ellipse.Effect>
-                    <DropShadowEffect Opacity="0.13" ShadowDepth="11" Direction="270" BlurRadius="0"/>
-                </Ellipse.Effect>
-            </Ellipse>
-
-            <ed:Arc x:Name="pie0" Tag="0"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="315" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="270" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
-            <ed:Arc x:Name="pie1" Tag="4" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="360" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="315" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
-            <ed:Arc x:Name="pie2" Tag="8" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="45" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Margin="0" Stretch="None" StartAngle="0" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
-            <ed:Arc x:Name="pie3" Tag="12"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="90" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="45" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
-            <ed:Arc x:Name="pie4" Tag="16"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="135" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="90" VerticalAlignment="Top" Width="1000"  MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
-            <ed:Arc x:Name="pie5" Tag="20"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="180" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="135" VerticalAlignment="Top" Width="1000"   MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
-            <ed:Arc x:Name="pie6" Tag="24"  ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="225" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="180" VerticalAlignment="Top" Width="1000"   MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
-            <ed:Arc x:Name="pie7" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="270" Fill="#FF343434" HorizontalAlignment="Left" Height="1000" Stretch="None" StartAngle="225" VerticalAlignment="Top" Width="1000" MouseLeftButtonDown="BackSpace" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
-            
-            <TextBlock x:Name="input0" Tag="0" HorizontalAlignment="Center" Height="128" Margin="0,0,700,275" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Foreground="White" Text="" FontSize="128" MouseLeftButtonDown="KeyChange" FontFamily="NanumBarunGothic Light" TextAlignment="Center" MouseEnter="TextMouseEnter" MouseLeave="TextMouseLeave" IsHitTestVisible="False"/>
-            <TextBlock x:Name="input1" Tag="4" HorizontalAlignment="Center" Height="128" Margin="0,0,300,700" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Foreground="White" Text="" FontSize="128"  MouseLeftButtonDown="KeyChange" FontFamily="NanumBarunGothic Light" TextAlignment="Center" MouseEnter="TextMouseEnter" MouseLeave="TextMouseLeave" IsHitTestVisible="False"/>
-            <TextBlock x:Name="input2" Tag="8" HorizontalAlignment="Center" Height="150" Margin="300,0,0,700" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Foreground="White" Text=""  FontSize="128"  MouseLeftButtonDown="KeyChange" FontFamily="NanumBarunGothic Light" TextAlignment="Center" MouseEnter="TextMouseEnter" MouseLeave="TextMouseLeave" IsHitTestVisible="False"/>
-            <TextBlock x:Name="input3" Tag="12" HorizontalAlignment="Center" Height="150" Margin="700,0,0,275" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Foreground="White" Text=""  FontSize="128"  MouseLeftButtonDown="KeyChange" FontFamily="NanumBarunGothic Light" TextAlignment="Center" MouseEnter="TextMouseEnter" MouseLeave="TextMouseLeave" IsHitTestVisible="False"/>
-            <TextBlock x:Name="input4" Tag="16" HorizontalAlignment="Center" Height="128" Margin="700,300,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Foreground="White" Text="" FontSize="128"  MouseLeftButtonDown="KeyChange" FontFamily="NanumBarunGothic Light"  TextAlignment="Center" MouseEnter="TextMouseEnter" MouseLeave="TextMouseLeave" IsHitTestVisible="False"/>
-            <TextBlock x:Name="input5" Tag="20" HorizontalAlignment="Center" Height="128" Margin="300,700,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Foreground="White" Text="" FontSize="128"  MouseLeftButtonDown="KeyChange" FontFamily="NanumBarunGothic Light" TextAlignment="Center" MouseEnter="TextMouseEnter" MouseLeave="TextMouseLeave" IsHitTestVisible="False"/>
-            <TextBlock x:Name="input6" Tag="24" HorizontalAlignment="Center" Height="128" Margin="0,700,300,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Foreground="White" Text="" FontSize="128"   MouseLeftButtonDown="KeyChange" FontFamily="NanumBarunGothic Light" TextAlignment="Center" MouseEnter="TextMouseEnter" MouseLeave="TextMouseLeave" IsHitTestVisible="False"/>
-            <TextBlock x:Name="input7" HorizontalAlignment="Center" Height="128" Margin="0,300,700,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Foreground="White" Text="←" FontSize="128" MouseLeftButtonDown="BackSpace" FontFamily="NanumBarunGothic Light" TextAlignment="Center" MouseEnter="TextMouseEnter" MouseLeave="TextMouseLeave" IsHitTestVisible="False"/>
-            <Rectangle Fill="#FF404040" HorizontalAlignment="Center" Height="1"  VerticalAlignment="Center" Width="1000" MouseLeftButtonDown="KeypadRectangle_MouseLeftButtonDown" />
-            <Rectangle Fill="#FF404040" HorizontalAlignment="Center" Height="1000"  VerticalAlignment="Center" Width="1" MouseLeftButtonDown="KeypadRectangle_MouseLeftButtonDown"/>
-            <Rectangle Fill="#FF404040" HorizontalAlignment="Center" Height="1"  VerticalAlignment="Center" Width="1000" RenderTransformOrigin="0.5,0.5"  MouseLeftButtonDown="KeypadRectangle_MouseLeftButtonDown">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="45"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
-
-            <Rectangle Fill="#FF404040" HorizontalAlignment="Center" Height="1" VerticalAlignment="Center" Width="1000" RenderTransformOrigin="0.5,0.5"  MouseLeftButtonDown="KeypadRectangle_MouseLeftButtonDown">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="135"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
-        </Grid>
-
-        <Grid Width="470" Height="470">
-            <Ellipse Fill="#FF1C1C1C"  Width="470" Height="470" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-            <ed:Arc x:Name="BlankPie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="90" Fill="#FF1C1C1C" HorizontalAlignment="Center" Height="470" Margin="0" Stretch="None" StartAngle="-90" VerticalAlignment="Center" Width="470" MouseLeftButtonDown="InputingSpace"/>
-            <ed:Arc x:Name="LauguageChangePie" ArcThickness="1" ArcThicknessUnit="Percent" EndAngle="270" Fill="#FF1C1C1C" HorizontalAlignment="Center" Height="470" Margin="0" Stretch="None" StartAngle="90" VerticalAlignment="Center" Width="470" MouseLeftButtonDown="ChangeLanguage"/>
-            <TextBlock x:Name="BlankText" HorizontalAlignment="Center" Height="50" Margin="0,0,0,350" TextWrapping="Wrap" Text="띄어쓰기" VerticalAlignment="Center" Width="160" Foreground="White" FontSize="36" TextAlignment="Center" MouseLeftButtonDown="InputingSpace"/>
-            <TextBlock x:Name="LauguageChangeText" HorizontalAlignment="Center" Height="50" Margin="0,355,0,0" TextWrapping="Wrap" Text="English" VerticalAlignment="Center" Width="160" Foreground="White" FontSize="36" TextAlignment="Center" MouseLeftButtonDown="ChangeLanguage"/>
-        </Grid>
-
-        <!--키패드_가장_작은_원-->
-        <Grid Width="270" Height="270">
-            <Ellipse x:Name="inputbutton" Fill="#FF343434"  Width="270" Height="270" HorizontalAlignment="Center" MouseLeftButtonDown="InputingChar">
-                <Ellipse.Effect>
-                    <DropShadowEffect Direction="270"  BlurRadius="0" ShadowDepth="7" Opacity="0.21"/>
-                </Ellipse.Effect>
-            </Ellipse>
-            <TextBlock x:Name="CenterText" HorizontalAlignment="Center" Height="128" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Foreground="White" FontSize="128" TextAlignment="Center" FontFamily="NanumBarunGothic" MouseLeftButtonDown="InputingChar"/>
-        </Grid>
-
-
+        <Viewbox Stretch="Uniform" StretchDirection="Both" Margin="0">
+            <Viewbox.CacheMode>
+                <BitmapCache/>
+            </Viewbox.CacheMode>
+            <Grid Width="1000" Height="1000">
+                <Grid x:Name="Grid_Big">
+                    <Grid.CacheMode>
+                        <BitmapCache/>
+                    </Grid.CacheMode>
+                    <Ellipse Fill="#FF4A4A4A" IsHitTestVisible="False">
+                        <Ellipse.CacheMode>
+                            <BitmapCache/>
+                        </Ellipse.CacheMode>
+                        <Ellipse.Effect>
+                            <DropShadowEffect Opacity="0.13" ShadowDepth="11" Direction="270" BlurRadius="0"/>
+                        </Ellipse.Effect>
+                    </Ellipse>
+                    <ed:Arc x:Name="pie0" Tag="0" EndAngle="315" Fill="#FF343434" Stretch="None" StartAngle="270" MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
+                    <ed:Arc x:Name="pie1" Tag="4" EndAngle="360" Fill="#FF343434" Stretch="None" StartAngle="315" MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
+                    <ed:Arc x:Name="pie2" Tag="8" EndAngle="45" Fill="#FF343434" Stretch="None" StartAngle="0" MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
+                    <ed:Arc x:Name="pie3" Tag="12" EndAngle="90" Fill="#FF343434" Stretch="None" StartAngle="45" MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
+                    <ed:Arc x:Name="pie4" Tag="16" EndAngle="135" Fill="#FF343434" Stretch="None" StartAngle="90" MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
+                    <ed:Arc x:Name="pie5" Tag="20" EndAngle="180" Fill="#FF343434" Stretch="None" StartAngle="135" MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
+                    <ed:Arc x:Name="pie6" Tag="24" EndAngle="225" Fill="#FF343434" Stretch="None" StartAngle="180" MouseLeftButtonDown="KeyChange" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
+                    <ed:Arc x:Name="pie7" EndAngle="270" Fill="#FF343434" Stretch="None" StartAngle="225" MouseLeftButtonDown="BackSpace" MouseEnter="PieMouseEnter" MouseLeave="PieMouseLeave"/>
+                    <TextBlock x:Name="input0" Tag="0" Height="128" Margin="0,0,700,275" Width="128" FontSize="128" FontFamily="NanumBarunGothic Light" TextAlignment="Center" IsHitTestVisible="False"/>
+                    <TextBlock x:Name="input1" Tag="4" Height="128" Margin="0,0,300,700" Width="128" FontSize="128" FontFamily="NanumBarunGothic Light" TextAlignment="Center" IsHitTestVisible="False"/>
+                    <TextBlock x:Name="input2" Tag="8" Height="150" Margin="300,0,0,700" Width="128"  FontSize="128" FontFamily="NanumBarunGothic Light" TextAlignment="Center" IsHitTestVisible="False"/>
+                    <TextBlock x:Name="input3" Tag="12" Height="150" Margin="700,0,0,275" Width="128"  FontSize="128" FontFamily="NanumBarunGothic Light" TextAlignment="Center" IsHitTestVisible="False"/>
+                    <TextBlock x:Name="input4" Tag="16" Height="128" Margin="700,300,0,0" Width="128" FontSize="128" FontFamily="NanumBarunGothic Light"  TextAlignment="Center" IsHitTestVisible="False"/>
+                    <TextBlock x:Name="input5" Tag="20" Height="128" Margin="300,700,0,0" Width="128" FontSize="128" FontFamily="NanumBarunGothic Light" TextAlignment="Center" IsHitTestVisible="False"/>
+                    <TextBlock x:Name="input6" Tag="24" Height="128" Margin="0,700,300,0" Width="128" FontSize="128" FontFamily="NanumBarunGothic Light" TextAlignment="Center" IsHitTestVisible="False"/>
+                    <TextBlock x:Name="input7" HorizontalAlignment="Center" Height="128" Margin="0,300,700,0" Width="128" Text="←" FontSize="128" FontFamily="NanumBarunGothic Light" TextAlignment="Center" IsHitTestVisible="False"/>
+                    <Rectangle Fill="#FF404040" Height="1" VerticalAlignment="Center" IsHitTestVisible="False"/>
+                    <Rectangle Fill="#FF404040" Width="1" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+                    <Rectangle Fill="#FF404040" Height="1" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+                        <Rectangle.RenderTransform>
+                            <RotateTransform Angle="45"/>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                    <Rectangle Fill="#FF404040" Height="1" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+                        <Rectangle.RenderTransform>
+                            <RotateTransform Angle="135"/>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                </Grid>
+                <Grid Width="470" Height="470">
+                    <Grid.CacheMode>
+                        <BitmapCache/>
+                    </Grid.CacheMode>
+                    <Ellipse Fill="#FF1C1C1C" Width="470" Height="470" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ed:Arc x:Name="BlankPie" EndAngle="90" Fill="#01000000" HorizontalAlignment="Center" Height="470" Margin="0" Stretch="None" StartAngle="-90" VerticalAlignment="Center" Width="470" MouseLeftButtonDown="InputingSpace"/>
+                    <ed:Arc x:Name="LauguageChangePie" EndAngle="270" Fill="#01000000" HorizontalAlignment="Center" Height="470" Margin="0" Stretch="None" StartAngle="90" VerticalAlignment="Center" Width="470" MouseLeftButtonDown="ChangeLanguage"/>
+                    <TextBlock x:Name="BlankText" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,36" Text="띄어쓰기" FontSize="36" IsHitTestVisible="False"/>
+                    <TextBlock x:Name="LauguageChangeText" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,36" Text="English" FontSize="36" IsHitTestVisible="False"/>
+                </Grid>
+                <Grid Width="270" Height="270">
+                    <Grid.CacheMode>
+                        <BitmapCache/>
+                    </Grid.CacheMode>
+                    <Ellipse x:Name="inputbutton" Fill="#FF343434" MouseLeftButtonDown="InputingChar">
+                        <Ellipse.Effect>
+                            <DropShadowEffect Direction="270" BlurRadius="0" ShadowDepth="7" Opacity="0.21"/>
+                        </Ellipse.Effect>
+                    </Ellipse>
+                    <TextBlock x:Name="CenterText" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="128" IsHitTestVisible="False"/>
+                </Grid>
+            </Grid>
+        </Viewbox>
     </Grid>
 </UserControl>
     

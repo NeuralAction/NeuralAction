@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Predict;
+using System.Windows.Markup;
 
 namespace NeuralAction.WPF
 {
@@ -26,7 +27,6 @@ namespace NeuralAction.WPF
 
     public partial class KeyControl : UserControl
     {
-
         WordCorrecter AutocompleteWord;
 
         static string ChoSungTbl = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
@@ -39,7 +39,6 @@ namespace NeuralAction.WPF
         static string[] KoreanJungsungKeymap = new string[28] { "ㅏ", "ㅑ", "ㅐ", "", "ㅓ", "ㅕ", "ㅔ", "", "ㅗ", "ㅛ", "ㅚ", "", "ㅜ", "ㅠ", "ㅟ", "", "ㅡ", "ㅘ", "ㅙ", "", "ㅣ", "ㅒ", "ㅖ", "", "ㅢ", "ㅝ", "ㅞ", "" };
         static string[] KoreanJongsungKeymap = new string[28] { "ㄱ", "ㄲ", "ㅋ", "ㄺ", "ㄷ", "ㅌ", "ㄸ", "ㄼ", "ㅈ", "ㅊ", "ㅉ", "ㄶ", "ㅂ", "ㅍ", "ㅃ", "ㅄ", "ㄴ", "ㅁ", "ㄹ", "ㄻ", "ㅅ", "ㅆ", "ㅄ", "ㄳ", "ㅇ", "ㅎ", "ㄶ", "ㅀ" };
         static string[] SpecialCharKeymap = new string[28] { ".", "5", "(", "", ",", "6", ")", "", "0", "7", "&", "", "1", "8", "+", "", "2", "9", "-", "", "3", "!", "*", "", "4", "?", "/", "" };
-
 
         string wordtemp = "";
         public static string MergeJaso(string choSung, string jungSung, string jongSung)
@@ -57,30 +56,27 @@ namespace NeuralAction.WPF
 
         string[] koreaInputChar = new string[3];
         int inputCount = 0;
-        
+
         public KeyControl()
         {
             InitializeComponent();
+
+            SignCache(Grid_Big);
+        }
+
+        void SignCache(Panel element)
+        {
+            foreach (var item in element.Children)
+            {
+                var control = (UIElement)item;
+                if (control.CacheMode == null)
+                    control.CacheMode = new BitmapCache();
+                if (control is Panel)
+                    SignCache((Panel)control);
+            }
         }
 
         #region UI Events
-
-        private void KeypadRectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //NotWindowsFocus();
-        }
-
-        private void Ellipse_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            //Topmost = false;
-            //CursorIcon.Topmost = true;
-        }
-
-        private void Ellipse_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            //Topmost = true;
-            //CursorIcon.Topmost = false;
-        }
 
         private void PieMouseEnter(object sender, MouseEventArgs e)
         {
@@ -166,91 +162,6 @@ namespace NeuralAction.WPF
             }
         }
 
-
-        private void TextMouseEnter(object sender, MouseEventArgs e)
-        {
-            TextBlock MouseEnterTextBlock = (TextBlock)sender;
-
-            var hoverColor = new SolidColorBrush(Color.FromRgb(54, 222, 155));
-            var hoverTextColor = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            hoverColor.Freeze();
-            hoverTextColor.Freeze();
-
-            MouseEnterTextBlock.Foreground = hoverTextColor;
-
-            switch (MouseEnterTextBlock.Name)
-            {
-                case "input0":
-                    pie0.Fill= hoverColor;
-                    break;
-                case "input1":
-                    pie1.Fill = hoverColor;
-                    break;
-                case "input2":
-                    pie2.Fill = hoverColor;
-                    break;
-                case "input3":
-                    pie3.Fill = hoverColor;
-                    break;
-                case "input4":
-                    pie4.Fill = hoverColor;
-                    break;
-                case "input5":
-                    pie5.Fill = hoverColor;
-                    break;
-                case "input6":
-                    pie6.Fill = hoverColor;
-                    break;
-                case "input7":
-                    pie7.Fill = hoverColor;
-                    break;
-                default:
-                    throw new ArgumentException("unknown exception");
-            }
-        }
-
-        private void TextMouseLeave(object sender, MouseEventArgs e)
-        {
-            TextBlock MouseEnterTextBlock = (TextBlock)sender;
-
-            var normalColor = new SolidColorBrush(Color.FromRgb(54, 54, 54));
-            var normalTextColor = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            normalColor.Freeze();
-            normalTextColor.Freeze();
-
-            MouseEnterTextBlock.Foreground = normalColor;
-
-            switch (MouseEnterTextBlock.Name)
-            {
-                case "input0":
-                    pie0.Fill = normalColor;
-                    break;
-                case "input1":
-                    pie1.Fill = normalColor;
-                    break;
-                case "input2":
-                    pie2.Fill = normalColor;
-                    break;
-                case "input3":
-                    pie3.Fill = normalColor;
-                    break;
-                case "input4":
-                    pie4.Fill = normalColor;
-                    break;
-                case "input5":
-                    pie5.Fill = normalColor;
-                    break;
-                case "input6":
-                    pie6.Fill = normalColor;
-                    break;
-                case "input7":
-                    pie7.Fill = normalColor;
-                    break;
-                default:
-                    throw new ArgumentException("unknown exception");
-            }
-        }
-
         #endregion UI Events
 
         #region Keyboard
@@ -273,21 +184,16 @@ namespace NeuralAction.WPF
             switch (lang)
             {
                 case Languages.Korean:
-                    if (inputCount == 0)
+                    switch (inputCount)
                     {
-                        return KoreanChosungKeymap;
-                    }
-                    else if (inputCount == 1)
-                    {
-                        return KoreanJungsungKeymap;
-                    }
-                    else if (inputCount == 2)
-                    {
-                        return KoreanJongsungKeymap;
-                    }
-                    else
-                    {
-                        throw new Exception("wrong input count");
+                        case 0:
+                            return KoreanChosungKeymap;
+                        case 1:
+                            return KoreanJungsungKeymap;
+                        case 2:
+                            return KoreanJongsungKeymap;
+                        default:
+                            throw new NotImplementedException();
                     }
                 case Languages.English:
                     return EnglishKeymap;
@@ -336,9 +242,7 @@ namespace NeuralAction.WPF
                 koreaInputChar[2] = "";
                 CenterText.Text = "";
                 inputCount = 0;
-
             }
-
         }
 
         private void KeyChange(object sender, System.Windows.Input.MouseEventArgs e)
@@ -348,6 +252,7 @@ namespace NeuralAction.WPF
 
             if (sender is TextBlock)
             {
+                throw new Exception("need to be arc. trun off hittestvisible of textblock");
                 i = Convert.ToInt32(((TextBlock)sender).Tag.ToString());
             }
             else if (sender is Arc)
@@ -508,7 +413,7 @@ namespace NeuralAction.WPF
                     pie5.Tag = (Convert.ToInt32(pie5.Tag.ToString()) + 1).ToString();
                     input5.Tag = (Convert.ToInt32(input5.Tag.ToString()) + 1).ToString();
                     input5.Text = keymap[i + 1];
-                    
+
                     if (CurrentLanguage == Languages.Korean)
                     {
                         CenterTextMerge(keymap, i);
@@ -541,25 +446,22 @@ namespace NeuralAction.WPF
                         CenterTextMerge(keymap, i);
                     }
                 }
-
             }
-
 
             if (wordtemp.Length > 1)
             {
                 wordtemp = wordtemp.Substring(0, wordtemp.Length - 1);
                 wordtemp += CenterText.Text;
-            } else if(wordtemp.Length <= 1) {
-                 wordtemp = CenterText.Text;
+            }
+            else if (wordtemp.Length <= 1)
+            {
+                wordtemp = CenterText.Text;
             }
 
-            WordSuggestions[] Autocompletes = AutocompleteWord.Correcting(wordtemp.Replace(" ", ""));
+            var Autocompletes = AutocompleteWord.Correcting(wordtemp.Replace(" ", ""));
             if (Autocompletes != null)
             {
-
-
                 int counts = Autocompletes.Length;
-               
 
                 autocomplete1.Text = counts <= 0 ? "완성된 단어가 없습니다." : Autocompletes[0].Name;
                 autocomplete2.Text = counts >= 2 ? Autocompletes[1].Name : "완성된 단어가 없습니다.";
@@ -574,8 +476,9 @@ namespace NeuralAction.WPF
                 Gautocomplete4.Tag = counts >= 4 ? Autocompletes[3].Name : "";
                 Gautocomplete5.Tag = counts >= 5 ? Autocompletes[4].Name : "";
                 Gautocomplete6.Tag = counts >= 6 ? Autocompletes[5].Name : "";
-
-            } else {
+            }
+            else
+            {
                 autocomplete1.Text = "완성된 단어가 없습니다.";
                 autocomplete2.Text = "완성된 단어가 없습니다.";
                 autocomplete3.Text = "완성된 단어가 없습니다.";
@@ -589,40 +492,35 @@ namespace NeuralAction.WPF
                 Gautocomplete5.Tag = "";
                 Gautocomplete6.Tag = "";
             }
-
         }
 
         private void InputingSentence(object sender, System.Windows.Input.MouseEventArgs e)
         {
-
-
             string RealSendKey = ((Grid)sender).Tag.ToString();
 
-            if(RealSendKey == "")
+            if (RealSendKey != "")
             {
-
-            } else {
-
-                if(wordtemp.Length <= 1)
+                if (wordtemp.Length <= 1)
                 {
 
-                } else {
+                }
+                else
+                {
                     RealSendKey = RealSendKey.Substring(wordtemp.Trim().Length - 1, RealSendKey.Length == 1 ? 1 : RealSendKey.Length - wordtemp.Trim().Length + 1);
                 }
 
-                
- 
                 System.Windows.Forms.Clipboard.SetText(RealSendKey);
                 Send sendkeys = new Send(RealSendKey, RealSendKey);
                 sendkeys.Work();
             }
-          
+
             wordtemp = "";
             InputingReset();
             if (CurrentLanguage == Languages.Korean)
             {
                 KeymapChange(KoreanChosungKeymap);
-            } else
+            }
+            else
             {
                 KeymapChange(GetKeymapArray(CurrentLanguage));
             }
@@ -641,7 +539,6 @@ namespace NeuralAction.WPF
             autocomplete5.Text = "";
             autocomplete6.Text = "";
             InputingReset(true);
-
         }
 
         private void InputingChar(object sender, System.Windows.Input.MouseEventArgs e)
@@ -702,7 +599,7 @@ namespace NeuralAction.WPF
             wordtemp = "";
             CenterText.Text = "←";
             InputingReset();
-            if(CurrentLanguage == Languages.Korean)
+            if (CurrentLanguage == Languages.Korean)
             {
                 KeymapChange(KoreanChosungKeymap);
             }
