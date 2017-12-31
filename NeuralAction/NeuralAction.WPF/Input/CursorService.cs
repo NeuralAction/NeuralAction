@@ -323,7 +323,6 @@ namespace NeuralAction.WPF
 
             Point = e;
             GazeTracked?.Invoke(this, arg);
-
         }
 
         public void StopAsync()

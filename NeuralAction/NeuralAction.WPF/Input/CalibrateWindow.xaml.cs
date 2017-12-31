@@ -32,6 +32,7 @@ namespace NeuralAction.WPF
             calib.Calibarting += Calib_Calibarting;
             calib.Calibrated += Calib_Calibrated;
 
+            Owner = App.Current.MainWindow;
             WindowState = WindowState.Maximized;
 
             Loaded += delegate
