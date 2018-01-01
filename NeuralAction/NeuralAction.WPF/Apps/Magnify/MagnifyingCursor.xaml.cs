@@ -23,14 +23,14 @@ namespace NeuralAction.WPF.Magnify
 
         public double ActualTop
         {
-            get => (Top + ActualHeight / 2 * wpfScale) * wpfScale;
-            set => Top = value / wpfScale - ActualHeight / 2 * wpfScale;
+            get => (Top + ActualHeight / 2) * wpfScale;
+            set => Top = value / wpfScale - ActualHeight / 2;
         }
 
         public double ActualLeft
         {
-            get => (Left + ActualWidth / 2 * wpfScale) * wpfScale;
-            set => Left = value / wpfScale - ActualWidth / 2 * wpfScale;
+            get => (Left + ActualWidth / 2) * wpfScale;
+            set => Left = value / wpfScale - ActualWidth / 2;
         }
 
         bool available = false;
