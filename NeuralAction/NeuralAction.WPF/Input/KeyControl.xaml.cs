@@ -463,12 +463,12 @@ namespace NeuralAction.WPF
             {
                 int counts = Autocompletes.Length;
 
-                autocomplete1.Text = counts <= 0 ? "완성된 단어가 없습니다." : Autocompletes[0].Name;
-                autocomplete2.Text = counts >= 2 ? Autocompletes[1].Name : "완성된 단어가 없습니다.";
-                autocomplete3.Text = counts >= 3 ? Autocompletes[2].Name : "완성된 단어가 없습니다.";
-                autocomplete4.Text = counts >= 4 ? Autocompletes[3].Name : "완성된 단어가 없습니다.";
-                autocomplete5.Text = counts >= 5 ? Autocompletes[4].Name : "완성된 단어가 없습니다.";
-                autocomplete6.Text = counts >= 6 ? Autocompletes[5].Name : "완성된 단어가 없습니다.";
+                autocomplete1.Text = counts <= 0 ? "" : Autocompletes[0].Name;
+                autocomplete2.Text = counts >= 2 ? Autocompletes[1].Name : "";
+                autocomplete3.Text = counts >= 3 ? Autocompletes[2].Name : "";
+                autocomplete4.Text = counts >= 4 ? Autocompletes[3].Name : "";
+                autocomplete5.Text = counts >= 5 ? Autocompletes[4].Name : "";
+                autocomplete6.Text = counts >= 6 ? Autocompletes[5].Name : "";
 
                 Gautocomplete1.Tag = counts <= 0 ? "" : Autocompletes[0].Name;
                 Gautocomplete2.Tag = counts >= 2 ? Autocompletes[1].Name : "";
@@ -479,12 +479,12 @@ namespace NeuralAction.WPF
             }
             else
             {
-                autocomplete1.Text = "완성된 단어가 없습니다.";
-                autocomplete2.Text = "완성된 단어가 없습니다.";
-                autocomplete3.Text = "완성된 단어가 없습니다.";
-                autocomplete4.Text = "완성된 단어가 없습니다.";
-                autocomplete5.Text = "완성된 단어가 없습니다.";
-                autocomplete6.Text = "완성된 단어가 없습니다.";
+                autocomplete1.Text = "";
+                autocomplete2.Text = "";
+                autocomplete3.Text = "";
+                autocomplete4.Text = "";
+                autocomplete5.Text = "";
+                autocomplete6.Text = "";
                 Gautocomplete1.Tag = "";
                 Gautocomplete2.Tag = "";
                 Gautocomplete3.Tag = "";
@@ -506,7 +506,7 @@ namespace NeuralAction.WPF
                 }
                 else
                 {
-                    RealSendKey = RealSendKey.Substring(wordtemp.Trim().Length - 1, RealSendKey.Length == 1 ? 1 : RealSendKey.Length - wordtemp.Trim().Length + 1);
+                    RealSendKey = RealSendKey.Substring(wordtemp.Trim().Length, RealSendKey.Length == 1 ? 1 : RealSendKey.Length - wordtemp.Trim().Length + 1);
                 }
 
                 System.Windows.Forms.Clipboard.SetText(RealSendKey);
@@ -627,7 +627,6 @@ namespace NeuralAction.WPF
                     CurrentLanguage = Languages.English;
                     AutocompleteWord = new WordCorrecter(System.Environment.CurrentDirectory + "\\Database\\englishdatabase.xml");
                     KeymapChange(GetKeymapArray(CurrentLanguage));
-                    BlankText.Text = "Spacing";
                     LauguageChangeText.Text = "Special";
                     break;
                 case Languages.English:
@@ -639,7 +638,6 @@ namespace NeuralAction.WPF
                     CurrentLanguage = Languages.Korean;
                     AutocompleteWord = new WordCorrecter(Environment.CurrentDirectory + "\\Database\\koreandatabase.xml");
                     KeymapChange(GetKeymapArray(CurrentLanguage));
-                    BlankText.Text = "띄어쓰기";
                     LauguageChangeText.Text = "English";
                     break;
                 default:
