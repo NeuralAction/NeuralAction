@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeuralAction.WPF.Magnify"
         xmlns:ui="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="NeuralAction - Magnifying Glass" SizeToContent="WidthAndHeight" AllowsTransparency="True" Topmost="True" WindowStyle="None" Background="{x:Null}">
+        Title="NeuralAction - Magnifying Glass" SizeToContent="WidthAndHeight" ShowInTaskbar="False" AllowsTransparency="True" Topmost="True" WindowStyle="None" Background="{x:Null}">
     <Grid>
         <ui:CursorControl x:Name="CursorControl"/>
     </Grid>
