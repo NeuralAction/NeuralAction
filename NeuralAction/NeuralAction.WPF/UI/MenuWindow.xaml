@@ -61,11 +61,17 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="Calibration" x:Name="Calibration" Click="Calibration_Click"/>
+            <Button x:Name="Calibration" Click="Calibration_Click">
+                <Image Source="/NeuralAction.WPF;component/Resources/Cali.png" Width="28" Height="28" HorizontalAlignment="Center" RenderOptions.BitmapScalingMode="Fant"/>
+            </Button>
             <Rectangle Fill="#663F3F3F" Width="1" IsHitTestVisible="False" Grid.Column="1"/>
-            <Button Content="Setting" x:Name="Setting" Click="Setting_Click" Grid.Column="2"/>
+            <Button x:Name="Setting" Click="Setting_Click" Grid.Column="2">
+                <Image Source="/NeuralAction.WPF;component/Resources/setting.png" Width="28" Height="28" HorizontalAlignment="Center" RenderOptions.BitmapScalingMode="Fant"/>
+            </Button>
             <Rectangle Fill="#663F3F3F" Width="1" IsHitTestVisible="False" Grid.Column="3"/>
-            <Button Content="Exit" x:Name="Exit" Click="Exit_Click" Grid.Column="4"/>
+            <Button x:Name="Exit" Click="Exit_Click" Grid.Column="4">
+                <Image Source="/NeuralAction.WPF;component/Resources/exit.png" Width="28" Height="28" HorizontalAlignment="Center" RenderOptions.BitmapScalingMode="Fant"/>
+            </Button>
         </Grid>
         <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
     </StackPanel>

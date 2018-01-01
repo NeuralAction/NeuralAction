@@ -73,6 +73,7 @@ namespace NeuralAction.WPF
         string[] koreaInputChar = new string[3];
         string wordtemp = "";
         int inputCount = 0;
+        bool temporcomplete = false;
 
         public KeyControl()
         {
@@ -517,21 +518,22 @@ namespace NeuralAction.WPF
         {
             string RealSendKey = ((Grid)sender).Tag?.ToString();
 
-            if (RealSendKey != null && RealSendKey != "")
+            
+            if (wordtemp.Length <= 1)
             {
-                if (wordtemp.Length <= 1)
-                {
 
-                }
-                else
+            } else if(wordtemp.Length >= 2) {
+                System.Windows.Forms.Clipboard.SetText("{BACK}");
+                Send backspace = new Send("{BACK}", "{BACK}");
+                for(int i = 0; i < wordtemp.Length - 1; i++)
                 {
-                    RealSendKey = RealSendKey.Substring(wordtemp.Trim().Length, RealSendKey.Length == 1 ? 1 : RealSendKey.Length - wordtemp.Trim().Length + 1);
+                    backspace.Work();
                 }
-
-                System.Windows.Forms.Clipboard.SetText(RealSendKey);
-                Send sendkeys = new Send(RealSendKey, RealSendKey);
-                sendkeys.Work();
             }
+
+            System.Windows.Forms.Clipboard.SetText(RealSendKey + " ");
+            Send sendkeys = new Send(RealSendKey + " ", RealSendKey + " ");
+            sendkeys.Work();
 
             wordtemp = "";
             InputingReset();
@@ -563,6 +565,8 @@ namespace NeuralAction.WPF
         {
             if (CenterText.Text != "")
             {
+                temporcomplete = true;
+
                 System.Windows.Forms.Clipboard.SetText(CenterText.Text);
 
                 Send sendkeys = new Send(CenterText.Text, CenterText.Text);
@@ -604,6 +608,7 @@ namespace NeuralAction.WPF
                     KeymapChange(GetKeymapArray(CurrentLanguage));
                     wordtemp += " ";
                     InputingReset();
+                    InputingReset(true);
                     sendkeys.Work();
                 }
             }
@@ -611,6 +616,8 @@ namespace NeuralAction.WPF
 
         void BackSpace(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            temporcomplete = false;
+
             System.Windows.Forms.Clipboard.SetText("{BACK}");
             Send sendkeys = new Send("{BACK}", "{BACK}");
             sendkeys.Work();
