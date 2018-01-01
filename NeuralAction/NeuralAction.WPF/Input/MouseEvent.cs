@@ -38,46 +38,74 @@ namespace NeuralAction.WPF
     public class MouseEvent
     {
         const int ABSOLUTE_SIZE = 65535;
-        
-        Size DisplaySize { set; get; }
+        public static bool AllowControl { get; private set; } = true;
+        public static Size ActualDisplaySize { set; get; }
 
-        public MouseEvent()
+        static GlobalKeyboardHook hook;
+
+        static MouseEvent()
         {
             var bound = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
-            DisplaySize = new Size(bound.Width, bound.Height);
+            ActualDisplaySize = new Size(bound.Width, bound.Height);
+
+            hook = new GlobalKeyboardHook();
+            hook.KeyboardPressed += Hook_KeyboardPressed;
         }
 
-        public void Move(Point Point)
+        ~MouseEvent()
+        {
+            hook.Dispose();
+        }
+
+        static void Hook_KeyboardPressed(object sender, GlobalKeyboardHookEventArgs e)
+        {
+            switch (e.KeyboardData.VirtualCode)
+            {
+                case (int)GlobalKeyboardHook.KeyCode.LeftControl:
+                    switch (e.KeyboardState)
+                    {
+                        case GlobalKeyboardHook.KeyboardState.KeyDown:
+                            AllowControl = false;
+                            break;
+                        case GlobalKeyboardHook.KeyboardState.KeyUp:
+                            AllowControl = true;
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        public static void Move(Point Point)
         {
             MouseEventFlag Flag = MouseEventFlag.Move;
 
             Event((int)Flag, (int)Point.X, (int)Point.Y, 0, IntPtr.Zero);
         }
 
-        public void MoveAt(Point Point)
+        public static void MoveAt(Point Point)
         {
             MouseEventFlag Flag = MouseEventFlag.Move | MouseEventFlag.Absolute;
 
-            int X = (int)((ABSOLUTE_SIZE / DisplaySize.Width) * Point.X);
-            int Y = (int)((ABSOLUTE_SIZE / DisplaySize.Height) * Point.Y);
+            int X = (int)((ABSOLUTE_SIZE / ActualDisplaySize.Width) * Point.X);
+            int Y = (int)((ABSOLUTE_SIZE / ActualDisplaySize.Height) * Point.Y);
 
             Event((int)Flag, X, Y, 0, IntPtr.Zero);
         }
 
-        public void MoveAbsolute(Point Point)
+        public static void MoveAbsolute(Point Point)
         {
             MouseEventFlag Flag = MouseEventFlag.Move | MouseEventFlag.Absolute;
 
             Event((int)Flag, (int)Point.X, (int)Point.Y, 0, IntPtr.Zero);
         }
 
-        public void Click(MouseButton button)
+        public static void Click(MouseButton button)
         {
             Down(button);
             Up(button);
         }
 
-        public void Down(MouseButton Button)
+        public static void Down(MouseButton Button)
         {
             MouseEventFlag Flag;
             switch (Button)
@@ -101,7 +129,7 @@ namespace NeuralAction.WPF
             Event((int)Flag, 0, 0, 0, IntPtr.Zero);
         }
 
-        public void Up(MouseButton Button)
+        public static void Up(MouseButton Button)
         {
             MouseEventFlag Flag;
             switch (Button)
@@ -125,9 +153,10 @@ namespace NeuralAction.WPF
             Event((int)Flag, 0, 0, 0, IntPtr.Zero);
         }
 
-        void Event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo)
+        static void Event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo)
         {
-            WinApi.MouseEvent(dwFlags, dx, dy, dwData, dwExtraInfo);
+            if(AllowControl)
+                WinApi.MouseEvent(dwFlags, dx, dy, dwData, dwExtraInfo);
         }
     }
 }

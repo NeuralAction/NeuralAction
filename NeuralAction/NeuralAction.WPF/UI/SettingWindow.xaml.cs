@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Vision;
 using Vision.Detection;
 
 namespace NeuralAction.WPF
@@ -27,8 +28,22 @@ namespace NeuralAction.WPF
 
             Loaded += delegate
             {
-                Top = SystemParameters.WorkArea.Height - ActualHeight + 1;
-                Left = SystemParameters.WorkArea.Width - ActualWidth;
+                var workarea = SystemParameters.WorkArea;
+
+                Left = workarea.Left + workarea.Width - ActualWidth;
+
+                if (ActualHeight > workarea.Height * 0.95)
+                {
+                    SizeToContent = SizeToContent.Manual;
+
+                    Top = workarea.Top;
+                    Height = workarea.Height;
+                }
+                else
+                {
+                    Grid_Background.Margin = new Thickness(25, 25, 0, 0);
+                    Top = workarea.Top + workarea.Height - ActualHeight;
+                }
 
                 Settings.Listener.PropertyChanged += Settings_PropertyChanged;
                 Settings.Listener.SettingChanged += Settings_SettingChanged;

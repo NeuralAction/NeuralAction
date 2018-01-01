@@ -21,7 +21,8 @@ namespace NeuralAction.WPF
         public bool Smooth { get; set; } = true;
         public bool UseSpeedClamp { get; set; } = true;
         public double SpeedClamp { get; set; } = 100;
-        
+        public double WpfScale { get; set; }
+
         public double ActualLeft
         {
             get => Left * WpfScale - parent.TargetScreen.Bounds.Left;
@@ -37,30 +38,30 @@ namespace NeuralAction.WPF
         public List<CursorTimes> MoveList { get; set; } = new List<CursorTimes>();
         public object MoveLocker { get; set; } = new object();
 
-        Storyboard CursorOn;
-        Storyboard CursorOff;
-        Storyboard CursorClick;
-        Storyboard CursorClickOff;
-
-        MouseEvent mouse;
+        /// <summary>
+        /// Visibility of Cursor. If set hidden, it would be lost control.
+        /// </summary>
+        public new Visibility Visibility
+        {
+            get => base.Visibility;
+            set => base.Visibility = value;
+        }
+        
         CursorService parent;
         DispatcherTimer moveTimer;
         Point targetPosition;
         Point TargetPosition
         {
             get => targetPosition;
-            set { targetPosition = value; UpdateTarget(); }
+            set { targetPosition = value; UpdateTargetPosition(); }
         }
         DispatcherTimer cursorAniWaiter;
-        double WpfScale;
         bool show = false;
-        bool AllowControl => parent.ControlAllowed;
+        bool AllowControl => parent.ControlAllowed && Visibility == Visibility.Visible;
 
         public CursorWindow(CursorService service)
         {
             parent = service;
-
-            mouse = new MouseEvent();
 
             SourceInitialized += delegate
             {
@@ -84,17 +85,9 @@ namespace NeuralAction.WPF
             {
                 focus.Stop();
             };
-
-            CursorOff = (Storyboard)FindResource("CursorOff");
-            CursorOn = (Storyboard)FindResource("CursorOn");
-            CursorClick = (Storyboard)FindResource("CursorClick");
-            CursorClickOff = (Storyboard)FindResource("CursorClickOff");
-
-            CursorOff.Begin();
         }
 
-
-        void UpdateTarget()
+        void UpdateTargetPosition()
         {
             if (Smooth)
             {
@@ -121,11 +114,6 @@ namespace NeuralAction.WPF
             }
         }
 
-        double Clamp(double value, double min, double max)
-        {
-            return Math.Max(min, Math.Min(max, value));
-        }
-
         void InternalMove()
         {
             lock (MoveLocker)
@@ -135,7 +123,7 @@ namespace NeuralAction.WPF
             {
                 var pt = new Point(ActualPosition.X, ActualPosition.Y);
                 if(AllowControl)
-                    mouse.MoveAt(pt);
+                    MouseEvent.MoveAt(pt);
                 Moved?.Invoke(this, pt);
             }
         }
@@ -154,28 +142,17 @@ namespace NeuralAction.WPF
             });
         }
 
-        DispatcherTimer clickWait;
-        public void Clicked()
+        public Vision.Point Clicked()
         {
-            if (AllowControl)
-                mouse.Click(MouseButton.Left);
-            Dispatcher.Invoke(() => 
+            if (AllowControl && parent.ClickAllowed)
+                MouseEvent.Click(MouseButton.Left);
+            Vision.Point pt = null;
+            Dispatcher.Invoke(() =>
             {
-                CursorClickOff.Stop();
-                CursorClick.Begin();
-                if (clickWait == null)
-                {
-                    clickWait = new DispatcherTimer();
-                    clickWait.Tick += delegate
-                    {
-                        CursorClick.Stop();
-                        CursorClickOff.Begin();
-                        clickWait.Stop();
-                    };
-                    clickWait.Interval = TimeSpan.FromMilliseconds(208);
-                }
-                clickWait.Start();
+                CursorControl.Click();
+                pt = ActualPosition;
             });
+            return pt;
         }
 
         public void SetPosition(double x, double y)
@@ -199,15 +176,9 @@ namespace NeuralAction.WPF
                         cursorAniWaiter.Tick += delegate
                         {
                             if (show)
-                            {
-                                CursorOff.Stop();
-                                CursorOn.Begin();
-                            }
+                                CursorControl.Show();
                             else
-                            {
-                                CursorOn.Stop();
-                                CursorOff.Begin();
-                            }
+                                CursorControl.Hide();
 
                             cursorAniWaiter.Stop();
                         };
@@ -217,6 +188,11 @@ namespace NeuralAction.WPF
 
                 show = value;
             });
+        }
+
+        double Clamp(double value, double min, double max)
+        {
+            return Math.Max(min, Math.Min(max, value));
         }
     }
 }

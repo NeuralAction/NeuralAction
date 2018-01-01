@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:NeuralAction.WPF"
              xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
              mc:Ignorable="d" 
-             d:DesignHeight="1080" d:DesignWidth="1920" Loaded="UserControl_Loaded" UseLayoutRounding="True" SnapsToDevicePixels="True">
+             d:DesignHeight="1080" d:DesignWidth="1920" UseLayoutRounding="True" SnapsToDevicePixels="True">
     <UserControl.Resources>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="Foreground" Value="White"/>

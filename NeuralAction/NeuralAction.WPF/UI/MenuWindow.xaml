@@ -26,34 +26,47 @@
             </Grid.CacheMode>
             <StackPanel VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
                 <TextBlock Text="Neural Action" FontSize="36" HorizontalAlignment="Right" SnapsToDevicePixels="True"/>
-                <TextBlock Text="이희준, 함종현" SnapsToDevicePixels="True" UseLayoutRounding="True" FontFamily="NanumBarunGothic Light" TextOptions.TextHintingMode="Fixed" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" HorizontalAlignment="Right"/>
+                <TextBlock Text="Heejun Lee, Jonghyeon Ham" SnapsToDevicePixels="True" UseLayoutRounding="True" FontFamily="NanumBarunGothic Light" TextOptions.TextHintingMode="Fixed" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType" HorizontalAlignment="Right"/>
             </StackPanel>
             <Image Source="/NeuralAction.WPF;component/Resources/icon.png" Width="64" Height="64" HorizontalAlignment="Left" RenderOptions.BitmapScalingMode="Fant"/>
         </Grid>
         <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
+        <StackPanel Margin="0,20">
+            <TextBlock Text="Apps" FontSize="16" Margin="25,0,25,20" FontWeight="Light"/>
+            <Grid Height="90">
+                <Grid.CacheMode>
+                    <BitmapCache/>
+                </Grid.CacheMode>
+                <Button x:Name="Bt_App_Glass" Click="Bt_App_Glass_Click"/>
+                <StackPanel VerticalAlignment="Center" Margin="35,0" IsHitTestVisible="False">
+                    <TextBlock Text="Magnifying Glass" FontSize="16"/>
+                    <TextBlock Text="저시력자를 위한 돋보기 도구입니다." Margin="0,5,0,0"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
         <Button Content="Open" x:Name="Open" Height="50" Click="Open_Click">
             <Button.CacheMode>
                 <BitmapCache/>
             </Button.CacheMode>
         </Button>
         <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
-        <Button Content="Calibration" x:Name="Calibration" Height="50" Click="Calibration_Click">
-            <Button.CacheMode>
+        <Grid Height="50">
+            <Grid.CacheMode>
                 <BitmapCache/>
-            </Button.CacheMode>
-        </Button>
-        <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
-        <Button Content="Setting" x:Name="Setting" Height="50" Click="Setting_Click">
-            <Button.CacheMode>
-                <BitmapCache/>
-            </Button.CacheMode>
-        </Button>
-        <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
-        <Button Content="Exit" x:Name="Exit" Height="50" Click="Exit_Click">
-            <Button.CacheMode>
-                <BitmapCache/>
-            </Button.CacheMode>
-        </Button>
+            </Grid.CacheMode>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Calibration" x:Name="Calibration" Click="Calibration_Click"/>
+            <Rectangle Fill="#663F3F3F" Width="1" IsHitTestVisible="False" Grid.Column="1"/>
+            <Button Content="Setting" x:Name="Setting" Click="Setting_Click" Grid.Column="2"/>
+            <Rectangle Fill="#663F3F3F" Width="1" IsHitTestVisible="False" Grid.Column="3"/>
+            <Button Content="Exit" x:Name="Exit" Click="Exit_Click" Grid.Column="4"/>
+        </Grid>
         <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
     </StackPanel>
 </Window>

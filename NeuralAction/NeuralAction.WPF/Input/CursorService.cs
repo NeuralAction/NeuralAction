@@ -16,14 +16,15 @@ namespace NeuralAction.WPF
 {
     public class GazeEventArgs : EventArgs
     {
-        public Point Point { get; set; }
+        public Point Position { get; set; }
         public ScreenProperties ScreenProperties { get; set; }
+        public bool IsAvailable => IsFaceDetected && IsGazeDetected;
         public bool IsFaceDetected { get; set; }
         public bool IsGazeDetected { get; set; }
 
         public GazeEventArgs(Point pt, ScreenProperties screen, bool isFace, bool isGaze)
         {
-            Point = pt;
+            Position = pt;
             ScreenProperties = screen;
 
             IsFaceDetected = isFace;
@@ -33,12 +34,12 @@ namespace NeuralAction.WPF
 
     public class CursorTimes
     {
-        public Point Point { get; set; }
+        public Point Position { get; set; }
         public TimeSpan Time { get; set; }
 
         public CursorTimes(Point pt, TimeSpan t)
         {
-            Point = pt;
+            Position = pt;
             Time = t;
         }
     }
@@ -73,16 +74,8 @@ namespace NeuralAction.WPF
             }
         }
         public bool IsLoaded { get; protected set; }
-
-        bool controlAllowd = true;
-        public bool ControlAllowed
-        {
-            get => controlAllowd;
-            set
-            {
-                controlAllowd = value;
-            }
-        }
+        public bool ControlAllowed { get; set; } = false;
+        public bool ClickAllowed { get; set; } = false;
 
         private ScreenProperties screen;
         public ScreenProperties Screen
@@ -100,9 +93,9 @@ namespace NeuralAction.WPF
         public double ClickDelay { get; set; } = 300;
         public double ClickWait { get; set; } = 1;
 
-        public Point Point { get; protected set; }
-
         public InputService Parent { get; set; }
+
+        public Point Position { get; protected set; }
 
         public Screen TargetScreen => Parent == null ? System.Windows.Forms.Screen.PrimaryScreen : Parent.TargetScreen;
 
@@ -171,6 +164,7 @@ namespace NeuralAction.WPF
 
                 OnSettingChanged(Settings);
                 GazeService.GazeDetector.ClipToBound = true;
+
                 GazeService.Start(camera);
 
                 IsRunning = true;
@@ -183,21 +177,24 @@ namespace NeuralAction.WPF
         {
             ControlAllowed = tempControlAllow;
 
-            EyeGazeCalibrationLog logger = new EyeGazeCalibrationLog(e.Data);
-
-            Task.Factory.StartNew(() =>
+            if (e != null)
             {
-                using (OpenCvSharp.Mat frame = logger.Plot(screen, GazeService.GazeDetector.Calibrator))
-                {
-                    var savepath = logger.File.AbosolutePath;
-                    savepath = savepath.Replace(".clb", ".jpg");
-                    Core.Cv.ImgWrite(savepath, frame);
+                EyeGazeCalibrationLog logger = new EyeGazeCalibrationLog(e.Data);
 
-                    Core.Cv.ImgShow("calib_result", frame);
-                    var c = Core.Cv.WaitKey(0);
-                    Core.Cv.CloseAllWindows();
-                }
-            }, TaskCreationOptions.LongRunning);
+                Task.Factory.StartNew(() =>
+                {
+                    using (OpenCvSharp.Mat frame = logger.Plot(screen, GazeService.GazeDetector.Calibrator))
+                    {
+                        var savepath = logger.File.AbosolutePath;
+                        savepath = savepath.Replace(".clb", ".jpg");
+                        Core.Cv.ImgWrite(savepath, frame);
+
+                        Core.Cv.ImgShow("Press Any Key To Close", frame);
+                        var c = Core.Cv.WaitKey(0);
+                        Core.Cv.CloseAllWindows();
+                    }
+                }, TaskCreationOptions.LongRunning);
+            }
         }
 
         void GazeCalibrater_CalibrateBegin(object sender, EventArgs e)
@@ -256,7 +253,7 @@ namespace NeuralAction.WPF
 
                                             if (data.Count() > 0)
                                             {
-                                                var click = data.First().Point;
+                                                var click = data.First().Position;
 
                                                 InternalClicked(click);
                                             }
@@ -293,8 +290,8 @@ namespace NeuralAction.WPF
                 Window.Move(winClick);
                 Logger.Log("Clicked" + click.ToString());
             }
-            Window.Clicked();
-            Clicked?.Invoke(GazeService, Window.ActualPosition);
+            var pt = Window.Clicked();
+            Clicked?.Invoke(GazeService, new Point(pt.X, pt.Y));
         }
 
         void GazeService_FaceTracked(object sender, FaceRect[] e)
@@ -306,7 +303,7 @@ namespace NeuralAction.WPF
         {
             var arg = new GazeEventArgs(e, Screen, faceDetected, e != null);
 
-            if (arg.IsFaceDetected && arg.IsGazeDetected)
+            if (arg.IsAvailable)
             {
                 Window?.SetAvailable(true);
                 Window?.SetPosition(e.X, e.Y);
@@ -321,7 +318,7 @@ namespace NeuralAction.WPF
                 Window?.SetAvailable(false);
             }
 
-            Point = e;
+            Position = e;
             GazeTracked?.Invoke(this, arg);
         }
 
@@ -413,6 +410,9 @@ namespace NeuralAction.WPF
                 case nameof(Settings.AllowControl):
                     ControlAllowed = Settings.AllowControl;
                     break;
+                case nameof(Settings.AllowClick):
+                    ClickAllowed = Settings.AllowClick;
+                    break;
                 case nameof(Settings.GazeUseCalib):
                     GazeService.GazeDetector.UseCalibrator = Settings.GazeUseCalib;
                     break;
@@ -456,6 +456,7 @@ namespace NeuralAction.WPF
             Window.SpeedClamp = Settings.CursorSpeedLimit;
             Window.UseSpeedClamp = Settings.CursorUseSpeedLimit;
             ControlAllowed = Settings.AllowControl;
+            ClickAllowed = Settings.AllowClick;
             Screen = ScreenProperties.CreatePixelScreen(TargetScreen.Bounds.Width, TargetScreen.Bounds.Height, Settings.DPI);
             SetCamera(set.CameraIndex);
         }

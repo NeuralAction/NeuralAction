@@ -61,6 +61,11 @@ namespace NeuralAction.WPF
         {
             IntPtr handle = new WindowInteropHelper(e).Handle;
 
+            SetTransClick(handle);
+        }
+
+        public static void SetTransClick(IntPtr handle)
+        {
             int wl = GetWindowLong(handle, GWL.ExStyle);
             wl = wl | 0x80000 | 0x20;
             SetWindowLong(handle, GWL.ExStyle, wl);
@@ -69,7 +74,12 @@ namespace NeuralAction.WPF
         public static void NotWindowsFocus(Window w)
         {
             WindowInteropHelper helper = new WindowInteropHelper(w);
-            SetWindowLong(helper.Handle, (int)GWL.ExStyle, GetWindowLong(helper.Handle, GWL.ExStyle) | (int)WS_EX.NoActivate);
+            NotWindowsFocus(helper.Handle);
+        }
+
+        public static void NotWindowsFocus(IntPtr handle)
+        {
+            SetWindowLong(handle, (int)GWL.ExStyle, GetWindowLong(handle, GWL.ExStyle) | (int)WS_EX.NoActivate);
         }
     }
 }
