@@ -10,6 +10,7 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using NeuralAction.WPF.Magnify;
+using Vision;
 
 namespace NeuralAction.WPF
 {
@@ -17,9 +18,12 @@ namespace NeuralAction.WPF
     {
         public static MagnifyingGlass Current = new MagnifyingGlass();
 
+        public double ZoomSmooth { get; set; } = 1.25;
         public double MoveMinimum { get; set; } = 3;
         public double MoveMaximum { get; set; } = 80;
         public double MoveSmooth { get; set; } = 5;
+        public bool UseDynamicZoom { get; set; } = true;
+
         public bool IsShowed { get; set; } = false;
 
         double wpfScale = InputService.Current.Cursor.Window.WpfScale;
@@ -53,7 +57,7 @@ namespace NeuralAction.WPF
             if (moveUpdater == null)
             {
                 moveUpdater = new DispatcherTimer();
-                moveUpdater.Interval = TimeSpan.FromMilliseconds(10);
+                moveUpdater.Interval = TimeSpan.FromMilliseconds(5);
                 moveUpdater.Tick += MoveUpdater_Tick;
             }
             moveUpdater.Start();
@@ -96,17 +100,24 @@ namespace NeuralAction.WPF
             });
         }
 
-        Vision.PointSmoother pointSmoother = new Vision.PointSmoother()
+        PointSmoother pointSmoother = new PointSmoother()
         {
-            Method = Vision.PointSmoother.SmoothMethod.MeanKalman,
+            Method = PointSmoother.SmoothMethod.MeanKalman,
             QueueCount = 10,
         };
 
+        KalmanFilter kalman = new KalmanFilter();
+        MeanSmoother mean = new MeanSmoother()
+        {
+            QueueCount = 10,
+        };
         GazeEventArgs gazeArg;
         void MoveUpdater_Tick(object sender, EventArgs e)
         {
             if (gazeArg != null && gazeArg.IsAvailable)
             {
+                Mag.Magnifier.UpdateMaginifier();
+
                 var scr = gazeArg.ScreenProperties.PixelSize;
                 var x = Window.ActualLeft;
                 var y = Window.ActualTop;
@@ -117,25 +128,34 @@ namespace NeuralAction.WPF
 
                 var xPow = trackedX - x;
                 var yPow = trackedY - y;
+                var power = 1 - Drop(Math.Pow(Math.Sqrt(xPow * xPow + yPow * yPow), 2) / ZoomSmooth, 0.1);
+                if (!UseDynamicZoom)
+                    power = 1;
+                power = mean.Smooth(power);
+                power = kalman.Calculate(power);
                 xPow = Clamp(Drop(xPow * Mag.Magnifier.Width / MoveSmooth, MoveMinimum), MoveMaximum);
                 yPow = Clamp(Drop(yPow * Mag.Magnifier.Height / MoveSmooth, MoveMinimum), MoveMaximum);
 
                 var smt = pointSmoother.Smooth(new Vision.Point(Window.ActualLeft + xPow, Window.ActualTop + yPow));
-                Window.ActualLeft = smt.X;
-                Window.ActualTop = smt.Y;
 
                 if (Settings.Current.AllowControl)
                     MouseEvent.MoveAt(new System.Windows.Point(smt.X, smt.Y));
 
-                Mag.Magnifier.CenterX = (int)(Window.ActualLeft);
-                Mag.Magnifier.CenterY = (int)(Window.ActualTop);
+                Window.ActualLeft = smt.X;
+                Window.ActualTop = smt.Y;
+                Mag.Magnifier.CenterX = (int)(smt.X);
+                Mag.Magnifier.CenterY = (int)(smt.Y);
+                Mag.Magnifier.Magnification = Math.Max(1, Mag.Magnification * power);
             }
+            Mag.Magnifier.UpdateMaginifier();
         }
 
         double Drop(double value, double abs)
         {
-            if (value > -abs && value < abs)
-                value = 0;
+            if (value > 0)
+                value = Math.Max(0, value - abs);
+            else if (value < 0)
+                value = Math.Min(0, value + abs);
             return value;
         }
 
@@ -150,6 +170,8 @@ namespace NeuralAction.WPF
             MoveSmooth = set.MagnifyMoveSmooth;
             MoveMaximum = set.MagnifySpeedMax;
             MoveMinimum = set.MagnifySpeedMin;
+            ZoomSmooth = set.MagnifyZoomSmooth;
+            UseDynamicZoom = set.MagnifyUseDynZoom;
         }
 
         void Listener_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -170,6 +192,12 @@ namespace NeuralAction.WPF
                 case nameof(Settings.MagnifySpeedMin):
                     MoveMinimum = set.MagnifySpeedMin;
                     break;
+                case nameof(Settings.MagnifyZoomSmooth):
+                    ZoomSmooth = set.MagnifyZoomSmooth;
+                    break;
+                case nameof(Settings.MagnifyUseDynZoom):
+                    UseDynamicZoom = set.MagnifyUseDynZoom;
+                    break;
             }
         }
 
@@ -180,6 +208,9 @@ namespace NeuralAction.WPF
 
             Window?.Close();
             Window = null;
+
+            Settings.Listener.PropertyChanged += Listener_PropertyChanged;
+            Settings.Listener.SettingChanged += Listener_SettingChanged;
         }
     }
 }

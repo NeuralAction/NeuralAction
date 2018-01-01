@@ -59,6 +59,8 @@ namespace NeuralAction.WPF.Magnify
             this.Model = Model;
             DataContext = Model;
 
+            Owner = App.Current.MainWindow;
+
             Loaded += delegate
             {
                 WinApi.SetTransClick(this);
@@ -68,7 +70,7 @@ namespace NeuralAction.WPF.Magnify
 
         public void Click()
         {
-            if(Settings.Current.AllowControl)
+            if(Settings.Current.AllowControl && Settings.Current.AllowClick)
                 MouseEvent.Click(MouseButton.Left);
             CursorControl.Click();
         }

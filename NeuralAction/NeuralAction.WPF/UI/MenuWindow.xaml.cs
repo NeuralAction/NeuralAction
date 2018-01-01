@@ -44,10 +44,15 @@ namespace NeuralAction.WPF
 
         private void Calibration_Click(object sender, RoutedEventArgs e)
         {
-            if (!InputService.Current.Cursor.GazeService.GazeDetector.Calibrator.IsStarted)
+            var calib = InputService.Current.Cursor.GazeService.GazeDetector.Calibrator;
+            if (!calib.IsStarted)
             {
-                InputService.Current.Cursor.GazeService.GazeDetector.Calibrator.Start(InputService.Current.Cursor.GazeService.ScreenProperties);
+                calib.Start(InputService.Current.Cursor.GazeService.ScreenProperties);
                 Close();
+            }
+            else
+            {
+                calib.Stop();
             }
         }
 

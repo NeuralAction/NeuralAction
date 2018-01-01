@@ -148,10 +148,10 @@ namespace NeuralAction.WPF.Magnify
 
         public RECT(int width, int height)
         {
-            this.left = 0;
-            this.top = 0;
-            this.right = width;
-            this.bottom = height;
+            left = 0;
+            top = 0;
+            right = width;
+            bottom = height;
         }
 
         public override bool Equals(object obj)

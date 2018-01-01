@@ -185,6 +185,13 @@ namespace NeuralAction.WPF
             set { allowControl = value; OnPropertyChanged(); }
         }
 
+        bool allowClick = false;
+        public bool AllowClick
+        {
+            get => allowClick;
+            set { allowClick = value; OnPropertyChanged(); }
+        }
+
         double dpi = 96;
         public double DPI
         {
@@ -341,32 +348,46 @@ namespace NeuralAction.WPF
 
         #region Magnify
 
-        double magnifyFactor = 2;
+        double magnifyFactor = 1.5;
         public double MagnifyFactor
         {
             get => magnifyFactor;
             set { magnifyFactor = value; OnPropertyChanged(); }
         }
 
-        double magnifySpeedMin = 3;
+        double magnifySpeedMin = 5;
         public double MagnifySpeedMin
         {
             get => magnifySpeedMin;
             set { magnifySpeedMin = value; OnPropertyChanged(); }
         }
 
-        double magnifySpeedMax = 80;
+        double magnifySpeedMax = 150;
         public double MagnifySpeedMax
         {
             get => magnifySpeedMax;
             set { magnifySpeedMax = value; OnPropertyChanged(); }
         }
 
-        double magnifyMoveSmooth = 5;
+        double magnifyMoveSmooth = 3;
         public double MagnifyMoveSmooth
         {
             get => magnifyMoveSmooth;
             set { magnifyMoveSmooth = value; OnPropertyChanged(); }
+        }
+
+        double magnifyZoomSmooth = 1.25;
+        public double MagnifyZoomSmooth
+        {
+            get => magnifyZoomSmooth;
+            set { magnifyZoomSmooth = value; OnPropertyChanged(); }
+        }
+
+        bool magnifyUseDynZoom = true;
+        public bool MagnifyUseDynZoom
+        {
+            get => magnifyUseDynZoom;
+            set { magnifyUseDynZoom = value; OnPropertyChanged(); }
         }
 
         #endregion Magnify

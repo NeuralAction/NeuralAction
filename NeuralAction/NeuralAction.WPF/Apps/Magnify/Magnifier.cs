@@ -59,7 +59,7 @@ namespace NeuralAction.WPF.Magnify
                 SetupMagnifier();
 
                 timer.Interval = NativeMethods.USER_TIMER_MINIMUM;
-                timer.Enabled = true;
+                //timer.Enabled = true;
             }
             else { throw new Exception(); }
         }

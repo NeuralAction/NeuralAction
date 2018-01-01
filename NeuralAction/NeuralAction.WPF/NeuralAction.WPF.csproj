@@ -102,6 +102,7 @@
       <DependentUpon>CursorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Input\CursorService.cs" />
+    <Compile Include="Input\GlobalKeyHook.cs" />
     <Compile Include="Input\InputService.cs" />
     <Compile Include="Input\KeyControl.xaml.cs">
       <DependentUpon>KeyControl.xaml</DependentUpon>

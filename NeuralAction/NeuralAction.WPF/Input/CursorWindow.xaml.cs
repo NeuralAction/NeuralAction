@@ -144,7 +144,7 @@ namespace NeuralAction.WPF
 
         public Vision.Point Clicked()
         {
-            if (AllowControl)
+            if (AllowControl && parent.ClickAllowed)
                 MouseEvent.Click(MouseButton.Left);
             Vision.Point pt = null;
             Dispatcher.Invoke(() =>

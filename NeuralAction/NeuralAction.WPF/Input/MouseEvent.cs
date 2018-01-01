@@ -38,12 +38,41 @@ namespace NeuralAction.WPF
     public class MouseEvent
     {
         const int ABSOLUTE_SIZE = 65535;
+        public static bool AllowControl { get; private set; } = true;
         public static Size ActualDisplaySize { set; get; }
+
+        static GlobalKeyboardHook hook;
 
         static MouseEvent()
         {
             var bound = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
             ActualDisplaySize = new Size(bound.Width, bound.Height);
+
+            hook = new GlobalKeyboardHook();
+            hook.KeyboardPressed += Hook_KeyboardPressed;
+        }
+
+        ~MouseEvent()
+        {
+            hook.Dispose();
+        }
+
+        static void Hook_KeyboardPressed(object sender, GlobalKeyboardHookEventArgs e)
+        {
+            switch (e.KeyboardData.VirtualCode)
+            {
+                case (int)GlobalKeyboardHook.KeyCode.LeftControl:
+                    switch (e.KeyboardState)
+                    {
+                        case GlobalKeyboardHook.KeyboardState.KeyDown:
+                            AllowControl = false;
+                            break;
+                        case GlobalKeyboardHook.KeyboardState.KeyUp:
+                            AllowControl = true;
+                            break;
+                    }
+                    break;
+            }
         }
 
         public static void Move(Point Point)
@@ -126,7 +155,8 @@ namespace NeuralAction.WPF
 
         static void Event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo)
         {
-            WinApi.MouseEvent(dwFlags, dx, dy, dwData, dwExtraInfo);
+            if(AllowControl)
+                WinApi.MouseEvent(dwFlags, dx, dy, dwData, dwExtraInfo);
         }
     }
 }
