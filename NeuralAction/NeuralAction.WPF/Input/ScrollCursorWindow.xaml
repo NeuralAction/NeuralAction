@@ -1,0 +1,26 @@
+﻿<Window x:Class="NeuralAction.WPF.ScrollCursorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeuralAction.WPF"
+        mc:Ignorable="d"
+        Title="ScrollCursorWindow" Background="{x:Null}" WindowStyle="None" AllowsTransparency="True" Width="100" Height="1500" Topmost="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Effect>
+            <DropShadowEffect ShadowDepth="0" BlurRadius="12" Opacity="0.3"/>
+        </Grid.Effect>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Polygon Points="50,0 100,50 0,50" StrokeThickness="0" Fill="White" Stretch="Fill" Width="80"/>
+            <Rectangle Fill="#4FFF" Height="0" x:Name="Rect"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Grid.Row="1">
+            <Rectangle Fill="#4FFF" Height="0" x:Name="RectBot"/>
+            <Polygon Points="50,0 100,-50 0,-50" StrokeThickness="0" Fill="White" Stretch="Fill" Width="80"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Vision;
+using Vision.Windows;
 using Vision.Detection;
 
 namespace NeuralAction.WPF
@@ -44,16 +45,31 @@ namespace NeuralAction.WPF
         }
     }
 
+    public class CursorReleasedArgs : EventArgs
+    {
+        public Point EndPosition { get; set; }
+        public Point StartPosition { get; set; }
+        public double Duration { get; set; }
+
+        public CursorReleasedArgs(Point start, Point end, double ts)
+        {
+            EndPosition = end;
+            StartPosition = start;
+            Duration = ts;
+        }
+    }
+
     public class CursorService : IDisposable
     {
         public event EventHandler<GazeEventArgs> GazeTracked;
         public event EventHandler<System.Windows.Point> Moved;
         public event EventHandler<Point> Clicked;
+        public event EventHandler<CursorReleasedArgs> Released;
         public event EventHandler Started;
         public event EventHandler Stopped;
 
+        public MouseAction Action { get; private set; }
         public CursorWindow Window { get; protected set; }
-
         public EyeGazeService GazeService { get; protected set; }
 
         private bool _isRunning = false;
@@ -64,18 +80,12 @@ namespace NeuralAction.WPF
             {
                 _isRunning = value;
                 if (value)
-                {
                     Started?.Invoke(this, EventArgs.Empty);
-                }
                 else
-                {
                     Stopped?.Invoke(this, EventArgs.Empty);
-                }
             }
         }
         public bool IsLoaded { get; protected set; }
-        public bool ControlAllowed { get; set; } = false;
-        public bool ClickAllowed { get; set; } = false;
 
         private ScreenProperties screen;
         public ScreenProperties Screen
@@ -89,21 +99,25 @@ namespace NeuralAction.WPF
             }
         }
 
-        public bool UseClickDelay { get; set; } = false;
-        public double ClickDelay { get; set; } = 300;
-        public double ClickWait { get; set; } = 1;
-
         public InputService Parent { get; set; }
 
         public Point Position { get; protected set; }
-
         public Screen TargetScreen => Parent == null ? System.Windows.Forms.Screen.PrimaryScreen : Parent.TargetScreen;
 
-        Settings Settings => Settings.Current;
+        public bool ControlAllowed { get; set; } = false;
+        public bool ClickAllowed { get; set; } = false;
 
+        public bool UseClickDelay { get; set; } = false;
+        public double ClickDelay { get; set; } = 500;
+        public double ClickWait { get; set; } = 500;
+
+        public double OpenMenuWaitDuration { get; set; } = 500;
+
+        Settings Settings => Settings.Current;
         System.Timers.Timer clickWaiter;
-        object logLocker = new object();
         Dictionary<TimeSpan, bool> clickLog = new Dictionary<TimeSpan, bool>();
+
+        object logLocker = new object();
         object stateLocker = new object();
         bool faceDetected = false;
 
@@ -136,12 +150,15 @@ namespace NeuralAction.WPF
             GazeService.GazeTracked += GazeService_GazeTracked;
             GazeService.FaceTracked += GazeService_FaceTracked;
             GazeService.Clicked += GazeService_Clicked;
+            GazeService.Released += GazeService_Released;
             GazeService.GazeDetector.Calibrator.CalibrateBegin += GazeCalibrater_CalibrateBegin;
             GazeService.GazeDetector.Calibrator.Calibrated += GazeCalibrater_Calibrated;
 
             Window = new CursorWindow(this);
             Window.Moved += Window_Moved;
             Window.Show();
+
+            Action = new MouseAction(this);
         }
 
         private void Window_Moved(object sender, System.Windows.Point e)
@@ -215,83 +232,127 @@ namespace NeuralAction.WPF
         {
             Profiler.ReportOn = false;
 
+            if (e == null)
+                return;
+
+            lock (logLocker)
+            {
+                clickLog.Add(DateTime.Now.TimeOfDay, true);
+            }
+
             if (UseClickDelay)
             {
-                lock (logLocker)
-                    lock (Window.MoveLocker)
+                if (clickWaiter == null)
+                {
+                    clickWaiter = new System.Timers.Timer();
+                    clickWaiter.Elapsed += delegate
                     {
-                        var movelist = Window.MoveList;
-                        if (e != null && movelist != null)
+                        var now = DateTime.Now.TimeOfDay.TotalMilliseconds;
+
+                        CursorTimes[] movelist;
+                        KeyValuePair<TimeSpan, bool>[] clickLog;
+                        lock (logLocker)
                         {
-                            if (clickWaiter == null)
+                            lock (Window.MoveLocker)
                             {
-                                clickWaiter = new System.Timers.Timer();
-                                clickWaiter.Elapsed += delegate
-                                {
-                                    var now = DateTime.Now.TimeOfDay;
-
-                                    var logLimit = now.TotalMilliseconds - ClickWait;
-                                    var log = from l in clickLog
-                                              where l.Key.TotalMilliseconds > logLimit
-                                              select l;
-
-                                    if (log.Count() > 0)
-                                    {
-                                        double logScore = 0;
-                                        foreach (var l in log)
-                                            if (l.Value)
-                                                logScore++;
-                                        logScore = logScore / log.Count();
-
-                                        if (logScore > 0.6)
-                                        {
-                                            var dataLimit = now.TotalMilliseconds - ClickDelay;
-                                            var data = from pt in movelist
-                                                       where pt.Time.TotalMilliseconds > dataLimit
-                                                       orderby pt.Time.TotalMilliseconds
-                                                       select pt;
-
-                                            if (data.Count() > 0)
-                                            {
-                                                var click = data.First().Position;
-
-                                                InternalClicked(click);
-                                            }
-                                        }
-                                    }
-
-                                    Logger.Log("timer stop");
-                                    clickWaiter.Stop();
-                                };
-
-                                clickWaiter.Interval = ClickWait;
-                            }
-
-                            if (!clickWaiter.Enabled)
-                            {
-                                Logger.Log("timer start" + e.ToString());
-                                clickWaiter.Start();
+                                movelist = Window.MoveList.ToArray();
+                                clickLog = this.clickLog.ToArray();
                             }
                         }
-                    }
+
+                        var logLimit = now - ClickWait;
+                        var log = (from l in clickLog
+                                  where l.Key.TotalMilliseconds > logLimit
+                                  select l).ToArray();
+
+                        if (log.Length > 0)
+                        {
+                            double logScore = 0;
+                            foreach (var l in log)
+                                if (l.Value)
+                                    logScore++;
+                            logScore = logScore / log.Count();
+
+                            if (logScore > 0.5)
+                            {
+                                var dataLimit = now - ClickDelay;
+                                var data = (from pt in movelist
+                                            where pt.Time.TotalMilliseconds > dataLimit
+                                            orderby pt.Time.TotalMilliseconds
+                                            select pt).ToArray();
+
+                                if (data.Length > 0)
+                                {
+                                    var click = data[0].Position;
+
+                                    InternalClicked(click);
+                                }
+                            }
+                        }
+
+                        Logger.Log("timer stop");
+                        clickWaiter.Stop();
+                    };
+                    clickWaiter.Interval = ClickWait;
+                }
+
+                if (!clickWaiter.Enabled)
+                {
+                    Logger.Log("timer start" + e.ToString());
+                    clickWaiter.Start();
+                }
             }
             else
             {
-                if (e != null)
-                    InternalClicked(null);
+                InternalClicked(null);
             }
         }
+
+        long lastClickMs = long.MaxValue;
+        Point lastClickPos;
 
         void InternalClicked(Point click)
         {
             if (click != null)
-            {
-                var winClick = new System.Windows.Point(click.X, click.Y);
-                Window.Move(winClick);
-                Logger.Log("Clicked" + click.ToString());
-            }
-            var pt = Window.Clicked();
+                Window.Move(click.ToPoint());
+            var pt = Window.Clicked(false);
+
+            lastClickPos = pt;
+            lastClickMs = Logger.Stopwatch.ElapsedMilliseconds;
+
+            Logger.Log("Clicked" + pt.ToString());
+
             Clicked?.Invoke(GazeService, new Point(pt.X, pt.Y));
+        }
+
+        void GazeService_Released(object sender, Point e)
+        {
+            if (e != null)
+            {
+                lock (logLocker)
+                {
+                    clickLog.Add(DateTime.Now.TimeOfDay, false);
+                }
+
+                var clickingDuration = Logger.Stopwatch.ElapsedMilliseconds - lastClickMs;
+                Logger.Log("Clicking duration : " + clickingDuration + "ms");
+
+                if (clickingDuration > OpenMenuWaitDuration && Window.Visibility == System.Windows.Visibility.Visible)
+                {
+                    var pt = Window.Clicked(false);
+                    Logger.Log("Open menu at " + lastClickPos);
+                    Window.Dispatcher.Invoke(() =>
+                    {
+                        ShortcutMenuWindow.OpenPopup(lastClickPos.ToPoint());
+                    });
+                }
+                else
+                {
+                    var pt = Window.Clicked();
+                }
+
+                Released?.Invoke(this, new CursorReleasedArgs(lastClickPos, e.Clone(), clickingDuration));
+            }
         }
 
         void GazeService_FaceTracked(object sender, FaceRect[] e)
@@ -307,11 +368,6 @@ namespace NeuralAction.WPF
             {
                 Window?.SetAvailable(true);
                 Window?.SetPosition(e.X, e.Y);
-
-                lock (logLocker)
-                {
-                    clickLog.Add(DateTime.Now.TimeOfDay, GazeService.IsLeftClicking || GazeService.IsRightClicking);
-                }
             }
             else
             {
@@ -407,6 +463,9 @@ namespace NeuralAction.WPF
                 case nameof(Settings.CursorUseSpeedLimit):
                     Window.UseSpeedClamp = Settings.CursorUseSpeedLimit;
                     break;
+                case nameof(Settings.CursorOpenMenuWaitDuration):
+                    OpenMenuWaitDuration = Settings.CursorOpenMenuWaitDuration;
+                    break;
                 case nameof(Settings.AllowControl):
                     ControlAllowed = Settings.AllowControl;
                     break;
@@ -455,6 +514,7 @@ namespace NeuralAction.WPF
             Window.Smooth = Settings.CursorSmooth;
             Window.SpeedClamp = Settings.CursorSpeedLimit;
             Window.UseSpeedClamp = Settings.CursorUseSpeedLimit;
+            OpenMenuWaitDuration = Settings.CursorOpenMenuWaitDuration;
             ControlAllowed = Settings.AllowControl;
             ClickAllowed = Settings.AllowClick;
             Screen = ScreenProperties.CreatePixelScreen(TargetScreen.Bounds.Width, TargetScreen.Bounds.Height, Settings.DPI);

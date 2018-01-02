@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace NeuralAction.WPF.Magnify
 {
@@ -54,6 +55,8 @@ namespace NeuralAction.WPF.Magnify
 
         public MagnifyingCursor(MagnifyingGlass Model)
         {
+            Send.AddWindow(this);
+
             InitializeComponent();
 
             this.Model = Model;
@@ -68,11 +71,13 @@ namespace NeuralAction.WPF.Magnify
             };
         }
 
-        public void Click()
+        public void Click(bool click = true)
         {
-            if(Settings.Current.AllowControl && Settings.Current.AllowClick)
+            if(Settings.Current.AllowControl && Settings.Current.AllowClick && click)
                 MouseEvent.Click(MouseButton.Left);
             CursorControl.Click();
+            Topmost = false;
+            Topmost = true;
         }
     }
 }

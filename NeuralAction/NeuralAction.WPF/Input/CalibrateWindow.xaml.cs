@@ -27,6 +27,8 @@ namespace NeuralAction.WPF
         double scrScale;
         public CalibrateWindow(EyeGazeCalibrater calib)
         {
+            Send.AddWindow(this);
+
             InitializeComponent();
 
             calib.Calibarting += Calib_Calibarting;

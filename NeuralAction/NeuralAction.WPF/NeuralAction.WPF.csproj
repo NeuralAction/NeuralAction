@@ -111,6 +111,13 @@
       <DependentUpon>KeyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Apps\Magnify\MagnifyingGlass.cs" />
+    <Compile Include="Input\MouseAction.cs" />
+    <Compile Include="Input\ScrollCursorWindow.xaml.cs">
+      <DependentUpon>ScrollCursorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\ShortcutMenuWindow.xaml.cs">
+      <DependentUpon>ShortcutMenuWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\InputDebugWindow.cs" />
     <Compile Include="UI\MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
@@ -146,6 +153,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Input\KeyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\ScrollCursorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\ShortcutMenuWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

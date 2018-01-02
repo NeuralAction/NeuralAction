@@ -1,0 +1,149 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeuralAction.WPF"
+        xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 
+        x:Class="NeuralAction.WPF.ShortcutMenuWindow"
+        mc:Ignorable="d"
+        Title="ShortcutMenuWindow" x:Name="WindowThis" SizeToContent="WidthAndHeight" AllowsTransparency="True" Background="{x:Null}" WindowStyle="None" Topmost="True" ShowInTaskbar="False" UseLayoutRounding="True" SnapsToDevicePixels="True">
+    <Window.Resources>
+        <Storyboard x:Key="MenuOn">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="WindowThis">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.125" Value="1" KeySpline="0,0,0.22,1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-30"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.125" Value="0" KeySpline="0,0,0.36,1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="MenuOff">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="WindowThis">
+                <SplineDoubleKeyFrame KeyTime="0" Value="{Binding Opacity, ElementName=WindowThis}"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.200" Value="0" KeySpline="0.69,0,1,1" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.125" Value="-30" KeySpline="0.69,0,1,1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <!--Arc-->
+        <Color x:Key="ArcNormalColor">#FFF</Color>
+        <Color x:Key="ArcHoverColor">#FF36DE9B</Color>
+        <Style TargetType="{x:Type ed:Arc}">
+            <Setter Property="Fill" Value="White"/>
+            <Setter Property="Stretch" Value="None"/>
+            <Setter Property="ArcThicknessUnit" Value="Percent"/>
+            <Setter Property="ArcThickness" Value="0.8"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Duration="0:0:0.05" Storyboard.TargetProperty="Fill.Color" To="{StaticResource ArcHoverColor}" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard FillBehavior="Stop">
+                                <ColorAnimation Duration="0:0:0.08" Storyboard.TargetProperty="Fill.Color" To="{StaticResource ArcNormalColor}" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--Grid-->
+        <Color x:Key="GridNormalColor">#FFF</Color>
+        <Color x:Key="GridHoverColor">#FF36DE9B</Color>
+        <Style TargetType="Grid" x:Name="BackRect">
+            <Setter Property="Background" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Duration="0:0:0.05" Storyboard.TargetProperty="Background.Color" To="{StaticResource ArcHoverColor}" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard FillBehavior="Stop">
+                                <ColorAnimation Duration="0:0:0.08" Storyboard.TargetProperty="Background.Color" To="{StaticResource ArcNormalColor}" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--TextBlock-->
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="NanumBarunGothic Light"/>
+            <Setter Property="Foreground" Value="#FF343434"/>
+            <Setter Property="FontSize" Value="36"/>
+        </Style>
+    </Window.Resources>
+    <Grid x:Name="grid" Margin="20" Height="200" Width="1150" RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Grid.RenderTransform>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Effect>
+            <DropShadowEffect ShadowDepth="0" BlurRadius="15" Opacity="0.4"/>
+        </Grid.Effect>
+        <Grid Grid.Column="0" x:Name="Cut" MouseDown="Cut_MouseDown">
+            <Grid.CacheMode>
+                <BitmapCache SnapsToDevicePixels="True"/>
+            </Grid.CacheMode>
+            <TextBlock Text="Cut" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+        </Grid>
+        <Rectangle Width="1" Fill="#3000" Grid.Column="1"/>
+        <Grid Grid.Column="2" x:Name="Paste" MouseDown="Paste_MouseDown">
+            <Grid.CacheMode>
+                <BitmapCache SnapsToDevicePixels="True"/>
+            </Grid.CacheMode>
+            <TextBlock Text="Paste" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+        </Grid>
+        <Rectangle Width="1" Fill="#3000" Grid.Column="3"/>
+        <Grid Grid.Column="4" x:Name="Copy" MouseDown="Copy_MouseDown">
+            <Grid.CacheMode>
+                <BitmapCache SnapsToDevicePixels="True"/>
+            </Grid.CacheMode>
+            <TextBlock Text="Copy" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+        </Grid>
+        <Rectangle Width="1" Fill="#3000" Grid.Column="5"/>
+        <Grid Grid.Column="6" x:Name="Drag" MouseDown="Drag_MouseDown">
+            <Grid.CacheMode>
+                <BitmapCache SnapsToDevicePixels="True"/>
+            </Grid.CacheMode>
+            <TextBlock Text="Drag" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+        </Grid>
+        <Rectangle Width="1" Fill="#3000" Grid.Column="7"/>
+        <Grid Grid.Column="8" x:Name="Scroll" MouseDown="Scroll_MouseDown">
+            <Grid.CacheMode>
+                <BitmapCache SnapsToDevicePixels="True"/>
+            </Grid.CacheMode>
+            <TextBlock Text="Scroll" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+        </Grid>
+    </Grid>
+</Window>

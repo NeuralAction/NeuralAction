@@ -61,6 +61,8 @@ namespace NeuralAction.WPF
 
         public CursorWindow(CursorService service)
         {
+            Send.AddWindow(this);
+
             parent = service;
 
             SourceInitialized += delegate
@@ -77,8 +79,9 @@ namespace NeuralAction.WPF
 
             Loaded += delegate
             {
-                TargetPosition = new Point(ActualLeft, ActualTop);
                 WpfScale = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
+
+                TargetPosition = new Point(ActualLeft, ActualTop);
             };
 
             Closed += delegate 
@@ -142,9 +145,9 @@ namespace NeuralAction.WPF
             });
         }
 
-        public Vision.Point Clicked()
+        public Vision.Point Clicked(bool click = true)
         {
-            if (AllowControl && parent.ClickAllowed)
+            if (AllowControl && parent.ClickAllowed && click)
                 MouseEvent.Click(MouseButton.Left);
             Vision.Point pt = null;
             Dispatcher.Invoke(() =>

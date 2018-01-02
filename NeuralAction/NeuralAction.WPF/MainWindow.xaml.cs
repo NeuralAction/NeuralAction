@@ -76,6 +76,8 @@ namespace NeuralAction.WPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Send.AddWindow(this);
+
             Closed += MainWindow_Closed;
 
             Settings.Load();

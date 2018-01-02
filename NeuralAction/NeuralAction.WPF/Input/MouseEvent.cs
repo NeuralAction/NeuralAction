@@ -35,39 +35,51 @@ namespace NeuralAction.WPF
         X,
     }
 
+    /// <summary>
+    /// Struct representing a point.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    public struct POINT
+    {
+        public int X;
+        public int Y;
+
+        public static implicit operator Point(POINT point)
+        {
+            return new Point(point.X, point.Y);
+        }
+    }
+
     public class MouseEvent
     {
         const int ABSOLUTE_SIZE = 65535;
         public static bool AllowControl { get; private set; } = true;
         public static Size ActualDisplaySize { set; get; }
 
-        static GlobalKeyboardHook hook;
-
         static MouseEvent()
         {
             var bound = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
             ActualDisplaySize = new Size(bound.Width, bound.Height);
 
-            hook = new GlobalKeyboardHook();
-            hook.KeyboardPressed += Hook_KeyboardPressed;
+            GlobalKeyHook.Hook.KeyboardPressed += Hook_KeyboardPressed;
         }
 
         ~MouseEvent()
         {
-            hook.Dispose();
+            GlobalKeyHook.Hook.KeyboardPressed -= Hook_KeyboardPressed;
         }
 
-        static void Hook_KeyboardPressed(object sender, GlobalKeyboardHookEventArgs e)
+        static void Hook_KeyboardPressed(object sender, GlobalKeyHookEventArgs e)
         {
-            switch (e.KeyboardData.VirtualCode)
+            switch (e.VKeyCode)
             {
-                case (int)GlobalKeyboardHook.KeyCode.LeftControl:
+                case VKeyCode.LeftControl:
                     switch (e.KeyboardState)
                     {
-                        case GlobalKeyboardHook.KeyboardState.KeyDown:
+                        case VKeyState.KeyDown:
                             AllowControl = false;
                             break;
-                        case GlobalKeyboardHook.KeyboardState.KeyUp:
+                        case VKeyState.KeyUp:
                             AllowControl = true;
                             break;
                     }
@@ -153,9 +165,30 @@ namespace NeuralAction.WPF
             Event((int)Flag, 0, 0, 0, IntPtr.Zero);
         }
 
+        public static void Scroll(int delta)
+        {
+            Event((int)MouseEventFlag.Wheel, 0, 0, delta, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// Retrieves the cursor's position, in screen coordinates.
+        /// </summary>
+        /// <see>See MSDN documentation for further information.</see>
+        [DllImport("user32.dll")]
+        public static extern bool GetCursorPos(out POINT lpPoint);
+
+        public static Point GetCursorPosition()
+        {
+            GetCursorPos(out POINT lpPoint);
+            //bool success = User32.GetCursorPos(out lpPoint);
+            // if (!success)
+
+            return lpPoint;
+        }
+
         static void Event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo)
         {
-            if(AllowControl)
+            if (AllowControl)
                 WinApi.MouseEvent(dwFlags, dx, dy, dwData, dwExtraInfo);
         }
     }

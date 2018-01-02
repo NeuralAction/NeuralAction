@@ -84,7 +84,7 @@
                 <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
             </Grid.CacheMode>
             <Grid.Effect>
-                <DropShadowEffect ShadowDepth="7" Opacity="0.17" BlurRadius="0" Direction="270"/>
+                <DropShadowEffect ShadowDepth="0" Opacity="0.6" BlurRadius="12" Direction="270"/>
             </Grid.Effect>
             <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>

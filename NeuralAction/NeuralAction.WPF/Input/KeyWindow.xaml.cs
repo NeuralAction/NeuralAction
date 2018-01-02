@@ -25,6 +25,7 @@ namespace NeuralAction.WPF
 
         public KeyWindow(InputService service)
         {
+            Send.AddWindow(this);
             this.service = service;
 
             InitializeComponent();

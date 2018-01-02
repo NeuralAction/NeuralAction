@@ -344,6 +344,20 @@ namespace NeuralAction.WPF
             set { cursorSpeedLimit = value; OnPropertyChanged(); }
         }
 
+        double cursorOpenMenuDuration = 500;
+        public double CursorOpenMenuWaitDuration
+        {
+            get => cursorOpenMenuDuration;
+            set { cursorOpenMenuDuration = value; OnPropertyChanged(); }
+        }
+
+        double cursorMenuAliveDuration = 10000;
+        public double CursorMenuAliveDuration
+        {
+            get => cursorMenuAliveDuration;
+            set { cursorMenuAliveDuration = value; OnPropertyChanged(); }
+        }
+
         #endregion Cursor
 
         #region Magnify

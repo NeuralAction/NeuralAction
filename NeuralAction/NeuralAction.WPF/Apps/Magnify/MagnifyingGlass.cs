@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -29,7 +30,7 @@ namespace NeuralAction.WPF
         double wpfScale = InputService.Current.Cursor.Window.WpfScale;
         MagnifierForm Mag;
         MagnifyingCursor Window;
-        DispatcherTimer moveUpdater;
+        Timer moveUpdater;
 
         public MagnifyingGlass()
         {
@@ -56,15 +57,19 @@ namespace NeuralAction.WPF
 
             if (moveUpdater == null)
             {
-                moveUpdater = new DispatcherTimer();
-                moveUpdater.Interval = TimeSpan.FromMilliseconds(5);
+                moveUpdater = new Timer();
+                moveUpdater.Interval = 10;
                 moveUpdater.Tick += MoveUpdater_Tick;
             }
             moveUpdater.Start();
 
-            InputService.Current.Cursor.Window.Visibility = Visibility.Collapsed;
-            InputService.Current.Cursor.GazeTracked += Cursor_GazeTracked;
-            InputService.Current.Cursor.Clicked += Cursor_Clicked;
+            var cursor = InputService.Current.Cursor;
+            cursor.Window.Visibility = Visibility.Collapsed;
+            cursor.GazeTracked += Cursor_GazeTracked;
+            cursor.Clicked += Cursor_Clicked;
+            cursor.Released += Cursor_Released;
+
+            GlobalKeyHook.Hook.KeyboardPressed += Hook_KeyboardPressed;
 
             IsShowed = true;
         }
@@ -76,18 +81,38 @@ namespace NeuralAction.WPF
 
             moveUpdater.Stop();
 
-            InputService.Current.Cursor.Window.Visibility = Visibility.Visible;
-            InputService.Current.Cursor.GazeTracked -= Cursor_GazeTracked;
-            InputService.Current.Cursor.Clicked -= Cursor_Clicked;
+            var cursor = InputService.Current.Cursor;
+            cursor.Window.Visibility = Visibility.Visible;
+            cursor.GazeTracked -= Cursor_GazeTracked;
+            cursor.Clicked -= Cursor_Clicked;
+            cursor.Released += Cursor_Released;
+
+            GlobalKeyHook.Hook.KeyboardPressed -= Hook_KeyboardPressed;
 
             IsShowed = false;
+        }
+
+        void Cursor_Released(object sender, CursorReleasedArgs e)
+        {
+            Window.Dispatcher.Invoke(() =>
+            {
+                if(e.Duration > Settings.Current.CursorOpenMenuWaitDuration)
+                {
+                    Window.Click(false);
+                    ShortcutMenuWindow.OpenPopup(new System.Windows.Point(Window.ActualLeft, Window.ActualTop));
+                }
+                else
+                {
+                    Window.Click();
+                }
+            });
         }
 
         void Cursor_Clicked(object sender, Vision.Point e)
         {
             Window.Dispatcher.Invoke(() =>
             {
-                Window.Click();
+                Window.Click(false);
             });
         }
 
@@ -98,6 +123,17 @@ namespace NeuralAction.WPF
                 gazeArg = e;
                 Window.Available = e.IsAvailable;
             });
+        }
+
+        void Hook_KeyboardPressed(object sender, GlobalKeyHookEventArgs e)
+        {
+            if (e.VKeyCode == VKeyCode.F4)
+            {
+                if (GlobalKeyHook.IsKeyPressed(VKeyCode.LeftControl) && GlobalKeyHook.IsKeyPressed(VKeyCode.LeftAlt))
+                {
+                    Close();
+                }
+            }
         }
 
         PointSmoother pointSmoother = new PointSmoother()
