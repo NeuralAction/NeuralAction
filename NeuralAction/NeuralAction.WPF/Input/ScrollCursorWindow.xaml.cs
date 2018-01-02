@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -35,6 +36,8 @@ namespace NeuralAction.WPF
             set => Left = value / wpfScale - ActualWidth / 2;
         }
 
+        Storyboard ScrollOn;
+        Storyboard ScrollOff;
         MeanSmoother mean = new MeanSmoother() { QueueCount = 10 };
         KalmanFilter kalman = new KalmanFilter();
         DispatcherTimer timer;
@@ -57,9 +60,14 @@ namespace NeuralAction.WPF
 
             this.position = position;
             screenH = InputService.Current.TargetScreen.Bounds.Height;
+            ScrollOn = (Storyboard)FindResource("ScrollOn");
+            ScrollOff = (Storyboard)FindResource("ScrollOff");
+            ScrollOff.Completed += delegate { base.Close(); };
 
             Loaded += delegate
             {
+                ScrollOn.Begin();
+
                 ActualLeft = position.X;
                 ActualTop = position.Y;
 
@@ -76,6 +84,16 @@ namespace NeuralAction.WPF
                 MouseEvent.MoveAt(position);
         }
 
+        public new void Show()
+        {
+            base.Show();
+        }
+
+        public new void Close()
+        {
+            ScrollOff.Begin();
+        }
+
         void Timer_Tick(object sender, EventArgs e)
         {
             var pt = MouseEvent.GetCursorPosition();
@@ -85,10 +103,12 @@ namespace NeuralAction.WPF
             if(distY > 0)
             {
                 RectBot.Height = delta;
+                Rect.Height = 0;
                 delta *= -1;
             }
             else
             {
+                RectBot.Height = 0;
                 Rect.Height = delta;
             }
 
