@@ -73,6 +73,7 @@ namespace NeuralAction.WPF
         string[] koreaInputChar = new string[3];
         string wordtemp = "";
         int inputCount = 0;
+        bool temporcomplete = false;
 
         public KeyControl()
         {
@@ -482,12 +483,12 @@ namespace NeuralAction.WPF
             {
                 int counts = Autocompletes.Length;
 
-                autocomplete1.Text = counts <= 0 ? "완성된 단어가 없습니다." : Autocompletes[0].Name;
-                autocomplete2.Text = counts >= 2 ? Autocompletes[1].Name : "완성된 단어가 없습니다.";
-                autocomplete3.Text = counts >= 3 ? Autocompletes[2].Name : "완성된 단어가 없습니다.";
-                autocomplete4.Text = counts >= 4 ? Autocompletes[3].Name : "완성된 단어가 없습니다.";
-                autocomplete5.Text = counts >= 5 ? Autocompletes[4].Name : "완성된 단어가 없습니다.";
-                autocomplete6.Text = counts >= 6 ? Autocompletes[5].Name : "완성된 단어가 없습니다.";
+                autocomplete1.Text = counts <= 0 ? "" : Autocompletes[0].Name;
+                autocomplete2.Text = counts >= 2 ? Autocompletes[1].Name : "";
+                autocomplete3.Text = counts >= 3 ? Autocompletes[2].Name : "";
+                autocomplete4.Text = counts >= 4 ? Autocompletes[3].Name : "";
+                autocomplete5.Text = counts >= 5 ? Autocompletes[4].Name : "";
+                autocomplete6.Text = counts >= 6 ? Autocompletes[5].Name : "";
 
                 Gautocomplete1.Tag = counts <= 0 ? "" : Autocompletes[0].Name;
                 Gautocomplete2.Tag = counts >= 2 ? Autocompletes[1].Name : "";
@@ -498,12 +499,12 @@ namespace NeuralAction.WPF
             }
             else
             {
-                autocomplete1.Text = "완성된 단어가 없습니다.";
-                autocomplete2.Text = "완성된 단어가 없습니다.";
-                autocomplete3.Text = "완성된 단어가 없습니다.";
-                autocomplete4.Text = "완성된 단어가 없습니다.";
-                autocomplete5.Text = "완성된 단어가 없습니다.";
-                autocomplete6.Text = "완성된 단어가 없습니다.";
+                autocomplete1.Text = "";
+                autocomplete2.Text = "";
+                autocomplete3.Text = "";
+                autocomplete4.Text = "";
+                autocomplete5.Text = "";
+                autocomplete6.Text = "";
                 Gautocomplete1.Tag = "";
                 Gautocomplete2.Tag = "";
                 Gautocomplete3.Tag = "";
@@ -517,21 +518,22 @@ namespace NeuralAction.WPF
         {
             string RealSendKey = ((Grid)sender).Tag?.ToString();
 
-            if (RealSendKey != null && RealSendKey != "")
+            
+            if (wordtemp.Length <= 1)
             {
-                if (wordtemp.Length <= 1)
-                {
 
-                }
-                else
+            } else if(wordtemp.Length >= 2) {
+                System.Windows.Forms.Clipboard.SetText("{BACK}");
+                Send backspace = new Send("{BACK}", "{BACK}");
+                for(int i = 0; i < wordtemp.Length - 1; i++)
                 {
-                    RealSendKey = RealSendKey.Substring(wordtemp.Trim().Length - 1, RealSendKey.Length == 1 ? 1 : RealSendKey.Length - wordtemp.Trim().Length + 1);
+                    backspace.Work();
                 }
-
-                System.Windows.Forms.Clipboard.SetText(RealSendKey);
-                Send sendkeys = new Send(RealSendKey, RealSendKey);
-                sendkeys.Work();
             }
+
+            System.Windows.Forms.Clipboard.SetText(RealSendKey + " ");
+            Send sendkeys = new Send(RealSendKey + " ", RealSendKey + " ");
+            sendkeys.Work();
 
             wordtemp = "";
             InputingReset();
@@ -563,6 +565,8 @@ namespace NeuralAction.WPF
         {
             if (CenterText.Text != "")
             {
+                temporcomplete = true;
+
                 System.Windows.Forms.Clipboard.SetText(CenterText.Text);
 
                 Send sendkeys = new Send(CenterText.Text, CenterText.Text);
@@ -604,6 +608,7 @@ namespace NeuralAction.WPF
                     KeymapChange(GetKeymapArray(CurrentLanguage));
                     wordtemp += " ";
                     InputingReset();
+                    InputingReset(true);
                     sendkeys.Work();
                 }
             }
@@ -611,6 +616,8 @@ namespace NeuralAction.WPF
 
         void BackSpace(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            temporcomplete = false;
+
             System.Windows.Forms.Clipboard.SetText("{BACK}");
             Send sendkeys = new Send("{BACK}", "{BACK}");
             sendkeys.Work();
@@ -643,7 +650,6 @@ namespace NeuralAction.WPF
                 case Languages.Korean:
                     CurrentLanguage = Languages.English;
                     KeymapChange(GetKeymapArray(CurrentLanguage));
-                    BlankText.Text = "Spacing";
                     LauguageChangeText.Text = "Special";
                     break;
                 case Languages.English:
@@ -654,7 +660,6 @@ namespace NeuralAction.WPF
                 case Languages.Special:
                     CurrentLanguage = Languages.Korean;
                     KeymapChange(GetKeymapArray(CurrentLanguage));
-                    BlankText.Text = "띄어쓰기";
                     LauguageChangeText.Text = "English";
                     break;
                 default:
