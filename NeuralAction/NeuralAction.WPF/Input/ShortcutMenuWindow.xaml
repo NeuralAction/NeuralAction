@@ -56,38 +56,13 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <!--Grid-->
-        <Color x:Key="GridNormalColor">#FFF</Color>
-        <Color x:Key="GridHoverColor">#FF36DE9B</Color>
-        <Style TargetType="Grid" x:Name="BackRect">
-            <Setter Property="Background" Value="White"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Trigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ColorAnimation Duration="0:0:0.05" Storyboard.TargetProperty="Background.Color" To="{StaticResource ArcHoverColor}" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.EnterActions>
-                    <Trigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard FillBehavior="Stop">
-                                <ColorAnimation Duration="0:0:0.08" Storyboard.TargetProperty="Background.Color" To="{StaticResource ArcNormalColor}" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.ExitActions>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <!--TextBlock-->
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontFamily" Value="NanumBarunGothic Light"/>
             <Setter Property="Foreground" Value="#FF343434"/>
             <Setter Property="FontSize" Value="36"/>
         </Style>
     </Window.Resources>
-    <Grid x:Name="grid" Margin="20" Height="200" Width="1150" RenderTransformOrigin="0.5,0.5">
+    <Grid x:Name="grid" Margin="20" RenderTransformOrigin="0.5,0.5">
         <Grid.RenderTransform>
             <TransformGroup>
                 <ScaleTransform/>
@@ -96,54 +71,56 @@
                 <TranslateTransform/>
             </TransformGroup>
         </Grid.RenderTransform>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <Grid.Effect>
-            <DropShadowEffect ShadowDepth="0" BlurRadius="15" Opacity="0.4"/>
-        </Grid.Effect>
-        <Grid Grid.Column="0" x:Name="Cut" MouseDown="Cut_MouseDown">
+        <Grid Width="850" Height="850">
             <Grid.CacheMode>
                 <BitmapCache SnapsToDevicePixels="True"/>
             </Grid.CacheMode>
-            <TextBlock Text="Cut" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>
-        </Grid>
-        <Rectangle Width="1" Fill="#3000" Grid.Column="1"/>
-        <Grid Grid.Column="2" x:Name="Paste" MouseDown="Paste_MouseDown">
-            <Grid.CacheMode>
-                <BitmapCache SnapsToDevicePixels="True"/>
-            </Grid.CacheMode>
-            <TextBlock Text="Paste" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>
-        </Grid>
-        <Rectangle Width="1" Fill="#3000" Grid.Column="3"/>
-        <Grid Grid.Column="4" x:Name="Copy" MouseDown="Copy_MouseDown">
-            <Grid.CacheMode>
-                <BitmapCache SnapsToDevicePixels="True"/>
-            </Grid.CacheMode>
-            <TextBlock Text="Copy" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>
-        </Grid>
-        <Rectangle Width="1" Fill="#3000" Grid.Column="5"/>
-        <Grid Grid.Column="6" x:Name="Drag" MouseDown="Drag_MouseDown">
-            <Grid.CacheMode>
-                <BitmapCache SnapsToDevicePixels="True"/>
-            </Grid.CacheMode>
-            <TextBlock Text="Drag" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>
-        </Grid>
-        <Rectangle Width="1" Fill="#3000" Grid.Column="7"/>
-        <Grid Grid.Column="8" x:Name="Scroll" MouseDown="Scroll_MouseDown">
-            <Grid.CacheMode>
-                <BitmapCache SnapsToDevicePixels="True"/>
-            </Grid.CacheMode>
-            <TextBlock Text="Scroll" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+            <Grid.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="15" Opacity="0.4"/>
+            </Grid.Effect>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4.5*"/>
+                <RowDefinition Height="11*"/>
+                <RowDefinition Height="4.5*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4.5*"/>
+                <ColumnDefinition Width="11*"/>
+                <ColumnDefinition Width="4.5*"/>
+            </Grid.ColumnDefinitions>
+            <ed:Arc StartAngle="0" EndAngle="360" Stretch="None" ArcThickness="0.835" IsHitTestVisible="False" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <ed:Arc StartAngle="-90" EndAngle="90" Stretch="None" ArcThickness="0.7" MouseDown="RightClick_MouseDown"/>
+                <ed:Arc StartAngle="90" EndAngle="270" Stretch="None" ArcThickness="0.7" MouseDown="DoubleClick_MouseDown"/>
+                <Canvas HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,82,0,0" IsHitTestVisible="False">
+                    <TextBlock Text="Right Click" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
+                </Canvas>
+                <Canvas HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,82" IsHitTestVisible="False">
+                    <TextBlock Text="Double Click" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
+                </Canvas>
+            </Grid>
+            <Grid Grid.ColumnSpan="3" Grid.RowSpan="3">
+                <ed:Arc StartAngle="0" EndAngle="72" Stretch="None" ArcThickness="0.45" MouseDown="Copy_MouseDown"/>
+                <ed:Arc StartAngle="72" EndAngle="144" Stretch="None" ArcThickness="0.45" MouseDown="Paste_MouseDown"/>
+                <ed:Arc StartAngle="144" EndAngle="216" Stretch="None" ArcThickness="0.45" MouseDown="Cut_MouseDown"/>
+                <ed:Arc StartAngle="216" EndAngle="288" Stretch="None" ArcThickness="0.45" MouseDown="Drag_MouseDown"/>
+                <ed:Arc StartAngle="288" EndAngle="360" Stretch="None" ArcThickness="0.45" MouseDown="Scroll_MouseDown"/>
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="619,158,0,0" IsHitTestVisible="False">
+                    <TextBlock Text="Copy" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
+                </Canvas>
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="738,527,0,0" IsHitTestVisible="False">
+                    <TextBlock Text="Paste" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
+                </Canvas>
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="425,754,0,0" IsHitTestVisible="False">
+                    <TextBlock Text="Cut" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
+                </Canvas>
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="112,527,0,0" IsHitTestVisible="False">
+                    <TextBlock Text="Drag" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
+                </Canvas>
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="231,159,0,0" IsHitTestVisible="False">
+                    <TextBlock Text="Scroll" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
+                </Canvas>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

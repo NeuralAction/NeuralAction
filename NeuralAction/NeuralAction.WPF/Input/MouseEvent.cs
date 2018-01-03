@@ -170,18 +170,9 @@ namespace NeuralAction.WPF
             Event((int)MouseEventFlag.Wheel, 0, 0, delta, IntPtr.Zero);
         }
 
-        /// <summary>
-        /// Retrieves the cursor's position, in screen coordinates.
-        /// </summary>
-        /// <see>See MSDN documentation for further information.</see>
-        [DllImport("user32.dll")]
-        public static extern bool GetCursorPos(out POINT lpPoint);
-
         public static Point GetCursorPosition()
         {
-            GetCursorPos(out POINT lpPoint);
-            //bool success = User32.GetCursorPos(out lpPoint);
-            // if (!success)
+            WinApi.GetCursorPos(out POINT lpPoint);
 
             return lpPoint;
         }

@@ -84,7 +84,7 @@
                 <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
             </Grid.CacheMode>
             <Grid.Effect>
-                <DropShadowEffect ShadowDepth="0" Opacity="0.6" BlurRadius="12" Direction="270"/>
+                <DropShadowEffect ShadowDepth="5" Opacity="0.3" BlurRadius="12" Direction="270"/>
             </Grid.Effect>
             <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
@@ -96,7 +96,7 @@
                     </TransformGroup>
                 </Grid.RenderTransform>
                 <Ellipse x:Name="OutlineCircle" StrokeThickness="7" Stroke="White"/>
-                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="16" Width="16" VerticalAlignment="Center"/>
+                <Ellipse Fill="White" HorizontalAlignment="Center" Height="16" Width="16" VerticalAlignment="Center"/>
             </Grid>
         </Grid>
     </Grid>

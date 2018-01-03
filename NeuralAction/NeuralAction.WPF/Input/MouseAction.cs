@@ -21,6 +21,8 @@ namespace NeuralAction.WPF
             this.service = service;
         }
 
+        #region Scroll
+
         DispatcherTimer scrollTimer;
         ScrollCursorWindow scroll;
         public void ScrollStart(Point startPt)
@@ -70,6 +72,10 @@ namespace NeuralAction.WPF
                 }
             }
         }
+
+        #endregion Scroll
+
+        #region Drag
 
         DispatcherTimer dragTimer;
         double dragPreSpeedLimit;
@@ -135,5 +141,40 @@ namespace NeuralAction.WPF
                     MouseEvent.Up(MouseButton.Left);
             }
         }
+
+        #endregion Drag
+
+        #region Click
+
+        public void RightClick(Point position)
+        {
+            var move = Settings.Current.AllowControl;
+            var click = Settings.Current.AllowClick;
+            var prePt = MouseEvent.GetCursorPosition();
+            if(move)
+                MouseEvent.MoveAt(position.ToPoint());
+            if(click)
+                MouseEvent.Click(MouseButton.Right);
+            if(move)
+                MouseEvent.MoveAt(prePt);
+        }
+
+        public void DoubleClick(Point position)
+        {
+            var move = Settings.Current.AllowControl;
+            var click = Settings.Current.AllowClick;
+            var prePt = MouseEvent.GetCursorPosition();
+            if (move)
+                MouseEvent.MoveAt(position.ToPoint());
+            if (click)
+            {
+                MouseEvent.Click(MouseButton.Left);
+                MouseEvent.Click(MouseButton.Left);
+            }
+            if(move)
+                MouseEvent.MoveAt(prePt);
+        }
+
+        #endregion Click
     }
 }

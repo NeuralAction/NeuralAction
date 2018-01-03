@@ -28,9 +28,31 @@ namespace NeuralAction.WPF
                 Top = SystemParameters.WorkArea.Height - ActualHeight + 1;
                 Left = SystemParameters.WorkArea.Width - ActualWidth;
             };
+
+            Deactivated += delegate
+            {
+                Close();
+            };
         }
 
-        private void Open_Click(object sender, RoutedEventArgs e)
+        bool isClosed = false;
+        public new void Close()
+        {
+            if (!isClosed)
+            {
+                isClosed = true;
+                base.Close();
+            }
+        }
+
+        public new void Show()
+        {
+            base.Show();
+
+            Activate();
+        }
+
+        void Open_Click(object sender, RoutedEventArgs e)
         {
             if (InputService.Current.IsKeyboardShowen)
             {
@@ -43,7 +65,7 @@ namespace NeuralAction.WPF
             Close();
         }
 
-        private void Calibration_Click(object sender, RoutedEventArgs e)
+        void Calibration_Click(object sender, RoutedEventArgs e)
         {
             var calib = InputService.Current.Cursor.GazeService.GazeDetector.Calibrator;
             if (!calib.IsStarted)
@@ -57,18 +79,18 @@ namespace NeuralAction.WPF
             }
         }
 
-        private void Setting_Click(object sender, RoutedEventArgs e)
+        void Setting_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.OpenSetting();
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
+         void Exit_Click(object sender, RoutedEventArgs e)
         {
             Close();
             MainWindow.Exit();
         }
 
-        private void Bt_App_Glass_Click(object sender, RoutedEventArgs e)
+        void Bt_App_Glass_Click(object sender, RoutedEventArgs e)
         {
             if (!MagnifyingGlass.Current.IsShowed)
             {
