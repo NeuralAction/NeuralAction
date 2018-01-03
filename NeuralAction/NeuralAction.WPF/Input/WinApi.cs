@@ -52,6 +52,13 @@ namespace NeuralAction.WPF
         [DllImport("user32.dll", EntryPoint = "mouse_event", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void MouseEvent(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
 
+        /// <summary>
+        /// Retrieves the cursor's position, in screen coordinates.
+        /// </summary>
+        /// <see>See MSDN documentation for further information.</see>
+        [DllImport("user32.dll")]
+        public static extern bool GetCursorPos(out POINT lpPoint);
+
         public static int GetDpi()
         {
             return GetDpiForWindow(GetDesktopWindow());

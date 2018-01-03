@@ -107,6 +107,8 @@ namespace NeuralAction.WPF
             catch { }
 
             Settings.Save();
+
+            Close();
         }
 
         void Window_PreviewKeyDown(object sender, KeyEventArgs e)

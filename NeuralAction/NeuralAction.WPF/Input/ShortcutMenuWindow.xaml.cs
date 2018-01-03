@@ -191,5 +191,23 @@ namespace NeuralAction.WPF
                 InputService.Current.Cursor.Action.ScrollStart(position.ToPoint());
             };
         }
+
+        void DoubleClick_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Close();
+            Closed += delegate
+            {
+                InputService.Current.Cursor.Action.DoubleClick(position.ToPoint());
+            };
+        }
+
+        void RightClick_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Close();
+            Closed += delegate
+            {
+                InputService.Current.Cursor.Action.RightClick(position.ToPoint());
+            };
+        }
     }
 }
