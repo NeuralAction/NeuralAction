@@ -22,8 +22,8 @@ namespace NeuralAction.WPF.Apps.EyesExercise
 
         Stopwatch stopwatch;
 
-        double screenwidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-        double screenheight = System.Windows.SystemParameters.PrimaryScreenHeight;
+        double screenwidth = SystemParameters.PrimaryScreenWidth;
+        double screenheight = SystemParameters.PrimaryScreenHeight;
 
         public EyesExercise()
         {
@@ -38,7 +38,13 @@ namespace NeuralAction.WPF.Apps.EyesExercise
             var scr = InputService.Current.TargetScreen.Bounds;
             Window.MainTitle.Text = "wait a second...";
             Window.TimerProgress.Height = screenheight * 0.35;
+            Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+            Window.TimerProgress.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+            Window.TimerProgress.Margin = new Thickness(0, 0, 0, 0);
+            Window.EyesExerciseArrow.Visibility = Visibility.Visible;
+            Window.TimerProgress.Visibility = Visibility.Visible;
             Window.Show();
+            step = 0;
             stopwatch = new Stopwatch();
             if (moveUpdater == null)
             {
@@ -47,8 +53,6 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                 moveUpdater.Tick += MoveUpdater_Tick;
             }
             moveUpdater.Start();
-
-
             var cursor = InputService.Current.Cursor;
             cursor.Window.Visibility = Visibility.Visible;
             GlobalKeyHook.Hook.KeyboardPressed += Hook_KeyboardPressed;
@@ -58,9 +62,7 @@ namespace NeuralAction.WPF.Apps.EyesExercise
         public void Close()
         {
             GlobalKeyHook.Hook.KeyboardPressed -= Hook_KeyboardPressed;
-
             Window.Hide();
-
             moveUpdater.Stop();
             IsShowed = false;
         }
@@ -81,7 +83,19 @@ namespace NeuralAction.WPF.Apps.EyesExercise
         void MoveUpdater_Tick(object sender, EventArgs e)
         {
 
-            if (InputService.Current.Cursor.Position != null)
+            if (step == 9)
+            {
+                stopwatch.Start();
+                Window.EyesExerciseArrow.Visibility = Visibility.Hidden;
+                Window.TimerProgress.Visibility = Visibility.Hidden;
+                Window.MainTitle.Text = "Finish! It will shutdown... " + (5 - stopwatch.Elapsed.Seconds);
+                if (stopwatch.Elapsed.Seconds == 5)
+                {
+                    Close();
+                }
+            }
+
+            if (InputService.Current.Cursor.Position != null && step != 9)
             {
 
                 stopwatch.Start();
@@ -92,6 +106,7 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                 stopwatch.Reset();
                 Window.TimerProgress.Value = 0;
                 }
+
 
             if (stopwatch.Elapsed.Seconds == 10)
             {
@@ -136,7 +151,7 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                     Window.EyesExerciseArrow.RenderTransform = new RotateTransform(90, 0,0);
                     Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Top;
                     Window.TimerProgress.Margin = new Thickness(0,0,0,0);
-                    if (InputService.Current.Cursor.Position.Y <= screenheight * 0.35)
+                    if (InputService.Current.Cursor.Position.Y <= InputService.Current.Cursor.Screen.PixelSize.Height * 0.35)
                     {
                         stopwatch.Start();
                         Window.TimerProgress.Value += 2.2;
@@ -151,7 +166,7 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                     Window.EyesExerciseArrow.RenderTransform = new RotateTransform(270, 0, 0);
                     Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
                     Window.TimerProgress.Margin = new Thickness(0,screenheight - (screenheight * 0.35),0,0);
-                    if (InputService.Current.Cursor.Position.Y >= screenheight - (screenheight * 0.35))
+                    if (InputService.Current.Cursor.Position.Y >= InputService.Current.Cursor.Screen.PixelSize.Height - (InputService.Current.Cursor.Screen.PixelSize.Height * 0.35))
                     {
                         stopwatch.Start();
                         Window.TimerProgress.Value += 2.2;
@@ -173,7 +188,7 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                     Window.TimerProgress.Height = screenheight;
                     Window.TimerProgress.Orientation = System.Windows.Controls.Orientation.Vertical;
                     Window.TimerProgress.Margin = new Thickness(0, 0, 0, 0);
-                    if (InputService.Current.Cursor.Position.X <= screenwidth * 0.35)
+                    if (InputService.Current.Cursor.Position.X <= InputService.Current.Cursor.Screen.PixelSize.Width * 0.35)
                     {
                         stopwatch.Start();
                         Window.TimerProgress.Value += 2.2;
@@ -190,7 +205,7 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                     Window.EyesExerciseArrow.RenderTransform = new RotateTransform(180, 0, 0);
                     Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Top;
                     Window.TimerProgress.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
-                    if (InputService.Current.Cursor.Position.X >= screenwidth - (screenwidth * 0.35))
+                    if (InputService.Current.Cursor.Position.X >= InputService.Current.Cursor.Screen.PixelSize.Width - (InputService.Current.Cursor.Screen.PixelSize.Width * 0.35))
                     {
                         stopwatch.Start();
                         Window.TimerProgress.Value += 2.2;
@@ -208,7 +223,7 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                     Window.TimerProgress.Height = screenheight;
                     Window.TimerProgress.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                     Window.TimerProgress.Orientation = System.Windows.Controls.Orientation.Horizontal;
-                    Window.TimerProgress.Value += 1.1;
+                    Window.TimerProgress.Value += 1.5;
                     Window.EyesExerciseArrow.Opacity = 0;
                     Window.MainTitle.Text = "Close your eyes for " + (10 - stopwatch.Elapsed.Seconds);
             }
@@ -222,7 +237,7 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                     Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Top;
                     Window.TimerProgress.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
                     Window.TimerProgress.Margin = new Thickness(0, 0, 0, 0);
-                    if (InputService.Current.Cursor.Position.Y <= screenheight * 0.35)
+                    if (InputService.Current.Cursor.Position.Y <= InputService.Current.Cursor.Screen.PixelSize.Height * 0.35)
                     {
                         stopwatch.Start();
                         Window.TimerProgress.Value += 2.2;
@@ -238,7 +253,7 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                     Window.EyesExerciseArrow.RenderTransform = new RotateTransform(225, 0, 0);
                     Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
                     Window.TimerProgress.Margin = new Thickness(0, screenheight - (screenheight * 0.35), 0, 0);
-                    if (InputService.Current.Cursor.Position.Y >= screenheight - (screenheight * 0.35))
+                    if (InputService.Current.Cursor.Position.Y >= InputService.Current.Cursor.Screen.PixelSize.Height - (InputService.Current.Cursor.Screen.PixelSize.Height * 0.35))
                     {
                         stopwatch.Start();
                         Window.TimerProgress.Value += 2.2;
@@ -254,7 +269,7 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                     Window.EyesExerciseArrow.RenderTransform = new RotateTransform(135, 0, 0);
                     Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Top;
                     Window.TimerProgress.Margin = new Thickness(0, 0, 0, 0);
-                    if (InputService.Current.Cursor.Position.Y <= screenheight * 0.35)
+                    if (InputService.Current.Cursor.Position.Y <= InputService.Current.Cursor.Screen.PixelSize.Height * 0.35)
                     {
                         stopwatch.Start();
                         Window.TimerProgress.Value += 2.2;
@@ -270,7 +285,7 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                     Window.EyesExerciseArrow.RenderTransform = new RotateTransform(315, 0, 0);
                     Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
                     Window.TimerProgress.Margin = new Thickness(0, screenheight - (screenheight * 0.35), 0, 0);
-                    if (InputService.Current.Cursor.Position.Y >= screenheight - (screenheight * 0.35))
+                    if (InputService.Current.Cursor.Position.Y >= InputService.Current.Cursor.Screen.PixelSize.Height - (InputService.Current.Cursor.Screen.PixelSize.Height * 0.35))
                     {
                         stopwatch.Start();
                         Window.TimerProgress.Value += 2.2;
@@ -281,8 +296,8 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                     }
                     Window.MainTitle.Text = "Looking at left-bottom without eyes-focus for " + (5 - stopwatch.Elapsed.Seconds);
             }
-            } else
-            {
+           
+            } else if(step != 9) {
                 Window.MainTitle.Text = "Can't detect your eyes!";
                 stopwatch.Stop();
             }

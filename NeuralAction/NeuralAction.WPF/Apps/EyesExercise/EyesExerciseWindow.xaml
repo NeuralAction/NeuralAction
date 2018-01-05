@@ -10,6 +10,7 @@
         <Grid.CacheMode>
             <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
         </Grid.CacheMode>
+       
         <TextBlock x:Name="MainTitle" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" FontSize="48" Foreground="White" FontWeight="Bold">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="5" Opacity="0.3" BlurRadius="12" Direction="270"/>
@@ -25,6 +26,6 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <ProgressBar x:Name="TimerProgress" Height="300" Margin="0" VerticalAlignment="Top"  BorderBrush="{x:Null}" Foreground="#CCFFFFFF" Background="#3FEEEEEE" Value="-1"/>
+         <ProgressBar x:Name="TimerProgress" Height="0" Margin="0" VerticalAlignment="Top"  BorderBrush="{x:Null}" Foreground="#CCFFFFFF" Background="#3FFFFFFF" Value="0"/>
     </Grid>
 </Window>
