@@ -69,6 +69,8 @@ namespace NeuralAction.WPF
             cursor.Clicked += Cursor_Clicked;
             cursor.Released += Cursor_Released;
 
+            InputService.Current.KeyboardStartupOption = KeyboardStartupOption.CenterCursor;
+
             GlobalKeyHook.Hook.KeyboardPressed += Hook_KeyboardPressed;
 
             IsShowed = true;
@@ -86,6 +88,8 @@ namespace NeuralAction.WPF
             cursor.GazeTracked -= Cursor_GazeTracked;
             cursor.Clicked -= Cursor_Clicked;
             cursor.Released += Cursor_Released;
+
+            InputService.Current.KeyboardStartupOption = KeyboardStartupOption.FullScreen;
 
             GlobalKeyHook.Hook.KeyboardPressed -= Hook_KeyboardPressed;
 

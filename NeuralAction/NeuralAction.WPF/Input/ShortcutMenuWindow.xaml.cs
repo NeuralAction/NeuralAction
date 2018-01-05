@@ -209,5 +209,20 @@ namespace NeuralAction.WPF
                 InputService.Current.Cursor.Action.RightClick(position.ToPoint());
             };
         }
+
+        void Keyboard_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Close();
+            Closed += delegate
+            {
+                if(Settings.Current.AllowControl)
+                    MouseEvent.MoveAt(position);
+
+                if (InputService.Current.IsKeyboardShowen)
+                    InputService.Current.CloseKeyboard();
+
+                InputService.Current.ShowKeyboard();
+            };
+        }
     }
 }

@@ -99,6 +99,8 @@
     </Compile>
     <Compile Include="Apps\Magnify\NativeMethods.cs" />
     <Compile Include="Apps\Magnify\NativeStructures.cs" />
+    <Compile Include="Input\ApiClient.cs" />
+    <Compile Include="Input\ApiServer.cs" />
     <Compile Include="Input\CalibrateWindow.xaml.cs">
       <DependentUpon>CalibrateWindow.xaml</DependentUpon>
     </Compile>

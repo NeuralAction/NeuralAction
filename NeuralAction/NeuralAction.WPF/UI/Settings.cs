@@ -266,6 +266,13 @@ namespace NeuralAction.WPF
             set { gazeSmoothCount = value; OnPropertyChanged(); }
         }
 
+        bool gazeUseModification = false;
+        public bool GazeUseModification
+        {
+            get => gazeUseModification;
+            set { gazeUseModification = value; OnPropertyChanged(); }
+        }
+
         double gazeOffsetX = EyeGazeDetector.DefaultOffsetX;
         public double GazeOffsetX
         {

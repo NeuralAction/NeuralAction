@@ -40,11 +40,10 @@
                 <Button x:Name="Bt_App_Glass" Click="Bt_App_Glass_Click"/>
                 <StackPanel VerticalAlignment="Center" Margin="35,0" IsHitTestVisible="False">
                     <TextBlock Text="Magnifying Glass" FontSize="16"/>
-                    <TextBlock Text="저시력자를 위한 돋보기 도구입니다." Margin="0,5,0,0"/>
+                    <TextBlock Text="Magnifier for zooming (short sightedness)" Margin="0,5,0,0"/>
                 </StackPanel>
-                
             </Grid>
-
+            <Rectangle Fill="#663F3F3F" Height="1" IsHitTestVisible="False"/>
             <Grid Height="90">
                 <Grid.CacheMode>
                     <BitmapCache/>
@@ -52,11 +51,9 @@
                 <Button x:Name="Bt_App_Exercise" Click="Bt_App_Exercise_Click"/>
                 <StackPanel VerticalAlignment="Center" Margin="35,0" IsHitTestVisible="False">
                     <TextBlock Text="Eyes Exercise" FontSize="16"/>
-                    <TextBlock Text="눈 건강과 피로를 줄이기 위한 스트레칭 도구입니다." Margin="0,5,0,0"/>
+                    <TextBlock Text="A tool to reduce eye strain" Margin="0,5,0,0"/>
                 </StackPanel>
-
             </Grid>
-            
         </StackPanel>
         <Button Content="Open" x:Name="Open" Height="50" Click="Open_Click">
             <Button.CacheMode>
