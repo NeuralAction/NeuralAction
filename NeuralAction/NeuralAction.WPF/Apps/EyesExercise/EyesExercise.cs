@@ -208,30 +208,78 @@ namespace NeuralAction.WPF.Apps.EyesExercise
                     Window.TimerProgress.Height = screenheight;
                     Window.TimerProgress.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                     Window.TimerProgress.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                    Window.TimerProgress.Value += 1.1;
                     Window.EyesExerciseArrow.Opacity = 0;
                     Window.MainTitle.Text = "Close your eyes for " + (10 - stopwatch.Elapsed.Seconds);
             }
 
             if (step == 5)
             {
-                Window.EyesExerciseArrow.Opacity = 1;
-                Window.EyesExerciseArrow.RenderTransform = new RotateTransform(45, 0, 0);
-                Window.MainTitle.Text = "Looking at left-top without eyes-focus for " + (5 - stopwatch.Elapsed.Seconds);
+
+                    Window.EyesExerciseArrow.Opacity = 1;
+                    Window.EyesExerciseArrow.RenderTransform = new RotateTransform(45, 0, 0);
+                    Window.TimerProgress.Height = screenheight * 0.35;
+                    Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                    Window.TimerProgress.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+                    Window.TimerProgress.Margin = new Thickness(0, 0, 0, 0);
+                    if (InputService.Current.Cursor.Position.Y <= screenheight * 0.35)
+                    {
+                        stopwatch.Start();
+                        Window.TimerProgress.Value += 2.2;
+                    }
+                    else
+                    {
+                        stopwatch.Stop();
+                    }
+                    Window.MainTitle.Text = "Looking at left-top without eyes-focus for " + (5 - stopwatch.Elapsed.Seconds);
             }
             if (step == 6)
             {
-                Window.EyesExerciseArrow.RenderTransform = new RotateTransform(225, 0, 0);
-                Window.MainTitle.Text = "Looking at right-bottom without eyes-focus for " + (5 - stopwatch.Elapsed.Seconds);
+                    Window.EyesExerciseArrow.RenderTransform = new RotateTransform(225, 0, 0);
+                    Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+                    Window.TimerProgress.Margin = new Thickness(0, screenheight - (screenheight * 0.35), 0, 0);
+                    if (InputService.Current.Cursor.Position.Y >= screenheight - (screenheight * 0.35))
+                    {
+                        stopwatch.Start();
+                        Window.TimerProgress.Value += 2.2;
+                    }
+                    else
+                    {
+                        stopwatch.Stop();
+                    }
+                    Window.MainTitle.Text = "Looking at right-bottom without eyes-focus for " + (5 - stopwatch.Elapsed.Seconds);
             }
             if (step == 7)
             {
-                Window.EyesExerciseArrow.RenderTransform = new RotateTransform(135, 0, 0);
-                Window.MainTitle.Text = "Looking at right-top without eyes-focus for " + (5 - stopwatch.Elapsed.Seconds);
+                    Window.EyesExerciseArrow.RenderTransform = new RotateTransform(135, 0, 0);
+                    Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                    Window.TimerProgress.Margin = new Thickness(0, 0, 0, 0);
+                    if (InputService.Current.Cursor.Position.Y <= screenheight * 0.35)
+                    {
+                        stopwatch.Start();
+                        Window.TimerProgress.Value += 2.2;
+                    }
+                    else
+                    {
+                        stopwatch.Stop();
+                    }
+                    Window.MainTitle.Text = "Looking at right-top without eyes-focus for " + (5 - stopwatch.Elapsed.Seconds);
             }
             if (step == 8)
             {
-                Window.EyesExerciseArrow.RenderTransform = new RotateTransform(315, 0, 0);
-                Window.MainTitle.Text = "Looking at left-bottom without eyes-focus for " + (5 - stopwatch.Elapsed.Seconds);
+                    Window.EyesExerciseArrow.RenderTransform = new RotateTransform(315, 0, 0);
+                    Window.TimerProgress.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+                    Window.TimerProgress.Margin = new Thickness(0, screenheight - (screenheight * 0.35), 0, 0);
+                    if (InputService.Current.Cursor.Position.Y >= screenheight - (screenheight * 0.35))
+                    {
+                        stopwatch.Start();
+                        Window.TimerProgress.Value += 2.2;
+                    }
+                    else
+                    {
+                        stopwatch.Stop();
+                    }
+                    Window.MainTitle.Text = "Looking at left-bottom without eyes-focus for " + (5 - stopwatch.Elapsed.Seconds);
             }
             } else
             {
