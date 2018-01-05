@@ -478,7 +478,12 @@ namespace NeuralAction.WPF
                 wordtemp = CenterText.Text;
             }
 
-            var Autocompletes = AutocompleteWord.Correcting(wordtemp.Replace(" ", ""));
+            WordSuggestions[] Autocompletes = null;
+
+            if (CurrentLanguage != Languages.Special)
+            {
+                 Autocompletes = AutocompleteWord.Correcting(wordtemp.Replace(" ", ""));
+            }
             if (Autocompletes != null)
             {
                 int counts = Autocompletes.Length;
