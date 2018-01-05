@@ -1,0 +1,30 @@
+﻿<Window x:Class="NeuralAction.WPF.Apps.EyesExercise.EyesExerciseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeuralAction.WPF.Apps.EyesExercise"
+        mc:Ignorable="d"
+        Title="NeuralAction"  Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Topmost="True" Cursor="None" ShowInTaskbar="False" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico" WindowState="Maximized">
+    <Grid x:Name="Grid_Background">
+        <Grid.CacheMode>
+            <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
+        </Grid.CacheMode>
+        <TextBlock x:Name="MainTitle" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" FontSize="48" Foreground="White" FontWeight="Bold">
+            <TextBlock.Effect>
+                <DropShadowEffect ShadowDepth="5" Opacity="0.3" BlurRadius="12" Direction="270"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <Image x:Name="EyesExerciseArrow" Source="/NeuralAction.WPF;component/Apps/Resource/EyesExerciseArrow.png" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" >
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <ProgressBar x:Name="TimerProgress" Height="300" Margin="0" VerticalAlignment="Top"  BorderBrush="{x:Null}" Foreground="#CCFFFFFF" Background="#3FEEEEEE" Value="-1"/>
+    </Grid>
+</Window>

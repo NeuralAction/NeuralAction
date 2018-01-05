@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeuralAction.WPF.Apps.EyesExercise;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -99,6 +100,19 @@ namespace NeuralAction.WPF
             else
             {
                 MagnifyingGlass.Current.Close();
+            }
+        }
+
+        private void Bt_App_Exercise_Click(object sender, RoutedEventArgs e)
+        {
+            if (!EyesExercise.Current.IsShowed)
+            {
+                EyesExercise.Current.Show();
+                Close();
+            }
+            else
+            {
+                EyesExercise.Current.Close();
             }
         }
     }
