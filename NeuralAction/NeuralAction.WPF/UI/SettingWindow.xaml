@@ -189,6 +189,37 @@
                     <TextBlock Text="Gaze Smooth Count" VerticalAlignment="Center"/>
                     <TextBox Text="{Binding GazeSmoothCount}" Width="50" HorizontalAlignment="Right" Height="20" VerticalAlignment="Center"/>
                 </Grid>
+                <Grid Height="32">
+                    <Grid.CacheMode>
+                        <BitmapCache SnapsToDevicePixels="True"/>
+                    </Grid.CacheMode>
+                    <TextBlock Text="Gaze Use Modfication" VerticalAlignment="Center"/>
+                    <CheckBox IsChecked="{Binding GazeUseModification}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                </Grid>
+                <Grid Height="32">
+                    <Grid.CacheMode>
+                        <BitmapCache SnapsToDevicePixels="True"/>
+                    </Grid.CacheMode>
+                    <TextBlock Text="Gaze Mod. Offset" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock Text="X: " Margin="0,4,0,0" IsHitTestVisible="False"/>
+                        <TextBox Text="{Binding GazeOffsetX}" Width="50" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="Y: " Margin="5,4,0,0" IsHitTestVisible="False"/>
+                        <TextBox Text="{Binding GazeOffsetY}" Width="50" Height="20" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Height="32">
+                    <Grid.CacheMode>
+                        <BitmapCache SnapsToDevicePixels="True"/>
+                    </Grid.CacheMode>
+                    <TextBlock Text="Gaze Mod. Sensitive" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock Text="X: " Margin="0,4,0,0" IsHitTestVisible="False"/>
+                        <TextBox Text="{Binding GazeSensitiveX}" Width="50" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="Y: " Margin="5,4,0,0" IsHitTestVisible="False"/>
+                        <TextBox Text="{Binding GazeSensitiveY}" Width="50" Height="20" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
                 <Label Content="Eye Open Detecting" Style="{StaticResource Header}"/>
                 <Grid Height="32">
                     <Grid.CacheMode>

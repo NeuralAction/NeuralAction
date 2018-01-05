@@ -262,8 +262,8 @@ namespace NeuralAction.WPF
 
                         var logLimit = now - ClickWait;
                         var log = (from l in clickLog
-                                  where l.Key.TotalMilliseconds > logLimit
-                                  select l).ToArray();
+                                   where l.Key.TotalMilliseconds > logLimit
+                                   select l).ToArray();
 
                         if (log.Length > 0)
                         {
@@ -442,6 +442,9 @@ namespace NeuralAction.WPF
                 case nameof(Settings.OpenEyeTarget):
                     GazeService.ClickTraget = Settings.OpenEyeTarget;
                     break;
+                case nameof(Settings.GazeUseModification):
+                    GazeService.GazeDetector.UseModification = Settings.GazeUseModification;
+                    break;
                 case nameof(Settings.GazeOffsetX):
                     GazeService.GazeDetector.OffsetX = Settings.GazeOffsetX;
                     break;
@@ -507,6 +510,7 @@ namespace NeuralAction.WPF
             GazeService.OpenDetector.DetectMode = Settings.OpenMode;
             GazeService.SmoothOpen = set.OpenSmooth;
             GazeService.ClickTraget = set.OpenEyeTarget;
+            GazeService.GazeDetector.UseModification = Settings.GazeUseModification;
             GazeService.GazeDetector.OffsetX = set.GazeOffsetX;
             GazeService.GazeDetector.OffsetY = set.GazeOffsetY;
             GazeService.GazeDetector.SensitiveX = set.GazeSensitiveX;
