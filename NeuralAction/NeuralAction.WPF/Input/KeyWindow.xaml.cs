@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Vision;
 
 namespace NeuralAction.WPF
 {
@@ -39,6 +40,38 @@ namespace NeuralAction.WPF
         }
 
         public void UpdateScreen()
+        {
+            switch (service.KeyboardStartupOption)
+            {
+                case KeyboardStartupOption.FullScreen:
+                    FullScreen();
+                    break;
+                case KeyboardStartupOption.CenterCursor:
+                    CenterCursor();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        void CenterCursor()
+        {
+            var pt = MouseEvent.GetCursorPosition();
+            var wpfScale = InputService.Current.Cursor.Window.WpfScale;
+            var scr = service.TargetScreen.WorkingArea;
+            pt.X /= wpfScale;
+            pt.Y /= wpfScale;
+            var w = scr.Width * service.KeyboardSize / wpfScale;
+            var h = scr.Height * service.KeyboardSize / wpfScale;
+            Width = w;
+            Height = h;
+            Top = pt.Y - h / 2;
+            Left = pt.X - w / 2;
+            Top = Math.Max(scr.Top / wpfScale, Math.Min(Top, (scr.Top + scr.Height) / wpfScale - h));
+            Left = Math.Max(scr.Left / wpfScale, Math.Min(Left, (scr.Left + scr.Width) / wpfScale - w));
+        }
+
+        void FullScreen()
         {
             var scale = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
             var scr = service.TargetScreen.WorkingArea;

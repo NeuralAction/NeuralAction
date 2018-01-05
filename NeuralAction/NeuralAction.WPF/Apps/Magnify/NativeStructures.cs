@@ -593,5 +593,4 @@ namespace NeuralAction.WPF.Magnify
         WM_ACTIVATEAPP = 0x001C,
         WM_KILLFOCUS = 8
     }
-
 }

@@ -9,6 +9,12 @@ using Screen = System.Windows.Forms.Screen;
 
 namespace NeuralAction.WPF
 {
+    public enum KeyboardStartupOption
+    {
+        FullScreen,
+        CenterCursor,
+    }
+
     public class InputService : IDisposable
     {
         public static InputService Current { get; set; }
@@ -17,9 +23,6 @@ namespace NeuralAction.WPF
             if (Current == null)
                 Current = new InputService();
         }
-
-        public CursorService Cursor { get; set; }
-        public KeyWindow KeyWindow { get; set; }
 
         private Window owner;
         public Window Owner
@@ -48,10 +51,19 @@ namespace NeuralAction.WPF
             }
         }
 
+        public ApiServer Server { get; set; }
+
+        public CursorService Cursor { get; set; }
+        public KeyWindow KeyWindow { get; set; }
+        public KeyboardStartupOption KeyboardStartupOption { get; set; } = KeyboardStartupOption.CenterCursor;
+        public double KeyboardSize { get; set; } = 0.6;
+
         public InputService()
         {
             TargetScreen = Screen.PrimaryScreen;
             Cursor = new CursorService(this);
+            Server = new ApiServer(this);
+            Server.Start();
         }
 
         public void Start()

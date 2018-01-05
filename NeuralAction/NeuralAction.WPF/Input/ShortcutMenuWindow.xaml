@@ -100,25 +100,29 @@
                 </Canvas>
             </Grid>
             <Grid Grid.ColumnSpan="3" Grid.RowSpan="3">
-                <ed:Arc StartAngle="0" EndAngle="72" Stretch="None" ArcThickness="0.45" MouseDown="Copy_MouseDown"/>
-                <ed:Arc StartAngle="72" EndAngle="144" Stretch="None" ArcThickness="0.45" MouseDown="Paste_MouseDown"/>
-                <ed:Arc StartAngle="144" EndAngle="216" Stretch="None" ArcThickness="0.45" MouseDown="Cut_MouseDown"/>
-                <ed:Arc StartAngle="216" EndAngle="288" Stretch="None" ArcThickness="0.45" MouseDown="Drag_MouseDown"/>
-                <ed:Arc StartAngle="288" EndAngle="360" Stretch="None" ArcThickness="0.45" MouseDown="Scroll_MouseDown"/>
-                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="619,158,0,0" IsHitTestVisible="False">
+                <ed:Arc StartAngle="330" EndAngle="30" Stretch="None" ArcThickness="0.45" MouseDown="Copy_MouseDown"/>
+                <ed:Arc StartAngle="30" EndAngle="90" Stretch="None" ArcThickness="0.45" MouseDown="Paste_MouseDown"/>
+                <ed:Arc StartAngle="90" EndAngle="150" Stretch="None" ArcThickness="0.45" MouseDown="Cut_MouseDown"/>
+                <ed:Arc StartAngle="150" EndAngle="210" Stretch="None" ArcThickness="0.45" MouseDown="Drag_MouseDown"/>
+                <ed:Arc StartAngle="210" EndAngle="270" Stretch="None" ArcThickness="0.45" MouseDown="Scroll_MouseDown"/>
+                <ed:Arc StartAngle="270" EndAngle="330" Stretch="None" ArcThickness="0.45" MouseDown="Keyboard_MouseDown"/>
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="425,96,0,0" IsHitTestVisible="False">
                     <TextBlock Text="Copy" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
                 </Canvas>
-                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="738,527,0,0" IsHitTestVisible="False">
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="710,261,0,0" IsHitTestVisible="False">
                     <TextBlock Text="Paste" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
                 </Canvas>
-                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="425,754,0,0" IsHitTestVisible="False">
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="710,589,0,0" IsHitTestVisible="False">
                     <TextBlock Text="Cut" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
                 </Canvas>
-                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="112,527,0,0" IsHitTestVisible="False">
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="425,754,0,0" IsHitTestVisible="False">
                     <TextBlock Text="Drag" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
                 </Canvas>
-                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="231,159,0,0" IsHitTestVisible="False">
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="140,589,0,0" IsHitTestVisible="False">
                     <TextBlock Text="Scroll" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
+                </Canvas>
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="140,261,0,0" IsHitTestVisible="False">
+                    <TextBlock Text="Keyboard" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-1000"/>
                 </Canvas>
             </Grid>
         </Grid>
