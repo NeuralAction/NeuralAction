@@ -1,4 +1,4 @@
-﻿<Window x:Class="NeuralAction.WPF.MenuWindow"
+﻿<Window x:Name="window" x:Class="NeuralAction.WPF.MenuWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,15 +11,64 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="DarkStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Key="MenuOn">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="window">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.042" Value="420"/>
+                    <SplineDoubleKeyFrame KeyTime="0:0:0.375" Value="0" KeySpline="0,0,0.2,1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="window">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.042" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="window">
+                    <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                    <DiscreteBooleanKeyFrame KeyTime="0:0:0.417" Value="True"/>
+                </BooleanAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="MenuOff">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="window">
+                    <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="420">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="window">
+                    <SplineDoubleKeyFrame KeyTime="0:0:0.125" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="window">
+                    <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                    <DiscreteBooleanKeyFrame KeyTime="0:0:0.333" Value="False"/>
+                </BooleanAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource MenuOn}"/>
+        </EventTrigger>
+    </Window.Triggers>
     <Window.CacheMode>
         <BitmapCache/>
     </Window.CacheMode>
-    <StackPanel Background="#E5171717" Margin="25,25,0,0" UseLayoutRounding="True" SnapsToDevicePixels="True">
+    <Window.RenderTransform>
+        <TransformGroup>
+            <ScaleTransform/>
+            <SkewTransform/>
+            <RotateTransform/>
+            <TranslateTransform/>
+        </TransformGroup>
+    </Window.RenderTransform>
+    <StackPanel x:Name="stackPanel" Background="#E5171717" Margin="25,25,0,0" UseLayoutRounding="True" SnapsToDevicePixels="True">
         <StackPanel.Effect>
             <DropShadowEffect Opacity="0.4" ShadowDepth="0" BlurRadius="12"/>
         </StackPanel.Effect>
+        <StackPanel.CacheMode>
+            <BitmapCache SnapsToDevicePixels="True"/>
+        </StackPanel.CacheMode>
         <Grid Margin="25,20" UseLayoutRounding="True" SnapsToDevicePixels="True" IsHitTestVisible="False">
             <Grid.CacheMode>
                 <BitmapCache SnapsToDevicePixels="True"/>

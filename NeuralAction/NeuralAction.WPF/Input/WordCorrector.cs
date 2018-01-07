@@ -60,7 +60,7 @@ namespace Predict
         public int Index { get; set; }
     }
 
-    public class WordCorrecter
+    public class WordCorrecter : IDisposable
     {
         public int TopCount { get; set; } = 6;
 
@@ -258,6 +258,21 @@ namespace Predict
                 }
             }
             return check;
+        }
+
+        public void Dispose()
+        {
+            sentence?.Dispose();
+            resultSentence?.Dispose();
+            dc1?.Dispose();
+            dc2?.Dispose();
+            dc3?.Dispose();
+
+            sentence = null;
+            resultSentence = null;
+            dc1 = null;
+            dc2 = null;
+            dc3 = null;
         }
     }
 }

@@ -11,13 +11,18 @@
     <Window.Resources>
         <Storyboard x:Key="MenuOn">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="WindowThis">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.125" Value="1" KeySpline="0,0,0.22,1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.042" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.167" Value="1" KeySpline="0,0,0.22,1"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="-30"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.125" Value="0" KeySpline="0,0,0.36,1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.042" Value="-30"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.209" Value="0" KeySpline="0,0,0.36,1"/>
             </DoubleAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="WindowThis">
+                <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                <DiscreteBooleanKeyFrame KeyTime="0:0:0.25" Value="True"/>
+            </BooleanAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="MenuOff">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="WindowThis">
@@ -28,6 +33,10 @@
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <SplineDoubleKeyFrame KeyTime="0:0:0.125" Value="-30" KeySpline="0.69,0,1,1"/>
             </DoubleAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="WindowThis">
+                <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                <DiscreteBooleanKeyFrame KeyTime="0:0:0.2" Value="False"/>
+            </BooleanAnimationUsingKeyFrames>
         </Storyboard>
         <!--Arc-->
         <Color x:Key="ArcNormalColor">#FFF</Color>

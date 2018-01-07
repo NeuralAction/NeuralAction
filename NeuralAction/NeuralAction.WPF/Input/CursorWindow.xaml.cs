@@ -8,6 +8,10 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Collections.Generic;
 using System.Windows.Media;
+using System.Windows.Interop;
+
+using Native = NeuralAction.WPF.Magnify.NativeMethods;
+using SetWindowPosFlags = NeuralAction.WPF.Magnify.SetWindowPosFlags;
 
 namespace NeuralAction.WPF
 {
@@ -26,12 +30,10 @@ namespace NeuralAction.WPF
         public double ActualLeft
         {
             get => Left * WpfScale - parent.TargetScreen.Bounds.Left;
-            set { Left = (value + parent.TargetScreen.Bounds.Left) / WpfScale; }
         }
         public double ActualTop
         {
             get => Top * WpfScale - parent.TargetScreen.Bounds.Top;
-            set { Top = (value + parent.TargetScreen.Bounds.Top) / WpfScale; }
         }
         public Vision.Point ActualPosition => new Vision.Point(ActualLeft + ActualWidth / 2 * WpfScale, ActualTop + ActualHeight / 2 * WpfScale);
 
@@ -59,6 +61,9 @@ namespace NeuralAction.WPF
         bool show = false;
         bool AllowControl => parent.ControlAllowed && Visibility == Visibility.Visible;
 
+        IntPtr hwnd;
+        double actualW, actualH;
+
         public CursorWindow(CursorService service)
         {
             Send.AddWindow(this);
@@ -79,8 +84,10 @@ namespace NeuralAction.WPF
 
             Loaded += delegate
             {
+                actualW = ActualWidth;
+                actualH = ActualHeight;
+                hwnd = new WindowInteropHelper(this).Handle;
                 WpfScale = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
-
                 TargetPosition = new Point(ActualLeft, ActualTop);
             };
 
@@ -89,6 +96,14 @@ namespace NeuralAction.WPF
                 focus.Stop();
             };
         }
+        
+        void SetActualPosition(double x, double y)
+        {
+            var scr = parent.TargetScreen.Bounds;
+            x += scr.Left;
+            y += scr.Top;
+            Native.SetWindowPos(hwnd, IntPtr.Zero, (int)x, (int)y, 0, 0, (int)SetWindowPosFlags.SWP_NOACTIVATE | (int)SetWindowPosFlags.SWP_NOSIZE);
+        }
 
         void UpdateTargetPosition()
         {
@@ -96,13 +111,12 @@ namespace NeuralAction.WPF
             {
                 if (moveTimer == null)
                 {
-                    moveTimer = new DispatcherTimer();
-                    moveTimer.Interval = TimeSpan.FromMilliseconds(30);
+                    moveTimer = new DispatcherTimer(DispatcherPriority.Render);
+                    moveTimer.Interval = TimeSpan.FromMilliseconds(20);
                     moveTimer.Tick += (sender, arg) =>
                     {
                         var clm = UseSpeedClamp ? SpeedClamp : 1000000;
-                        ActualLeft += Clamp((TargetPosition.X - ActualLeft) / 4, -clm, clm);
-                        ActualTop += Clamp((TargetPosition.Y - ActualTop) / 4, -clm, clm);
+                        SetActualPosition(ActualLeft + Clamp((TargetPosition.X - ActualLeft) / 4, -clm, clm), ActualTop + Clamp((TargetPosition.Y - ActualTop) / 4, -clm, clm));
                         InternalMove();
                     };
                 }
@@ -111,8 +125,7 @@ namespace NeuralAction.WPF
             else
             {
                 moveTimer?.Stop();
-                ActualLeft = TargetPosition.X;
-                ActualTop = TargetPosition.Y;
+                SetActualPosition(TargetPosition.X, TargetPosition.Y);
                 InternalMove();
             }
         }
@@ -160,37 +173,31 @@ namespace NeuralAction.WPF
 
         public void SetPosition(double x, double y)
         {
-            Dispatcher.Invoke(() => 
-            {
-                TargetPosition = new Point(x - ActualWidth / 2 * WpfScale, y - ActualHeight / 2 * WpfScale);
-            });
+            TargetPosition = new Point(x - actualW / 2 * WpfScale, y - actualH / 2 * WpfScale);
         }
 
         public void SetAvailable(bool value)
         {
-            Dispatcher.Invoke(() =>
+            if (show != value)
             {
-                if(show != value)
+                if (cursorAniWaiter == null)
                 {
-                    if(cursorAniWaiter == null)
+                    cursorAniWaiter = new DispatcherTimer(DispatcherPriority.Normal, Dispatcher);
+                    cursorAniWaiter.Interval = TimeSpan.FromMilliseconds(100);
+                    cursorAniWaiter.Tick += delegate
                     {
-                        cursorAniWaiter = new DispatcherTimer();
-                        cursorAniWaiter.Interval = TimeSpan.FromMilliseconds(100);
-                        cursorAniWaiter.Tick += delegate
-                        {
-                            if (show)
-                                CursorControl.Show();
-                            else
-                                CursorControl.Hide();
+                        if (show)
+                            CursorControl.Show();
+                        else
+                            CursorControl.Hide();
 
-                            cursorAniWaiter.Stop();
-                        };
-                    }
-                    cursorAniWaiter.Start();
+                        cursorAniWaiter.Stop();
+                    };
                 }
+                cursorAniWaiter.Start();
+            }
 
-                show = value;
-            });
+            show = value;
         }
 
         double Clamp(double value, double min, double max)

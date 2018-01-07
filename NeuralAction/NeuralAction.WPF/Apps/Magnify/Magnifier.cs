@@ -37,29 +37,23 @@ namespace NeuralAction.WPF.Magnify
         public int CenterY { get; set; } = 100;
 
         Form Form;
+        IntPtr hwndForm;
         IntPtr hwndMag;
         RECT magWindowRect = new RECT();
-        Timer timer;
 
         bool initialized;
 
         public Magnifier(Form form)
         {
             Form = form;
+            hwndForm = Form.Handle;
 
             Form.Resize += FormResize;
-            Form.FormClosing += FormClosing;
-
-            timer = new Timer();
-            timer.Tick += TimerTick;
-
+            
             initialized = NativeMethods.MagInitialize();
             if (initialized)
             {
                 SetupMagnifier();
-
-                timer.Interval = NativeMethods.USER_TIMER_MINIMUM;
-                //timer.Enabled = true;
             }
             else { throw new Exception(); }
         }
@@ -98,23 +92,11 @@ namespace NeuralAction.WPF.Magnify
             }
             sourceRect.bottom = sourceRect.top + height;
 
-            if (this.Form == null)
-            {
-                timer.Enabled = false;
-                return;
-            }
-
-            if (this.Form.IsDisposed)
-            {
-                timer.Enabled = false;
-                return;
-            }
-
             // Set the source rectangle for the magnifier control.
             NativeMethods.MagSetWindowSource(hwndMag, sourceRect);
 
             // Reclaim topmost status, to prevent unmagnified menus from remaining in view. 
-            NativeMethods.SetWindowPos(Form.Handle, NativeMethods.HWND_TOPMOST, 0, 0, 0, 0,
+            NativeMethods.SetWindowPos(hwndForm, NativeMethods.HWND_TOPMOST, 0, 0, 0, 0,
                 (int)SetWindowPosFlags.SWP_NOACTIVATE | (int)SetWindowPosFlags.SWP_NOMOVE | (int)SetWindowPosFlags.SWP_NOSIZE);
 
             // Force redraw.
@@ -170,11 +152,6 @@ namespace NeuralAction.WPF.Magnify
                 NativeMethods.SetWindowPos(hwndMag, IntPtr.Zero, magWindowRect.left, magWindowRect.top, magWindowRect.right, magWindowRect.bottom, 0);
             }
         }
-
-        void FormClosing(object sender, FormClosingEventArgs e)
-        {
-            timer.Enabled = false;
-        }
         
         #region IDisposable Members
 
@@ -186,10 +163,6 @@ namespace NeuralAction.WPF.Magnify
 
         void Dispose(bool disposing)
         {
-            timer.Enabled = false;
-            if (disposing)
-                timer.Dispose();
-            timer = null;
             Form.Resize -= FormResize;
             RemoveMagnifier();
         }

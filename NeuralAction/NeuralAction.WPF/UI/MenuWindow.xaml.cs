@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -17,6 +18,9 @@ namespace NeuralAction.WPF
 {
     public partial class MenuWindow : Window
     {
+        Storyboard MenuOn;
+        Storyboard MenuOff;
+
         public MenuWindow()
         {
             InitializeComponent();
@@ -27,28 +31,34 @@ namespace NeuralAction.WPF
             {
                 Top = SystemParameters.WorkArea.Height - ActualHeight + 1;
                 Left = SystemParameters.WorkArea.Width - ActualWidth;
+                MenuOn.Begin();
             };
 
             Deactivated += delegate
             {
                 Close();
             };
+
+            MenuOn = (Storyboard)FindResource("MenuOn");
+            MenuOff = (Storyboard)FindResource("MenuOff");
+            MenuOff.Completed += delegate
+            {
+                base.Close();
+            };
         }
 
         bool isClosed = false;
         public new void Close()
         {
-            if (!isClosed)
-            {
-                isClosed = true;
-                base.Close();
-            }
+            if (isClosed)
+                return;
+            isClosed = true;
+            MenuOff.Begin();
         }
 
         public new void Show()
         {
             base.Show();
-
             Activate();
         }
 

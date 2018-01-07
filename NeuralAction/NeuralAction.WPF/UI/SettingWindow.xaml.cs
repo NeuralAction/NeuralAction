@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Vision;
@@ -21,6 +22,8 @@ namespace NeuralAction.WPF
     /// </summary>
     public partial class SettingWindow : Window
     {
+        Storyboard MenuOn;
+        Storyboard MenuOff;
         public SettingWindow()
         {
             InitializeComponent();
@@ -28,6 +31,8 @@ namespace NeuralAction.WPF
 
             Loaded += delegate
             {
+                MenuOn.Begin();
+
                 var workarea = SystemParameters.WorkArea;
 
                 Left = workarea.Left + workarea.Width - ActualWidth;
@@ -61,6 +66,22 @@ namespace NeuralAction.WPF
             InitComboBox<EyeOpenDetectMode>(Cbb_OpenMode);
 
             UpdateDPI();
+
+            MenuOn = (Storyboard)FindResource("MenuOn");
+            MenuOff = (Storyboard)FindResource("MenuOff");
+            MenuOff.Completed += delegate
+            {
+                base.Close();
+            };
+        }
+
+        bool isClosed = false;
+        public new void Close()
+        {
+            if (isClosed)
+                return;
+            isClosed = true;
+            MenuOff.Begin();
         }
 
         void Settings_SettingChanged(object sender, Settings e)

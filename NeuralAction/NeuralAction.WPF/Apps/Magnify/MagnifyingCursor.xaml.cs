@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -25,13 +26,11 @@ namespace NeuralAction.WPF.Magnify
         public double ActualTop
         {
             get => (Top + ActualHeight / 2) * wpfScale;
-            set => Top = value / wpfScale - ActualHeight / 2;
         }
 
         public double ActualLeft
         {
             get => (Left + ActualWidth / 2) * wpfScale;
-            set => Left = value / wpfScale - ActualWidth / 2;
         }
 
         bool available = false;
@@ -51,7 +50,9 @@ namespace NeuralAction.WPF.Magnify
             }
         }
 
+        double actualW, actualH;
         double wpfScale = InputService.Current.Cursor.Window.WpfScale;
+        IntPtr hwnd;
 
         public MagnifyingCursor(MagnifyingGlass Model)
         {
@@ -66,9 +67,26 @@ namespace NeuralAction.WPF.Magnify
 
             Loaded += delegate
             {
+                actualW = ActualWidth;
+                actualH = ActualHeight;
+                hwnd = new WindowInteropHelper(this).Handle;
                 WinApi.SetTransClick(this);
                 WinApi.NotWindowsFocus(this);
             };
+        }
+
+        public Point GetActualPosition()
+        {
+            var rect = new RECT();
+            NativeMethods.GetWindowRect((int)hwnd, ref rect);
+            return new Point(rect.left + actualW * wpfScale / 2, rect.top + actualH * wpfScale / 2);
+        }
+
+        public void SetActualPosition(double x, double y)
+        {
+            x = x - actualW * wpfScale / 2;
+            y = y - actualH * wpfScale / 2;
+            NativeMethods.SetWindowPos(hwnd, IntPtr.Zero, (int)x, (int)y, 0, 0, (int)SetWindowPosFlags.SWP_NOACTIVATE | (int)SetWindowPosFlags.SWP_NOSIZE);
         }
 
         public void Click(bool click = true)

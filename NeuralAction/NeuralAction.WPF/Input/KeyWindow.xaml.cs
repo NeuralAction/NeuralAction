@@ -40,10 +40,21 @@ namespace NeuralAction.WPF
                 MouseEvent.Hook.MouseDown += Hook_MouseDown;
             };
 
+            Keyboard.Closed += delegate
+            {
+                base.Close();
+            };
+
             Closed += delegate
             {
                 MouseEvent.Hook.MouseDown -= Hook_MouseDown;
             };
+        }
+
+        public new void Show()
+        {
+            base.Show();
+            Keyboard.Show();
         }
 
         bool closed = false;
@@ -52,7 +63,7 @@ namespace NeuralAction.WPF
             if (closed)
                 return;
             closed = true;
-            base.Close();
+            Keyboard.Close();
         }
 
         public void UpdateScreen()

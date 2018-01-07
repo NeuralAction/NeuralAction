@@ -4,12 +4,13 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Timers;
 using NeuralAction.WPF.Magnify;
 using Vision;
 
@@ -30,7 +31,7 @@ namespace NeuralAction.WPF
         double wpfScale = InputService.Current.Cursor.Window.WpfScale;
         MagnifierForm Mag;
         MagnifyingCursor Window;
-        Timer moveUpdater;
+        Thread moveUpdater;
 
         public MagnifyingGlass()
         {
@@ -58,9 +59,16 @@ namespace NeuralAction.WPF
             Mag.Magnifier.UpdateMaginifier();
             if (moveUpdater == null)
             {
-                moveUpdater = new Timer();
-                moveUpdater.Interval = 10;
-                moveUpdater.Tick += MoveUpdater_Tick;
+                moveUpdater = new Thread(() =>
+                {
+                    while (true)
+                    {
+                        MoveUpdater_Tick(null, null);
+                        Thread.Sleep(10);
+                    }
+                });
+                moveUpdater.IsBackground = true;
+                moveUpdater.Name = "MagUpdate";
             }
             moveUpdater.Start();
 
@@ -82,7 +90,8 @@ namespace NeuralAction.WPF
             Mag.Hide();
             Window.Hide();
 
-            moveUpdater.Stop();
+            moveUpdater.Abort();
+            moveUpdater = null;
 
             var cursor = InputService.Current.Cursor;
             cursor.Window.Visibility = Visibility.Visible;
@@ -157,10 +166,9 @@ namespace NeuralAction.WPF
             if (gazeArg != null && gazeArg.IsAvailable)
             {
                 var scr = gazeArg.ScreenProperties.PixelSize;
-                var x = Window.ActualLeft;
-                var y = Window.ActualTop;
-                x = (x - Mag.Magnifier.Left) / Mag.Magnifier.Width;
-                y = (y - Mag.Magnifier.Top) / Mag.Magnifier.Height;
+                var wndPos = Window.GetActualPosition();
+                var x = (wndPos.X - Mag.Magnifier.Left) / Mag.Magnifier.Width;
+                var y = (wndPos.Y - Mag.Magnifier.Top) / Mag.Magnifier.Height;
                 var trackedX = gazeArg.Position.X / scr.Width;
                 var trackedY = gazeArg.Position.Y / scr.Height;
 
@@ -176,13 +184,12 @@ namespace NeuralAction.WPF
                 xPow = Clamp(Drop(xPow * Mag.Magnifier.Width / MoveSmooth, MoveMinimum), MoveMaximum);
                 yPow = Clamp(Drop(yPow * Mag.Magnifier.Height / MoveSmooth, MoveMinimum), MoveMaximum);
 
-                var smt = pointSmoother.Smooth(new Vision.Point(Window.ActualLeft + xPow, Window.ActualTop + yPow));
+                var smt = pointSmoother.Smooth(new Vision.Point(wndPos.X + xPow, wndPos.Y + yPow));
 
                 if (Settings.Current.AllowControl)
                     MouseEvent.MoveAt(new System.Windows.Point(smt.X, smt.Y));
 
-                Window.ActualLeft = smt.X;
-                Window.ActualTop = smt.Y;
+                Window.SetActualPosition(smt.X, smt.Y);
                 Mag.Magnifier.CenterX = (int)(smt.X);
                 Mag.Magnifier.CenterY = (int)(smt.Y);
                 Mag.Magnifier.Magnification = Math.Max(1, Mag.Magnification * power);

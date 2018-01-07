@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Predict;
 using System.Windows.Markup;
+using System.Windows.Media.Animation;
 
 namespace NeuralAction.WPF
 {
@@ -49,6 +50,8 @@ namespace NeuralAction.WPF
             return $"{(char)Unicode}";
         }
 
+        public event EventHandler Closed;
+
         public Languages CurrentLanguage { get; set; } = Languages.Korean;
 
         WordCorrecter AutocompleteWord
@@ -70,6 +73,9 @@ namespace NeuralAction.WPF
         WordCorrecter KoreanCorrecter;
         WordCorrecter EnglishCorrecter;
 
+        Storyboard KeyOn;
+        Storyboard KeyOff;
+
         string[] koreaInputChar = new string[3];
         string wordtemp = "";
         int inputCount = 0;
@@ -81,8 +87,18 @@ namespace NeuralAction.WPF
 
             SignCache(Grid_Big);
 
-            KoreanCorrecter = new WordCorrecter(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "CorrectionKorean.xml"));
-            EnglishCorrecter = new WordCorrecter(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "CorrectionEnglish.xml"));
+            Task.Factory.StartNew(() =>
+            {
+                KoreanCorrecter = new WordCorrecter(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "CorrectionKorean.xml"));
+                EnglishCorrecter = new WordCorrecter(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "CorrectionEnglish.xml"));
+            });
+
+            KeyOn = (Storyboard)FindResource("KeyOn");
+            KeyOff = (Storyboard)FindResource("KeyOff");
+            KeyOff.Completed += delegate
+            {
+                Closed?.Invoke(this, null);
+            };
         }
 
         void SignCache(Panel element)
@@ -91,13 +107,40 @@ namespace NeuralAction.WPF
             {
                 var control = (UIElement)item;
                 if (control.CacheMode == null)
-                    control.CacheMode = new BitmapCache();
+                {
+                    control.CacheMode = new BitmapCache()
+                    {
+                        SnapsToDevicePixels = true,
+                    };
+                }
                 if (control is Panel)
                     SignCache((Panel)control);
             }
         }
 
         #region UI Events
+
+        public void Show()
+        {
+            KeyOn.Begin();
+        }
+
+        bool isClosed = false;
+        public void Close()
+        {
+            if (isClosed)
+                return;
+            isClosed = true;
+            KeyOff.Begin();
+
+            Task.Factory.StartNew(() => 
+            {
+                KoreanCorrecter?.Dispose();
+                KoreanCorrecter = null;
+                EnglishCorrecter?.Dispose();
+                EnglishCorrecter = null;
+            });
+        }
 
         void PieMouseEnter(object sender, MouseEventArgs e)
         {
@@ -480,10 +523,11 @@ namespace NeuralAction.WPF
 
             WordSuggestions[] Autocompletes = null;
 
-            if (CurrentLanguage != Languages.Special)
+            if (AutocompleteWord != null)
             {
                  Autocompletes = AutocompleteWord.Correcting(wordtemp.Replace(" ", ""));
             }
+
             if (Autocompletes != null)
             {
                 int counts = Autocompletes.Length;

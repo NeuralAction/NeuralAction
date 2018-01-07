@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
-        mc:Ignorable="d"
+        mc:Ignorable="d" x:Name="window"
         Title="Settings" SizeToContent="Height" Width="375" WindowStyle="None" ResizeMode="NoResize" Topmost="True" AllowsTransparency="True" Background="{x:Null}" ShowInTaskbar="False" PreviewKeyDown="Window_PreviewKeyDown" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
     <Window.Resources>
         <ResourceDictionary>
@@ -15,11 +15,56 @@
             <local:EyeGazeDetectModeConverter x:Key="EyeGazeDetectMode"/>
             <local:PointSmoothMethodConverter x:Key="PointSmoothMethod"/>
             <local:EyeOpenDetectModeConverter x:Key="EyeOpenDetectMode"/>
+            <Storyboard x:Key="MenuOn">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="window">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.042" Value="375"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.375" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="window">
+                    <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                    <SplineDoubleKeyFrame KeyTime="0:0:0.042" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="window">
+                    <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                    <DiscreteBooleanKeyFrame KeyTime="0:0:0.417" Value="True"/>
+                </BooleanAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="MenuOff">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="window">
+                    <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="375">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="window">
+                    <SplineDoubleKeyFrame KeyTime="0:0:0.125" Value="1"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="window">
+                    <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                    <DiscreteBooleanKeyFrame KeyTime="0:0:0.333" Value="True"/>
+                </BooleanAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </Window.Resources>
     <Window.CacheMode>
         <BitmapCache SnapsToDevicePixels="True"/>
     </Window.CacheMode>
+    <Window.RenderTransform>
+        <TransformGroup>
+            <ScaleTransform/>
+            <SkewTransform/>
+            <RotateTransform/>
+            <TranslateTransform/>
+        </TransformGroup>
+    </Window.RenderTransform>
     <Grid Background="#E5171717" Margin="25,0,0,0" UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="Grid_Background">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -31,6 +76,9 @@
         <Grid.Effect>
             <DropShadowEffect Opacity="0.4" ShadowDepth="0" BlurRadius="12"/>
         </Grid.Effect>
+        <Grid.CacheMode>
+            <BitmapCache SnapsToDevicePixels="True"/>
+        </Grid.CacheMode>
         <Grid Margin="25,20" UseLayoutRounding="True" SnapsToDevicePixels="True" IsHitTestVisible="False">
             <Grid.CacheMode>
                 <BitmapCache SnapsToDevicePixels="True"/>

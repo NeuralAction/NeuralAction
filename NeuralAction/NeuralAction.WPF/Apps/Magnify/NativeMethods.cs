@@ -104,6 +104,9 @@ namespace NeuralAction.WPF.Magnify
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetClientRect(IntPtr hWnd, [In, Out] ref RECT rect);
 
+        [DllImport("user32")]
+        public static extern int GetWindowRect(int hwnd, ref RECT lpRect);
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, int flags);

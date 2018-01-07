@@ -16,12 +16,153 @@
             <Setter Property="ArcThicknessUnit" Value="Percent"/>
             <Setter Property="ArcThickness" Value="1"/>
         </Style>
+        <Storyboard x:Key="KeyOn">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="Grid_Big">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.042" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseOut" Power="2"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="Grid_Big">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.042" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseOut" Power="2"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid1">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.084" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.292" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="grid1">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.084" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.292" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid2">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.125" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="grid2">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.125" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="grid3">
+                <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                <DiscreteBooleanKeyFrame KeyTime="0:0:0.375" Value="True"/>
+            </BooleanAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid3">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.042" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid4">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.042" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="KeyOff">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="Grid_Big">
+                <SplineDoubleKeyFrame KeyTime="0:0:0.083" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.291" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="Grid_Big">
+                <SplineDoubleKeyFrame KeyTime="0:0:0.083" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.291" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid1">
+                <SplineDoubleKeyFrame KeyTime="0:0:0.042" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="grid1">
+                <SplineDoubleKeyFrame KeyTime="0:0:0.042" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid2">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.208" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="grid2">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.208" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="grid3">
+                <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+            </BooleanAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid3">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.292" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid4">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.292" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </UserControl.Resources>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource KeyOn}"/>
+        </EventTrigger>
+    </UserControl.Triggers>
     <UserControl.CacheMode>
-        <BitmapCache/>
+        <BitmapCache SnapsToDevicePixels="True"/>
     </UserControl.CacheMode>
-    <Grid>
-        <Grid Margin="0,50">
+    <Grid x:Name="grid3" Opacity="0">
+        <Grid x:Name="grid4" Margin="0,50" RenderTransformOrigin="0.5,0.5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="20"/>
@@ -40,54 +181,67 @@
                     <Setter Property="Margin" Value="32,0"/>
                 </Style>
             </Grid.Resources>
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
             <Grid.CacheMode>
-                <BitmapCache/>
+                <BitmapCache SnapsToDevicePixels="True"/>
             </Grid.CacheMode>
             <Grid x:Name="Gautocomplete1" Background="#B2171717" MouseLeftButtonDown="InputingSentence">
                 <Grid.CacheMode>
-                    <BitmapCache/>
+                    <BitmapCache SnapsToDevicePixels="True"/>
                 </Grid.CacheMode>
                 <TextBlock x:Name="autocomplete1" IsHitTestVisible="False"/>
             </Grid>
             <Grid x:Name="Gautocomplete2" Background="#B2171717" MouseLeftButtonDown="InputingSentence" Grid.Row="2">
                 <Grid.CacheMode>
-                    <BitmapCache/>
+                    <BitmapCache SnapsToDevicePixels="True"/>
                 </Grid.CacheMode>
                 <TextBlock x:Name="autocomplete2" IsHitTestVisible="False"/>
             </Grid>
             <Grid x:Name="Gautocomplete3" Background="#B2171717" MouseLeftButtonDown="InputingSentence" Grid.Row="4">
                 <Grid.CacheMode>
-                    <BitmapCache/>
+                    <BitmapCache SnapsToDevicePixels="True"/>
                 </Grid.CacheMode>
                 <TextBlock x:Name="autocomplete3" IsHitTestVisible="False"/>
             </Grid>
-            <Grid x:Name="Gautocomplete4" Background="#B2171717" MouseLeftButtonDown="InputingSentence" Grid.Column="1">
+            <Grid x:Name="Gautocomplete4" Background="#B2171717" MouseLeftButtonDown="InputingSentence" Grid.Column="1" d:IsLocked="True">
                 <Grid.CacheMode>
-                    <BitmapCache/>
+                    <BitmapCache SnapsToDevicePixels="True"/>
                 </Grid.CacheMode>
                 <TextBlock x:Name="autocomplete4" HorizontalAlignment="Right" IsHitTestVisible="False"/>
             </Grid>
             <Grid x:Name="Gautocomplete5" Background="#B2171717" MouseLeftButtonDown="InputingSentence" Grid.Column="1" Grid.Row="2">
                 <Grid.CacheMode>
-                    <BitmapCache/>
+                    <BitmapCache SnapsToDevicePixels="True"/>
                 </Grid.CacheMode>
                 <TextBlock x:Name="autocomplete5" HorizontalAlignment="Right" IsHitTestVisible="False"/>
             </Grid>
             <Grid x:Name="Gautocomplete6" Background="#B2171717" MouseLeftButtonDown="InputingSentence" Grid.Column="1" Grid.Row="4">
                 <Grid.CacheMode>
-                    <BitmapCache/>
+                    <BitmapCache SnapsToDevicePixels="True"/>
                 </Grid.CacheMode>
                 <TextBlock x:Name="autocomplete6" HorizontalAlignment="Right" IsHitTestVisible="False"/>
             </Grid>
         </Grid>
         <Viewbox Stretch="Uniform" StretchDirection="Both" Margin="0">
-            <Viewbox.CacheMode>
-                <BitmapCache/>
-            </Viewbox.CacheMode>
-            <Grid Width="1000" Height="1000">
-                <Grid x:Name="Grid_Big">
+            <Grid x:Name="grid" Width="1000" Height="1000" RenderTransformOrigin="0.5,0.5">
+                <Grid x:Name="Grid_Big" RenderTransformOrigin="0.5,0.5">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Grid.RenderTransform>
                     <Grid.CacheMode>
-                        <BitmapCache/>
+                        <BitmapCache SnapsToDevicePixels="True"/>
                     </Grid.CacheMode>
                     <Ellipse Fill="#FF4A4A4A" IsHitTestVisible="False">
                         <Ellipse.CacheMode>
@@ -126,7 +280,15 @@
                         </Rectangle.RenderTransform>
                     </Rectangle>
                 </Grid>
-                <Grid Width="470" Height="470">
+                <Grid x:Name="grid1" Width="470" Height="470" RenderTransformOrigin="0.5,0.5">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Grid.RenderTransform>
                     <Grid.CacheMode>
                         <BitmapCache/>
                     </Grid.CacheMode>
@@ -136,7 +298,15 @@
                     <TextBlock x:Name="BlankText" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="207,-14,205,0" Text="␣" FontSize="72" IsHitTestVisible="False" Height="84"/>
                     <TextBlock x:Name="LauguageChangeText" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,36" Text="English" FontSize="36" IsHitTestVisible="False"/>
                 </Grid>
-                <Grid Width="270" Height="270">
+                <Grid x:Name="grid2" Width="270" Height="270" RenderTransformOrigin="0.5,0.5">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Grid.RenderTransform>
                     <Grid.CacheMode>
                         <BitmapCache/>
                     </Grid.CacheMode>
