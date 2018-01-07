@@ -124,6 +124,9 @@
     <Compile Include="Input\ShortcutMenuWindow.xaml.cs">
       <DependentUpon>ShortcutMenuWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\IconGadget.xaml.cs">
+      <DependentUpon>IconGadget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\InputDebugWindow.cs" />
     <Compile Include="UI\MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
@@ -190,6 +193,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UI\DarkStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\IconGadget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -288,7 +295,9 @@
   <ItemGroup>
     <Resource Include="Resources\Cali.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\icon-white.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Apps\Resource\EyesExerciseArrow.png" />
   </ItemGroup>

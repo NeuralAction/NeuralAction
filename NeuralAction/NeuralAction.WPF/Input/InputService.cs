@@ -54,8 +54,9 @@ namespace NeuralAction.WPF
         public ApiServer Server { get; set; }
 
         public CursorService Cursor { get; set; }
+        public double WpfScale => Cursor.Window.WpfScale;
         public KeyWindow KeyWindow { get; set; }
-        public KeyboardStartupOption KeyboardStartupOption { get; set; } = KeyboardStartupOption.CenterCursor;
+        public KeyboardStartupOption KeyboardStartupOption { get; set; } = KeyboardStartupOption.FullScreen;
         public double KeyboardSize { get; set; } = 0.6;
 
         public InputService()

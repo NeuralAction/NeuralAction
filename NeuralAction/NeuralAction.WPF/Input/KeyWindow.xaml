@@ -4,13 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralAction.WPF"
-        xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
         mc:Ignorable="d"
         Title="NeuralAction" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}" Topmost="True" AllowsTransparency="True" ShowInTaskbar="False" Icon="/NeuralAction.WPF;component/Resources/icon_main.ico">
     <Window.CacheMode>
         <BitmapCache SnapsToDevicePixels="True"/>
     </Window.CacheMode>
     <Grid>
-        <local:KeyControl x:Name="Keyboard" MouseLeftButtonDown="Keyboard_MouseLeftButtonDown"/>
+        <Rectangle Fill="#01000000" MouseDown="Rectangle_MouseDown"/>
+        <local:KeyControl x:Name="Keyboard"/>
     </Grid>
 </Window>

@@ -12,18 +12,41 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace NeuralAction.WPF
 {
     public partial class MainWindow : Window
     {
-        public static NotifyIcon NotifyIcon { get; set; }
+        public static NotifyIcon NotifyIcon;
         public static SettingWindow SettingWindow;
         public static MenuWindow MenuWindow;
+        public static IconGadget Gadget;
+
+        static DispatcherTimer gadgetTimer;
+        static MainWindow()
+        {
+            gadgetTimer = new DispatcherTimer();
+            gadgetTimer.Tick += delegate
+            {
+                if(MenuWindow == null && SettingWindow == null && Gadget == null)
+                {
+                    Gadget = new IconGadget();
+                    Gadget.Closed += delegate
+                    {
+                        Gadget = null;
+                    };
+                    Gadget.Show();
+                }
+            };
+            gadgetTimer.Interval = TimeSpan.FromMilliseconds(300);
+            gadgetTimer.Start();
+        }
 
         public static void OpenSetting()
         {
             MenuWindow?.Close();
+            Gadget?.Close();
 
             if (SettingWindow == null)
             {
@@ -44,6 +67,7 @@ namespace NeuralAction.WPF
         public static void OpenMenu()
         {
             SettingWindow?.Close();
+            Gadget?.Close();
 
             if (MenuWindow == null)
             {
@@ -63,6 +87,10 @@ namespace NeuralAction.WPF
 
         public static void Exit()
         {
+            SettingWindow?.Close();
+            Gadget?.Close();
+            MenuWindow?.Close();
+
             NotifyIcon.Visible = false;
             NotifyIcon.Icon = null;
             NotifyIcon.Dispose();
@@ -74,7 +102,7 @@ namespace NeuralAction.WPF
             Environment.Exit(0);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Send.AddWindow(this);
 
@@ -102,7 +130,7 @@ namespace NeuralAction.WPF
             InputDebugWindow.Default.Show();
         }
 
-        private void MainWindow_Closed(object sender, EventArgs e)
+        void MainWindow_Closed(object sender, EventArgs e)
         {
             Exit();
         }

@@ -55,6 +55,7 @@ namespace NeuralAction.WPF
             Window.Top = InputService.Current.Cursor.Window.Top;
             Window.Show();
 
+            Mag.Magnifier.UpdateMaginifier();
             if (moveUpdater == null)
             {
                 moveUpdater = new Timer();
@@ -87,7 +88,7 @@ namespace NeuralAction.WPF
             cursor.Window.Visibility = Visibility.Visible;
             cursor.GazeTracked -= Cursor_GazeTracked;
             cursor.Clicked -= Cursor_Clicked;
-            cursor.Released += Cursor_Released;
+            cursor.Released -= Cursor_Released;
 
             InputService.Current.KeyboardStartupOption = KeyboardStartupOption.FullScreen;
 
@@ -145,7 +146,6 @@ namespace NeuralAction.WPF
             Method = PointSmoother.SmoothMethod.MeanKalman,
             QueueCount = 10,
         };
-
         KalmanFilter kalman = new KalmanFilter();
         MeanSmoother mean = new MeanSmoother()
         {
@@ -156,8 +156,6 @@ namespace NeuralAction.WPF
         {
             if (gazeArg != null && gazeArg.IsAvailable)
             {
-                Mag.Magnifier.UpdateMaginifier();
-
                 var scr = gazeArg.ScreenProperties.PixelSize;
                 var x = Window.ActualLeft;
                 var y = Window.ActualTop;
@@ -173,6 +171,8 @@ namespace NeuralAction.WPF
                     power = 1;
                 power = mean.Smooth(power);
                 power = kalman.Calculate(power);
+                if (double.IsNaN(power))
+                    throw new ArgumentException();
                 xPow = Clamp(Drop(xPow * Mag.Magnifier.Width / MoveSmooth, MoveMinimum), MoveMaximum);
                 yPow = Clamp(Drop(yPow * Mag.Magnifier.Height / MoveSmooth, MoveMinimum), MoveMaximum);
 

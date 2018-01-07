@@ -21,6 +21,8 @@ namespace NeuralAction.WPF.Apps.EyesExercise
     {
         public EyesExerciseWindow()
         {
+            Send.AddWindow(this);
+
             InitializeComponent();
         }
     }

@@ -133,8 +133,24 @@ namespace NeuralAction.WPF
 
         public new void Show()
         {
-            MenuOn.Begin();
-            base.Show();
+            if (MainWindow.MenuWindow != null)
+            {
+                MainWindow.MenuWindow.Closed += delegate
+                {
+                    Task.Factory.StartNew(() => 
+                    {
+                        Task.Delay(100).Wait();
+                        Dispatcher.Invoke(() => Show());
+                    });
+                };
+                MainWindow.MenuWindow.Close();
+            }
+            else
+            {
+                MenuOn.Begin();
+                base.Show();
+                Activate();
+            }
         }
 
         public new void Close()

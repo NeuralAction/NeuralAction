@@ -36,7 +36,23 @@ namespace NeuralAction.WPF
                 Keyboard.KeymapChange(Keyboard.GetKeymapArray(Keyboard.CurrentLanguage));
                 UpdateScreen();
                 WinApi.NotWindowsFocus(this);
+
+                MouseEvent.Hook.MouseDown += Hook_MouseDown;
             };
+
+            Closed += delegate
+            {
+                MouseEvent.Hook.MouseDown -= Hook_MouseDown;
+            };
+        }
+
+        bool closed = false;
+        public new void Close()
+        {
+            if (closed)
+                return;
+            closed = true;
+            base.Close();
         }
 
         public void UpdateScreen()
@@ -81,9 +97,23 @@ namespace NeuralAction.WPF
             Height = scr.Height / scale;
         }
 
-        void Keyboard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void Hook_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            WinApi.NotWindowsFocus(this);
+            var wpfScale = InputService.Current.WpfScale;
+            var actualW = ActualWidth * wpfScale;
+            var actualH = ActualHeight * wpfScale;
+            var actualX = Left * wpfScale;
+            var actualY = Top * wpfScale;
+
+            if (e.X < actualX || e.X > actualX + actualW || e.Y < actualY || e.Y > actualY + actualH)
+            {
+                Close();
+            }
+        }
+
+        void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Close();
         }
     }
 }

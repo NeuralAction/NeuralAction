@@ -1,0 +1,49 @@
+﻿<Window x:Class="NeuralAction.WPF.IconGadget"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeuralAction.WPF"
+        mc:Ignorable="d"
+        Title="IconGadget" SizeToContent="WidthAndHeight" Background="{x:Null}" WindowStyle="None" AllowsTransparency="True" Topmost="True" ShowInTaskbar="False">
+    <Window.Resources>
+        <Color x:Key="EllipseNormalColor">#2000</Color>
+        <Color x:Key="EllipseHoverColor">#6000</Color>
+        <Style TargetType="{x:Type Ellipse}">
+            <Setter Property="Fill">
+                <Setter.Value>
+                    <SolidColorBrush Color="{StaticResource EllipseNormalColor}"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Duration="0:0:0.05" Storyboard.TargetProperty="Fill.Color" To="{StaticResource EllipseHoverColor}" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard FillBehavior="Stop">
+                                <ColorAnimation Duration="0:0:0.08" Storyboard.TargetProperty="Fill.Color" To="{StaticResource EllipseNormalColor}" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Window.CacheMode>
+        <BitmapCache/>
+    </Window.CacheMode>
+    <Grid Width="200" Height="200">
+        <Ellipse MouseDown="Ellipse_MouseDown"/>
+        <Image Source="/NeuralAction.WPF;component/Resources/icon-white.png" Width="150" Height="150" Margin="20,14,0,0" IsHitTestVisible="False">
+            <Image.CacheMode>
+                <BitmapCache SnapsToDevicePixels="True"/>
+            </Image.CacheMode>
+        </Image>
+    </Grid>
+</Window>
