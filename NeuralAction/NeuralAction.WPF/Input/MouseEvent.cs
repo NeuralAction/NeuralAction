@@ -380,15 +380,11 @@ namespace NeuralAction.WPF
         const int ABSOLUTE_SIZE = 65535;
         public static bool AllowControl { get; private set; } = true;
         public static Size ActualDisplaySize { set; get; }
-        public static MouseKeyboardLibrary.MouseHook Hook { get; set; }
 
         static MouseEvent()
         {
             var bound = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
             ActualDisplaySize = new Size(bound.Width, bound.Height);
-
-            Hook = new MouseKeyboardLibrary.MouseHook();
-            Hook.Start();
 
             GlobalKeyHook.Hook.KeyboardPressed += Hook_KeyboardPressed;
         }
@@ -396,7 +392,6 @@ namespace NeuralAction.WPF
         ~MouseEvent()
         {
             GlobalKeyHook.Hook.KeyboardPressed -= Hook_KeyboardPressed;
-            Hook.Stop();
         }
 
         static void Hook_KeyboardPressed(object sender, GlobalKeyHookEventArgs e)

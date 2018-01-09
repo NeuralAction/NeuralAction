@@ -22,6 +22,7 @@ namespace NeuralAction.WPF
     /// </summary>
     public partial class KeyWindow : Window
     {
+        MouseKeyboardLibrary.MouseHook mouseHook;
         InputService service;
 
         public KeyWindow(InputService service)
@@ -37,7 +38,9 @@ namespace NeuralAction.WPF
                 UpdateScreen();
                 WinApi.NotWindowsFocus(this);
 
-                MouseEvent.Hook.MouseDown += Hook_MouseDown;
+                mouseHook = new MouseKeyboardLibrary.MouseHook();
+                mouseHook.MouseDown += Hook_MouseDown;
+                mouseHook.Start();
             };
 
             Keyboard.Closed += delegate
@@ -47,7 +50,7 @@ namespace NeuralAction.WPF
 
             Closed += delegate
             {
-                MouseEvent.Hook.MouseDown -= Hook_MouseDown;
+                mouseHook.Stop();
             };
         }
 
