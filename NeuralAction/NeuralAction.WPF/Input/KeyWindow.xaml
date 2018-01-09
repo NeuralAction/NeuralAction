@@ -11,6 +11,6 @@
     </Window.CacheMode>
     <Grid>
         <Rectangle Fill="#01000000" MouseDown="Rectangle_MouseDown"/>
-        <local:KeyControl x:Name="Keyboard"/>
+        <local:KeyControl x:Name="Keyboard" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 </Window>

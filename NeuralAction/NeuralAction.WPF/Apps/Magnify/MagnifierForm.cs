@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace NeuralAction.WPF.Magnify
 {
-    public class MagnifierForm
+    public class MagnifierForm : IDisposable
     {
         double magnification = 2;
         public double Magnification
@@ -51,7 +51,15 @@ namespace NeuralAction.WPF.Magnify
 
         public void Close()
         {
-            Form.Close();
+            Form?.Close();
+        }
+
+        public void Dispose()
+        {
+            Close();
+
+            Magnifier?.Dispose();
+            Magnifier = null;
         }
     }
 }
