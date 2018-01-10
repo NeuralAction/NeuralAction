@@ -636,7 +636,7 @@ namespace NeuralAction.WPF
                             InputingReset(true);
                             break;
                         case 1:
-                            if(koreaInputChar[1] == "")
+                            if(koreaInputChar[1] == null || koreaInputChar[1] == "")
                             {
                                 inputCount = 0;
                                 KeymapChange(KoreanChosungKeymap);
