@@ -312,7 +312,7 @@
                     <TextBlock Text="Cursor Speed Limit" VerticalAlignment="Center"/>
                     <TextBox Text="{Binding CursorSpeedLimit}" Width="50" HorizontalAlignment="Right" Height="20" VerticalAlignment="Center"/>
                 </Grid>
-                <Label Content="Shorcut Menu" Style="{StaticResource Header}"/>
+                <Label Content="Shortcut Menu" Style="{StaticResource Header}"/>
                 <Grid Height="32">
                     <Grid.CacheMode>
                         <BitmapCache SnapsToDevicePixels="True"/>

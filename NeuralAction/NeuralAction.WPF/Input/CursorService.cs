@@ -338,7 +338,7 @@ namespace NeuralAction.WPF
 
                 if (releaseWaiter == null)
                 {
-                    releaseWaiter = new System.Timers.Timer(100);
+                    releaseWaiter = new System.Timers.Timer(250);
                     releaseWaiter.Elapsed += delegate
                     {
                         releaseWaiter.Stop();
