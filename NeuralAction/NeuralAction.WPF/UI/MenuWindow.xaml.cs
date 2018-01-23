@@ -23,6 +23,8 @@ namespace NeuralAction.WPF
 
         public MenuWindow()
         {
+            Send.AddWindow(this);
+
             InitializeComponent();
 
             Open.Content = InputService.Current.IsKeyboardShowen ? "Close" : "Open";

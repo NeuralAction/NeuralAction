@@ -33,7 +33,7 @@ namespace NeuralAction.WPF
         static string JongSungTbl = " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
         static ushort UniCodeHangulBase = 0xAC00;
 
-        static string[] EnglishKeymap = new string[28] { "a", "b", "c", "v", "d", "e", "f", "w", "g", "h", "i", "x", "j", "k", "l", "y", "m", "n", "o", "z", "p", "q", "r", "", "s", "t", "u", "" };
+        static string[] EnglishKeymap = new string[28] { "a", "b", "c", "", "d", "e", "f", "", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
         static string[] KoreanChosungKeymap = new string[28] { "ㄱ", "ㄲ", "ㅋ", "", "ㄷ", "ㅌ", "ㄸ", "", "ㅈ", "ㅊ", "ㅉ", "", "ㅂ", "ㅍ", "ㅃ", "", "ㄴ", "ㅁ", "ㄹ", "", "ㅅ", "ㅆ", "", "", "ㅇ", "ㅎ", "", "" };
         static string[] KoreanJungsungKeymap = new string[28] { "ㅏ", "ㅑ", "ㅐ", "", "ㅓ", "ㅕ", "ㅔ", "", "ㅗ", "ㅛ", "ㅚ", "", "ㅜ", "ㅠ", "ㅟ", "", "ㅡ", "ㅘ", "ㅙ", "", "ㅣ", "ㅒ", "ㅖ", "", "ㅢ", "ㅝ", "ㅞ", "" };
         static string[] KoreanJongsungKeymap = new string[28] { "ㄱ", "ㄲ", "ㅋ", "ㄺ", "ㄷ", "ㅌ", "ㄸ", "ㄼ", "ㅈ", "ㅊ", "ㅉ", "ㄶ", "ㅂ", "ㅍ", "ㅃ", "ㅄ", "ㄴ", "ㅁ", "ㄹ", "ㄻ", "ㅅ", "ㅆ", "ㅄ", "ㄳ", "ㅇ", "ㅎ", "ㄶ", "ㅀ" };

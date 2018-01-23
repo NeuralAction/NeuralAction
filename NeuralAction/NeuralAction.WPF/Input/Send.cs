@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
-
+using Vision;
 using Clipboard = System.Windows.Clipboard;
 
 namespace NeuralAction.WPF
@@ -23,6 +23,14 @@ namespace NeuralAction.WPF
         static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
         [DllImport("user32.dll")]
         static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        static string GetWindowTitle(IntPtr hwnd)
+        {
+            var len = GetWindowTextLength(hwnd) + 1;
+            StringBuilder builder = new StringBuilder(len);
+            GetWindowText(hwnd, builder, len);
+            return builder.ToString();
+        }
 
         public static List<IntPtr> OwnedWindows = new List<IntPtr>();
         public static IntPtr FocusedHandle = IntPtr.Zero;
@@ -54,7 +62,11 @@ namespace NeuralAction.WPF
                     return;
             }
 
-            FocusedHandle = hwnd;
+            if (FocusedHandle != hwnd)
+            {
+                Logger.Log("Send", "New Window Focused. " + GetWindowTitle(hwnd));
+                FocusedHandle = hwnd;
+            }
         }
 
         public static void AddWindow(Window window)
@@ -119,7 +131,7 @@ namespace NeuralAction.WPF
 
             if (hwnd == IntPtr.Zero || Content == null)
                 return;
-            SetForegroundWindow(FocusedHandle);
+            SetForegroundWindow(hwnd);
 
             string previousClip = Clipboard.GetText();
 
