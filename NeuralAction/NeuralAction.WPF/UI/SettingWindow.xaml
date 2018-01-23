@@ -241,7 +241,7 @@
                     <Grid.CacheMode>
                         <BitmapCache SnapsToDevicePixels="True"/>
                     </Grid.CacheMode>
-                    <TextBlock Text="Gaze Use Modfication" VerticalAlignment="Center"/>
+                    <TextBlock Text="Gaze Use Modification" VerticalAlignment="Center"/>
                     <CheckBox IsChecked="{Binding GazeUseModification}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 </Grid>
                 <Grid Height="32">
@@ -312,7 +312,7 @@
                     <TextBlock Text="Cursor Speed Limit" VerticalAlignment="Center"/>
                     <TextBox Text="{Binding CursorSpeedLimit}" Width="50" HorizontalAlignment="Right" Height="20" VerticalAlignment="Center"/>
                 </Grid>
-                <Label Content="Shorcut Menu" Style="{StaticResource Header}"/>
+                <Label Content="Shortcut Menu" Style="{StaticResource Header}"/>
                 <Grid Height="32">
                     <Grid.CacheMode>
                         <BitmapCache SnapsToDevicePixels="True"/>
@@ -327,7 +327,7 @@
                     <TextBlock Text="Keep Alive Duration" VerticalAlignment="Center"/>
                     <TextBox Text="{Binding CursorMenuAliveDuration}" Width="50" HorizontalAlignment="Right" Height="20" VerticalAlignment="Center"/>
                 </Grid>
-                <Label Content="Magnifing Glass" Style="{StaticResource Header}"/>
+                <Label Content="Magnifying Glass" Style="{StaticResource Header}"/>
                 <Grid Height="32">
                     <Grid.CacheMode>
                         <BitmapCache SnapsToDevicePixels="True"/>

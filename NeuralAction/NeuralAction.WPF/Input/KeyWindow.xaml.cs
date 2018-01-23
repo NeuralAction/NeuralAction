@@ -36,18 +36,11 @@ namespace NeuralAction.WPF
                 Keyboard.KeymapChange(Keyboard.GetKeymapArray(Keyboard.CurrentLanguage));
                 UpdateScreen();
                 WinApi.NotWindowsFocus(this);
-
-                MouseEvent.Hook.MouseDown += Hook_MouseDown;
             };
 
             Keyboard.Closed += delegate
             {
                 base.Close();
-            };
-
-            Closed += delegate
-            {
-                MouseEvent.Hook.MouseDown -= Hook_MouseDown;
             };
         }
 
@@ -68,6 +61,13 @@ namespace NeuralAction.WPF
 
         public void UpdateScreen()
         {
+            var scr = InputService.Current.TargetScreen.Bounds;
+            var wpfScale = InputService.Current.WpfScale;
+            Left = scr.Left / wpfScale;
+            Top = scr.Top / wpfScale;
+            Width = scr.Width / wpfScale;
+            Height = scr.Height / wpfScale;
+
             switch (service.KeyboardStartupOption)
             {
                 case KeyboardStartupOption.FullScreen:
@@ -90,36 +90,22 @@ namespace NeuralAction.WPF
             pt.Y /= wpfScale;
             var w = scr.Width * service.KeyboardSize / wpfScale;
             var h = scr.Height * service.KeyboardSize / wpfScale;
-            Width = w;
-            Height = h;
-            Top = pt.Y - h / 2;
-            Left = pt.X - w / 2;
-            Top = Math.Max(scr.Top / wpfScale, Math.Min(Top, (scr.Top + scr.Height) / wpfScale - h));
-            Left = Math.Max(scr.Left / wpfScale, Math.Min(Left, (scr.Left + scr.Width) / wpfScale - w));
+            Keyboard.Width = w;
+            Keyboard.Height = h;
+            var top = Math.Max(scr.Top / wpfScale, Math.Min(pt.Y - h / 2, (scr.Top + scr.Height) / wpfScale - h));
+            var left = Math.Max(scr.Left / wpfScale, Math.Min(pt.X - w / 2, (scr.Left + scr.Width) / wpfScale - w));
+            Keyboard.Margin = new Thickness(left, top, 0, 0);
         }
 
         void FullScreen()
         {
             var scale = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11;
             var scr = service.TargetScreen.WorkingArea;
-            Top = scr.Top / scale;
-            Left = scr.Left / scale;
-            Width = scr.Width / scale;
-            Height = scr.Height / scale;
-        }
-
-        void Hook_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            var wpfScale = InputService.Current.WpfScale;
-            var actualW = ActualWidth * wpfScale;
-            var actualH = ActualHeight * wpfScale;
-            var actualX = Left * wpfScale;
-            var actualY = Top * wpfScale;
-
-            if (e.X < actualX || e.X > actualX + actualW || e.Y < actualY || e.Y > actualY + actualH)
-            {
-                Close();
-            }
+            var top = scr.Top / scale;
+            var left = scr.Left / scale;
+            Keyboard.Width = scr.Width / scale;
+            Keyboard.Height = scr.Height / scale;
+            Keyboard.Margin = new Thickness(left, top, 0, 0);
         }
 
         void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)

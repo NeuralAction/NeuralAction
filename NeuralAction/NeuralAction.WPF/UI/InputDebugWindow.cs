@@ -44,7 +44,7 @@ namespace NeuralAction.WPF
             service.Cursor.GazeService.FrameCaptured += GazeService_FrameCaptured;
             service.Cursor.GazeService.FaceTracked += GazeService_FaceTracked;
             cancellation = new CancellationTokenSource();
-            task = Task.Factory.StartNew(()=>Proc(cancellation.Token));
+            task = Task.Factory.StartNew(() => Proc(cancellation.Token));
             IsShowed = true;
         }
 
@@ -55,8 +55,15 @@ namespace NeuralAction.WPF
             service = null;
             IsShowed = false;
 
-            cancellation.Cancel();
-            task?.Wait();
+            try
+            {
+                cancellation.Cancel();
+                task?.Wait();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(this, ex);
+            }
         }
 
         void Proc(CancellationToken token)
@@ -78,6 +85,11 @@ namespace NeuralAction.WPF
                         Draw(frame, faces);
                         Core.Cv.ImgShow("Debug", frame);
                     }
+                }
+
+                if (key == 'e')
+                {
+                    Task.Factory.StartNew(() => { Close(); });
                 }
             }
         }

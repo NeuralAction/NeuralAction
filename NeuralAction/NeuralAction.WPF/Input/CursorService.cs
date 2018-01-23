@@ -313,6 +313,8 @@ namespace NeuralAction.WPF
 
         void InternalClicked(Point click)
         {
+            releaseWaiter?.Stop();
+
             if (click != null)
                 Window.Move(click.ToPoint());
             var pt = Window.Clicked(false);
@@ -321,37 +323,51 @@ namespace NeuralAction.WPF
             lastClickMs = Logger.Stopwatch.ElapsedMilliseconds;
 
             Logger.Log("Clicked" + pt.ToString());
-
             Clicked?.Invoke(GazeService, new Point(pt.X, pt.Y));
         }
 
+        System.Timers.Timer releaseWaiter;
+        Point lastReleased;
+        double lastReleasedDuration;
         void GazeService_Released(object sender, Point e)
         {
             if (e != null)
             {
-                lock (logLocker)
-                {
-                    clickLog.Add(DateTime.Now.TimeOfDay, false);
-                }
+                lastReleased = e;
+                lastReleasedDuration = Logger.Stopwatch.ElapsedMilliseconds - lastClickMs;
 
-                var clickingDuration = Logger.Stopwatch.ElapsedMilliseconds - lastClickMs;
-                Logger.Log("Clicking duration : " + clickingDuration + "ms");
-
-                if (clickingDuration > OpenMenuWaitDuration && Window.Visibility == System.Windows.Visibility.Visible)
+                if (releaseWaiter == null)
                 {
-                    var pt = Window.Clicked(false);
-                    Logger.Log("Open menu at " + lastClickPos);
-                    Window.Dispatcher.Invoke(() =>
+                    releaseWaiter = new System.Timers.Timer(250);
+                    releaseWaiter.Elapsed += delegate
                     {
-                        ShortcutMenuWindow.OpenPopup(lastClickPos.ToPoint());
-                    });
-                }
-                else
-                {
-                    var pt = Window.Clicked();
-                }
+                        releaseWaiter.Stop();
 
-                Released?.Invoke(this, new CursorReleasedArgs(lastClickPos, e.Clone(), clickingDuration));
+                        lock (logLocker)
+                        {
+                            clickLog.Add(DateTime.Now.TimeOfDay, false);
+                        }
+
+                        Logger.Log("Clicking duration : " + lastReleasedDuration + "ms");
+
+                        if (lastReleasedDuration > OpenMenuWaitDuration && Window.Visibility == System.Windows.Visibility.Visible)
+                        {
+                            var pt = Window.Clicked(false);
+                            Window.Dispatcher.Invoke(() =>
+                            {
+                                ShortcutMenuWindow.OpenPopup(lastClickPos.ToPoint());
+                            });
+                            Logger.Log("Open menu at " + lastClickPos);
+                        }
+                        else
+                        {
+                            var pt = Window.Clicked();
+                        }
+
+                        Released?.Invoke(this, new CursorReleasedArgs(lastClickPos, lastReleased.Clone(), lastReleasedDuration));
+                    };
+                }
+                releaseWaiter.Start();
             }
         }
 

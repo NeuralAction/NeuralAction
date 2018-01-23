@@ -253,11 +253,14 @@ namespace NeuralAction.WPF
             if (IsShowed)
                 Close();
 
+            Mag?.Dispose();
+            Mag = null;
+
             Window?.Close();
             Window = null;
 
-            Settings.Listener.PropertyChanged += Listener_PropertyChanged;
-            Settings.Listener.SettingChanged += Listener_SettingChanged;
+            Settings.Listener.PropertyChanged -= Listener_PropertyChanged;
+            Settings.Listener.SettingChanged -= Listener_SettingChanged;
         }
     }
 }

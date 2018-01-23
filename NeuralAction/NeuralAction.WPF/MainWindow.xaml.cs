@@ -97,6 +97,7 @@ namespace NeuralAction.WPF
 
             Settings.Save();
 
+            MagnifyingGlass.Current.Dispose();
             InputService.Current.Dispose();
 
             Environment.Exit(0);
