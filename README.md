@@ -7,13 +7,14 @@ Neural Action is a real-time CNN-based cross-platform gaze tracking application 
 ## 1. Installation process
 
 First, clone our repository.
-`git clone `
+`git clone https://neural-action.visualstudio.com/_git/NeuralAction --recursive`
 
 Then setup TensorFlowSharp following instruction. Download prebuilt TensorFlow binaries from instruction.
 [TensorFlowSharp Instruction](https://github.com/gmlwns2000/TensorFlowSharp)
 
 ## 2.	Latest releases
 Lastest release is on the `isef_k` branch.
+`git checkout isef_k`
 
 # Build and Test
 
