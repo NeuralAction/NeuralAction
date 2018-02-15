@@ -99,31 +99,35 @@
     </Compile>
     <Compile Include="Apps\Magnify\NativeMethods.cs" />
     <Compile Include="Apps\Magnify\NativeStructures.cs" />
-    <Compile Include="Input\ApiClient.cs" />
-    <Compile Include="Input\ApiServer.cs" />
+    <Compile Include="Input\Api\ApiClient.cs" />
+    <Compile Include="Input\Api\ApiServer.cs" />
     <Compile Include="Input\CalibrateWindow.xaml.cs">
       <DependentUpon>CalibrateWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Input\CursorControl.xaml.cs">
+    <Compile Include="Input\Cursor\CursorControl.xaml.cs">
       <DependentUpon>CursorControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Input\CursorService.cs" />
+    <Compile Include="Input\Cursor\CursorService.cs" />
     <Compile Include="Input\GlobalKeyHook.cs" />
     <Compile Include="Input\InputService.cs" />
-    <Compile Include="Input\KeyControl.xaml.cs">
+    <Compile Include="Input\Keyboard\KeyControl.xaml.cs">
       <DependentUpon>KeyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Input\KeyWindow.xaml.cs">
+    <Compile Include="Input\Keyboard\KeyWindow.xaml.cs">
       <DependentUpon>KeyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Apps\Magnify\MagnifyingGlass.cs" />
-    <Compile Include="Input\MouseAction.cs" />
-    <Compile Include="Input\ScrollCursorWindow.xaml.cs">
+    <Compile Include="Input\Cursor\MouseAction.cs" />
+    <Compile Include="Input\Cursor\ScrollCursorWindow.xaml.cs">
       <DependentUpon>ScrollCursorWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Input\ShortcutMenuWindow.xaml.cs">
+    <Compile Include="Input\Cursor\ShortcutMenuWindow.xaml.cs">
       <DependentUpon>ShortcutMenuWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Input\UIInteraction\Highlighter.xaml.cs">
+      <DependentUpon>Highlighter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Input\UIInteraction\UIInteractionService.cs" />
     <Compile Include="UI\IconGadget.xaml.cs">
       <DependentUpon>IconGadget.xaml</DependentUpon>
     </Compile>
@@ -131,15 +135,15 @@
     <Compile Include="UI\MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Input\MouseEvent.cs" />
-    <Compile Include="Input\Send.cs" />
+    <Compile Include="Input\Cursor\MouseEvent.cs" />
+    <Compile Include="Input\Keyboard\Send.cs" />
     <Compile Include="UI\Settings.cs" />
     <Compile Include="UI\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Converters.cs" />
     <Compile Include="Input\WinApi.cs" />
-    <Compile Include="Input\WordCorrector.cs" />
+    <Compile Include="Input\Keyboard\WordCorrector.cs" />
     <Compile Include="UI\Util.cs" />
     <Page Include="Apps\EyesExercise\EyesExerciseWindow.xaml">
       <SubType>Designer</SubType>
@@ -153,27 +157,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Input\CursorControl.xaml">
+    <Page Include="Input\Cursor\CursorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Input\CursorWindow.xaml">
+    <Page Include="Input\Cursor\CursorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Input\KeyControl.xaml">
+    <Page Include="Input\Keyboard\KeyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Input\KeyWindow.xaml">
+    <Page Include="Input\Keyboard\KeyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Input\ScrollCursorWindow.xaml">
+    <Page Include="Input\Cursor\ScrollCursorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Input\ShortcutMenuWindow.xaml">
+    <Page Include="Input\Cursor\ShortcutMenuWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Input\UIInteraction\Highlighter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,7 +193,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Input\CursorWindow.xaml.cs">
+    <Compile Include="Input\Cursor\CursorWindow.xaml.cs">
       <DependentUpon>CursorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
@@ -269,6 +277,10 @@
     <ProjectReference Include="..\..\Vision\Vision\Vision.csproj">
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>Vision</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UIAccessibility\UIAccessibility.csproj">
+      <Project>{a7e7b253-3cc4-4b71-966f-36ce7ff5b82a}</Project>
+      <Name>UIAccessibility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

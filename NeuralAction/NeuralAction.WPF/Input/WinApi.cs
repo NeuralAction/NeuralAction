@@ -29,6 +29,18 @@ namespace NeuralAction.WPF
             Alpha = 0x2
         }
 
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
+        
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetWindowTextLength(IntPtr hWnd);
+        
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+        
+        [DllImport("user32.dll")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
         [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
         public static extern int GetWindowLong(IntPtr hWnd, GWL nIndex);
 
@@ -58,6 +70,12 @@ namespace NeuralAction.WPF
         /// <see>See MSDN documentation for further information.</see>
         [DllImport("user32.dll")]
         public static extern bool GetCursorPos(out POINT lpPoint);
+
+        public static POINT GetCursorPos()
+        {
+            GetCursorPos(out POINT pt);
+            return pt;
+        }
 
         public static int GetDpi()
         {

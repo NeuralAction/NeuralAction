@@ -104,14 +104,14 @@ namespace NeuralAction.WPF
                         }
                         dragTimer.Stop();
                     };
-                    dragTimer.Interval = TimeSpan.FromMilliseconds(500);
+                    dragTimer.Interval = TimeSpan.FromMilliseconds(300);
                 }
                 dragTimer.Start();
 
                 dragPreSpeedLimit = Settings.Current.CursorSpeedLimit;
                 dragPreUseSpeedLimit = Settings.Current.CursorUseSpeedLimit;
                 dragPreUseClick = Settings.Current.AllowClick;
-                Settings.Current.CursorSpeedLimit = 2.3;
+                Settings.Current.CursorSpeedLimit = 3;
                 Settings.Current.CursorUseSpeedLimit = true;
                 Settings.Current.AllowClick = false;
 

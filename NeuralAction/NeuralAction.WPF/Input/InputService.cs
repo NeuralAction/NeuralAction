@@ -31,7 +31,7 @@ namespace NeuralAction.WPF
             set
             {
                 owner = value;
-                if(KeyWindow != null)
+                if (KeyWindow != null)
                     KeyWindow.Owner = value;
                 Cursor.Window.Owner = value;
             }
@@ -57,19 +57,23 @@ namespace NeuralAction.WPF
         public double WpfScale => Cursor.Window.WpfScale;
         public KeyWindow KeyWindow { get; set; }
         public KeyboardStartupOption KeyboardStartupOption { get; set; } = KeyboardStartupOption.FullScreen;
-        public double KeyboardSize { get; set; } = 0.6;
+        public double KeyboardSize { get; set; } = 0.7;
+
+        public UIInteractionService Interaction { get; set; }
 
         public InputService()
         {
             TargetScreen = Screen.PrimaryScreen;
             Cursor = new CursorService(this);
             Server = new ApiServer(this);
+            Interaction = new UIInteractionService();
             Server.Start();
         }
 
         public void Start()
         {
             Cursor.StartAsync(CameraIndex);
+            Interaction.Start();
         }
 
         public void Stop()
@@ -84,7 +88,7 @@ namespace NeuralAction.WPF
 
         public void ShowKeyboard()
         {
-            if(KeyWindow == null)
+            if (KeyWindow == null)
             {
                 KeyWindow = new KeyWindow(this);
                 KeyWindow.Owner = Owner;
@@ -112,7 +116,7 @@ namespace NeuralAction.WPF
                 KeyWindow = null;
             }
 
-            if(Cursor != null)
+            if (Cursor != null)
             {
                 Cursor.Dispose();
                 Cursor = null;

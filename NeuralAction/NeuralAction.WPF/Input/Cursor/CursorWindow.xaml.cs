@@ -23,6 +23,7 @@ namespace NeuralAction.WPF
         public event EventHandler<Point> Moved;
 
         public bool Smooth { get; set; } = true;
+        public double SmoothFactor { get; set; } = 4;
         public bool UseSpeedClamp { get; set; } = true;
         public double SpeedClamp { get; set; } = 100;
         public double WpfScale { get; set; }
@@ -48,7 +49,7 @@ namespace NeuralAction.WPF
             get => base.Visibility;
             set => base.Visibility = value;
         }
-        
+
         CursorService parent;
         DispatcherTimer moveTimer;
         Point targetPosition;
@@ -63,6 +64,7 @@ namespace NeuralAction.WPF
 
         IntPtr hwnd;
         double actualW, actualH;
+        double realSmoothFactor;
 
         public CursorWindow(CursorService service)
         {
@@ -91,12 +93,14 @@ namespace NeuralAction.WPF
                 TargetPosition = new Point(ActualLeft, ActualTop);
             };
 
-            Closed += delegate 
+            Closed += delegate
             {
                 focus.Stop();
             };
+
+            realSmoothFactor = SmoothFactor;
         }
-        
+
         void SetActualPosition(double x, double y)
         {
             var scr = parent.TargetScreen.Bounds;
@@ -116,8 +120,11 @@ namespace NeuralAction.WPF
                     moveTimer.Tick += (sender, arg) =>
                     {
                         var clm = UseSpeedClamp ? SpeedClamp : 1000000;
-                        SetActualPosition(ActualLeft + Clamp((TargetPosition.X - ActualLeft) / 4, -clm, clm), ActualTop + Clamp((TargetPosition.Y - ActualTop) / 4, -clm, clm));
-                        InternalMove();
+                        realSmoothFactor = Math.Max(SmoothFactor, realSmoothFactor + (SmoothFactor - realSmoothFactor) / 4);
+                        var x = ActualLeft + Clamp((TargetPosition.X - ActualLeft) / realSmoothFactor, -clm, clm);
+                        var y = ActualTop + Clamp((TargetPosition.Y - ActualTop) / realSmoothFactor, -clm, clm);
+                        SetActualPosition(x, y);
+                        InternalMove(x, y);
                     };
                 }
                 moveTimer.Start();
@@ -126,19 +133,19 @@ namespace NeuralAction.WPF
             {
                 moveTimer?.Stop();
                 SetActualPosition(TargetPosition.X, TargetPosition.Y);
-                InternalMove();
+                InternalMove(TargetPosition.X, TargetPosition.Y);
             }
         }
 
-        void InternalMove()
+        void InternalMove(double x, double y)
         {
+            var pt = new Point(x + actualW / 2 * WpfScale, y + actualH / 2 * WpfScale);
             lock (MoveLocker)
-                MoveList.Add(new CursorTimes(ActualPosition, DateTime.Now.TimeOfDay));
+                MoveList.Add(new CursorTimes(new Vision.Point(x, y), DateTime.Now.TimeOfDay));
 
             if (show)
             {
-                var pt = new Point(ActualPosition.X, ActualPosition.Y);
-                if(AllowControl)
+                if (AllowControl)
                     MouseEvent.MoveAt(pt);
                 Moved?.Invoke(this, pt);
             }

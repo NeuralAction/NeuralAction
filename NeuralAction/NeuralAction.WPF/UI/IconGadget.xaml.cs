@@ -25,6 +25,8 @@ namespace NeuralAction.WPF
 
             InitializeComponent();
 
+            Owner = App.Current.MainWindow;
+
             Loaded += delegate
             {
                 var scr = InputService.Current.TargetScreen.WorkingArea;

@@ -50,12 +50,15 @@ namespace NeuralAction.WPF
         public Point EndPosition { get; set; }
         public Point StartPosition { get; set; }
         public double Duration { get; set; }
+        public bool BlockClick { get; set; } = false;
+        public bool IsPaddingMenuOpen { get; private set; } = false;
 
-        public CursorReleasedArgs(Point start, Point end, double ts)
+        public CursorReleasedArgs(Point start, Point end, double ts, bool isPaddingMenu)
         {
             EndPosition = end;
             StartPosition = start;
             Duration = ts;
+            IsPaddingMenuOpen = isPaddingMenu;
         }
     }
 
@@ -350,7 +353,11 @@ namespace NeuralAction.WPF
 
                         Logger.Log("Clicking duration : " + lastReleasedDuration + "ms");
 
-                        if (lastReleasedDuration > OpenMenuWaitDuration && Window.Visibility == System.Windows.Visibility.Visible)
+                        var arg = new CursorReleasedArgs(lastClickPos, lastReleased.Clone(), lastReleasedDuration,
+                            lastReleasedDuration > OpenMenuWaitDuration && Window.Visibility == System.Windows.Visibility.Visible);
+                        Released?.Invoke(this, arg);
+
+                        if (arg.IsPaddingMenuOpen)
                         {
                             var pt = Window.Clicked(false);
                             Window.Dispatcher.Invoke(() =>
@@ -361,10 +368,8 @@ namespace NeuralAction.WPF
                         }
                         else
                         {
-                            var pt = Window.Clicked();
+                            var pt = Window.Clicked(!arg.BlockClick);
                         }
-
-                        Released?.Invoke(this, new CursorReleasedArgs(lastClickPos, lastReleased.Clone(), lastReleasedDuration));
                     };
                 }
                 releaseWaiter.Start();

@@ -33,7 +33,19 @@ namespace NeuralAction.WPF
         }
 
         public static List<IntPtr> OwnedWindows = new List<IntPtr>();
-        public static IntPtr FocusedHandle = IntPtr.Zero;
+        static IntPtr focusedHandle = IntPtr.Zero;
+        public static IntPtr FocusedHandle
+        {
+            get => focusedHandle;
+            set
+            {
+                if (value != focusedHandle)
+                {
+                    focusedHandle = value;
+                    Logger.Log("Send", "New Window Focused. " + GetWindowTitle(value));
+                }
+            }
+        }
         public static bool RestoreClipboard = true;
 
         static int InstanceCount = 0;
@@ -41,7 +53,7 @@ namespace NeuralAction.WPF
 
         static Send()
         {
-            thread = new Thread(()=> 
+            thread = new Thread(() =>
             {
                 while (true)
                 {
@@ -62,11 +74,7 @@ namespace NeuralAction.WPF
                     return;
             }
 
-            if (FocusedHandle != hwnd)
-            {
-                Logger.Log("Send", "New Window Focused. " + GetWindowTitle(hwnd));
-                FocusedHandle = hwnd;
-            }
+            FocusedHandle = hwnd;
         }
 
         public static void AddWindow(Window window)
@@ -149,7 +157,7 @@ namespace NeuralAction.WPF
             else
             {
                 Clipboard.SetText(Content);
-                    
+
                 SendKeys.SendWait("^(v)");
                 SendKeys.Flush();
 
