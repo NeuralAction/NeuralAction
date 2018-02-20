@@ -15,13 +15,16 @@ namespace NeuralAction.WPF
         CenterCursor,
     }
 
-    public class InputService : IDisposable
+    public class InputService : SettingListener, IDisposable
     {
         public static InputService Current { get; set; }
         public static void Init()
         {
             if (Current == null)
+            {
                 Current = new InputService();
+                Current.Settings = Settings.Current;
+            }
         }
 
         private Window owner;
@@ -73,7 +76,6 @@ namespace NeuralAction.WPF
         public void Start()
         {
             Cursor.StartAsync(CameraIndex);
-            Interaction.Start();
         }
 
         public void Stop()
@@ -105,6 +107,21 @@ namespace NeuralAction.WPF
             {
                 KeyWindow.Activate();
                 Cursor.Window.Activate();
+            }
+        }
+
+        protected override void OnSettingChanged(Settings newSettings)
+        {
+            Interaction.ServiceStart = Settings.InteractUse;
+        }
+
+        protected override void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Settings.InteractUse):
+                    Interaction.ServiceStart = Settings.InteractUse;
+                    break;
             }
         }
 

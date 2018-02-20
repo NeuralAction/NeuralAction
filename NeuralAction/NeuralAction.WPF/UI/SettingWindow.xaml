@@ -370,6 +370,14 @@
                     <TextBlock Text="Dynamic Zoom Smooth" VerticalAlignment="Center"/>
                     <TextBox Text="{Binding MagnifyZoomSmooth}" Width="50" HorizontalAlignment="Right" Height="20" VerticalAlignment="Center"/>
                 </Grid>
+                <Label Content="UI Interaction" Style="{StaticResource Header}"/>
+                <Grid Height="32">
+                    <Grid.CacheMode>
+                        <BitmapCache SnapsToDevicePixels="True"/>
+                    </Grid.CacheMode>
+                    <TextBlock Text="Use UI Interaction" VerticalAlignment="Center"/>
+                    <CheckBox IsChecked="{Binding InteractUse}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
         <Rectangle Fill="#663F3F3F" Height="1" Margin="0,0,0,20" IsHitTestVisible="False" Grid.Row="3"/>

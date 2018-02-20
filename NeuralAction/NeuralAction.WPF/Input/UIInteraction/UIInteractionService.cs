@@ -37,6 +37,23 @@ namespace NeuralAction.WPF
             }
         }
 
+        bool serviceStart = false;
+        public bool ServiceStart
+        {
+            get => serviceStart;
+            set
+            {
+                if (value != serviceStart)
+                {
+                    serviceStart = value;
+                    if(value)
+                        Start();
+                    else 
+                        Stop();
+                }
+            }
+        }
+
         Highlighter highlighter;
         AccessibleTrackedArgs clickedArg;
         AccessibleTrackedArgs targetArg;
@@ -47,11 +64,11 @@ namespace NeuralAction.WPF
             Service.Tracked += Service_Tracked;
 
             highlighter = new Highlighter();
-            highlighter.Show();
         }
 
         public void Start()
         {
+            highlighter.Show();
             Service.Start();
             InputService.Current.Cursor.Clicked += Cursor_Clicked;
             InputService.Current.Cursor.Released += Cursor_Released;
@@ -59,7 +76,11 @@ namespace NeuralAction.WPF
 
         public void Stop()
         {
+            highlighter.Hide();
             Service.Stop();
+            InputService.Current.Cursor.Clicked -= Cursor_Clicked;
+            InputService.Current.Cursor.Released -= Cursor_Released;
+            Magnet = false;
         }
 
         void Cursor_Clicked(object sender, Vision.Point e)

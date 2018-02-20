@@ -110,7 +110,7 @@ namespace NeuralAction.WPF
             set => Listener.Settings = value;
         }
         public static BasicSettingListener Listener { get; private set; } = new BasicSettingListener();
-        
+
         public static void Load()
         {
             Current = new Settings();
@@ -412,5 +412,16 @@ namespace NeuralAction.WPF
         }
 
         #endregion Magnify
+
+        #region UIInteraction
+
+        bool interactUse = true;
+        public bool InteractUse
+        {
+            get => interactUse;
+            set { interactUse = value; OnPropertyChanged(); }
+        }
+
+        #endregion
     }
 }
