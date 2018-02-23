@@ -15,7 +15,9 @@ namespace NeuralAction.WPF
     {
         public App()
         {
-            Vision.Windows.WindowsCore.Init();
+            Settings.Load();
+            
+            Vision.Windows.WindowsCore.Init(Settings.Current.UseGpu);
         }
     }
 }

@@ -171,6 +171,13 @@ namespace NeuralAction.WPF
 
         #region Common 
 
+        bool useGpu = false;
+        public bool UseGpu
+        {
+            get => useGpu;
+            set { useGpu = value; OnPropertyChanged(); }
+        }
+
         int cameraIndex = 0;
         public int CameraIndex
         {

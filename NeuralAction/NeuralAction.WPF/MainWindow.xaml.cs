@@ -109,7 +109,6 @@ namespace NeuralAction.WPF
 
             Closed += MainWindow_Closed;
 
-            Settings.Load();
             InputService.Init();
 
             NotifyIcon = new NotifyIcon();

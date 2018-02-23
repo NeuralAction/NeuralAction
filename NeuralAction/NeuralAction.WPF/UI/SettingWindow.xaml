@@ -162,6 +162,16 @@
                         </StackPanel>
                     </StackPanel>
                 </Grid>
+                <Grid>
+                    <Grid.CacheMode>
+                        <BitmapCache SnapsToDevicePixels="True"/>
+                    </Grid.CacheMode>
+                    <TextBlock Text="Use GPU" VerticalAlignment="Center"/>
+                    <StackPanel  VerticalAlignment="Center" Margin="0,5,0,1">
+                        <CheckBox IsChecked="{Binding UseGpu}" HorizontalAlignment="Right" Margin="-1,0"/>
+                        <TextBlock Text="This changes will applied after restart." HorizontalAlignment="Right" Margin="0,5,0,0" Opacity="0.6"/>
+                    </StackPanel>
+                </Grid>
                 <Grid Height="32">
                     <Grid.CacheMode>
                         <BitmapCache SnapsToDevicePixels="True"/>
