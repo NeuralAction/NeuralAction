@@ -151,18 +151,19 @@ namespace NeuralAction.WPF
             }
         }
 
+        /// <summary>
+        /// Move cursor to point imediatly
+        /// </summary>
+        /// <param name="pt">Target Position</param>
         public void Move(Point pt)
         {
-            Dispatcher.Invoke(() =>
-            {
-                if (moveTimer != null)
-                    moveTimer.Stop();
+            if (moveTimer != null)
+                moveTimer.Stop();
 
-                var pre = Smooth;
-                Smooth = false;
-                TargetPosition = new Point(pt.X - ActualWidth / 2 * WpfScale, pt.Y - ActualHeight / 2 * WpfScale);
-                Smooth = pre;
-            });
+            var pre = Smooth;
+            Smooth = false;
+            TargetPosition = new Point(pt.X - ActualWidth / 2 * WpfScale, pt.Y - ActualHeight / 2 * WpfScale);
+            Smooth = pre;
         }
 
         public Vision.Point Clicked(bool click = true)

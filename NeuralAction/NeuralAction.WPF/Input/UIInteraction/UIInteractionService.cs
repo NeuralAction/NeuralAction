@@ -154,10 +154,10 @@ namespace NeuralAction.WPF
         void Service_Tracked(object sender, AccessibleTrackedArgs e)
         {
             targetArg = e;
-            Highlight(targetArg.Element);
+            Highlight(targetArg.Element, targetArg);
         }
 
-        void Highlight(Accessible acc)
+        void Highlight(Accessible acc, AccessibleTrackedArgs arg)
         {
             highlighter.Dispatcher.Invoke(() =>
             {

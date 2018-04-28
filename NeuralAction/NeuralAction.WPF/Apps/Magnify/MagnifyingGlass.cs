@@ -79,6 +79,7 @@ namespace NeuralAction.WPF
             cursor.Released += Cursor_Released;
 
             InputService.Current.KeyboardStartupOption = KeyboardStartupOption.CenterCursor;
+            InputService.Current.KeyboardSize = 1.0 / Settings.Current.MagnifyFactor * 1.25;
 
             GlobalKeyHook.Hook.KeyboardPressed += Hook_KeyboardPressed;
 
