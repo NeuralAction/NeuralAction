@@ -82,6 +82,12 @@ namespace NeuralAction.WPF
                     lock (frameLocker)
                     {
                         frameUpdated = false;
+                        if (faces != null)
+                        {
+                            using (var roi = faces[0].ROI(frame))
+                                using(var resized = roi.Resize(new OpenCvSharp.Size(512)))
+                                    Core.Cv.ImgShow("Face", resized);
+                        }
                         Draw(frame, faces);
                         Core.Cv.ImgShow("Debug", frame);
                     }

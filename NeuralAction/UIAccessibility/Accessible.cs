@@ -147,7 +147,7 @@ namespace UIAccessibility
                 case 0x3: // 스크롤 막대
                 case 0x33: //슬라이더
                 case 33: // 목록
-                    if (className == "SysListView32" && CheckParentClassIs(acc, "WorkerW"))
+                    if (className == "SysListView32" && (CheckParentClassIs(acc, "WorkerW") || CheckParentClassIs(acc, "Progman")))
                         return UIElementType.None;
                     return UIElementType.ScrollViewer;
                 case 0x9: //창

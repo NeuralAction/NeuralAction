@@ -111,7 +111,7 @@ namespace NeuralAction.WPF
         {
             Window.Dispatcher.Invoke(() =>
             {
-                if(e.Duration > Settings.Current.CursorOpenMenuWaitDuration)
+                if (e.Duration > Settings.Current.CursorOpenMenuWaitDuration)
                 {
                     Window.Click(false);
                     ShortcutMenuWindow.OpenPopup(new System.Windows.Point(Window.ActualLeft, Window.ActualTop));
@@ -133,11 +133,8 @@ namespace NeuralAction.WPF
 
         void Cursor_GazeTracked(object sender, GazeEventArgs e)
         {
-            Window.Dispatcher.Invoke(() =>
-            {
-                gazeArg = e;
-                Window.Available = e.IsAvailable;
-            });
+            gazeArg = e;
+            Window.Available = e.IsAvailable;
         }
 
         void Hook_KeyboardPressed(object sender, GlobalKeyHookEventArgs e)
@@ -162,6 +159,7 @@ namespace NeuralAction.WPF
             QueueCount = 10,
         };
         GazeEventArgs gazeArg;
+        long lastMs;
         void MoveUpdater_Tick(object sender, EventArgs e)
         {
             if (gazeArg != null && gazeArg.IsAvailable)
@@ -187,8 +185,11 @@ namespace NeuralAction.WPF
 
                 var smt = pointSmoother.Smooth(new Vision.Point(wndPos.X + xPow, wndPos.Y + yPow));
 
-                if (Settings.Current.AllowControl)
+                if (Settings.Current.AllowControl && Logger.Stopwatch.ElapsedMilliseconds - lastMs > 33)
+                {
                     MouseEvent.MoveAt(new System.Windows.Point(smt.X, smt.Y));
+                    lastMs = Logger.Stopwatch.ElapsedMilliseconds;
+                }
 
                 Window.SetActualPosition(smt.X, smt.Y);
                 Mag.Magnifier.CenterX = (int)(smt.X);

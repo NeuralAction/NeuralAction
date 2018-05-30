@@ -39,13 +39,16 @@ namespace NeuralAction.WPF.Magnify
             get => available;
             set
             {
-                if(available != value)
+                if (available != value)
                 {
                     available = value;
-                    if (value)
-                        CursorControl.Show();
-                    else
-                        CursorControl.Hide();
+                    Dispatcher.Invoke(() =>
+                    {
+                        if (value)
+                            CursorControl.Show();
+                        else
+                            CursorControl.Hide();
+                    });
                 }
             }
         }
@@ -91,7 +94,7 @@ namespace NeuralAction.WPF.Magnify
 
         public void Click(bool click = true)
         {
-            if(Settings.Current.AllowControl && Settings.Current.AllowClick && click)
+            if (Settings.Current.AllowControl && Settings.Current.AllowClick && click)
                 MouseEvent.Click(MouseButton.Left);
             CursorControl.Click();
             Topmost = false;

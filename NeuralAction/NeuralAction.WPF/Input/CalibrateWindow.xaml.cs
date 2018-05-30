@@ -52,6 +52,9 @@ namespace NeuralAction.WPF
         {
             Dispatcher.Invoke(() =>
             {
+                Topmost = false;
+                Topmost = true;
+
                 var calib = (EyeGazeCalibrater)sender;
                 double duration;
                 Color color;
