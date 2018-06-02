@@ -14,7 +14,10 @@ Then setup TensorFlowSharp following instruction. Download prebuilt TensorFlow b
 
 ## 2.	Latest releases
 Lastest release is on the `isef_k` branch.
+
 `git checkout isef_k`
+
+But we suggest to use `master` branch.
 
 # Build and Test
 
