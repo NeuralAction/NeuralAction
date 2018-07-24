@@ -443,7 +443,7 @@ namespace NeuralAction.WPF
                     GazeService.FaceDetector.UseSmooth = Settings.HeadSmooth;
                     break;
                 case nameof(Settings.GazeMode):
-                    GazeService.GazeDetector.DetectMode = Settings.GazeMode;
+                    GazeService.GazeDetector.ModelIndex = Settings.GazeMode;
                     break;
                 case nameof(Settings.GazeSmooth):
                     GazeService.GazeDetector.UseSmoothing = Settings.GazeSmooth;
@@ -524,7 +524,7 @@ namespace NeuralAction.WPF
             GazeService.GazeDetector.Calibrator.GridWidth = Settings.GazeCalibGridWidth;
             GazeService.GazeDetector.Calibrator.GridHeight = Settings.GazeCalibGridHeight;
             GazeService.GazeDetector.Calibrator.SampleCount = Settings.GazeCalibSampleCount;
-            GazeService.GazeDetector.DetectMode = set.GazeMode;
+            GazeService.GazeDetector.ModelIndex = set.GazeMode;
             GazeService.GazeDetector.UseSmoothing = set.GazeSmooth;
             GazeService.GazeDetector.Smoother.Method = set.GazeSmoothMode;
             GazeService.GazeDetector.Smoother.QueueCount = set.GazeSmoothCount;

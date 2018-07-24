@@ -60,7 +60,7 @@ namespace NeuralAction.WPF
                 Settings.Listener.SettingChanged -= Settings_SettingChanged;
             };
 
-            InitComboBox<EyeGazeDetectMode>(Cbb_GazeMode);
+            InitComboBoxModel(Cbb_GazeMode);
             InitComboBox<PointSmoother.SmoothMethod>(Cbb_GazeSmoothMode);
             InitComboBox<ClickEyeTarget>(Cbb_OpenEyeTarget);
             InitComboBox<EyeOpenDetectMode>(Cbb_OpenMode);
@@ -111,6 +111,20 @@ namespace NeuralAction.WPF
             Tb_DPI_ScrSizeW.Text = (scrW / Settings.Current.DPI * 25).ToString("0");
         }
 
+        void InitComboBoxModel(ComboBox box)
+        {
+            var models = InputService.Current.Cursor.GazeService.GazeDetector.Models;
+            box.Items.Clear();
+            foreach (var item in models)
+            {
+                box.Items.Add(new ComboBoxItem()
+                {
+                    Content = item.Name,
+                    ToolTip = $"{item.Description}\nErrors:{item.ErrorRate}°",
+                });
+            }
+        }
+
         void InitComboBox<T>(ComboBox box)
         {
             box.Items.Clear();
@@ -134,11 +148,11 @@ namespace NeuralAction.WPF
 
         void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Escape)
+            if (e.Key == Key.Escape)
             {
                 Close();
             }
-            else if(e.Key == Key.F12)
+            else if (e.Key == Key.F12)
             {
                 if (InputDebugWindow.Default.IsShowed)
                     InputDebugWindow.Default.Close();

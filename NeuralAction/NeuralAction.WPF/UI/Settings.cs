@@ -217,8 +217,8 @@ namespace NeuralAction.WPF
 
         #region Gaze
 
-        EyeGazeDetectMode gazeMode = EyeGazeDetectMode.FaceMobile;
-        public EyeGazeDetectMode GazeMode
+        int gazeMode = Vision.Detection.EyeGazeDetector.DefaultModelIndex;
+        public int GazeMode
         {
             get => gazeMode;
             set { gazeMode = value; OnPropertyChanged(); }
