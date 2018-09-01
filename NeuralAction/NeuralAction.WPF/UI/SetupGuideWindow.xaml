@@ -1,0 +1,19 @@
+﻿<Window x:Class="NeuralAction.WPF.SetupGuideWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeuralAction.WPF"
+        mc:Ignorable="d"
+        Title="SetupGuideWindow" Height="459" Width="634" Topmost="True" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
+    <Grid>
+        <Grid.Effect>
+            <DropShadowEffect Opacity="0.14" ShadowDepth="5" BlurRadius="12" Direction="270"/>
+        </Grid.Effect>
+        <Border CornerRadius="12,12,12,12" Background="#A8000000" Margin="17">
+            <Grid>
+                
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

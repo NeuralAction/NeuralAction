@@ -35,16 +35,21 @@ namespace NeuralAction.WPF
 
         public MagnifyingGlass()
         {
-            Mag = new MagnifierForm();
-            Window = new MagnifyingCursor(this);
 
-            Settings.Listener.PropertyChanged += Listener_PropertyChanged;
-            Settings.Listener.SettingChanged += Listener_SettingChanged;
-            Listener_SettingChanged(null, Settings.Current);
         }
 
         public void Show()
         {
+            if(Mag == null)
+            {
+                Mag = new MagnifierForm();
+                Window = new MagnifyingCursor(this);
+
+                Settings.Listener.PropertyChanged += Listener_PropertyChanged;
+                Settings.Listener.SettingChanged += Listener_SettingChanged;
+                Listener_SettingChanged(null, Settings.Current);
+            }
+
             var scr = InputService.Current.TargetScreen.Bounds;
             Mag.Form.Width = scr.Width;
             Mag.Form.Height = scr.Height;
@@ -88,6 +93,9 @@ namespace NeuralAction.WPF
 
         public void Close()
         {
+            if (Mag == null)
+                return;
+
             Mag.Hide();
             Window.Hide();
 

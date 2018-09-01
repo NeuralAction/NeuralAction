@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -22,6 +23,7 @@ namespace NeuralAction.WPF
         public static SettingWindow SettingWindow;
         public static MenuWindow MenuWindow;
         public static IconGadget Gadget;
+        public static SetupGuideWindow SetupGuide;
 
         static DispatcherTimer gadgetTimer;
         static MainWindow()
@@ -29,7 +31,7 @@ namespace NeuralAction.WPF
             gadgetTimer = new DispatcherTimer();
             gadgetTimer.Tick += delegate
             {
-                if(MenuWindow == null && SettingWindow == null && Gadget == null)
+                if (MenuWindow == null && SettingWindow == null && Gadget == null)
                 {
                     Gadget = new IconGadget();
                     Gadget.Closed += delegate
@@ -41,6 +43,13 @@ namespace NeuralAction.WPF
             };
             gadgetTimer.Interval = TimeSpan.FromMilliseconds(300);
             gadgetTimer.Start();
+
+            SetupGuide = new SetupGuideWindow();
+            SetupGuide.Closed += delegate
+            {
+                SetupGuide = null;
+            };
+            SetupGuide.Show();
         }
 
         public static void OpenSetting()
@@ -90,17 +99,21 @@ namespace NeuralAction.WPF
             SettingWindow?.Close();
             Gadget?.Close();
             MenuWindow?.Close();
+            SetupGuide?.Close();
 
             NotifyIcon.Visible = false;
             NotifyIcon.Icon = null;
             NotifyIcon.Dispose();
 
             Settings.Save();
-
             MagnifyingGlass.Current.Dispose();
             InputService.Current.Dispose();
 
-            Environment.Exit(0);
+            Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(1000);
+                Environment.Exit(0);
+            });
         }
 
         void Window_Loaded(object sender, RoutedEventArgs e)
@@ -127,7 +140,9 @@ namespace NeuralAction.WPF
             InputService.Current.Owner = this;
             InputService.Current.Start();
 
+#if DEBUG
             InputDebugWindow.Default.Show();
+#endif
         }
 
         void MainWindow_Closed(object sender, EventArgs e)

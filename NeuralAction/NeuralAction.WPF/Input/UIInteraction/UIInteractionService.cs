@@ -68,6 +68,7 @@ namespace NeuralAction.WPF
 
         public void Start()
         {
+            serviceStart = true;
             highlighter.Show();
             Service.Start();
             InputService.Current.Cursor.Clicked += Cursor_Clicked;
@@ -76,6 +77,7 @@ namespace NeuralAction.WPF
 
         public void Stop()
         {
+            serviceStart = false;
             highlighter.Hide();
             Service.Stop();
             InputService.Current.Cursor.Clicked -= Cursor_Clicked;
@@ -154,7 +156,8 @@ namespace NeuralAction.WPF
         void Service_Tracked(object sender, AccessibleTrackedArgs e)
         {
             targetArg = e;
-            Highlight(targetArg.Element, targetArg);
+            if(serviceStart)
+                Highlight(targetArg.Element, targetArg);
         }
 
         void Highlight(Accessible acc, AccessibleTrackedArgs arg)

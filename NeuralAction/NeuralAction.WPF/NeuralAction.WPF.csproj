@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{809713B4-C1E5-4A84-B4A3-822B65FAA105}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>NeuralAction.WPF</RootNamespace>
     <AssemblyName>NeuralAction.WPF</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -144,6 +144,9 @@
     <Compile Include="UI\Converters.cs" />
     <Compile Include="Input\WinApi.cs" />
     <Compile Include="Input\Keyboard\WordCorrector.cs" />
+    <Compile Include="UI\SetupGuideWindow.xaml.cs">
+      <DependentUpon>SetupGuideWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Util.cs" />
     <Page Include="Apps\EyesExercise\EyesExerciseWindow.xaml">
       <SubType>Designer</SubType>
@@ -213,6 +216,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\SettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\SetupGuideWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -121,8 +121,16 @@ namespace NeuralAction.WPF
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
                 using (StreamReader rdr = new StreamReader(path))
                 {
-                    var decoded = (Settings)xmlSerializer.Deserialize(rdr);
-                    Current = decoded;
+                    try
+                    {
+                        var decoded = (Settings)xmlSerializer.Deserialize(rdr);
+                        Current = decoded;
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Settings, {ex}");
+                        Current = new Settings();
+                    }
                 }
             }
             else

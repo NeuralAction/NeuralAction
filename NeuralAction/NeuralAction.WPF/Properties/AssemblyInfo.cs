@@ -8,9 +8,9 @@ using System.Windows;
 // 제어됩니다. 어셈블리와 관련된 정보를 수정하려면
 // 이러한 특성 값을 변경하세요.
 [assembly: AssemblyTitle("NeuralAction")]
-[assembly: AssemblyDescription("NUI Tool With Eye Gaze Tracking")]
+[assembly: AssemblyDescription("Accessablity  Tool With Eye Gaze Tracking")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Fractal")]
+[assembly: AssemblyCompany("Heejun Lee, Jonghyeon Ham")]
 [assembly: AssemblyProduct("NeuralAction")]
 [assembly: AssemblyCopyright("Copyright ©  2017 - 2018")]
 [assembly: AssemblyTrademark("NeuralAction")]
