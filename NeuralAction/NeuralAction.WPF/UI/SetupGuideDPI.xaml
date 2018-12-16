@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="NeuralAction.WPF.SetupGuideDPI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeuralAction.WPF"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DarkStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Image Source="/NeuralAction.WPF;component/Resources/setup_dpi.png" Width="772" Height="406"/>
+        <TextBox Width="75" Height="32" FontSize="24" Text="{Binding DPI}" Padding="12,0" HorizontalAlignment="Right" Margin="40"/>
+    </Grid>
+</UserControl>

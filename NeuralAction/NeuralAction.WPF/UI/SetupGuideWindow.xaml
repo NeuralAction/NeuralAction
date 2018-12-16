@@ -1,19 +1,28 @@
 ﻿<Window x:Class="NeuralAction.WPF.SetupGuideWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NeuralAction.WPF"
         mc:Ignorable="d"
-        Title="SetupGuideWindow" Height="459" Width="634" Topmost="True" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
-    <Grid>
-        <Grid.Effect>
-            <DropShadowEffect Opacity="0.14" ShadowDepth="5" BlurRadius="12" Direction="270"/>
-        </Grid.Effect>
-        <Border CornerRadius="12,12,12,12" Background="#A8000000" Margin="17">
-            <Grid>
-                
-            </Grid>
-        </Border>
+        Title="NeuralAction - Setup Guide" SizeToContent="WidthAndHeight" Topmost="True" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" ShowInTaskbar="False" Background="{x:Null}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DarkStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Margin="15">
+        <Grid Background="#E5171717">
+            <Grid.Effect>
+                <DropShadowEffect Opacity="0.4" ShadowDepth="0" BlurRadius="12" Direction="270"/>
+            </Grid.Effect>
+            <Grid.CacheMode>
+                <BitmapCache/>
+            </Grid.CacheMode>
+        </Grid>
+        <Grid x:Name="Grid_Content"/>
+        <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Previous" Width="75" Height="32" Click="Previous_Click"/>
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Next"  Width="75" Height="32" Click="Next_Click"/>
     </Grid>
 </Window>

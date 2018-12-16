@@ -96,6 +96,7 @@ namespace NeuralAction.WPF
 
         public static void Exit()
         {
+            gadgetTimer.Stop();
             SettingWindow?.Close();
             Gadget?.Close();
             MenuWindow?.Close();
@@ -111,13 +112,15 @@ namespace NeuralAction.WPF
 
             Task.Factory.StartNew(() =>
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 Environment.Exit(0);
             });
         }
 
         void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            App.Current.MainWindow = this;
+
             Send.AddWindow(this);
 
             Closed += MainWindow_Closed;

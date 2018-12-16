@@ -25,7 +25,8 @@ namespace NeuralAction.WPF
 
             InitializeComponent();
 
-            Owner = App.Current.MainWindow;
+            if(App.Current.MainWindow != this)
+                Owner = App.Current.MainWindow;
 
             Loaded += delegate
             {

@@ -156,14 +156,16 @@ namespace NeuralAction.WPF
         void Service_Tracked(object sender, AccessibleTrackedArgs e)
         {
             targetArg = e;
-            if(serviceStart)
-                Highlight(targetArg.Element, targetArg);
+            Highlight(targetArg.Element, targetArg);
         }
 
         void Highlight(Accessible acc, AccessibleTrackedArgs arg)
         {
             highlighter.Dispatcher.Invoke(() =>
             {
+                if (!serviceStart)
+                    return;
+
                 if (acc != null && acc.Type != UIElementType.None)
                 {
                     var location = acc.Location;

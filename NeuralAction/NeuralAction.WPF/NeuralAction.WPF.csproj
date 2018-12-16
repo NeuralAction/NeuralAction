@@ -144,6 +144,15 @@
     <Compile Include="UI\Converters.cs" />
     <Compile Include="Input\WinApi.cs" />
     <Compile Include="Input\Keyboard\WordCorrector.cs" />
+    <Compile Include="UI\SetupGuideDPI.xaml.cs">
+      <DependentUpon>SetupGuideDPI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SetupGuideOther.xaml.cs">
+      <DependentUpon>SetupGuideOther.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SetupGuidePlaceWebcam.xaml.cs">
+      <DependentUpon>SetupGuidePlaceWebcam.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\SetupGuideWindow.xaml.cs">
       <DependentUpon>SetupGuideWindow.xaml</DependentUpon>
     </Compile>
@@ -216,6 +225,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\SettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\SetupGuideDPI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\SetupGuideOther.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\SetupGuidePlaceWebcam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -292,6 +313,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon_main.ico" />
+    <Resource Include="Resources\setup_dpi.png" />
+    <Resource Include="Resources\setup_placecam.png" />
+    <Resource Include="Resources\setup_setting.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CorrectionEnglish.xml">

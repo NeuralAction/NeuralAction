@@ -274,7 +274,7 @@ namespace NeuralAction.WPF
             set { gazeSmoothMode = value; OnPropertyChanged(); }
         }
 
-        int gazeSmoothCount = 6;
+        int gazeSmoothCount = 5;
         public int GazeSmoothCount
         {
             get => gazeSmoothCount;
@@ -334,7 +334,7 @@ namespace NeuralAction.WPF
             set { openSmooth = value; OnPropertyChanged(); }
         }
 
-        ClickEyeTarget openEyeTarget = ClickEyeTarget.Both;
+        ClickEyeTarget openEyeTarget = ClickEyeTarget.LeftEye;
         public ClickEyeTarget OpenEyeTarget
         {
             get => openEyeTarget;
@@ -352,7 +352,7 @@ namespace NeuralAction.WPF
             set { cursorSmooth = value; OnPropertyChanged(); }
         }
 
-        bool cursorUseSpeedLimit = true;
+        bool cursorUseSpeedLimit = false;
         public bool CursorUseSpeedLimit
         {
             get => cursorUseSpeedLimit;

@@ -127,11 +127,11 @@ namespace NeuralAction.WPF
 
         public void Dispose()
         {
-            KeyWindow?.Close();
-            KeyWindow = null;
-
             Interaction?.Dispose();
             Interaction = null;
+
+            KeyWindow?.Close();
+            KeyWindow = null;
 
             Cursor?.Dispose();
             Cursor = null;

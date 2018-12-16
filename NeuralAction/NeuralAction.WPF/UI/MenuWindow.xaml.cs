@@ -98,8 +98,7 @@ namespace NeuralAction.WPF
 
         void Exit_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-            App.Current.MainWindow.Close();
+            MainWindow.Exit();
         }
 
         void Bt_App_Glass_Click(object sender, RoutedEventArgs e)
