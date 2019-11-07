@@ -61,9 +61,9 @@ namespace NeuralAction.WPF
             };
 
             InitComboBoxModel(Cbb_GazeMode);
+            InitComboBoxOpenModel(Cbb_OpenMode);
             InitComboBox<PointSmoother.SmoothMethod>(Cbb_GazeSmoothMode);
             InitComboBox<ClickEyeTarget>(Cbb_OpenEyeTarget);
-            InitComboBox<EyeOpenDetectMode>(Cbb_OpenMode);
 
             UpdateDPI();
 
@@ -111,6 +111,20 @@ namespace NeuralAction.WPF
             Tb_DPI_ScrSizeW.Text = (scrW / Settings.Current.DPI * 25).ToString("0");
         }
 
+        void InitComboBoxOpenModel(ComboBox box)
+        {
+            var models = InputService.Current.Cursor.GazeService.OpenDetector.Models;
+            box.Items.Clear();
+            foreach (var item in models)
+            {
+                box.Items.Add(new ComboBoxItem()
+                {
+                    Content = item.Name,
+                    ToolTip = $"{item.Description}\nAccuracy : {item.Accuracy}",
+                });
+            }
+        }
+
         void InitComboBoxModel(ComboBox box)
         {
             var models = InputService.Current.Cursor.GazeService.GazeDetector.Models;
@@ -120,7 +134,7 @@ namespace NeuralAction.WPF
                 box.Items.Add(new ComboBoxItem()
                 {
                     Content = item.Name,
-                    ToolTip = $"{item.Description}\nErrors:{item.ErrorRate}°",
+                    ToolTip = $"{item.Description}\nErrors : {item.ErrorRate}°",
                 });
             }
         }

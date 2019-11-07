@@ -455,7 +455,7 @@ namespace NeuralAction.WPF
                     GazeService.GazeDetector.Smoother.QueueCount = Settings.GazeSmoothCount;
                     break;
                 case nameof(Settings.OpenMode):
-                    GazeService.OpenDetector.DetectMode = Settings.OpenMode;
+                    GazeService.OpenDetector.ModelIndex = Settings.OpenMode;
                     break;
                 case nameof(Settings.OpenSmooth):
                     GazeService.SmoothOpen = Settings.OpenSmooth;
@@ -528,7 +528,7 @@ namespace NeuralAction.WPF
             GazeService.GazeDetector.UseSmoothing = set.GazeSmooth;
             GazeService.GazeDetector.Smoother.Method = set.GazeSmoothMode;
             GazeService.GazeDetector.Smoother.QueueCount = set.GazeSmoothCount;
-            GazeService.OpenDetector.DetectMode = Settings.OpenMode;
+            GazeService.OpenDetector.ModelIndex = Settings.OpenMode;
             GazeService.SmoothOpen = set.OpenSmooth;
             GazeService.ClickTraget = set.OpenEyeTarget;
             GazeService.GazeDetector.UseModification = Settings.GazeUseModification;

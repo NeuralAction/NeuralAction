@@ -320,8 +320,8 @@ namespace NeuralAction.WPF
 
         #region Open
 
-        EyeOpenDetectMode openMode = EyeOpenDetectMode.V2;
-        public EyeOpenDetectMode OpenMode
+        int openMode = EyeOpenDetector.DefaultModelIndex;
+        public int OpenMode
         {
             get => openMode;
             set { openMode = value; OnPropertyChanged(); }

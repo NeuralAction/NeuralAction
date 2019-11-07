@@ -14,12 +14,12 @@ namespace NeuralAction.WPF
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (int)(EyeOpenDetectMode)value;
+            return (int)value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (EyeOpenDetectMode)(int)value;
+            return (int)value;
         }
     }
 
